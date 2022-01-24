@@ -12,21 +12,19 @@ class AuthRepo {
     final DateTime now = DateTime.now();
     final String formattedTime = DateFormat('dd-MM-yyyy  kk:mm').format(now);
     try {
-      FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) {
-        debugPrint('.. UserCredential =>$value');
-
+      UserCredential credential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+      if (credential.user != null) {
         FirebaseFirestore.instance
             .collection(kUsersCollection)
-            .doc(value.user!.uid)
+            .doc(credential.user!.uid)
             .set({
           'email': email,
           'password': password,
           'registeredTime': formattedTime,
-          'userId': value.user!.uid,
+          'userId': credential.user!.uid,
         });
-      });
+      }
     } catch (e) {
       debugPrint('Exception @createAccount: $e');
       return ResponseModel(
