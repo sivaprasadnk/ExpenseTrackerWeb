@@ -1,18 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/common_strings.dart';
-import 'package:expense_tracker/view/home/item.dart';
-import 'package:expense_tracker/view/splash_screen.dart';
+import 'package:expense_tracker/view/windows/small/home/item.dart';
+import 'package:expense_tracker/view/windows/windows.splash.screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class WindowsSmallHome extends StatefulWidget {
+  const WindowsSmallHome({Key? key}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<WindowsSmallHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,8 +22,10 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {
               // FirebaseFirestore.instance.collection(kUsersCollection)
               FirebaseAuth.instance.signOut().then((value) {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (ctx) => const SplashScreen()));
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (ctx) => const WindowsSplashScreen()));
               });
             },
             icon: const Icon(Icons.logout),

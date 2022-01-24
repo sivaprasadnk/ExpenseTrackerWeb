@@ -1,6 +1,9 @@
+import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/provider/route.provider.dart';
-import 'package:expense_tracker/view/splash_screen.dart';
+import 'package:expense_tracker/view/android/android.splash_screen.dart';
+import 'package:expense_tracker/view/windows/windows.splash.screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -27,15 +30,19 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<RouteProvider>.value(
-            value: RouteProvider(menuSelectedCheck: false, screenName: "Home"))
+            value: RouteProvider(
+                menuSelectedCheck: false, screenName: kLoginScreen))
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Expense Tracker',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const SplashScreen(),
+        home: defaultTargetPlatform == TargetPlatform.android ||
+                defaultTargetPlatform == TargetPlatform.iOS
+            ? const AndroidSplashScreen()
+            : const WindowsSplashScreen(),
       ),
     );
   }

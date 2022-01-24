@@ -1,18 +1,18 @@
 import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/provider/route.provider.dart';
-import 'package:expense_tracker/view/login/login.screen.dart';
-import 'package:expense_tracker/view/register/register.screen.dart';
+import 'package:expense_tracker/view/windows/small/login/windows.small.login.screen.dart';
+import 'package:expense_tracker/view/windows/small/register/windows.small.register.screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+class WindowsSplashScreen extends StatefulWidget {
+  const WindowsSplashScreen({Key? key}) : super(key: key);
 
   @override
-  _SplashScreenState createState() => _SplashScreenState();
+  _WindowsSplashScreenState createState() => _WindowsSplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _WindowsSplashScreenState extends State<WindowsSplashScreen> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -47,9 +47,9 @@ class _SplashScreenState extends State<SplashScreen> {
         ],
       ),
       body: screenName == kRegisterScreen
-          ? const RegisterScreen()
+          ? const WindowsSmallRegScreen()
           : screenName == kLoginScreen
-              ? const LoginScreen()
+              ? const WindowsSmallLoginScreen()
               : Container(),
     );
   }
