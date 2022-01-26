@@ -1,6 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:expense_tracker/api/repo/auth_repo.dart';
 import 'package:expense_tracker/api/response.status.dart';
-import 'package:expense_tracker/repo/auth_repo.dart';
 import 'package:expense_tracker/view/android/home/android.home.screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -79,6 +79,7 @@ class _AndroidLoginScreenState extends State<AndroidLoginScreen> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 10, right: 10),
                             child: TextFormField(
+                              keyboardType: TextInputType.emailAddress,
                               onSaved: (val) {
                                 email = val.toString();
                               },

@@ -1,6 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:expense_tracker/api/repo/auth_repo.dart';
 import 'package:expense_tracker/api/response.status.dart';
-import 'package:expense_tracker/repo/auth_repo.dart';
 import 'package:expense_tracker/view/windows/small/home/windows.small.home.screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -77,6 +77,7 @@ class _WindowsSmallRegScreenState extends State<WindowsSmallRegScreen> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 10, right: 10),
                           child: TextFormField(
+                            keyboardType: TextInputType.emailAddress,
                             onSaved: (val) {
                               email = val.toString();
                             },
