@@ -2,7 +2,6 @@ import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/provider/home.provider.dart';
 import 'package:expense_tracker/provider/route.provider.dart';
 import 'package:expense_tracker/routes.dart';
-import 'package:expense_tracker/view/android/android.splash_screen.dart';
 import 'package:expense_tracker/view/windows/windows.splash.screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -44,10 +43,11 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.dark,
           primarySwatch: Colors.blue,
         ),
-        home: defaultTargetPlatform == TargetPlatform.iOS ||
-                defaultTargetPlatform == TargetPlatform.iOS
-            ? const AndroidSplashScreen()
-            : const WindowsSplashScreen(),
+        // home: defaultTargetPlatform == TargetPlatform.iOS ||
+        //         defaultTargetPlatform == TargetPlatform.iOS
+        //     ? const AndroidSplashScreen()
+        //     : const WindowsSplashScreen(),
+        home: const WindowsSplashScreen(),
       ),
     );
   }

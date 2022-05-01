@@ -179,7 +179,8 @@ class _HomeScreenState extends State<WindowsSmallHome> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        if (defaultTargetPlatform == TargetPlatform.android) {
+                        if (defaultTargetPlatform == TargetPlatform.android ||
+                            defaultTargetPlatform == TargetPlatform.iOS) {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -216,15 +217,40 @@ class _HomeScreenState extends State<WindowsSmallHome> {
                   ],
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                  'Recent Expenses',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: 'Rajdhani',
-                    fontWeight: FontWeight.bold,
-                  ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const Text(
+                      'Recent Expenses',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'Rajdhani',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) =>
+                                    const WindowsSmallRecentList()));
+                      },
+                      child: const Text(
+                        'View All',
+                        style: TextStyle(
+                          fontFamily: 'Rajdhani',
+                          color: Colors.cyan,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                  ],
                 ),
               ),
               SizedBox(
