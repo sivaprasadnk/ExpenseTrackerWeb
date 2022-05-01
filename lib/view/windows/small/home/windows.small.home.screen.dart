@@ -264,6 +264,8 @@ class _HomeScreenState extends State<WindowsSmallHome> {
                                         child: WindowsSmallExpenseDateItem(
                                           title: doc['expenseTitle'].toString(),
                                           total: doc['amount'].toString(),
+                                          docId: doc['recentDocId'].toString(),
+                                          isRecent: true,
                                         ),
                                       );
                                     },

@@ -50,6 +50,8 @@ class WindowsSmallRecentList extends StatelessWidget {
                                   child: WindowsSmallExpenseDateItem(
                                     title: doc['expenseTitle'].toString(),
                                     total: doc['amount'].toString(),
+                                    isRecent: true,
+                                    docId: doc['recentDocId'].toString(),
                                   ),
                                 );
                               },

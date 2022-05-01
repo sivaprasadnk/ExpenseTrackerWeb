@@ -79,11 +79,22 @@ class UserRepo {
         .add({
       'expenseTitle': expense.title,
       'amount': expense.amount,
+      'expenseMonth': expense.expenseMonth,
+      'expenseDate': expense.expenseDate,
       'details': expense.details,
       'createdDate': formattedTime,
       'categoryId': expense.categoryIndex,
       'categoryName': expense.categoryName,
       'updatedTime': formattedTime,
+    }).then((recentDoc) {
+      fireStoreInstance
+          .collection(kUsersCollection)
+          .doc(userId)
+          .collection(kRecentExpensesCollection)
+          .doc(recentDoc.id)
+          .update({
+        'recentDocId': recentDoc.id,
+      });
     });
     // } catch (e) {
     //   debugPrint(e.toString());

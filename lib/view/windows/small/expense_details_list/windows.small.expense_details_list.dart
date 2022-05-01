@@ -32,7 +32,7 @@ class _WindowsSmallExpenseDetailsListState
           stream: FirebaseFirestore.instance
               .collection(kUsersCollection)
               .doc(userId)
-              .collection(kExpenseDatesCollection)
+              .collection(kRecentExpensesCollection)
               .doc(widget.title)
               .collection(kExpenseCollection)
               .orderBy('updatedTime', descending: false)

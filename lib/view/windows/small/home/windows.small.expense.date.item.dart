@@ -1,4 +1,4 @@
-import 'package:expense_tracker/view/windows/small/expense_details_list/windows.small.expense_details_list.dart';
+import 'package:expense_tracker/view/windows/small/recent/recent.expense.details.dart';
 import 'package:flutter/material.dart';
 
 class WindowsSmallExpenseDateItem extends StatelessWidget {
@@ -6,9 +6,13 @@ class WindowsSmallExpenseDateItem extends StatelessWidget {
     Key? key,
     required this.title,
     required this.total,
+    required this.docId,
+    required this.isRecent,
   }) : super(key: key);
   final String title;
   final String total;
+  final String docId;
+  final bool isRecent;
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +23,10 @@ class WindowsSmallExpenseDateItem extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (ctx) =>
-                    WindowsSmallExpenseDetailsList(title: title)));
+                builder: (ctx) => RecentExpenseDetails(
+                      title: title,
+                      docId: docId,
+                    )));
       },
       child: Container(
         height: 50,
