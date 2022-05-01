@@ -38,7 +38,10 @@ class _AndroidSplashScreenState extends State<AndroidSplashScreen> {
     final screenWidth = screenSize.width;
     var screenName = Provider.of<RouteProvider>(context).screen;
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
         actions: [
           GestureDetector(
             onTap: () {

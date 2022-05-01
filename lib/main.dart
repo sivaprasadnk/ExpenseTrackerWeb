@@ -1,5 +1,7 @@
 import 'package:expense_tracker/common_strings.dart';
+import 'package:expense_tracker/provider/home.provider.dart';
 import 'package:expense_tracker/provider/route.provider.dart';
+import 'package:expense_tracker/routes.dart';
 import 'package:expense_tracker/view/android/android.splash_screen.dart';
 import 'package:expense_tracker/view/windows/windows.splash.screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -29,17 +31,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<RouteProvider>.value(
-            value: RouteProvider(
+        ChangeNotifierProvider<HomeProvider>(create: (_) => HomeProvider()),
+        ChangeNotifierProvider<RouteProvider>(
+            create: (_) => RouteProvider(
                 menuSelectedCheck: false, screenName: kLoginScreen))
       ],
       child: MaterialApp(
         title: 'Expense Tracker',
         debugShowCheckedModeBanner: false,
+        routes: routes,
         theme: ThemeData(
+          brightness: Brightness.dark,
           primarySwatch: Colors.blue,
         ),
-        home: defaultTargetPlatform == TargetPlatform.android ||
+        home: defaultTargetPlatform == TargetPlatform.iOS ||
                 defaultTargetPlatform == TargetPlatform.iOS
             ? const AndroidSplashScreen()
             : const WindowsSplashScreen(),

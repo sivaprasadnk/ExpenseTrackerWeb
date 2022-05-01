@@ -21,13 +21,16 @@ class _WindowsSplashScreenState extends State<WindowsSplashScreen> {
     if (mounted) {
       FirebaseAuth.instance.authStateChanges().listen((firebaseUser) {
         // do whatever you want based on the firebaseUser state
-
-        if (firebaseUser != null) {
-          if (mounted) {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (ctx) => const WindowsSmallHome()));
+        Future.delayed(const Duration(seconds: 1)).then((value) {
+          if (firebaseUser != null) {
+            if (mounted) {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (ctx) => const WindowsSmallHome()));
+            }
           }
-        }
+        });
       });
     }
   }
@@ -38,7 +41,10 @@ class _WindowsSplashScreenState extends State<WindowsSplashScreen> {
     final screenWidth = screenSize.width;
     var screenName = Provider.of<RouteProvider>(context).screen;
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
         actions: [
           GestureDetector(
             onTap: () {

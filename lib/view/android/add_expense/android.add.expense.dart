@@ -1,6 +1,8 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:expense_tracker/api/repo/user_repo.dart';
 import 'package:expense_tracker/api/response.status.dart';
+import 'package:expense_tracker/model/expense.model.dart';
+import 'package:expense_tracker/utils/category.list.dart';
 import 'package:expense_tracker/view/android/home/android.home.screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -16,6 +18,7 @@ class AndroidAddExpenseScreen extends StatefulWidget {
 class _AndroidAddExpenseScreenState extends State<AndroidAddExpenseScreen> {
   String expenseTitle = "";
   String expenseAmount = "";
+  String expenseDetails = "";
   final DateTime now = DateTime.now();
   // DateTime chosenDateTime =  DateTime.now();
   DateTime selectedDate = DateTime.now();
@@ -35,7 +38,7 @@ class _AndroidAddExpenseScreenState extends State<AndroidAddExpenseScreen> {
   }
 
   final _formKey = GlobalKey<FormState>();
-
+  int selectedCategoryIndex = 0;
   @override
   Widget build(BuildContext context) {
     // var chosenDateTime = formattedTime.isEmpty ? now : selectedDate;
@@ -70,6 +73,13 @@ class _AndroidAddExpenseScreenState extends State<AndroidAddExpenseScreen> {
               ),
             ),
             const SizedBox(height: 20),
+            const Text(
+              'Expense title : ',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 20),
             Center(
               child: Container(
                 height: 40,
@@ -87,6 +97,41 @@ class _AndroidAddExpenseScreenState extends State<AndroidAddExpenseScreen> {
                     child: TextFormField(
                       onSaved: (val) {
                         expenseTitle = val.toString();
+                      },
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        isDense: true,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              'Expense details : ',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Center(
+              child: Container(
+                height: 60,
+                width: 300,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: Colors.white,
+                  border: Border.all(
+                    color: Colors.cyan,
+                  ),
+                ),
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    child: TextFormField(
+                      maxLines: 3,
+                      onSaved: (val) {
+                        expenseDetails = val.toString();
                       },
                       decoration: const InputDecoration(
                         border: InputBorder.none,
@@ -139,8 +184,9 @@ class _AndroidAddExpenseScreenState extends State<AndroidAddExpenseScreen> {
   }
 
   validateAndProceed() async {
+    var date = DateFormat('dd_MM_yyyy').format(selectedDate);
+    var month = DateFormat('MMM_yyyy').format(selectedDate);
     _formKey.currentState!.save();
-    FocusScope.of(context).unfocus();
     if (expenseTitle.isEmpty) {
       await showOkAlertDialog(
         context: context,
@@ -155,26 +201,44 @@ class _AndroidAddExpenseScreenState extends State<AndroidAddExpenseScreen> {
           message: 'Enter Amount',
         );
       } else {
-        UserRepo()
-            .addExpense(expenseTitle, expenseAmount,
-                DateFormat('dd-MM-yyyy').format(selectedDate))
-            .then((response) async {
-          debugPrint('.. @@ response=> $response');
-          if (response.status == ResponseStatus.error) {
-            await showOkAlertDialog(
-              context: context,
-              title: 'Alert',
-              message: response.message,
-            );
-          } else {
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (ctx) => const AndroidHomeScreen(),
-                ),
-                (r) => false);
-          }
-        });
+        if (expenseDetails.isEmpty) {
+          await showOkAlertDialog(
+            context: context,
+            title: 'Alert',
+            message: 'Enter details',
+          );
+        } else {
+          UserRepo()
+              .addExpense(
+                  Expense(
+                    title: expenseTitle,
+                    categoryIndex: selectedCategoryIndex,
+                    details: expenseDetails,
+                    amount: 0,
+                    categoryName: categoryList[selectedCategoryIndex].name,
+                    expenseDate: date,
+                    expenseMonth: month,
+                  ),
+                  0,
+                  0)
+              .then((response) async {
+            debugPrint('.. @@ response=> $response');
+            if (response.status == ResponseStatus.error) {
+              await showOkAlertDialog(
+                context: context,
+                title: 'Alert',
+                message: response.message,
+              );
+            } else {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (ctx) => const AndroidHomeScreen(),
+                  ),
+                  (r) => false);
+            }
+          });
+        }
       }
     }
   }

@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class AuthRepo {
+  final fireStoreInstance = FirebaseFirestore.instance;
+
   Future<ResponseModel> createAccount(String email, String password) async {
     final DateTime now = DateTime.now();
     final String formattedTime = DateFormat('dd-MM-yyyy  kk:mm').format(now);
@@ -15,7 +17,7 @@ class AuthRepo {
       UserCredential credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
       if (credential.user != null) {
-        FirebaseFirestore.instance
+        fireStoreInstance
             .collection(kUsersCollection)
             .doc(credential.user!.uid)
             .set({
@@ -29,10 +31,12 @@ class AuthRepo {
       debugPrint('Exception @createAccount: $e');
       return ResponseModel(
         status: ResponseStatus.error,
+        data: '',
         message: AuthExceptionHandler.handleException(e).toString(),
       );
     }
-    return ResponseModel(status: ResponseStatus.success, message: 'Success');
+    return ResponseModel(
+        status: ResponseStatus.success, message: 'Success', data: "");
   }
 
   Future<ResponseModel> login(String email, String password) async {
@@ -43,7 +47,7 @@ class AuthRepo {
       UserCredential credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       if (credential.user != null) {
-        FirebaseFirestore.instance
+        fireStoreInstance
             .collection(kUsersCollection)
             .doc(credential.user!.uid)
             .update({
@@ -54,9 +58,37 @@ class AuthRepo {
       debugPrint('Exception @createAccount: $e');
       return ResponseModel(
         status: ResponseStatus.error,
+        data: '',
         message: AuthExceptionHandler.handleException(e).toString(),
       );
     }
-    return ResponseModel(status: ResponseStatus.success, message: 'Success');
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+
+    var date = DateFormat('dd_MM_yyyy').format(now);
+    var month = DateFormat('MMM_yyyy').format(now);
+
+    var value1 = await fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(userId)
+        .collection(kExpenseMonthsCollection)
+        .doc(month)
+        .collection(date)
+        .doc(date)
+        .get();
+
+    var value2 = await fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(userId)
+        .collection(kExpenseMonthsCollection)
+        .doc(month)
+        .get();
+    int dailyTotal = value1.data()!['totalExpense'];
+    int monthlyTotal = value2.data()!['totalExpense'];
+    debugPrint('.. @@ dailyTotal : $dailyTotal');
+    debugPrint('.. @@ monthlyTotal : $monthlyTotal');
+    return ResponseModel(
+        status: ResponseStatus.success,
+        message: 'Success',
+        data: dailyTotal.toString() + "." + monthlyTotal.toString());
   }
 }

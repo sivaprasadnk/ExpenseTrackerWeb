@@ -25,86 +25,66 @@ class _WindowsSmallRegScreenState extends State<WindowsSmallRegScreen> {
     final screenWidth = screenSize.width;
     return Form(
       key: _formKey,
-      child: Padding(
-        padding: const EdgeInsets.all(11.0),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Center(
-                child: Text(
-                  'Register',
-                  style: TextStyle(
-                    fontSize: 20,
+      child: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: AssetImage('assets/images/bg2.jpg'),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(11.0),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: Container(
+                    height: 30,
+                    width: 100,
+                    decoration: const BoxDecoration(
+                      color: Colors.cyan,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(12),
+                        topRight: Radius.circular(12),
+                      ),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        'Register',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 10),
-              Container(
-                width: screenWidth * 0.7,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Colors.grey,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 20),
-                    Row(
-                      children: [
-                        SizedBox(width: screenWidth * 0.1),
-                        const Text(
-                          'Email',
-                          style: TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    Container(
-                      height: 40,
-                      width: 300,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Colors.white,
-                        border: Border.all(
-                          color: Colors.cyan,
-                        ),
-                      ),
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10, right: 10),
-                          child: TextFormField(
-                            keyboardType: TextInputType.emailAddress,
-                            onSaved: (val) {
-                              email = val.toString();
-                            },
-                            decoration: const InputDecoration(
-                              border: InputBorder.none,
-                              isDense: true,
+                // const SizedBox(height: 10),
+                Container(
+                  width: screenWidth * 0.7,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.grey,
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          SizedBox(width: screenWidth * 0.1),
+                          const Text(
+                            'Email',
+                            style: TextStyle(
+                              fontSize: 18,
                             ),
                           ),
-                        ),
+                        ],
                       ),
-                    ),
-                    const SizedBox(height: 30),
-                    Row(
-                      children: [
-                        SizedBox(width: screenWidth * 0.1),
-                        const Text(
-                          'Password',
-                          style: TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20),
-                      child: Container(
+                      const SizedBox(height: 20),
+                      Container(
                         height: 40,
                         width: 300,
                         decoration: BoxDecoration(
@@ -118,9 +98,9 @@ class _WindowsSmallRegScreenState extends State<WindowsSmallRegScreen> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 10, right: 10),
                             child: TextFormField(
-                              obscureText: true,
+                              keyboardType: TextInputType.emailAddress,
                               onSaved: (val) {
-                                password = val.toString();
+                                email = val.toString();
                               },
                               decoration: const InputDecoration(
                                 border: InputBorder.none,
@@ -130,19 +110,62 @@ class _WindowsSmallRegScreenState extends State<WindowsSmallRegScreen> {
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 30),
-                    ElevatedButton(
-                      onPressed: () {
-                        validateAndProceed();
-                      },
-                      child: const Text('Submit'),
-                    ),
-                    const SizedBox(height: 30),
-                  ],
+                      const SizedBox(height: 30),
+                      Row(
+                        children: [
+                          SizedBox(width: screenWidth * 0.1),
+                          const Text(
+                            'Password',
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        child: Container(
+                          height: 40,
+                          width: 300,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.white,
+                            border: Border.all(
+                              color: Colors.cyan,
+                            ),
+                          ),
+                          child: Center(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 10, right: 10),
+                              child: TextFormField(
+                                obscureText: true,
+                                onSaved: (val) {
+                                  password = val.toString();
+                                },
+                                decoration: const InputDecoration(
+                                  border: InputBorder.none,
+                                  isDense: true,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 30),
+                      ElevatedButton(
+                        onPressed: () {
+                          validateAndProceed();
+                        },
+                        child: const Text('Submit'),
+                      ),
+                      const SizedBox(height: 30),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -1,24 +1,22 @@
 import 'package:auto_animated/auto_animated.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/common_strings.dart';
-import 'package:expense_tracker/view/windows/small/expense_details/windows.small.expense.item.dart';
+import 'package:expense_tracker/view/android/expense_details_list/android.expense.list.item.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class WindowsSmallExpenseDetails extends StatefulWidget {
-  const WindowsSmallExpenseDetails({
+class AndroidExpenseDetailsList extends StatefulWidget {
+  const AndroidExpenseDetailsList({
     Key? key,
     required this.title,
   }) : super(key: key);
   final String title;
 
   @override
-  _WindowsSmallExpenseDetailsState createState() =>
-      _WindowsSmallExpenseDetailsState();
+  _AndroidExpenseDetailsState createState() => _AndroidExpenseDetailsState();
 }
 
-class _WindowsSmallExpenseDetailsState
-    extends State<WindowsSmallExpenseDetails> {
+class _AndroidExpenseDetailsState extends State<AndroidExpenseDetailsList> {
   @override
   Widget build(BuildContext context) {
     var userId = FirebaseAuth.instance.currentUser!.uid;
@@ -28,6 +26,17 @@ class _WindowsSmallExpenseDetailsState
       appBar: AppBar(
         title: Text(widget.title),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //         builder: (ctx) => AndroidAddExpenseForADateScreen(
+          //               date: widget.title,
+          //             )));
+        },
+        child: const Icon(Icons.add),
+      ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection(kUsersCollection)
@@ -35,12 +44,16 @@ class _WindowsSmallExpenseDetailsState
             .collection(kExpenseDatesCollection)
             .doc(widget.title)
             .collection(kExpenseCollection)
+            .orderBy(
+              'updatedTime',
+              descending: false,
+            )
             .snapshots(),
         builder: (ctx, snapshot) {
           return snapshot.connectionState != ConnectionState.done
               ? snapshot.hasData
                   ? SizedBox(
-                      height: screenHeight,
+                      height: screenHeight * 0.9,
                       child: LiveList(
                         visibleFraction: 0.8,
                         showItemDuration: const Duration(milliseconds: 900),
@@ -54,7 +67,7 @@ class _WindowsSmallExpenseDetailsState
                                 (snapshot.data! as QuerySnapshot).docs[index];
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 10),
-                              child: WindowsSmallExpenseItem(
+                              child: AndroidExpenseListItem(
                                 title: doc['expense'].toString(),
                                 amount: doc['amount'].toString(),
                                 docId: doc['expenseDocId'].toString(),

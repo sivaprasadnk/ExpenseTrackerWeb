@@ -1,4 +1,4 @@
-import 'package:expense_tracker/view/android/expense_details/android.expense_details.dart';
+import 'package:expense_tracker/view/android/expense_details_list/android.expense_details_list.dart';
 import 'package:flutter/material.dart';
 
 class AndroidExpenseDateItem extends StatelessWidget {
@@ -17,7 +17,7 @@ class AndroidExpenseDateItem extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (ctx) => AndroidExpenseDetails(title: title)));
+                builder: (ctx) => AndroidExpenseDetailsList(title: title)));
       },
       child: Container(
         height: 50,
