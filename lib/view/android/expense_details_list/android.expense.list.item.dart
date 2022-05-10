@@ -1,6 +1,3 @@
-import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:expense_tracker/api/repo/user_repo.dart';
-import 'package:expense_tracker/api/response.status.dart';
 import 'package:expense_tracker/view/android/expense_details/android.expense.details.dart';
 import 'package:flutter/material.dart';
 
@@ -76,16 +73,16 @@ class AndroidExpenseListItem extends StatelessWidget {
   }
 
   deleteExpense(BuildContext context) async {
-    UserRepo().deleteExpense(docId, date).then((response) async {
-      if (response.status == ResponseStatus.error) {
-        await showOkAlertDialog(
-          context: context,
-          title: 'Alert',
-          message: response.message,
-        );
-      } else {
-        Navigator.pop(context);
-      }
-    });
+    // UserRepo().deleteExpense(docId, date).then((response) async {
+    //   if (response.status == ResponseStatus.error) {
+    //     await showOkAlertDialog(
+    //       context: context,
+    //       title: 'Alert',
+    //       message: response.message,
+    //     );
+    //   } else {
+    //     Navigator.pop(context);
+    //   }
+    // });
   }
 }

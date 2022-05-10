@@ -1,4 +1,5 @@
 import 'package:expense_tracker/common_strings.dart';
+import 'package:expense_tracker/provider/auth.provider.dart';
 import 'package:expense_tracker/provider/home.provider.dart';
 import 'package:expense_tracker/provider/route.provider.dart';
 import 'package:expense_tracker/routes.dart';
@@ -31,6 +32,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<HomeProvider>(create: (_) => HomeProvider()),
+        ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
+
         ChangeNotifierProvider<RouteProvider>(
             create: (_) => RouteProvider(
                 menuSelectedCheck: false, screenName: kLoginScreen))

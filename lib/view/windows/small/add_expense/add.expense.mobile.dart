@@ -103,6 +103,7 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10, right: 10),
                         child: TextFormField(
+                          keyboardType: TextInputType.number,
                           onSaved: (val) {
                             expenseAmount = int.parse(val.toString());
                           },
@@ -298,9 +299,11 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
           );
         } else {
           UserRepo()
-              .addExpense(
+              .addExpenseNew(
             Expense(
-              title: expenseTitle,
+              expenseTitle: expenseTitle,
+              createdDate: "",
+              expenseDocId: "",
               categoryIndex: selectedIndex,
               details: expenseDetails,
               amount: expenseAmount,
@@ -320,16 +323,20 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                 message: response.message,
               );
             } else {
-              Provider.of<HomeProvider>(context, listen: false)
-                  .addToDailyExpense(expenseAmount);
-              Provider.of<HomeProvider>(context, listen: false)
-                  .addToMonthlyTotal(expenseAmount);
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (ctx) => const WindowsSmallHome(),
-                  ),
-                  (r) => false);
+              showOkAlertDialog(context: context, title: 'Expense Added !')
+                  .then((value) {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (ctx) => const WindowsSmallHome(),
+                    ),
+                    (r) => false);
+              });
+              // Provider.of<HomeProvider>(context, listen: false)
+              //     .addToDailyExpense(expenseAmount);
+              // Provider.of<HomeProvider>(context, listen: false)
+              //     .addToMonthlyTotal(expenseAmount);
+
             }
           });
         }

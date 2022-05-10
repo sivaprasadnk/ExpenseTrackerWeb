@@ -1,6 +1,17 @@
+import 'package:expense_tracker/model/recent.expense.model.dart';
 import 'package:flutter/cupertino.dart';
 
 class HomeProvider extends ChangeNotifier {
+  List<RecentExpense> recentExpensesList_ = [];
+  List<RecentExpense> get recentExpensesList => recentExpensesList_;
+
+  void updateRecentList(List<RecentExpense> list) {
+    recentExpensesList_ = list;
+    notifyListeners();
+  }
+
+  ///
+
   int monthlyTotal = 0;
   int get monthlyTotalExpense => monthlyTotal;
 
@@ -14,19 +25,30 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  ///
-  int dailyTotal = 0;
+  void deductFromMonthlyTotal(int amt) {
+    monthlyTotal -= amt;
+    notifyListeners();
+  }
 
-  int get dailyTotalExpense => dailyTotal;
+  ///
+  int dailyTotal_ = 0;
+
+  int get dailyTotalExpense => dailyTotal_;
 
   void updateDailyTotalExpense(int total) {
-    dailyTotal = total;
+    dailyTotal_ = total;
     notifyListeners();
   }
 
   void addToDailyExpense(int amt) {
-    dailyTotal += amt;
-    debugPrint('.. @@ dailyTotal : $dailyTotal');
+    dailyTotal_ += amt;
+    debugPrint('daily total :');
+    debugPrint(dailyTotal_.toString());
+    notifyListeners();
+  }
+
+  void deductFromdailyExpense(int amt) {
+    dailyTotal_ -= amt;
     notifyListeners();
   }
 }

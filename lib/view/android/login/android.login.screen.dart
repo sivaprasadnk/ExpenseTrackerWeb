@@ -196,7 +196,7 @@ class _AndroidLoginScreenState extends State<AndroidLoginScreen> {
           message: 'Enter Password',
         );
       } else {
-        AuthRepo().login(email, password).then((response) async {
+        AuthRepo().loginNew(email, password).then((response) async {
           if (response.status == ResponseStatus.error) {
             await showOkAlertDialog(
               context: context,

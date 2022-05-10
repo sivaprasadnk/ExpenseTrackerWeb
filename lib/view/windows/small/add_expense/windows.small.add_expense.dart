@@ -202,9 +202,11 @@ class _WindowsSmallAddExpenseScreenState
                                 MaterialPageRoute(
                                     builder: (_) => const SelectCategory()))
                             .then((index) {
-                          setState(() {
-                            selectedIndex = index;
-                          });
+                          if (index != null) {
+                            setState(() {
+                              selectedIndex = index;
+                            });
+                          }
                         });
                       },
                       child: const Icon(
@@ -278,7 +280,7 @@ class _WindowsSmallAddExpenseScreenState
 
   validateAndProceed() async {
     var date = DateFormat('dd_MM_yyyy').format(selectedDate);
-    var month = DateFormat('MMM_yyyy').format(selectedDate);
+    var month = DateFormat('MMM, yyyy').format(selectedDate);
     int dailyTotal =
         Provider.of<HomeProvider>(context, listen: false).dailyTotalExpense;
     int monthlyTotal =
@@ -307,9 +309,11 @@ class _WindowsSmallAddExpenseScreenState
           );
         } else {
           UserRepo()
-              .addExpense(
+              .addExpenseNew(
             Expense(
-              title: expenseTitle,
+              expenseTitle: expenseTitle,
+              createdDate: "",
+              expenseDocId: "",
               categoryIndex: selectedIndex,
               details: expenseDetails,
               amount: expenseAmount,
@@ -331,14 +335,25 @@ class _WindowsSmallAddExpenseScreenState
             } else {
               Provider.of<HomeProvider>(context, listen: false)
                   .addToDailyExpense(expenseAmount);
-              Provider.of<HomeProvider>(context, listen: false)
-                  .addToMonthlyTotal(expenseAmount);
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (ctx) => const WindowsSmallHome(),
-                  ),
-                  (r) => false);
+              UserRepo().getRecentExpense().then((recentExpList) {
+                Provider.of<HomeProvider>(context, listen: false)
+                    .updateRecentList(recentExpList);
+
+                Future.delayed(Duration(seconds: 1)).then((value) {
+                  showOkAlertDialog(context: context, title: 'Expense Added !')
+                      .then((value) {
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (ctx) => const WindowsSmallHome(),
+                        ),
+                        (r) => false);
+                  });
+                });
+              });
+              // Provider.of<HomeProvider>(context, listen: false)
+              //     .addToMonthlyTotal(expenseAmount);
+
             }
           });
         }

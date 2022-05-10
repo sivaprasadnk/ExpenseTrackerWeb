@@ -1,6 +1,7 @@
 import 'package:auto_animated/auto_animated.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/common_strings.dart';
+import 'package:expense_tracker/model/recent.expense.model.dart';
 import 'package:expense_tracker/view/windows/small/home/windows.small.expense.date.item.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -30,8 +31,9 @@ class WindowsSmallRecentList extends StatelessWidget {
                 .orderBy('createdDate', descending: true)
                 .snapshots(),
             builder: (ctx, snapshot) {
-              return snapshot.connectionState != ConnectionState.done
-                  ? snapshot.hasData
+              return snapshot.connectionState != ConnectionState.waiting
+                  ? snapshot.hasData &&
+                          (snapshot.data! as QuerySnapshot).docs.length > 0
                       ? SizedBox(
                           height: screenHeight * 0.5,
                           child: LiveList(
@@ -45,13 +47,21 @@ class WindowsSmallRecentList extends StatelessWidget {
                               (index) {
                                 var doc = (snapshot.data! as QuerySnapshot)
                                     .docs[index];
+                                RecentExpense recentExp = RecentExpense(
+                                    expenseTitle: doc['expenseTitle'],
+                                    categoryId: doc['categoryId'],
+                                    details: doc['details'],
+                                    amount: doc['amount'],
+                                    categoryName: doc['categoryName'],
+                                    expenseDate: doc['expenseDate'],
+                                    expenseMonth: doc['expenseMonth'],
+                                    createdDate: doc['createdDate'],
+                                    expenseDocId: doc['expenseDocId'],
+                                    recentDocId: doc['recentDocId']);
                                 return Padding(
                                   padding: const EdgeInsets.only(bottom: 10),
-                                  child: WindowsSmallExpenseDateItem(
-                                    title: doc['expenseTitle'].toString(),
-                                    total: doc['amount'].toString(),
-                                    isRecent: true,
-                                    docId: doc['recentDocId'].toString(),
+                                  child: WindowsSmallExpenseListItem(
+                                    expense: recentExp,
                                   ),
                                 );
                               },
@@ -63,6 +73,9 @@ class WindowsSmallRecentList extends StatelessWidget {
                           child: const Center(
                             child: Text(
                               'No Data !',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         )

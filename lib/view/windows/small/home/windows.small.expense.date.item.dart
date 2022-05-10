@@ -1,18 +1,21 @@
+import 'package:expense_tracker/model/recent.expense.model.dart';
 import 'package:expense_tracker/view/windows/small/recent/recent.expense.details.dart';
 import 'package:flutter/material.dart';
 
-class WindowsSmallExpenseDateItem extends StatelessWidget {
-  const WindowsSmallExpenseDateItem({
+class WindowsSmallExpenseListItem extends StatelessWidget {
+  const WindowsSmallExpenseListItem({
     Key? key,
-    required this.title,
-    required this.total,
-    required this.docId,
-    required this.isRecent,
+    required this.expense,
+    // required this.title,
+    // required this.total,
+    // required this.docId,
+    // required this.isRecent,
   }) : super(key: key);
-  final String title;
-  final String total;
-  final String docId;
-  final bool isRecent;
+  final RecentExpense expense;
+  // final String title;
+  // final String total;
+  // final String docId;
+  // final bool isRecent;
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +27,7 @@ class WindowsSmallExpenseDateItem extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (ctx) => RecentExpenseDetails(
-                      title: title,
-                      docId: docId,
+                      expense: expense,
                     )));
       },
       child: Container(
@@ -45,14 +47,12 @@ class WindowsSmallExpenseDateItem extends StatelessWidget {
               SizedBox(
                 width: 200,
                 child: Text(
-                  title,
+                  expense.expenseTitle,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
               const Spacer(),
-
-              // const SizedBox(width: 10),
-              Text("Rs. $total"),
+              Text("Rs. ${expense.amount}"),
               const Spacer(),
               const Icon(Icons.arrow_forward_ios),
               const SizedBox(width: 10),

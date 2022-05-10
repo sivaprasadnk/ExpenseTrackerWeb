@@ -209,9 +209,11 @@ class _AndroidAddExpenseScreenState extends State<AndroidAddExpenseScreen> {
           );
         } else {
           UserRepo()
-              .addExpense(
+              .addExpenseNew(
                   Expense(
-                    title: expenseTitle,
+                    expenseTitle: expenseTitle,
+                    expenseDocId: "",
+                    createdDate: "",
                     categoryIndex: selectedCategoryIndex,
                     details: expenseDetails,
                     amount: 0,
