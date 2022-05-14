@@ -93,7 +93,8 @@ class _RecentExpenseDetailsState extends State<RecentExpenseDetails> {
                                 // height: 100,
                                 child: Column(
                                   children: [
-                                    Text("Rs. " +
+                                    Text(kRupeeSymbol +
+                                        " " +
                                         snapshot.data!["amount"].toString()),
                                     const SizedBox(height: 20),
                                     Text(snapshot.data!["details"].toString()),

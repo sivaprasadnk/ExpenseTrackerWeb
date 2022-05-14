@@ -1,11 +1,11 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:expense_tracker/api/repo/user_repo.dart';
-import 'package:expense_tracker/api/response.status.dart';
+import 'package:expense_tracker/controller/add.expense.controller.dart';
 import 'package:expense_tracker/model/expense.model.dart';
-import 'package:expense_tracker/provider/home.provider.dart';
+import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:expense_tracker/utils/category.list.dart';
-import 'package:expense_tracker/view/windows/small/add_expense/select.category.dart';
-import 'package:expense_tracker/view/windows/small/home/windows.small.home.screen.dart';
+import 'package:expense_tracker/view/windows/small/add_expense/select.category.screen.dart';
+import 'package:expense_tracker/view/windows/small/add_expense/widgets/submit.button.dart';
+import 'package:expense_tracker/view/windows/small/add_expense/widgets/textfield.title.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -42,15 +42,25 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
   final _formKey = GlobalKey<FormState>();
 
   int selectedIndex = 0;
+  Mode _selectedMode = Mode.Cash;
 
   @override
   Widget build(BuildContext context) {
+    final ThemeNotifier theme =
+        Provider.of<ThemeNotifier>(context, listen: true);
+    var primaryColor = theme.themeData.cardColor;
     var date = formattedTime.isEmpty
         ? DateFormat('dd-MM-yyyy').format(now)
         : formattedTime;
     return Form(
       key: _formKey,
       child: Scaffold(
+        bottomNavigationBar: GestureDetector(
+          onTap: () {
+            validateAndProceed();
+          },
+          child: SubmitButton(),
+        ),
         appBar: AppBar(
           title: const Text('Add Expense'),
         ),
@@ -79,14 +89,7 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    'Amount :',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontFamily: 'Rajdhani',
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  const TextFieldTitle(title: 'Amount'),
                   const SizedBox(
                     width: 10,
                   ),
@@ -94,9 +97,9 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                     height: 40,
                     width: 200,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(8),
                       border: Border.all(
-                        color: Colors.cyan,
+                        color: primaryColor,
                       ),
                     ),
                     child: Center(
@@ -116,6 +119,45 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                     ),
                   ),
                 ],
+              ),
+              const SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.only(left: 50),
+                child: Row(
+                  children: [
+                    const TextFieldTitle(title: 'Mode'),
+                    const SizedBox(
+                      width: 23,
+                    ),
+                    Row(
+                      children: [
+                        Radio<Mode>(
+                          value: Mode.Cash,
+                          groupValue: _selectedMode,
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedMode = value!;
+                            });
+                          },
+                        ),
+                        TextFieldTitle(title: 'Cash'),
+                        SizedBox(
+                          width: 30,
+                        ),
+                        Radio<Mode>(
+                          value: Mode.GooglePay,
+                          groupValue: _selectedMode,
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedMode = value!;
+                            });
+                          },
+                        ),
+                        TextFieldTitle(title: 'GooglePay'),
+                      ],
+                    )
+                  ],
+                ),
               ),
               const SizedBox(height: 20),
               Row(
@@ -138,7 +180,7 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
-                        color: Colors.cyan,
+                        color: primaryColor,
                       ),
                     ),
                     child: Center(
@@ -173,12 +215,12 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                   const SizedBox(
                     width: 50,
                   ),
-                  Icon(categoryList[selectedIndex].icon),
+                  Icon(CategoryList.list[selectedIndex].icon),
                   const SizedBox(
                     width: 20,
                   ),
                   Text(
-                    categoryList[selectedIndex].name,
+                    CategoryList.list[selectedIndex].name,
                     style: const TextStyle(
                       fontSize: 15,
                       fontFamily: 'Rajdhani',
@@ -229,9 +271,9 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                     height: 150,
                     width: 200,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(8),
                       border: Border.all(
-                        color: Colors.cyan,
+                        color: primaryColor,
                       ),
                     ),
                     child: Padding(
@@ -250,17 +292,6 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                 ],
               ),
               const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      validateAndProceed();
-                    },
-                    child: const Text('Submit'),
-                  ),
-                ],
-              )
             ],
           ),
         ),
@@ -271,10 +302,10 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
   validateAndProceed() async {
     var date = DateFormat('dd_MM_yyyy').format(selectedDate);
     var month = DateFormat('MMM_yyyy').format(selectedDate);
-    int dailyTotal =
-        Provider.of<HomeProvider>(context, listen: false).dailyTotalExpense;
-    int monthlyTotal =
-        Provider.of<HomeProvider>(context, listen: false).monthlyTotalExpense;
+    // int dailyTotal =
+    //     Provider.of<HomeProvider>(context, listen: false).dailyTotalExpense;
+    // int monthlyTotal =
+    //     Provider.of<HomeProvider>(context, listen: false).monthlyTotalExpense;
     // debugPrint('.. @@ datetime : $dateTime1');
     _formKey.currentState!.save();
     if (expenseTitle.isEmpty) {
@@ -298,47 +329,16 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
             message: 'Enter details',
           );
         } else {
-          UserRepo()
-              .addExpenseNew(
-            Expense(
-              expenseTitle: expenseTitle,
-              createdDate: "",
-              expenseDocId: "",
-              categoryIndex: selectedIndex,
-              details: expenseDetails,
-              amount: expenseAmount,
-              categoryName: categoryList[selectedIndex].name,
-              expenseMonth: month,
-              expenseDate: date,
-            ),
-            dailyTotal,
-            monthlyTotal,
-          )
-              .then((response) async {
-            debugPrint('.. @@ response=> $response');
-            if (response.status == ResponseStatus.error) {
-              await showOkAlertDialog(
-                context: context,
-                title: 'Alert',
-                message: response.message,
-              );
-            } else {
-              showOkAlertDialog(context: context, title: 'Expense Added !')
-                  .then((value) {
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (ctx) => const WindowsSmallHome(),
-                    ),
-                    (r) => false);
-              });
-              // Provider.of<HomeProvider>(context, listen: false)
-              //     .addToDailyExpense(expenseAmount);
-              // Provider.of<HomeProvider>(context, listen: false)
-              //     .addToMonthlyTotal(expenseAmount);
-
-            }
-          });
+          AddExpenseController().addExpense(
+              expenseTitle,
+              selectedIndex,
+              expenseDetails,
+              expenseAmount,
+              CategoryList.list[selectedIndex].name,
+              month,
+              date,
+              _selectedMode,
+              context);
         }
       }
     }

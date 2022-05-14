@@ -1,11 +1,15 @@
-import 'package:expense_tracker/view/windows/small/expense.by.date/expense.by.date.screen.dart';
-import 'package:expense_tracker/view/windows/small/home/add.expense.button.dart';
-import 'package:expense_tracker/view/windows/small/home/daily.total.text.dart';
-import 'package:expense_tracker/view/windows/small/home/recent.expenses.list.container.dart';
-import 'package:expense_tracker/view/windows/small/home/sign.out.icon.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:expense_tracker/provider/theme_notifier.dart';
+import 'package:expense_tracker/view/windows/small/home/drawer/drawer.screen.dart';
+import 'package:expense_tracker/view/windows/small/home/widgets/add.expense.button.dart';
+import 'package:expense_tracker/view/windows/small/home/widgets/recent.expenses.list.container.dart';
+import 'package:expense_tracker/view/windows/small/home/widgets/recent.expenses.text.dart';
+import 'package:expense_tracker/view/windows/small/home/widgets/sign.out.icon.dart';
+import 'package:expense_tracker/view/windows/small/home/widgets/todays.total.expense.container.dart';
+import 'package:expense_tracker/view/windows/small/home/widgets/view.expense.by.category.container.dart';
+import 'package:expense_tracker/view/windows/small/home/widgets/view.expenses.by.date.container.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class WindowsSmallHome extends StatefulWidget {
   const WindowsSmallHome({Key? key}) : super(key: key);
@@ -15,217 +19,86 @@ class WindowsSmallHome extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<WindowsSmallHome> {
-  String todaysTotal = "0";
-  // final DateTime now = DateTime.now();
-
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    var userId = FirebaseAuth.instance.currentUser!.uid;
-    final screenSize = MediaQuery.of(context).size;
-    final screenHeight = screenSize.height;
-    final screenWidth = screenSize.width;
-    // var month = DateFormat('MMM_yyyy').format(now);
-    // var date = DateFormat('dd_MM_yyyy').format(now);
+    final ThemeNotifier theme =
+        Provider.of<ThemeNotifier>(context, listen: true);
 
     return Scaffold(
+      backgroundColor: theme.themeData.scaffoldBackgroundColor,
+      drawerEnableOpenDragGesture: false,
+      key: _key,
       appBar: AppBar(
-        leading: SizedBox(),
-        actions: [SignOutIcon()],
-      ),
-      body: Container(
-        height: screenHeight,
-        decoration: const BoxDecoration(),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                height: 150,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.cyan,
-                  ),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Todays Total Expense :',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'Rajdhani',
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    DailyTotalText(),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              SizedBox(
-                height: 100,
-                width: double.infinity,
-                // width: screenWidth * 0.9,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // Container(
-                    //   height: 150,
-                    //   width: screenWidth * 0.27,
-                    //   decoration: BoxDecoration(
-                    //     border: Border.all(
-                    //       color: Colors.cyan,
-                    //     ),
-                    //     borderRadius: BorderRadius.circular(12),
-                    //   ),
-                    //   child: Column(
-                    //     mainAxisSize: MainAxisSize.min,
-                    //     mainAxisAlignment: MainAxisAlignment.center,
-                    //     children: [
-                    //       const Text(
-                    //         'Monthy Total  :',
-                    //         style: TextStyle(
-                    //           fontSize: 15,
-                    //           fontFamily: 'Rajdhani',
-                    //           fontWeight: FontWeight.bold,
-                    //         ),
-                    //       ),
-                    //       MonthlyTotalText(),
-                    //       // Consumer<HomeProvider>(
-                    //       //   builder: (_, provider, __) {
-                    //       //     return Text(
-                    //       //       provider.monthlyTotalExpense.toString(),
-                    //       //       style: const TextStyle(
-                    //       //         fontFamily: 'Rajdhani',
-                    //       //         fontSize: 15,
-                    //       //         fontWeight: FontWeight.bold,
-                    //       //         color: Colors.red,
-                    //       //       ),
-                    //       //     );
-                    //       //   },
-                    //       // )
-                    //     ],
-                    //   ),
-                    // ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (_) => ExpenseByDate()),
-                        );
-                      },
-                      child: Container(
-                        height: 150,
-                        width: screenWidth * 0.27,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.cyan,
-                          ),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Text(
-                              'View Expenses',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontFamily: 'Rajdhani',
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              ' by Date',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Rajdhani',
-                                fontSize: 15,
-                                color: Colors.red,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Container(
-                      height: 150,
-                      width: screenWidth * 0.27,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.cyan,
-                        ),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Text(
-                            'View Expenses',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontFamily: 'Rajdhani',
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            ' by Category',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Rajdhani',
-                              fontSize: 15,
-                              color: Colors.red,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    AddExpenseButton(),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Recent Expenses',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'Rajdhani',
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Spacer(),
-                    // ViewAllText(),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                  ],
-                ),
-              ),
-              RecentExpensesListContainer(),
-            ],
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        leading: GestureDetector(
+          onTap: () {
+            _key.currentState!.openDrawer();
+          },
+          child: Icon(
+            Icons.menu,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black,
           ),
         ),
+        actions: [
+          SignOutIcon(),
+        ],
+      ),
+      drawer: Drawer(
+        child: DrawerScreen(),
+      ),
+      body: LayoutBuilder(
+        builder: (_, constraints) {
+          return Container(
+            height: constraints.maxHeight,
+            decoration: const BoxDecoration(),
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TodaysTotalExpenseContainer(),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    height: 100,
+                    width: double.infinity,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        ViewExpensesByDateContainer(
+                          maxWidth: constraints.maxWidth,
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        ViewExpenseByCategoryContainer(
+                            maxWidth: constraints.maxWidth),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        AddExpenseButton(),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  RecentExpensesText(),
+                  RecentExpensesListContainer(),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }

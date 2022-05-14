@@ -1,3 +1,5 @@
+enum Mode { Cash, GooglePay }
+
 class Expense {
   String expenseTitle;
   String details;
@@ -8,6 +10,7 @@ class Expense {
   String expenseMonth;
   String expenseDocId;
   String createdDate;
+  String mode;
   Expense({
     required this.expenseTitle,
     required this.categoryIndex,
@@ -18,5 +21,6 @@ class Expense {
     required this.expenseMonth,
     required this.createdDate,
     required this.expenseDocId,
+    required this.mode,
   });
 }

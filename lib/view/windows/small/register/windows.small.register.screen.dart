@@ -54,7 +54,7 @@ class _WindowsSmallRegScreenState extends State<WindowsSmallRegScreen> {
                         'Register',
                         style: TextStyle(
                           fontSize: 20,
-                          color: Colors.white,
+                          // color: Colors.white,
                         ),
                       ),
                     ),
@@ -89,7 +89,7 @@ class _WindowsSmallRegScreenState extends State<WindowsSmallRegScreen> {
                         width: 300,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
-                          color: Colors.white,
+                          // color: Colors.white,
                           border: Border.all(
                             color: Colors.cyan,
                           ),
@@ -130,7 +130,7 @@ class _WindowsSmallRegScreenState extends State<WindowsSmallRegScreen> {
                           width: 300,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
-                            color: Colors.white,
+                            // color: Colors.white,
                             border: Border.all(
                               color: Colors.cyan,
                             ),

@@ -10,6 +10,12 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void addToRecentList(RecentExpense expense) {
+    recentExpensesList_.add(expense);
+    recentExpensesList_.sort((a, b) => b.createdDate.compareTo(a.createdDate));
+    notifyListeners();
+  }
+
   ///
 
   int monthlyTotal = 0;

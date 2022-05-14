@@ -8,7 +8,9 @@ const String kHash = "c98XhE~q-:xu%Nof.9xuxuROofozkERPRj";
 const String kExpenseMonthsCollection = 'expenseMonths';
 const String kExpenseDatesNewCollection = 'expenseDates';
 const String kExpenseYearsCollection = 'expenseYears';
+const String kExpenseCategoriesCollection = 'expenseCategories';
 const String kMayDoc = 'may2022';
 const String kFirstWeekCollection = 'firstWeek';
 const String kRecentExpensesCollection = 'recentExpenses';
+const String kRupeeSymbol = "₹";
 // const String 

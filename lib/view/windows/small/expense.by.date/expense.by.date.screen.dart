@@ -1,27 +1,42 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/model/expense.date.model.dart';
+import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:expense_tracker/view/windows/small/expense.by.date.list/expense.by.date.list.screen.dart';
-import 'package:expense_tracker/view/windows/small/expense.by.date/expense.date.text.dart';
-import 'package:expense_tracker/view/windows/small/expense.by.date/expense.month.text.dart';
+import 'package:expense_tracker/view/windows/small/expense.by.date/widgets/expense.date.text.dart';
+import 'package:expense_tracker/view/windows/small/expense.by.date/widgets/expense.month.text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class ExpenseByDate extends StatelessWidget {
-  const ExpenseByDate({Key? key}) : super(key: key);
+class ExpenseByDateScreen extends StatelessWidget {
+  const ExpenseByDateScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var userId = FirebaseAuth.instance.currentUser!.uid;
     final screenSize = MediaQuery.of(context).size;
     final screenHeight = screenSize.height;
-
-    // final DateTime now = DateTime.now();
-    // var month = DateFormat('MMM_yyyy').format(now);
-    // var date = DateFormat('dd_MM_yyyy').format(now);
+    final ThemeNotifier theme =
+        Provider.of<ThemeNotifier>(context, listen: true);
+    var primaryColor = theme.themeData.primaryColor;
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Icon(
+            Icons.arrow_back_ios,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black,
+          ),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: StreamBuilder(
@@ -29,10 +44,6 @@ class ExpenseByDate extends StatelessWidget {
               .collection(kUsersCollection)
               .doc(userId)
               .collection(kExpenseDatesNewCollection)
-              // .doc(month)
-              // .collection(date)
-              // .doc(date)
-              // .collection(kExpenseCollection)
               .snapshots(),
           builder: (_, snapshot) {
             return snapshot.connectionState != ConnectionState.done
@@ -70,7 +81,7 @@ class ExpenseByDate extends StatelessWidget {
                               decoration: BoxDecoration(
                                 // color: Colors.cyan,
                                 border: Border.all(
-                                  color: Colors.cyan,
+                                  color: primaryColor,
                                 ),
                                 borderRadius: BorderRadius.circular(8),
                               ),
@@ -93,8 +104,8 @@ class ExpenseByDate extends StatelessWidget {
                           child: Text(
                             'No Data !',
                             style: TextStyle(
-                              color: Colors.white,
-                            ),
+                                // color: Colors.white,
+                                ),
                           ),
                         ),
                       )

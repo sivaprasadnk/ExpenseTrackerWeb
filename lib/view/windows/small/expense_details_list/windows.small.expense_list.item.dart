@@ -48,7 +48,7 @@
 //               SizedBox(width: screenWidth * 0.2),
 //               Text(title),
 //               const SizedBox(width: 10),
-//               Text('Rs. $amount'),
+//               Text('₹ $amount'),
 //               SizedBox(width: screenWidth * 0.2),
 //               IconButton(
 //                 onPressed: () {

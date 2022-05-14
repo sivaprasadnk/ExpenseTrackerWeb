@@ -1,7 +1,10 @@
 import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/provider/auth.provider.dart';
+import 'package:expense_tracker/provider/cache_notifier.dart';
+import 'package:expense_tracker/provider/dark.theme.provider.dart';
 import 'package:expense_tracker/provider/home.provider.dart';
 import 'package:expense_tracker/provider/route.provider.dart';
+import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:expense_tracker/routes.dart';
 import 'package:expense_tracker/view/windows/windows.splash.screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -33,24 +36,24 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<HomeProvider>(create: (_) => HomeProvider()),
         ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
-
+        ChangeNotifierProvider<ThemeNotifier>(create: (_) => ThemeNotifier()),
+        ChangeNotifierProvider<DarkThemeProvider>(
+            create: (_) => DarkThemeProvider()),
+        ChangeNotifierProvider<CacheNotifier>(create: (_) => CacheNotifier()),
         ChangeNotifierProvider<RouteProvider>(
             create: (_) => RouteProvider(
                 menuSelectedCheck: false, screenName: kLoginScreen))
       ],
-      child: MaterialApp(
-        title: 'Expense Tracker',
-        debugShowCheckedModeBanner: false,
-        routes: routes,
-        theme: ThemeData(
-          brightness: Brightness.dark,
-          primarySwatch: Colors.blue,
-        ),
-        // home: defaultTargetPlatform == TargetPlatform.iOS ||
-        //         defaultTargetPlatform == TargetPlatform.iOS
-        //     ? const AndroidSplashScreen()
-        //     : const WindowsSplashScreen(),
-        home: const WindowsSplashScreen(),
+      child: Consumer<ThemeNotifier>(
+        builder: (_, provider, __) {
+          return MaterialApp(
+            title: 'Expense Tracker',
+            debugShowCheckedModeBanner: false,
+            routes: routes,
+            theme: provider.themeData,
+            home: const WindowsSplashScreen(),
+          );
+        },
       ),
     );
   }

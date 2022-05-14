@@ -2,7 +2,7 @@ import 'package:auto_animated/auto_animated.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/model/recent.expense.model.dart';
-import 'package:expense_tracker/view/windows/small/home/windows.small.expense.date.item.dart';
+import 'package:expense_tracker/view/windows/small/home/widgets/windows.small.expense.list.item.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +40,7 @@ class WindowsSmallRecentList extends StatelessWidget {
                             visibleFraction: 0.8,
                             showItemDuration: const Duration(milliseconds: 900),
                             padding: const EdgeInsets.only(left: 10, top: 10),
-                            showItemInterval: const Duration(milliseconds: 50),
+                            showItemInterval: const Duration(milliseconds: 300),
                             itemCount:
                                 (snapshot.data! as QuerySnapshot).docs.length,
                             itemBuilder: animationItemBuilder(
@@ -74,8 +74,8 @@ class WindowsSmallRecentList extends StatelessWidget {
                             child: Text(
                               'No Data !',
                               style: TextStyle(
-                                color: Colors.white,
-                              ),
+                                  // color: Colors.white,
+                                  ),
                             ),
                           ),
                         )
@@ -107,11 +107,15 @@ class WindowsSmallRecentList extends StatelessWidget {
               begin: 0,
               end: 1,
             ).animate(animation),
-            child: SlideTransition(
-              position: Tween<Offset>(
-                begin: const Offset(0, -0.1),
-                end: Offset.zero,
+            child: SizeTransition(
+              sizeFactor: Tween<double>(
+                begin: 0,
+                end: 1,
               ).animate(animation),
+              // position: Tween<Offset>(
+              //   begin: const Offset(0, -0.1),
+              //   end: Offset.zero,
+              // ).animate(animation),
               child: Padding(
                 padding: padding,
                 child: child(index),

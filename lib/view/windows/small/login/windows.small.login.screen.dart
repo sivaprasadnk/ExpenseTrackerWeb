@@ -4,7 +4,11 @@ import 'package:expense_tracker/api/repo/auth_repo.dart';
 import 'package:expense_tracker/api/repo/user_repo.dart';
 import 'package:expense_tracker/api/response.status.dart';
 import 'package:expense_tracker/provider/home.provider.dart';
+import 'package:expense_tracker/utils/loading.dialog.dart';
 import 'package:expense_tracker/view/windows/small/home/windows.small.home.screen.dart';
+import 'package:expense_tracker/view/windows/small/login/widgets/login.submit.button.dart';
+import 'package:expense_tracker/view/windows/small/login/widgets/text.field.container.dart';
+import 'package:expense_tracker/view/windows/small/login/widgets/text.field.title.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +39,7 @@ class _WindowsSmallLoginScreenState extends State<WindowsSmallLoginScreen> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    final screenWidth = screenSize.width;
+    // final screenWidth = screenSize.width;
     return Scaffold(
       body: Form(
         key: _formKey,
@@ -54,12 +58,13 @@ class _WindowsSmallLoginScreenState extends State<WindowsSmallLoginScreen> {
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Text(
-                    '1.0.0+10',
+                    '1.0.0+14',
                     style: TextStyle(
                       color: Colors.black,
                     ),
                   ),
                 ),
+                const SizedBox(height: 100),
                 Center(
                   child: Container(
                     height: 30,
@@ -75,22 +80,19 @@ class _WindowsSmallLoginScreenState extends State<WindowsSmallLoginScreen> {
                       child: Text(
                         'Login',
                         style: TextStyle(
+                          fontFamily: 'Rajdhani',
+
                           fontSize: 20,
-                          color: Colors.white,
+                          // color: Colors.white,
                         ),
                       ),
                     ),
                   ),
                 ),
-                // const SizedBox(height: 10),
                 Container(
-                  width: screenWidth * 0.7,
+                  width: 300,
                   decoration: BoxDecoration(
-                    // border: Border.all(
-                    //   color: Colors.cyan,
-                    // ),
                     borderRadius: BorderRadius.circular(8),
-                    // color: Colors.grey,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,100 +100,44 @@ class _WindowsSmallLoginScreenState extends State<WindowsSmallLoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const SizedBox(height: 20),
-                      Row(
-                        children: [
-                          SizedBox(width: screenWidth * 0.05),
-                          const Text(
-                            'Email',
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      Center(
-                        child: Container(
-                          height: 40,
-                          width: 300,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            // color: Colors.black,
-                            border: Border.all(
-                              color: Colors.black,
-                            ),
-                          ),
-                          child: Center(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 10, right: 10),
-                              child: TextFormField(
-                                // key: _inputKey,
-                                style: const TextStyle(color: Colors.black),
-                                keyboardType: TextInputType.emailAddress,
-                                onSaved: (val) {
-                                  email = val.toString();
-                                },
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                  isDense: true,
-                                ),
-                              ),
-                            ),
+                      TextFieldTitle(title: 'Email'),
+                      const SizedBox(height: 10),
+                      TextFieldContainer(
+                        child: TextFormField(
+                          style: const TextStyle(color: Colors.black),
+                          keyboardType: TextInputType.emailAddress,
+                          onSaved: (val) {
+                            email = val.toString();
+                          },
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            isDense: true,
                           ),
                         ),
                       ),
                       const SizedBox(height: 30),
-                      Row(
-                        children: [
-                          SizedBox(width: screenWidth * 0.05),
-                          const Text(
-                            'Password',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      Center(
-                        child: Container(
-                          height: 40,
-                          width: 300,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            border: Border.all(
-                              color: Colors.black,
-                            ),
-                          ),
-                          child: Center(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 10, right: 10),
-                              child: TextFormField(
-                                obscureText: true,
-                                style: const TextStyle(color: Colors.black),
-                                onSaved: (val) {
-                                  password = val.toString();
-                                },
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                  isDense: true,
-                                ),
-                              ),
-                            ),
+                      TextFieldTitle(title: 'Password'),
+                      const SizedBox(height: 10),
+                      TextFieldContainer(
+                        child: TextFormField(
+                          obscureText: true,
+                          style: const TextStyle(color: Colors.black),
+                          onSaved: (val) {
+                            password = val.toString();
+                          },
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            isDense: true,
                           ),
                         ),
                       ),
                       const SizedBox(height: 30),
                       Center(
-                        child: ElevatedButton(
-                          onPressed: () {
+                        child: GestureDetector(
+                          onTap: () {
                             validateAndProceed();
                           },
-                          child: const Text('Submit'),
+                          child: LoginSubmitButton(),
                         ),
                       ),
                       const SizedBox(height: 30),
@@ -226,6 +172,7 @@ class _WindowsSmallLoginScreenState extends State<WindowsSmallLoginScreen> {
           message: 'Enter Password',
         );
       } else {
+        Loading().showLoading(context);
         AuthRepo().loginNew(email, password).then((response) async {
           if (response.status == ResponseStatus.error) {
             await showOkAlertDialog(

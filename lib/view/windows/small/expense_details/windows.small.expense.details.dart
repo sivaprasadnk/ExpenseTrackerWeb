@@ -56,7 +56,8 @@ class _WindowsSmallExpenseDetailsState
                             // height: 100,
                             child: Column(
                               children: [
-                                Text("Rs. " +
+                                Text(kRupeeSymbol +
+                                    " " +
                                     snapshot.data!["amount"].toString()),
                                 const SizedBox(height: 20),
                                 Text(snapshot.data!["details"].toString()),
@@ -83,7 +84,7 @@ class _WindowsSmallExpenseDetailsState
           // const SizedBox(
           //   height: 20,
           // ),
-          // Text('Rs. $amount'),
+          // Text('₹ $amount'),
           // const SizedBox(
           //   height: 20,
           // ),

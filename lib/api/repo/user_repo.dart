@@ -125,13 +125,11 @@ class UserRepo {
 
   Future<ResponseModel> addExpenseNew(
       Expense expense, int dailyTotal, int monthlyTotal) async {
-    // try {
-    debugPrint('.. @@ 1');
     String userId = FirebaseAuth.instance.currentUser!.uid;
     String expenseDocId = "", recentDocId = "";
     final DateTime now = DateTime.now();
-    final String formattedTime = DateFormat('dd-MM-yyyy  kk:mm').format(now);
-    fireStoreInstance
+    final String formattedTime = DateFormat('dd-MM-yyyy  kk:mm:ss').format(now);
+    DocumentReference<Map<String, dynamic>> recentDoc = await fireStoreInstance
         .collection(kUsersCollection)
         .doc(userId)
         .collection(kRecentExpensesCollection)
@@ -145,98 +143,103 @@ class UserRepo {
       'categoryId': expense.categoryIndex,
       'categoryName': expense.categoryName,
       'updatedTime': formattedTime,
+      'mode': expense.mode,
       'expenseDocId': expenseDocId,
-    }).then((recentDoc) {
-      debugPrint('.. @@ 2');
-
-      recentDocId = recentDoc.id;
-      fireStoreInstance
-          .collection(kUsersCollection)
-          .doc(userId)
-          .collection(kRecentExpensesCollection)
-          .doc(recentDocId)
-          .update({
-        'recentDocId': recentDoc.id,
-      });
-
-      fireStoreInstance
-          .collection(kUsersCollection)
-          .doc(userId)
-          .collection(kExpenseDatesNewCollection)
-          // .doc(expense.expenseMonth)
-          // .collection(expense.expenseDate)
-          .doc(expense.expenseDate)
-          .collection(kExpenseCollection)
-          .add({
-        'expenseTitle': expense.expenseTitle,
-        'amount': expense.amount,
-        'details': expense.details,
-        'createdDate': formattedTime,
-        'expenseMonth': expense.expenseMonth,
-        'expenseDate': expense.expenseDate,
-        'categoryId': expense.categoryIndex,
-        'categoryName': expense.categoryName,
-        'updatedTime': formattedTime,
-      }).then((doc) {
-        expenseDocId = doc.id;
-        fireStoreInstance
-            .collection(kUsersCollection)
-            .doc(userId)
-            .collection(kExpenseDatesNewCollection)
-            // .doc(expense.expenseMonth)
-            // .collection(expense.expenseDate)
-            .doc(expense.expenseDate)
-            .collection(kExpenseCollection)
-            .doc(doc.id)
-            .update({
-          'expenseDocId': doc.id,
-        }).then((value) {
-          fireStoreInstance
-              .collection(kUsersCollection)
-              .doc(userId)
-              .collection(kRecentExpensesCollection)
-              .doc(recentDocId)
-              .update({
-            'expenseDocId': doc.id,
-          });
-        });
-      });
-      debugPrint(
-          '.. @@@ dailyTotal : $dailyTotal   dailyTotal ${expense.amount}');
-      fireStoreInstance
-          .collection(kUsersCollection)
-          .doc(userId)
-          .collection(kExpenseDatesNewCollection)
-          // .doc(expense.expenseMonth)
-          // .collection(expense.expenseDate)
-          .doc(expense.expenseDate)
-          .set({
-        'totalExpense': dailyTotal + expense.amount,
-        'day': expense.expenseDate,
-        'month': expense.expenseMonth,
-        'date': expense.expenseDate.split('_').first,
-        'updatedTime': formattedTime,
-      });
-
-      // fireStoreInstance
-      //     .collection(kUsersCollection)
-      //     .doc(userId)
-      //     .collection(kExpenseMonthsCollection)
-      //     .doc(expense.expenseMonth)
-      //     .update({
-      //   'totalExpense': monthlyTotal + expense.amount,
-      //   'updatedTime': formattedTime,
-      // });
     });
 
-    // } catch (e) {
-    //   debugPrint(e.toString());
-    //   return ResponseModel(
-    //     status: ResponseStatus.error,
-    //     data: '',
-    //     message: e.toString(),
-    //   );
-    // }
+    recentDocId = recentDoc.id;
+    fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(userId)
+        .collection(kRecentExpensesCollection)
+        .doc(recentDocId)
+        .update({
+      'recentDocId': recentDoc.id,
+    });
+
+    DocumentReference<Map<String, dynamic>> doc = await fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(userId)
+        .collection(kExpenseDatesNewCollection)
+        .doc(expense.expenseDate)
+        .collection(kExpenseCollection)
+        .add({
+      'expenseTitle': expense.expenseTitle,
+      'amount': expense.amount,
+      'details': expense.details,
+      'mode': expense.mode,
+      'createdDate': formattedTime,
+      'expenseMonth': expense.expenseMonth,
+      'expenseDate': expense.expenseDate,
+      'categoryId': expense.categoryIndex,
+      'categoryName': expense.categoryName,
+      'updatedTime': formattedTime,
+    });
+
+    expenseDocId = doc.id;
+    fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(userId)
+        .collection(kExpenseDatesNewCollection)
+        .doc(expense.expenseDate)
+        .collection(kExpenseCollection)
+        .doc(doc.id)
+        .update({
+      'expenseDocId': doc.id,
+    });
+
+    fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(userId)
+        .collection(kRecentExpensesCollection)
+        .doc(recentDocId)
+        .update({
+      'expenseDocId': doc.id,
+    });
+
+    fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(userId)
+        .collection(kExpenseDatesNewCollection)
+        .doc(expense.expenseDate)
+        .set({
+      'totalExpense': dailyTotal + expense.amount,
+      'day': expense.expenseDate,
+      'month': expense.expenseMonth,
+      'date': expense.expenseDate.split('_').first,
+      'updatedTime': formattedTime,
+    });
+
+    DocumentReference<Map<String, dynamic>> doc1 = await fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(userId)
+        .collection(kExpenseCategoriesCollection)
+        .doc(expense.categoryName)
+        .collection(kExpenseCollection)
+        .add({
+      'expenseTitle': expense.expenseTitle,
+      'amount': expense.amount,
+      'expenseMonth': expense.expenseMonth,
+      'expenseDate': expense.expenseDate,
+      'details': expense.details,
+      'createdDate': formattedTime,
+      'categoryId': expense.categoryIndex,
+      'categoryName': expense.categoryName,
+      'updatedTime': formattedTime,
+      'mode': expense.mode,
+      'expenseDocId': expenseDocId,
+    });
+
+    await fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(userId)
+        .collection(kExpenseCategoriesCollection)
+        .doc(expense.categoryName)
+        .collection(kExpenseCollection)
+        .doc(doc1.id)
+        .update({
+      'expenseCategoryDocId': doc1.id,
+    });
 
     return ResponseModel(
         status: ResponseStatus.success, message: 'Success', data: '');

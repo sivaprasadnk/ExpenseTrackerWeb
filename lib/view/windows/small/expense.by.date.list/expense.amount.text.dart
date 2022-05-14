@@ -1,3 +1,4 @@
+import 'package:expense_tracker/common_strings.dart';
 import 'package:flutter/material.dart';
 
 class ExpenseAmountText extends StatelessWidget {
@@ -6,9 +7,9 @@ class ExpenseAmountText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      amount,
+      kRupeeSymbol + amount,
       style: TextStyle(
-        fontSize: 50,
+        fontSize: 45,
         fontWeight: FontWeight.bold,
         fontFamily: 'Rajdhani',
       ),
