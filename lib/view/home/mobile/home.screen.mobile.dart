@@ -122,6 +122,12 @@ class _HomeScreenMobileState extends State<HomeScreenMobile>
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     const opacityDuration = Duration(milliseconds: 900);
     const slideDuration = Duration(milliseconds: 100);

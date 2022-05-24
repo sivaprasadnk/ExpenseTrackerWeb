@@ -34,52 +34,51 @@ class ThemeList extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              GridView.builder(
-                shrinkWrap: true,
-                itemCount: AppTheme.values.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  mainAxisExtent: 35,
-                  mainAxisSpacing: 10,
-                ),
-                itemBuilder: (ctx, index) {
-                  final ThemeData? theme = appThemeData[AppTheme.values[index]];
-                  return Padding(
-                    padding: const EdgeInsets.only(left: 15, top: 0),
-                    child: GestureDetector(
+              Padding(
+                padding: const EdgeInsets.only(left: 52, top: 0),
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  itemCount: AppTheme.values.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    mainAxisExtent: 35,
+                    mainAxisSpacing: 10,
+                  ),
+                  itemBuilder: (ctx, index) {
+                    final ThemeData? theme =
+                        appThemeData[AppTheme.values[index]];
+                    return GestureDetector(
                       onTap: () {
                         provider.setTheme(
                             AppTheme.values[index], index, context);
                       },
                       child: Stack(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 45, top: 1),
+                          CircleAvatar(
+                            backgroundColor: Colors.black,
+                            radius: 16,
                             child: CircleAvatar(
-                              backgroundColor: Colors.black,
-                              radius: 16,
-                              child: CircleAvatar(
-                                radius: 15,
-                                backgroundColor: theme!.scaffoldBackgroundColor,
-                              ),
+                              radius: 15,
+                              backgroundColor: theme!.scaffoldBackgroundColor,
                             ),
                           ),
                           if (provider.themeIndex == index)
                             const Positioned.fill(
-                              bottom: 10,
+                              left: 5,
+                              bottom: 20,
                               child: Align(
-                                alignment: Alignment.center,
+                                alignment: Alignment.centerLeft,
                                 child: Icon(
                                   Icons.check,
-                                  size: 25,
+                                  size: 30,
                                 ),
                               ),
                             )
                         ],
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ],
           ),

@@ -1,4 +1,5 @@
 import 'package:expense_tracker/common_strings.dart';
+import 'package:expense_tracker/env.dart';
 import 'package:expense_tracker/provider/auth.provider.dart';
 import 'package:expense_tracker/provider/cache_notifier.dart';
 import 'package:expense_tracker/provider/dark.theme.provider.dart';
@@ -14,16 +15,10 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Add this
 
-  await Firebase.initializeApp(
-    // Replace with actual values
-    options: const FirebaseOptions(
-      apiKey: "AIzaSyBIbJnZ4PhUD4mJ-eBpKeD9koJ-BJDWKtU",
-      appId: "1:890691321939:web:f3d2d5ffcd6fc12ada86a6",
-      messagingSenderId: "890691321939",
-      projectId: "expensetrackerapp-9617f",
-    ),
+  await Firebase.initializeApp(options: firebaseOptions);
+  runApp(
+    const MyApp(),
   );
-  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

@@ -87,10 +87,19 @@ class _WindowsSmallAddExpenseScreenState
                   TextFieldContainer(
                     child: TextFormField(
                       onSaved: (val) {
+                        // try {
                         if (val != null && val.trim().isNotEmpty) {
                           debugPrint('.. @@ $val');
                           expenseAmount = int.parse(val.toString());
                         }
+                        // } catch (err) {
+                        //   showOkAlertDialog(
+                        //     context: context,
+                        //     title: 'Alert',
+                        //     style: AdaptiveStyle.material,
+                        //     message: 'Amount should be number',
+                        //   );
+                        // }
                       },
                       decoration: const InputDecoration(
                         border: InputBorder.none,
@@ -245,53 +254,58 @@ class _WindowsSmallAddExpenseScreenState
   validateAndProceed() async {
     var date = DateFormat('dd-MM-yyyy').format(selectedDate);
     var month = DateFormat('MMM, yyyy').format(selectedDate);
-    debugPrint(
-        '.. @@ hereeeeeeee1 $expenseTitle $expenseAmount $expenseDetails');
-
-    _formKey.currentState!.save();
-    if (expenseTitle.trim().isEmpty) {
-      debugPrint('.. @@ hereeeeeeee2');
-      await showOkAlertDialog(
-        context: context,
-        title: 'Alert',
-        message: 'Enter title',
-      );
-    } else {
-      debugPrint('.. @@ hereeeeeeee5');
-
-      if (expenseAmount == 0) {
-        debugPrint('.. @@ hereeeeeeee5');
-
+    try {
+      _formKey.currentState!.save();
+      if (expenseTitle.trim().isEmpty) {
+        debugPrint('.. @@ hereeeeeeee2');
         await showOkAlertDialog(
           context: context,
           title: 'Alert',
-          style: AdaptiveStyle.material,
-          message: 'Enter Amount',
+          message: 'Enter title',
         );
       } else {
-        if (expenseDetails.isEmpty) {
-          debugPrint('.. @@ hereeeeeeee4');
+        debugPrint('.. @@ hereeeeeeee5');
+
+        if (expenseAmount == 0) {
+          debugPrint('.. @@ hereeeeeeee5');
 
           await showOkAlertDialog(
             context: context,
             title: 'Alert',
-            message: 'Enter details',
+            style: AdaptiveStyle.material,
+            message: 'Enter Amount',
           );
         } else {
-          debugPrint('.. @@ hereeeeeeee3');
+          if (expenseDetails.isEmpty) {
+            debugPrint('.. @@ hereeeeeeee4');
 
-          AddExpenseController().addExpense(
-              expenseTitle,
-              selectedIndex,
-              expenseDetails,
-              expenseAmount,
-              CategoryList.list[selectedIndex].name,
-              month,
-              date,
-              _selectedMode,
-              context);
+            await showOkAlertDialog(
+              context: context,
+              title: 'Alert',
+              message: 'Enter details',
+            );
+          } else {
+            debugPrint('.. @@ hereeeeeeee3');
+
+            AddExpenseController().addExpense(
+                expenseTitle,
+                selectedIndex,
+                expenseDetails,
+                expenseAmount,
+                CategoryList.list[selectedIndex].name,
+                month,
+                date,
+                _selectedMode,
+                context);
+          }
         }
       }
+    } catch (err) {
+      await showOkAlertDialog(
+        context: context,
+        title: 'Alert',
+        message: 'Something went wrong !',
+      );
     }
   }
 }

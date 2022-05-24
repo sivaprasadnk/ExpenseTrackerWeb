@@ -153,6 +153,9 @@ class _RegisterScreenState extends State<RegisterScreen>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                const SizedBox(
+                  height: 40,
+                ),
                 const Padding(
                   padding: EdgeInsets.all(10.0),
                   child: Text(
@@ -332,21 +335,21 @@ class _RegisterScreenState extends State<RegisterScreen>
 
   Future<void> validateAndProceed() async {
     _formKey.currentState!.save();
-    if (email.isEmpty) {
+    if (email.trim().isEmpty) {
       await showOkAlertDialog(
         context: context,
         title: 'Alert',
         message: 'Enter email',
       );
     } else {
-      if (password.isEmpty) {
+      if (password.trim().isEmpty) {
         await showOkAlertDialog(
           context: context,
           title: 'Alert',
           message: 'Enter Password',
         );
       } else {
-        UserController.register(context, email, password);
+        UserController.register(context, email.trim(), password.trim());
         // Loading().showLoading(context);
         // AuthRepo().loginNew(email, password).then((response) async {
         //   if (response.status == ResponseStatus.error) {

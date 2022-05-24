@@ -106,7 +106,9 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                         child: TextFormField(
                           keyboardType: TextInputType.number,
                           onSaved: (val) {
-                            expenseAmount = int.parse(val.toString());
+                            if (val != null && val.trim().isNotEmpty) {
+                              expenseAmount = int.parse(val.toString());
+                            }
                           },
                           decoration: const InputDecoration(
                             border: InputBorder.none,
@@ -165,7 +167,6 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                     'Title :',
                     style: TextStyle(
                       fontSize: 15,
-                      // fontFamily: 'Rajdhani',
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -206,7 +207,6 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                     'Category :',
                     style: TextStyle(
                       fontSize: 15,
-                      // fontFamily: 'Rajdhani',
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -221,7 +221,6 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                     CategoryList.list[selectedIndex].name,
                     style: const TextStyle(
                       fontSize: 15,
-                      // fontFamily: 'Rajdhani',
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -308,45 +307,48 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
   validateAndProceed() async {
     var date = DateFormat('dd-MM-yyyy').format(selectedDate);
     var month = DateFormat('MMM, yyyy').format(selectedDate);
-    // int dailyTotal =
-    //     Provider.of<HomeProvider>(context, listen: false).dailyTotalExpense;
-    // int monthlyTotal =
-    //     Provider.of<HomeProvider>(context, listen: false).monthlyTotalExpense;
-    // debugPrint('.. @@ datetime : $dateTime1');
-    _formKey.currentState!.save();
-    if (expenseTitle.isEmpty) {
-      await showOkAlertDialog(
-        context: context,
-        title: 'Alert',
-        message: 'Enter title',
-      );
-    } else {
-      if (expenseAmount == 0) {
+    try {
+      _formKey.currentState!.save();
+      if (expenseTitle.isEmpty) {
         await showOkAlertDialog(
           context: context,
           title: 'Alert',
-          message: 'Enter Amount',
+          message: 'Enter title',
         );
       } else {
-        if (expenseDetails.isEmpty) {
+        if (expenseAmount == 0) {
           await showOkAlertDialog(
             context: context,
             title: 'Alert',
-            message: 'Enter details',
+            message: 'Enter Amount',
           );
         } else {
-          AddExpenseController().addExpense(
-              expenseTitle,
-              selectedIndex,
-              expenseDetails,
-              expenseAmount,
-              CategoryList.list[selectedIndex].name,
-              month,
-              date,
-              _selectedMode,
-              context);
+          if (expenseDetails.isEmpty) {
+            await showOkAlertDialog(
+              context: context,
+              title: 'Alert',
+              message: 'Enter details',
+            );
+          } else {
+            AddExpenseController().addExpense(
+                expenseTitle,
+                selectedIndex,
+                expenseDetails,
+                expenseAmount,
+                CategoryList.list[selectedIndex].name,
+                month,
+                date,
+                _selectedMode,
+                context);
+          }
         }
       }
+    } catch (err) {
+      await showOkAlertDialog(
+        context: context,
+        title: 'Alert',
+        message: 'Something went wrong !',
+      );
     }
   }
 }

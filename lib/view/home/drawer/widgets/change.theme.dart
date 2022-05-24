@@ -22,7 +22,7 @@ class _ChangeThemeMenuState extends State<ChangeThemeMenu> {
           builder: (ctx) {
             return Dialog(
               insetPadding: const EdgeInsets.symmetric(horizontal: 10),
-              backgroundColor: Colors.black12,
+              backgroundColor: const Color.fromARGB(14, 0, 0, 0),
               elevation: 0,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

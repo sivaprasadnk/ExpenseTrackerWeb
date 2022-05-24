@@ -153,10 +153,13 @@ class _LoginScreenState extends State<LoginScreen>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                const SizedBox(
+                  height: 40,
+                ),
                 const Padding(
                   padding: EdgeInsets.all(10.0),
                   child: Text(
-                    kExpenseTrackerText + ' v1.1',
+                    kExpenseTrackerText,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 30,
@@ -331,52 +334,21 @@ class _LoginScreenState extends State<LoginScreen>
 
   Future<void> validateAndProceed() async {
     _formKey.currentState!.save();
-    if (email.isEmpty) {
+    if (email.trim().isEmpty) {
       await showOkAlertDialog(
         context: context,
         title: 'Alert',
-        message: 'Enter email',
+        message: 'Enter email !',
       );
     } else {
       if (password.isEmpty) {
         await showOkAlertDialog(
           context: context,
           title: 'Alert',
-          message: 'Enter Password',
+          message: 'Enter Password !',
         );
       } else {
-        UserController.login(context, email, password);
-        // Loading().showLoading(context);
-        // AuthRepo().loginNew(email, password).then((response) async {
-        //   if (response.status == ResponseStatus.error) {
-        //     await showOkAlertDialog(
-        //       context: context,
-        //       title: 'Alert',
-        //       message: response.message,
-        //     ).then((value) {
-        //       Navigator.pop(context);
-        //     });
-        //   } else {
-        //     String responseData = response.data;
-        //     String dailyExpString = responseData.split('.').first;
-        //     int dailyExp = int.parse(dailyExpString);
-        //     if (mounted) {
-        //       Provider.of<HomeProvider>(context, listen: false)
-        //           .updateDailyTotalExpense(dailyExp);
-        //       UserRepo().getRecentExpense().then((recentExpList) {
-        //         Provider.of<HomeProvider>(context, listen: false)
-        //             .updateRecentList(recentExpList);
-
-        //         Navigator.pushAndRemoveUntil(
-        //             context,
-        //             MaterialPageRoute(
-        //               builder: (ctx) => const WindowsSmallHome(),
-        //             ),
-        //             (r) => false);
-        //       });
-        //     }
-        //   }
-        // });
+        UserController.login(context, email.trim(), password.trim());
       }
     }
   }
