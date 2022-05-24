@@ -13,4 +13,5 @@ const String kMayDoc = 'may2022';
 const String kFirstWeekCollection = 'firstWeek';
 const String kRecentExpensesCollection = 'recentExpenses';
 const String kRupeeSymbol = "₹";
+const String kExpenseTrackerText = "EXPENSE TRACKER";
 // const String 

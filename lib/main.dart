@@ -6,9 +6,8 @@ import 'package:expense_tracker/provider/home.provider.dart';
 import 'package:expense_tracker/provider/route.provider.dart';
 import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:expense_tracker/routes.dart';
-import 'package:expense_tracker/view/windows/windows.splash.screen.dart';
+import 'package:expense_tracker/view/windows.splash.screen.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

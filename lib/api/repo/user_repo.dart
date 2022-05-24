@@ -135,9 +135,11 @@ class UserRepo {
         .collection(kRecentExpensesCollection)
         .add({
       'expenseTitle': expense.expenseTitle,
+      'active': true,
       'amount': expense.amount,
       'expenseMonth': expense.expenseMonth,
       'expenseDate': expense.expenseDate,
+      'expenseDay': expense.expenseDay,
       'details': expense.details,
       'createdDate': formattedTime,
       'categoryId': expense.categoryIndex,
@@ -171,9 +173,11 @@ class UserRepo {
       'createdDate': formattedTime,
       'expenseMonth': expense.expenseMonth,
       'expenseDate': expense.expenseDate,
+      'expenseDay': expense.expenseDay,
       'categoryId': expense.categoryIndex,
       'categoryName': expense.categoryName,
       'updatedTime': formattedTime,
+      'active': true,
     });
 
     expenseDocId = doc.id;
@@ -204,42 +208,92 @@ class UserRepo {
         .doc(expense.expenseDate)
         .set({
       'totalExpense': dailyTotal + expense.amount,
-      'day': expense.expenseDate,
+      'date': expense.expenseDate,
       'month': expense.expenseMonth,
-      'date': expense.expenseDate.split('_').first,
+      'day': expense.expenseDay,
       'updatedTime': formattedTime,
     });
-
-    DocumentReference<Map<String, dynamic>> doc1 = await fireStoreInstance
+    await fireStoreInstance
         .collection(kUsersCollection)
         .doc(userId)
         .collection(kExpenseCategoriesCollection)
         .doc(expense.categoryName)
-        .collection(kExpenseCollection)
-        .add({
-      'expenseTitle': expense.expenseTitle,
-      'amount': expense.amount,
-      'expenseMonth': expense.expenseMonth,
-      'expenseDate': expense.expenseDate,
-      'details': expense.details,
-      'createdDate': formattedTime,
-      'categoryId': expense.categoryIndex,
+        .set({
+      'lastUpdateTime': formattedTime,
       'categoryName': expense.categoryName,
-      'updatedTime': formattedTime,
-      'mode': expense.mode,
-      'expenseDocId': expenseDocId,
+      'categoryId': expense.categoryIndex,
+      // 'categoryDocId': "",
     });
-
+    debugPrint('... @@ here@@@@@');
     await fireStoreInstance
         .collection(kUsersCollection)
         .doc(userId)
         .collection(kExpenseCategoriesCollection)
         .doc(expense.categoryName)
         .collection(kExpenseCollection)
-        .doc(doc1.id)
-        .update({
-      'expenseCategoryDocId': doc1.id,
+        .doc(formattedTime)
+        .set({
+      'expenseTitle': expense.expenseTitle,
+      'amount': expense.amount,
+      'details': expense.details,
+      'mode': expense.mode,
+      'createdDate': formattedTime,
+      'expenseMonth': expense.expenseMonth,
+      'expenseDate': expense.expenseDate,
+      "expenseDocId": "",
+      'expenseDay': expense.expenseDay,
+      'categoryId': expense.categoryIndex,
+      'categoryName': expense.categoryName,
+      'updatedTime': formattedTime,
+      'active': true,
+      // 'totalAmount': 0,
     });
+    // await fireStoreInstance
+    //     .collection(kUsersCollection)
+    //     .doc(userId)
+    //     .collection(kExpenseCategoriesCollection)
+    //     .doc(expense.categoryName)
+    //     .collection(kExpenseCollection)
+    //     .doc(categoryDoc.id)
+    //     .update({
+    //   'lastUpdateTime': formattedTime,
+    //   'categoryName': expense.categoryName,
+    //   'categoryDocId': categoryDoc.id,
+    // });
+    // await fireStoreInstance
+    //     .collection(kUsersCollection)
+    //     .doc(userId)
+    //     .collection(kExpenseCategoriesCollection)
+    //     .doc(expense.categoryName)
+    //     .update({
+    //   'lastUpdateTime': formattedTime,
+    //   'categoryName': expense.categoryName,
+    // });
+
+    // Future.delayed(const Duration(seconds: 1)).then((value) async {
+    //   await fireStoreInstance
+    //       .collection(kUsersCollection)
+    //       .doc(userId)
+    //       .collection(kExpenseCategoriesCollection)
+    //       .doc(ex)
+    //       .collection(kExpenseCollection)
+    //       .doc(expense.expenseDate)
+    //       .collection(kExpenseCollection)
+    //       .add({
+    //     'expenseTitle': expense.expenseTitle,
+    //     'amount': expense.amount,
+    //     'expenseMonth': expense.expenseMonth,
+    //     'expenseDate': expense.expenseDate,
+    //     'details': expense.details,
+    //     'createdDate': formattedTime,
+    //     'categoryId': expense.categoryIndex,
+    //     'categoryName': expense.categoryName,
+    //     'updatedTime': formattedTime,
+    //     'mode': expense.mode,
+    //     'active': true,
+    //     'expenseDocId': expenseDocId,
+    //   });
+    // });
 
     return ResponseModel(
         status: ResponseStatus.success, message: 'Success', data: '');
@@ -262,8 +316,6 @@ class UserRepo {
           .doc(expenseDocId)
           .delete()
           .then((_) {
-        debugPrint('.. @@ success');
-        // int total = 0;
         fireStoreInstance
             .collection(kUsersCollection)
             .doc(userId)
@@ -292,7 +344,6 @@ class UserRepo {
               .doc(recentDocId)
               .delete();
 
-          // int total = 0;
           fireStoreInstance
               .collection(kUsersCollection)
               .doc(userId)
@@ -363,7 +414,7 @@ class UserRepo {
         .collection(kRecentExpensesCollection)
         .get();
     var recentExpList1 = querySnapshot.docs.map((doc) => doc.data()).toList();
-    recentExpList1.forEach((element) {
+    for (var element in recentExpList1) {
       recentExpList.add(RecentExpense(
           expenseTitle: element['expenseTitle'],
           categoryId: element['categoryId'],
@@ -374,8 +425,10 @@ class UserRepo {
           expenseMonth: element['expenseMonth'],
           createdDate: element['createdDate'],
           recentDocId: element['recentDocId'],
+          expenseDay: element['expenseDay'],
+          mode: element['mode'],
           expenseDocId: element['expenseDocId']));
-    });
+    }
     recentExpList.sort((a, b) => b.createdDate.compareTo(a.createdDate));
     return recentExpList;
   }

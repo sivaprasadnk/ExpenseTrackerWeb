@@ -119,7 +119,7 @@ class AuthRepo {
     }
     String userId = FirebaseAuth.instance.currentUser!.uid;
 
-    var date = DateFormat('dd_MM_yyyy').format(now);
+    var date = DateFormat('dd-MM-yyyy').format(now);
     int dailyTotal = 0;
     var value1 = await fireStoreInstance
         .collection(kUsersCollection)

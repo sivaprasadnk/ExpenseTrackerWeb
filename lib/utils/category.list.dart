@@ -9,10 +9,14 @@ enum Category {
   GooglePay,
   Stationary,
   Medical,
+  sample,
 }
 
 class CategoryList {
   static List<CategoryModel> list = [
+    CategoryModel(
+        icon: FontAwesomeIcons.googlePay,
+        name: Category.GooglePay.categoryName),
     CategoryModel(
         icon: FontAwesomeIcons.taxi, name: Category.AutoFare.categoryName),
     CategoryModel(
@@ -24,12 +28,9 @@ class CategoryList {
         icon: FontAwesomeIcons.bowlFood, name: Category.Food.categoryName),
     CategoryModel(
         icon: FontAwesomeIcons.googlePay,
-        name: Category.GooglePay.categoryName),
-    CategoryModel(
-        icon: FontAwesomeIcons.googlePay,
         name: Category.Stationary.categoryName),
     CategoryModel(
-        icon: FontAwesomeIcons.googlePay, name: Category.Medical.categoryName),
+        icon: FontAwesomeIcons.googlePay, name: Category.sample.categoryName),
   ];
 }
 
@@ -48,6 +49,6 @@ class CategoryList {
 
 extension name on Category {
   String get categoryName {
-    return this.toString().split('.').last;
+    return toString().split('.').last;
   }
 }
