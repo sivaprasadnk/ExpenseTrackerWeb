@@ -1,5 +1,5 @@
 import 'package:expense_tracker/common_strings.dart';
-import 'package:expense_tracker/env.dart';
+import 'package:expense_tracker/options.env';
 import 'package:expense_tracker/provider/auth.provider.dart';
 import 'package:expense_tracker/provider/cache_notifier.dart';
 import 'package:expense_tracker/provider/dark.theme.provider.dart';
