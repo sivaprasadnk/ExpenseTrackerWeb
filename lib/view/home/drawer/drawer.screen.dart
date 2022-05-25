@@ -2,6 +2,8 @@ import 'package:expense_tracker/view/home/drawer/widgets/back.arrow.dart';
 import 'package:expense_tracker/view/home/drawer/widgets/change.theme.dart';
 import 'package:expense_tracker/view/home/drawer/widgets/log.out.button.dart';
 import 'package:expense_tracker/view/home/drawer/widgets/settings.text.container.dart';
+import 'package:expense_tracker/view/home/drawer/widgets/version.text.dart';
+import 'package:expense_tracker/view/home/drawer/widgets/visit.web.dart';
 import 'package:flutter/material.dart';
 
 class DrawerScreen extends StatefulWidget {
@@ -26,7 +28,20 @@ class _DrawerScreenState extends State<DrawerScreen> {
         // ThemeList(),
         SizedBox(height: 20),
 
-        LogoutButton()
+        // AppName(),
+        VisitWeb(),
+        SizedBox(height: 20),
+
+        LogoutButton(),
+        Divider(
+          thickness: 2,
+          indent: 20,
+          endIndent: 20,
+          color: Colors.black,
+        ),
+        SizedBox(height: 20),
+
+        VersionText(),
       ],
     );
   }

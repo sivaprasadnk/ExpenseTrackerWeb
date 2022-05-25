@@ -137,22 +137,6 @@ final appThemeData = {
     scaffoldBackgroundColor: const Color.fromRGBO(0, 70, 67, 1),
   ),
 
-  /// fifth
-  // AppTheme.grey: ThemeData(
-  //   drawerTheme: DrawerThemeData(
-  //     backgroundColor: Color.fromRGBO(58, 56, 69, 1),
-  //   ),
-  //   brightness: Brightness.dark,
-  //   cardColor: Color.fromRGBO(249, 188, 96, 1),
-  //   primaryColor: const Color.fromRGBO(171, 209, 198, 1),
-  //   textTheme: TextTheme(
-  //     bodyMedium: TextStyle(
-  //       color: Color.fromRGBO(171, 209, 198, 1),
-  //     ),
-  //   ),
-  //   scaffoldBackgroundColor: Color.fromRGBO(58, 56, 69, 1),
-  // ),
-
   AppTheme.grey: ThemeData(
     pageTransitionsTheme: PageTransitionsTheme(
       builders: kIsWeb
@@ -181,22 +165,6 @@ final appThemeData = {
     secondaryHeaderColor: const Color.fromARGB(255, 150, 101, 73),
     scaffoldBackgroundColor: const Color.fromRGBO(247, 204, 172, 1),
   ),
-
-  /// sixth
-  // AppTheme.cream1: ThemeData(
-  //   drawerTheme: DrawerThemeData(
-  //     backgroundColor: Color.fromRGBO(7, 34, 39, 1),
-  //   ),
-  //   brightness: Brightness.dark,
-  //   cardColor: Color.fromRGBO(53, 133, 139, 1),
-  //   primaryColor: const Color.fromRGBO(171, 209, 198, 1),
-  //   textTheme: TextTheme(
-  //     bodyMedium: TextStyle(
-  //       color: Color.fromRGBO(171, 209, 198, 1),
-  //     ),
-  //   ),
-  //   scaffoldBackgroundColor: Color.fromRGBO(7, 34, 39, 1),
-  // ),
 
   AppTheme.cream1: ThemeData(
     pageTransitionsTheme: PageTransitionsTheme(
