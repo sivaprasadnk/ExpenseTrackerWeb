@@ -28,19 +28,36 @@
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
-
+  <style>
+    .centered {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .loader {
+      width: 100px;
+      height: 100px;
+    }
+  </style>
   <title>expense_tracker</title>
   <link rel="manifest" href="manifest.json">
-  <script src="splash/splash.js"></script>
+  <!-- <script src="splash/splash.js"></script> -->
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-  <link rel="stylesheet" type="text/css" href="splash/style.css">
+  <!-- <link rel="stylesheet" type="text/css" href="splash/style.css"> -->
 </head>
 <body>
-  <picture id="splash">
+  <div class="centered">
+    <div class="loader">
+      <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+<lottie-player src="https://assets6.lottiefiles.com/packages/lf20_poqmycwy.json"  background="transparent"  speed="1"  style="width: 200px; height: 200px;"  loop  autoplay></lottie-player>
+    </div>
+  </div>
+  <!-- <picture id="splash">
     <source srcset="splash/img/light-1x.png 1x, splash/img/light-2x.png 2x, splash/img/light-3x.png 3x, splash/img/light-4x.png 4x" media="(prefers-color-scheme: light)">
     <source srcset="splash/img/dark-1x.png 1x, splash/img/dark-2x.png 2x, splash/img/dark-3x.png 3x, splash/img/dark-4x.png 4x" media="(prefers-color-scheme: dark)">
     <img class="center" aria-hidden="true" src="splash/img/light-1x.png" />
-  </picture>
+  </picture> -->
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->

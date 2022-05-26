@@ -7,6 +7,7 @@ import 'package:expense_tracker/view/expense.date.list/widgets/expense.amount.te
 import 'package:expense_tracker/view/expense.date.list/widgets/expense.date.text.dart';
 import 'package:expense_tracker/view/expense.date.list/widgets/expense.month.text.dart';
 import 'package:expense_tracker/view/mobile.view.dart';
+import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.container.mobile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -33,6 +34,7 @@ class _ExpenseByDateMobileScreenState extends State<ExpenseByDateMobileScreen> {
     var primaryColor = theme.themeData.primaryColor;
 
     return MobileView(
+      appBarTitle: 'Select Date',
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection(kUsersCollection)
@@ -46,6 +48,7 @@ class _ExpenseByDateMobileScreenState extends State<ExpenseByDateMobileScreen> {
                   ? Center(
                       child: SizedBox(
                         width: 450,
+                        height: MediaQuery.of(context).size.height * 0.8,
                         child: GridView.builder(
                           padding: EdgeInsets.zero,
                           itemCount:
@@ -122,17 +125,7 @@ class _ExpenseByDateMobileScreenState extends State<ExpenseByDateMobileScreen> {
                         ),
                       ),
                     )
-                  : SizedBox(
-                      height: screenHeight * 0.5,
-                      child: const Center(
-                        child: Text(
-                          'No Data !',
-                          style: TextStyle(
-                              // color: Colors.white,
-                              ),
-                        ),
-                      ),
-                    )
+                  : const NoExpenseContainerMobile(title: 'No expenses added !')
               : const Center(
                   child: CircularProgressIndicator(),
                 );

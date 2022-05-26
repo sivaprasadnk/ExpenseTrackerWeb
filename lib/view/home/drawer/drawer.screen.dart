@@ -3,6 +3,7 @@ import 'package:expense_tracker/view/home/drawer/widgets/change.theme.dart';
 import 'package:expense_tracker/view/home/drawer/widgets/log.out.button.dart';
 import 'package:expense_tracker/view/home/drawer/widgets/settings.text.container.dart';
 import 'package:expense_tracker/view/home/drawer/widgets/version.text.dart';
+import 'package:expense_tracker/view/home/drawer/widgets/visit.play.store.dart';
 import 'package:expense_tracker/view/home/drawer/widgets/visit.web.dart';
 import 'package:flutter/material.dart';
 
@@ -31,7 +32,10 @@ class _DrawerScreenState extends State<DrawerScreen> {
         // AppName(),
         VisitWeb(),
         SizedBox(height: 20),
-
+        VisitPlayStore(),
+        SizedBox(
+          height: 20,
+        ),
         LogoutButton(),
         Divider(
           thickness: 2,

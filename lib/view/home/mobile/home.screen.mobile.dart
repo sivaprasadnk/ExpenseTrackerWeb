@@ -135,6 +135,8 @@ class _HomeScreenMobileState extends State<HomeScreenMobile>
     final height = size.height;
     final width = size.width;
     return MobileView(
+      isHome: true,
+      appBarTitle: '',
       child: AnimatedBuilder(
         animation: _controller,
         builder: (_, child) {

@@ -17,13 +17,14 @@ class TodaysExpenseListMobileScreen extends StatelessWidget {
 
     var date = DateFormat('dd-MM-yyyy').format(now);
 
-    // var month = DateFormat('MMM, yyyy').format(now);
-    // var day = date.split('-').first;
+    var month = DateFormat('MMM, yyyy').format(now);
+    var day = date.split('-').first;
     var userId = FirebaseAuth.instance.currentUser!.uid;
     // var primaryColor = Provider.of<ThemeNotifier>(context, listen: false)
     //     .themeData
     //     .primaryColor;
     return MobileView(
+      appBarTitle: '$day $month',
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection(kUsersCollection)

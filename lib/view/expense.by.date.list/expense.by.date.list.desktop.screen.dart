@@ -17,10 +17,8 @@ class ExpenseByDateListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var userId = FirebaseAuth.instance.currentUser!.uid;
-    // var primaryColor = Provider.of<ThemeNotifier>(context, listen: false)
-    //     .themeData
-    //     .primaryColor;
     return DesktopView(
+      appBarTitle: expenseDateItem.date,
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection(kUsersCollection)

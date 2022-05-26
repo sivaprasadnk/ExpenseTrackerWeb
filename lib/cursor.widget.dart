@@ -1,6 +1,4 @@
-import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class CursorWidget extends StatefulWidget {
   const CursorWidget({
@@ -26,9 +24,9 @@ class _CursorWidgetState extends State<CursorWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeNotifier theme =
-        Provider.of<ThemeNotifier>(context, listen: true);
-    var primaryColor = theme.themeData.primaryColor;
+    // final ThemeNotifier theme =
+    //     Provider.of<ThemeNotifier>(context, listen: true);
+    // var primaryColor = theme.themeData.primaryColor;
     return InkWell(
       hoverColor: widget.hoverColor,
       mouseCursor: SystemMouseCursors.click,

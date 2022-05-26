@@ -54,6 +54,7 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
         ? DateFormat('dd-MM-yyyy').format(now)
         : formattedTime;
     return MobileView(
+      appBarTitle: 'Add expense',
       child: SingleChildScrollView(
         child: Form(
           key: _formKey,
@@ -61,7 +62,7 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 20),
+              const SizedBox(height: 5),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

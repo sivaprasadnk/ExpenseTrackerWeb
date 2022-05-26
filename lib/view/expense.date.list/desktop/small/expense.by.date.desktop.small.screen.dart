@@ -34,6 +34,7 @@ class _ExpenseDateListDesktopSmallState
     var primaryColor = theme.themeData.primaryColor;
 
     return DesktopView(
+      appBarTitle: 'Select Date',
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection(kUsersCollection)
@@ -44,81 +45,87 @@ class _ExpenseDateListDesktopSmallState
           return snapshot.connectionState != ConnectionState.done
               ? snapshot.hasData &&
                       (snapshot.data! as QuerySnapshot).docs.isNotEmpty
-                  ? GridView.builder(
-                      padding: EdgeInsets.zero,
-                      itemCount: (snapshot.data! as QuerySnapshot).docs.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        mainAxisSpacing: 20,
-                        crossAxisSpacing: 20,
-                        mainAxisExtent: 90,
-                      ),
-                      itemBuilder: (ctx, index) {
-                        var doc = (snapshot.data! as QuerySnapshot).docs[index];
-                        var expDate = ExpenseDate(
-                          day: doc['day'],
-                          date: doc['date'],
-                          month: doc['month'],
-                          totalExpense: doc['totalExpense'],
-                          updatedTime: doc['updatedTime'],
-                        );
-                        return InkWell(
-                          hoverColor: Colors.transparent,
-                          onHover: (val) {
-                            setState(() {
-                              hoveredStatusList[index] = val;
-                            });
-                          },
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => ExpenseByDateListScreen(
-                                          expenseDateItem: expDate,
-                                        )));
-                          },
-                          child: Stack(
-                            children: [
-                              Container(
-                                padding: EdgeInsets.zero,
-                                width: 130,
-                                height: 80,
-                                margin: const EdgeInsets.only(top: 10),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    width: 2,
-                                    color: !hoveredStatusList[index]
-                                        ? primaryColor
-                                        : theme.themeData.cardColor,
+                  ? SizedBox(
+                      width: 450,
+                      height: MediaQuery.of(context).size.height * 0.8,
+                      child: GridView.builder(
+                        padding: EdgeInsets.zero,
+                        itemCount:
+                            (snapshot.data! as QuerySnapshot).docs.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          mainAxisSpacing: 20,
+                          crossAxisSpacing: 20,
+                          mainAxisExtent: 90,
+                        ),
+                        itemBuilder: (ctx, index) {
+                          var doc =
+                              (snapshot.data! as QuerySnapshot).docs[index];
+                          var expDate = ExpenseDate(
+                            day: doc['day'],
+                            date: doc['date'],
+                            month: doc['month'],
+                            totalExpense: doc['totalExpense'],
+                            updatedTime: doc['updatedTime'],
+                          );
+                          return InkWell(
+                            hoverColor: Colors.transparent,
+                            onHover: (val) {
+                              setState(() {
+                                hoveredStatusList[index] = val;
+                              });
+                            },
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => ExpenseByDateListScreen(
+                                            expenseDateItem: expDate,
+                                          )));
+                            },
+                            child: Stack(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.zero,
+                                  width: 130,
+                                  height: 80,
+                                  margin: const EdgeInsets.only(top: 10),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      width: 2,
+                                      color: !hoveredStatusList[index]
+                                          ? primaryColor
+                                          : theme.themeData.cardColor,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
-                                  borderRadius: BorderRadius.circular(8),
+                                  child: Column(
+                                    children: [
+                                      ExpenseDateText(
+                                        date: expDate.day,
+                                        fontColor: theme.themeData.textTheme
+                                            .bodyMedium!.color!,
+                                      ),
+                                      ExpenseMonthText(
+                                        month: expDate.month,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                child: Column(
-                                  children: [
-                                    ExpenseDateText(
-                                      date: expDate.day,
-                                      fontColor: theme.themeData.textTheme
-                                          .bodyMedium!.color!,
-                                    ),
-                                    ExpenseMonthText(
-                                      month: expDate.month,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              ExpenseAmountText(
-                                fillColor:
-                                    theme.themeData.scaffoldBackgroundColor,
-                                borderColor: !hoveredStatusList[index]
-                                    ? primaryColor
-                                    : theme.themeData.cardColor,
-                                amount: expDate.totalExpense.toString(),
-                              )
-                            ],
-                          ),
-                        );
-                      },
+                                ExpenseAmountText(
+                                  fillColor:
+                                      theme.themeData.scaffoldBackgroundColor,
+                                  borderColor: !hoveredStatusList[index]
+                                      ? primaryColor
+                                      : theme.themeData.cardColor,
+                                  amount: expDate.totalExpense.toString(),
+                                )
+                              ],
+                            ),
+                          );
+                        },
+                      ),
                     )
                   : const NoExpenseContainerDesktop(
                       title: 'No expense added !',

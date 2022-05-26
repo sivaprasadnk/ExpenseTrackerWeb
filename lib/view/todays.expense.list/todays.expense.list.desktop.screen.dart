@@ -1,14 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/model/expense.model.dart';
-import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:expense_tracker/view/desktop.view.dart';
 import 'package:expense_tracker/view/expense.by.date.list/widgets/expense.details.card.desktop.dart';
 import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.container.desktop.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
 class TodaysExpenseListDesktopScreen extends StatelessWidget {
   const TodaysExpenseListDesktopScreen({Key? key}) : super(key: key);
@@ -22,11 +20,12 @@ class TodaysExpenseListDesktopScreen extends StatelessWidget {
 
     var day = date.split('-').first;
     var userId = FirebaseAuth.instance.currentUser!.uid;
-    final screenSize = MediaQuery.of(context).size;
-    final screenHeight = screenSize.height;
-    final theme = Provider.of<ThemeNotifier>(context, listen: false).themeData;
-    var primaryColor = theme.primaryColor;
+    // final screenSize = MediaQuery.of(context).size;
+    // final screenHeight = screenSize.height;
+    // final theme = Provider.of<ThemeNotifier>(context, listen: false).themeData;
+    // var primaryColor = theme.primaryColor;
     return DesktopView(
+      appBarTitle: day + " $month",
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection(kUsersCollection)

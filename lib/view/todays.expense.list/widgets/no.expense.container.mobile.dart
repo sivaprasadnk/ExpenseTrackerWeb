@@ -20,9 +20,7 @@ class NoExpenseContainerMobile extends StatelessWidget {
       child: Center(
         child: Column(
           children: [
-            const SizedBox(
-              height: 75,
-            ),
+            const Spacer(),
             Text(
               title ?? 'No Expenses added for today!',
               style: const TextStyle(
@@ -65,7 +63,8 @@ class NoExpenseContainerMobile extends StatelessWidget {
                   ),
                 ),
               ),
-            )
+            ),
+            const Spacer(),
           ],
         ),
       ),

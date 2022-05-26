@@ -2,12 +2,18 @@ import 'package:expense_tracker/cursor.widget.dart';
 import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:expense_tracker/view/home/desktop/home.screen.desktop.dart';
 import 'package:expense_tracker/view/home/drawer/drawer.screen.dart';
+import 'package:expense_tracker/view/title.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class DesktopView extends StatefulWidget {
-  const DesktopView({Key? key, required this.child}) : super(key: key);
+  const DesktopView({
+    Key? key,
+    required this.child,
+    required this.appBarTitle,
+  }) : super(key: key);
   final Widget child;
+  final String appBarTitle;
   @override
   State<DesktopView> createState() => _DesktopViewState();
 }
@@ -26,6 +32,7 @@ class _DesktopViewState extends State<DesktopView> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
+        // titleSpacing: 0,
         title: Padding(
           padding: const EdgeInsets.only(left: 5, top: 5),
           child: CursorWidget(
@@ -69,13 +76,30 @@ class _DesktopViewState extends State<DesktopView> {
       endDrawer: const Drawer(
         child: DrawerScreen(),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Center(
-          child: SizedBox(
-            width: 450,
-            child: widget.child,
-          ),
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                TitleWidget(title: widget.appBarTitle),
+              ],
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Center(
+                  child: SizedBox(
+                    width: 450,
+                    child: widget.child,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

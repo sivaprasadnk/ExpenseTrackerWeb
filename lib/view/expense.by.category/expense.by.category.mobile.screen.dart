@@ -24,6 +24,7 @@ class ExpenseByCategoryMobileScreen extends StatelessWidget {
     var userId = FirebaseAuth.instance.currentUser!.uid;
 
     return MobileView(
+      appBarTitle: 'Select Category',
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection(kUsersCollection)
@@ -37,6 +38,7 @@ class ExpenseByCategoryMobileScreen extends StatelessWidget {
                   ? Center(
                       child: SizedBox(
                         width: 450,
+                        height: screenHeight * 0.8,
                         child: GridView.builder(
                           itemCount:
                               (snapshot.data! as QuerySnapshot).docs.length,

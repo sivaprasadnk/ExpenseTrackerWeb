@@ -22,6 +22,7 @@ class ExpenseByCategoryListMobileScreen extends StatelessWidget {
     // var primaryColor = theme.themeData.primaryColor;
 
     return MobileView(
+      appBarTitle: categoryName,
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection(kUsersCollection)
@@ -34,31 +35,36 @@ class ExpenseByCategoryListMobileScreen extends StatelessWidget {
           return snapshot.connectionState != ConnectionState.done
               ? snapshot.hasData &&
                       (snapshot.data! as QuerySnapshot).docs.isNotEmpty
-                  ? ListView.separated(
-                      separatorBuilder: (ctx, _) => const SizedBox(
-                        height: 10,
+                  ? SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.8,
+                      child: ListView.separated(
+                        separatorBuilder: (ctx, _) => const SizedBox(
+                          height: 10,
+                        ),
+                        itemCount:
+                            (snapshot.data! as QuerySnapshot).docs.length,
+                        itemBuilder: (ctx, index) {
+                          var doc =
+                              (snapshot.data! as QuerySnapshot).docs[index];
+                          Expense expense = Expense(
+                            amount: doc['amount'],
+                            mode: doc['mode'],
+                            categoryIndex: doc['categoryId'],
+                            categoryName: doc['categoryName'],
+                            createdDate: doc['createdDate'],
+                            expenseDay: "",
+                            details: doc['details'],
+                            expenseDocId: doc['expenseDocId'],
+                            expenseTitle: doc['expenseTitle'],
+                            expenseDate: doc['expenseDate'],
+                            expenseMonth: doc['expenseMonth'],
+                          );
+                          return ExpenseDetailsCardMobile(
+                            expense: expense,
+                            // width: double.infinity,
+                          );
+                        },
                       ),
-                      itemCount: (snapshot.data! as QuerySnapshot).docs.length,
-                      itemBuilder: (ctx, index) {
-                        var doc = (snapshot.data! as QuerySnapshot).docs[index];
-                        Expense expense = Expense(
-                          amount: doc['amount'],
-                          mode: doc['mode'],
-                          categoryIndex: doc['categoryId'],
-                          categoryName: doc['categoryName'],
-                          createdDate: doc['createdDate'],
-                          expenseDay: "",
-                          details: doc['details'],
-                          expenseDocId: doc['expenseDocId'],
-                          expenseTitle: doc['expenseTitle'],
-                          expenseDate: doc['expenseDate'],
-                          expenseMonth: doc['expenseMonth'],
-                        );
-                        return ExpenseDetailsCardMobile(
-                          expense: expense,
-                          // width: double.infinity,
-                        );
-                      },
                     )
                   : const NoExpenseContainerMobile(
                       title: 'No expense added !',

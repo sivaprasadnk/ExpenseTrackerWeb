@@ -22,6 +22,7 @@ class ExpenseByCategoryListDesktopScreen extends StatelessWidget {
     // var primaryColor = theme.themeData.primaryColor;
 
     return DesktopView(
+      appBarTitle: categoryName,
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection(kUsersCollection)

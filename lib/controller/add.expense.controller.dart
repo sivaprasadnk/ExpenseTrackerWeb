@@ -22,7 +22,7 @@ class AddExpenseController {
       String date,
       Mode selectedMode,
       BuildContext context) async {
-    Loading().showLoading(context);
+    Loading.showLoading(context);
     List<String> title = expenseTitle.split(" ");
     var titleFirstWord = title.first;
     var capitalFirstWord = titleFirstWord[0].toUpperCase() +

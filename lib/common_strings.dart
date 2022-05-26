@@ -14,4 +14,7 @@ const String kFirstWeekCollection = 'firstWeek';
 const String kRecentExpensesCollection = 'recentExpenses';
 const String kRupeeSymbol = "₹";
 const String kExpenseTrackerText = "EXPENSE TRACKER";
+const String kCopyRightText = "© Sivaprasad NK, 2022";
+const String kPlayStoreLink =
+    'https://play.google.com/store/apps/details?id=com.sptpra.expense_tracker';
 // const String 

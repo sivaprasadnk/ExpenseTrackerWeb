@@ -1,19 +1,27 @@
+import 'package:expense_tracker/utils/custom.dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:neumorphic_loader/neumorphic_loader.dart';
 
 class Loading {
-  showLoading(BuildContext context) {
+  static showLoading(BuildContext context) {
     showDialog(
-      barrierColor: Colors.transparent,
+      barrierColor: Colors.black87,
       barrierDismissible: false,
       context: context,
       builder: (_) {
-        return Container(
-          child: NeumorphicLoader(
-            size: 70,
-            borderColor: Colors.black,
-          ),
-        );
+        return Builder(builder: (context) {
+          return const SizedBox(
+            width: 80,
+            child: CustomDialog(
+              // backgroundColor: Colors.transparent,
+              // insetPadding: EdgeInsets.zero,
+              child: NeumorphicLoader(
+                size: 70,
+                borderColor: Colors.black,
+              ),
+            ),
+          );
+        });
       },
     );
   }

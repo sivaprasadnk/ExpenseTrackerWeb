@@ -48,18 +48,16 @@ class _WindowsSmallAddExpenseScreenState
 
   @override
   Widget build(BuildContext context) {
-    // final ThemeNotifier theme =
-    //     Provider.of<ThemeNotifier>(context, listen: true);
-    // var primaryColor = theme.themeData.primaryColor;
     var date = formattedTime.isEmpty
         ? DateFormat('dd-MM-yyyy').format(now)
         : formattedTime;
     return DesktopView(
+      appBarTitle: 'Add Expense',
       child: Form(
         key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const SizedBox(height: 20),
             Row(
@@ -87,19 +85,10 @@ class _WindowsSmallAddExpenseScreenState
                   TextFieldContainer(
                     child: TextFormField(
                       onSaved: (val) {
-                        // try {
                         if (val != null && val.trim().isNotEmpty) {
                           debugPrint('.. @@ $val');
                           expenseAmount = int.parse(val.toString());
                         }
-                        // } catch (err) {
-                        //   showOkAlertDialog(
-                        //     context: context,
-                        //     title: 'Alert',
-                        //     style: AdaptiveStyle.material,
-                        //     message: 'Amount should be number',
-                        //   );
-                        // }
                       },
                       decoration: const InputDecoration(
                         border: InputBorder.none,
@@ -257,18 +246,13 @@ class _WindowsSmallAddExpenseScreenState
     try {
       _formKey.currentState!.save();
       if (expenseTitle.trim().isEmpty) {
-        debugPrint('.. @@ hereeeeeeee2');
         await showOkAlertDialog(
           context: context,
           title: 'Alert',
           message: 'Enter title',
         );
       } else {
-        debugPrint('.. @@ hereeeeeeee5');
-
         if (expenseAmount == 0) {
-          debugPrint('.. @@ hereeeeeeee5');
-
           await showOkAlertDialog(
             context: context,
             title: 'Alert',
@@ -277,16 +261,12 @@ class _WindowsSmallAddExpenseScreenState
           );
         } else {
           if (expenseDetails.isEmpty) {
-            debugPrint('.. @@ hereeeeeeee4');
-
             await showOkAlertDialog(
               context: context,
               title: 'Alert',
               message: 'Enter details',
             );
           } else {
-            debugPrint('.. @@ hereeeeeeee3');
-
             AddExpenseController().addExpense(
                 expenseTitle,
                 selectedIndex,

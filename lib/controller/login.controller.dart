@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 
 class UserController {
   static void login(BuildContext context, String email, String password) {
-    Loading().showLoading(context);
+    Loading.showLoading(context);
     AuthRepo().loginNew(email, password).then((response) async {
       if (response.status == ResponseStatus.error) {
         await showOkAlertDialog(
@@ -54,7 +54,7 @@ class UserController {
   }
 
   static void register(BuildContext context, String email, String password) {
-    Loading().showLoading(context);
+    Loading.showLoading(context);
     AuthRepo().createAccount(email, password).then((response) async {
       if (response.status == ResponseStatus.error) {
         await showOkAlertDialog(

@@ -20,6 +20,7 @@ class ExpenseByDateListMobileScreen extends StatelessWidget {
     var userId = FirebaseAuth.instance.currentUser!.uid;
 
     return MobileView(
+      appBarTitle: expenseDateItem.date,
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection(kUsersCollection)
@@ -37,6 +38,7 @@ class ExpenseByDateListMobileScreen extends StatelessWidget {
                       separatorBuilder: (ctx, _) => const SizedBox(
                         height: 10,
                       ),
+                      shrinkWrap: true,
                       itemCount: (snapshot.data! as QuerySnapshot).docs.length,
                       itemBuilder: (ctx, index) {
                         var doc = (snapshot.data! as QuerySnapshot).docs[index];

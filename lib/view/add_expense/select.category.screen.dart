@@ -22,6 +22,7 @@ class _SelectCategoryState extends State<SelectCategory> {
         Provider.of<ThemeNotifier>(context, listen: true);
     var primaryColor = theme.themeData.primaryColor;
     return DesktopView(
+      appBarTitle: 'Select Category',
       child: Column(
         children: [
           SizedBox(

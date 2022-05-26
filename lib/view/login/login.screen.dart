@@ -3,7 +3,6 @@ import 'package:blur/blur.dart';
 import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/controller/login.controller.dart';
 import 'package:expense_tracker/cursor.widget.dart';
-import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:expense_tracker/view/login/widgets/login.submit.button.dart';
 import 'package:expense_tracker/view/login/widgets/text.field.container.dart';
 import 'package:expense_tracker/view/login/widgets/text.field.title.dart';
@@ -11,7 +10,6 @@ import 'package:expense_tracker/view/register/register.screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -135,10 +133,20 @@ class _LoginScreenState extends State<LoginScreen>
     final screenSize = MediaQuery.of(context).size;
     const opacityDuration = Duration(milliseconds: 900);
     const slideDuration = Duration(milliseconds: 400);
-    final ThemeNotifier theme =
-        Provider.of<ThemeNotifier>(context, listen: true);
-    var primaryColor = theme.themeData.primaryColor;
+    // final ThemeNotifier theme =
+    //     Provider.of<ThemeNotifier>(context, listen: true);
+    // var primaryColor = theme.themeData.primaryColor;
     return Scaffold(
+      extendBody: true,
+      bottomNavigationBar: const Text(
+        kCopyRightText,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Color.fromRGBO(0, 24, 88, 1),
+        ),
+      ),
       body: Form(
         key: _formKey,
         child: Container(
@@ -159,7 +167,7 @@ class _LoginScreenState extends State<LoginScreen>
                 const Padding(
                   padding: EdgeInsets.all(10.0),
                   child: Text(
-                    kExpenseTrackerText,
+                    kExpenseTrackerText + 'v1',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 30,
