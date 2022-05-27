@@ -65,7 +65,7 @@ class TodaysExpenseListMobileScreen extends StatelessWidget {
                       },
                     )
                   : const NoExpenseContainerMobile(
-                      title: 'No Expenses Added !',
+                      title: 'No Expenses added today !',
                     )
               : const Center(
                   child: CircularProgressIndicator(),

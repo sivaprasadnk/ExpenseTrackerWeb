@@ -4,7 +4,6 @@ import 'package:expense_tracker/model/expense.date.model.dart';
 import 'package:expense_tracker/model/expense.model.dart';
 import 'package:expense_tracker/view/expense.by.date.list/widgets/expense.details.card.mobile.dart';
 import 'package:expense_tracker/view/mobile.view.dart';
-import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.container.mobile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:neumorphic_loader/neumorphic_loader.dart';
@@ -60,8 +59,11 @@ class ExpenseByDateListMobileScreen extends StatelessWidget {
                         );
                       },
                     )
-                  : const NoExpenseContainerMobile(
-                      title: 'No expense added !',
+                  : Center(
+                      child: NeumorphicLoader(
+                        size: 75,
+                        borderColor: Theme.of(context).primaryColor,
+                      ),
                     )
               : const Center(
                   child: NeumorphicLoader(size: 75),

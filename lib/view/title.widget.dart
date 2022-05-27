@@ -38,6 +38,7 @@ class TitleWidget extends StatelessWidget {
                 style: TextStyle(
                   color: theme.scaffoldBackgroundColor,
                   fontSize: 20,
+                  fontFamily: 'Rajdhani',
                 ),
               ),
               const Spacer(),

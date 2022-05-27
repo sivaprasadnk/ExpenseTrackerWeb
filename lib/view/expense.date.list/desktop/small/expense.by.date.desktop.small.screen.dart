@@ -128,7 +128,7 @@ class _ExpenseDateListDesktopSmallState
                       ),
                     )
                   : const NoExpenseContainerDesktop(
-                      title: 'No expense added !',
+                      title: 'Dates of expenses added will list here.',
                     )
               : const Center(
                   child: CircularProgressIndicator(),

@@ -9,6 +9,7 @@ import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.cont
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:neumorphic_loader/neumorphic_loader.dart';
 import 'package:provider/provider.dart';
 
 class ExpenseByCategoryMobileScreen extends StatelessWidget {
@@ -38,7 +39,6 @@ class ExpenseByCategoryMobileScreen extends StatelessWidget {
                   ? Center(
                       child: SizedBox(
                         width: 450,
-                        height: screenHeight * 0.8,
                         child: GridView.builder(
                           itemCount:
                               (snapshot.data! as QuerySnapshot).docs.length,
@@ -102,10 +102,13 @@ class ExpenseByCategoryMobileScreen extends StatelessWidget {
                       ),
                     )
                   : const NoExpenseContainerMobile(
-                      title: 'No expense added !',
+                      title: 'Categories of expenses added will list here !',
                     )
-              : const Center(
-                  child: CircularProgressIndicator(),
+              : Center(
+                  child: NeumorphicLoader(
+                    size: 75,
+                    borderColor: Theme.of(context).primaryColor,
+                  ),
                 );
         },
       ),

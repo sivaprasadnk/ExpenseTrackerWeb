@@ -83,8 +83,6 @@ class _RecentExpensesListContainerState
                 )
               : const NoExpenseContainerMobile(
                   title: 'No expense added !',
-                  // height: screenHeight * 0.2,
-                  // initSpace: 50,
                 );
         },
       ),

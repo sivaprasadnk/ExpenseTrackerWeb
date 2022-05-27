@@ -27,7 +27,7 @@ class NoExpenseContainerDesktop extends StatelessWidget {
               height: initSpace ?? screenHeight * 0.15,
             ),
             Text(
-              title ?? 'No Expenses added for today!',
+              title ?? 'No Expenses added today!',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,

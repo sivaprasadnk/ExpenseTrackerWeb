@@ -1,5 +1,6 @@
 import 'package:expense_tracker/view/home/drawer/widgets/back.arrow.dart';
 import 'package:expense_tracker/view/home/drawer/widgets/change.theme.dart';
+import 'package:expense_tracker/view/home/drawer/widgets/go.home.menu.dart';
 import 'package:expense_tracker/view/home/drawer/widgets/log.out.button.dart';
 import 'package:expense_tracker/view/home/drawer/widgets/settings.text.container.dart';
 import 'package:expense_tracker/view/home/drawer/widgets/version.text.dart';
@@ -24,7 +25,9 @@ class _DrawerScreenState extends State<DrawerScreen> {
         SizedBox(height: 10),
         SettingsTextContainer(),
         SizedBox(height: 10),
-        // DarkThemeCheckBox(),
+        GoHomeMenu(),
+        SizedBox(height: 20),
+
         ChangeThemeMenu(),
         // ThemeList(),
         SizedBox(height: 20),

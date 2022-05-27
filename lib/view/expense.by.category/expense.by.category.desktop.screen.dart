@@ -9,6 +9,7 @@ import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.cont
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:neumorphic_loader/neumorphic_loader.dart';
 import 'package:provider/provider.dart';
 
 class ExpenseByCategoryDesktopScreen extends StatelessWidget {
@@ -75,19 +76,12 @@ class ExpenseByCategoryDesktopScreen extends StatelessWidget {
                                 child: Center(
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    // padding: EdgeInsets.zero,
-                                    // itemExtent: 50,
                                     children: [
-                                      // Spacer(),
-                                      // const SizedBox(
-                                      //   height: 10,
-                                      // ),
                                       Center(
                                         child: CategoryIcon(
                                           icon: getIcon(categoryName),
                                         ),
                                       ),
-
                                       Center(
                                         child: CategoryNameText(
                                             name: categoryName),
@@ -102,10 +96,13 @@ class ExpenseByCategoryDesktopScreen extends StatelessWidget {
                       ),
                     )
                   : const NoExpenseContainerDesktop(
-                      title: 'No expense added !',
+                      title: 'Categories of expenses added will list here.',
                     )
-              : const Center(
-                  child: CircularProgressIndicator(),
+              : Center(
+                  child: NeumorphicLoader(
+                    size: 75,
+                    borderColor: Theme.of(context).primaryColor,
+                  ),
                 );
         },
       ),

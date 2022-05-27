@@ -10,6 +10,7 @@ import 'package:expense_tracker/view/mobile.view.dart';
 import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.container.mobile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:neumorphic_loader/neumorphic_loader.dart';
 import 'package:provider/provider.dart';
 
 class ExpenseByDateMobileScreen extends StatefulWidget {
@@ -27,8 +28,8 @@ class _ExpenseByDateMobileScreenState extends State<ExpenseByDateMobileScreen> {
   @override
   Widget build(BuildContext context) {
     var userId = FirebaseAuth.instance.currentUser!.uid;
-    final screenSize = MediaQuery.of(context).size;
-    final screenHeight = screenSize.height;
+    // final screenSize = MediaQuery.of(context).size;
+    // final screenHeight = screenSize.height;
     final ThemeNotifier theme =
         Provider.of<ThemeNotifier>(context, listen: true);
     var primaryColor = theme.themeData.primaryColor;
@@ -57,7 +58,6 @@ class _ExpenseByDateMobileScreenState extends State<ExpenseByDateMobileScreen> {
                               const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3,
                             mainAxisSpacing: 20,
-                            // childAspectRatio: 1.75,
                             crossAxisSpacing: 20,
                             mainAxisExtent: 90,
                           ),
@@ -96,9 +96,6 @@ class _ExpenseByDateMobileScreenState extends State<ExpenseByDateMobileScreen> {
                                     ),
                                     child: Center(
                                       child: Column(
-                                        // shrinkWrap: true,
-                                        // itemExtent: 50,
-                                        // padding: EdgeInsets.zero,
                                         children: [
                                           ExpenseDateText(
                                             date: expDate.day,
@@ -125,9 +122,13 @@ class _ExpenseByDateMobileScreenState extends State<ExpenseByDateMobileScreen> {
                         ),
                       ),
                     )
-                  : const NoExpenseContainerMobile(title: 'No expenses added !')
-              : const Center(
-                  child: CircularProgressIndicator(),
+                  : const NoExpenseContainerMobile(
+                      title: 'Dates of expenses added will list here.')
+              : Center(
+                  child: NeumorphicLoader(
+                    size: 75,
+                    borderColor: Theme.of(context).primaryColor,
+                  ),
                 );
         },
       ),
