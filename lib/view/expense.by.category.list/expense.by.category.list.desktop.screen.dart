@@ -55,9 +55,13 @@ class ExpenseByCategoryListDesktopScreen extends StatelessWidget {
                           expenseDate: doc['expenseDate'],
                           expenseMonth: doc['expenseMonth'],
                         );
-                        return ExpenseDetailsCardDesktop(
-                          expense: expense,
-                          width: 450,
+                        return Center(
+                          child: SizedBox(
+                            width: 450,
+                            child: ExpenseDetailsCardDesktop(
+                              expense: expense,
+                            ),
+                          ),
                         );
                       },
                     )

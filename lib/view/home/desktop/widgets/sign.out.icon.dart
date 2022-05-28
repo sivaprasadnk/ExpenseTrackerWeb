@@ -1,4 +1,4 @@
-import 'package:expense_tracker/view/windows.splash.screen.dart';
+import 'package:expense_tracker/view/splash.screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +12,7 @@ class SignOutIcon extends StatelessWidget {
         // FirebaseFirestore.instance.collection(kUsersCollection)
         FirebaseAuth.instance.signOut().then((value) {
           Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (ctx) => const WindowsSplashScreen()));
+              MaterialPageRoute(builder: (ctx) => const SplashScreen()));
         });
         // FirebaseAuth.instance.signOut();
       },

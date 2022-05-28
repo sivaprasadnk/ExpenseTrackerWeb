@@ -23,51 +23,49 @@ class ExpenseDetailsCardDesktop extends StatelessWidget {
     var primaryColor = theme.primaryColor;
     return Stack(
       children: [
-        Center(
-          child: Container(
-            alignment: Alignment.center,
-            margin: const EdgeInsets.only(top: 20),
-            height: 104,
-            width: width,
-            padding: const EdgeInsets.only(left: 10, top: 10),
-            decoration: BoxDecoration(
-              color: theme.scaffoldBackgroundColor,
-              border: Border.all(
-                color: primaryColor,
-                width: 2,
+        Container(
+          alignment: Alignment.center,
+          margin: const EdgeInsets.only(top: 20),
+          height: 104,
+          // width: width,
+          padding: const EdgeInsets.only(left: 10, top: 10),
+          decoration: BoxDecoration(
+            color: theme.scaffoldBackgroundColor,
+            border: Border.all(
+              color: primaryColor,
+              width: 2,
+            ),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  ExpenseDetailsText(
+                    details: expense.details,
+                  ),
+                  const SizedBox(
+                    height: 3,
+                  ),
+                  ExpenseCreatedDateText(
+                    createdDate: expense.createdDate,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ExpenseCategoryNameContainer(
+                      categoryName: expense.categoryName),
+                ],
               ),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    ExpenseDetailsText(
-                      details: expense.details,
-                    ),
-                    const SizedBox(
-                      height: 3,
-                    ),
-                    ExpenseCreatedDateText(
-                      createdDate: expense.createdDate,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    ExpenseCategoryNameContainer(
-                        categoryName: expense.categoryName),
-                  ],
-                ),
-                const Spacer(),
-              ],
-            ),
+              const Spacer(),
+            ],
           ),
         ),
         ExpenseAmountText(amount: expense.amount.toString()),

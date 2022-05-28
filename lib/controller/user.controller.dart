@@ -2,18 +2,20 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:expense_tracker/api/repo/auth_repo.dart';
 import 'package:expense_tracker/api/repo/user_repo.dart';
 import 'package:expense_tracker/api/response.status.dart';
+import 'package:expense_tracker/model/response.model.dart';
 import 'package:expense_tracker/provider/home.provider.dart';
 import 'package:expense_tracker/utils/loading.dialog.dart';
-import 'package:expense_tracker/view/home/desktop/home.screen.desktop.dart';
-import 'package:expense_tracker/view/home/mobile/home.screen.mobile.dart';
-import 'package:flutter/foundation.dart';
+import 'package:expense_tracker/utils/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class UserController {
+  static UserRepo userRepo = UserRepo();
+  static AuthRepo authRepo = AuthRepo();
+
   static void login(BuildContext context, String email, String password) {
     Loading.showLoading(context);
-    AuthRepo().loginNew(email, password).then((response) async {
+    authRepo.loginNew(email, password).then((response) async {
       if (response.status == ResponseStatus.error) {
         await showOkAlertDialog(
           context: context,
@@ -32,22 +34,7 @@ class UserController {
           Provider.of<HomeProvider>(context, listen: false)
               .updateRecentList(recentExpList);
 
-          if ((defaultTargetPlatform == TargetPlatform.android ||
-              defaultTargetPlatform == TargetPlatform.iOS)) {
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (ctx) => const HomeScreenMobile(),
-                ),
-                (r) => false);
-          } else {
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (ctx) => const HomeScreenDesktop(),
-                ),
-                (r) => false);
-          }
+          Navigation.checkPlatformAndNavigateToHome(context);
         });
       }
     });
@@ -55,7 +42,7 @@ class UserController {
 
   static void register(BuildContext context, String email, String password) {
     Loading.showLoading(context);
-    AuthRepo().createAccount(email, password).then((response) async {
+    authRepo.createAccount(email, password).then((response) async {
       if (response.status == ResponseStatus.error) {
         await showOkAlertDialog(
           context: context,
@@ -69,26 +56,24 @@ class UserController {
             .updateDailyTotalExpense(0);
         Provider.of<HomeProvider>(context, listen: false).updateRecentList([]);
 
-        if ((defaultTargetPlatform == TargetPlatform.android ||
-            defaultTargetPlatform == TargetPlatform.iOS)) {
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                builder: (ctx) => const HomeScreenMobile(),
-              ),
-              (r) => false);
-        } else {
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                builder: (ctx) => const HomeScreenDesktop(),
-              ),
-              (r) => false);
-        }
-        // UserRepo().getRecentExpense().then((recentExpList) {
-
-        // });
+        Navigation.checkPlatformAndNavigateToHome(context);
       }
+    });
+  }
+
+  static void getExpenseDetails(BuildContext context, String userId) async {
+    Loading.showLoading(context);
+
+    ResponseModel response = await userRepo.getExpenseDetails(userId);
+    String responseData = response.data;
+    String dailyExpString = responseData.split('.').first;
+    int dailyExp = int.parse(dailyExpString);
+    Provider.of<HomeProvider>(context, listen: false)
+        .updateDailyTotalExpense(dailyExp);
+    UserRepo().getRecentExpense().then((recentExpList) {
+      Provider.of<HomeProvider>(context, listen: false)
+          .updateRecentList(recentExpList);
+      Navigation.checkPlatformAndNavigateToHome(context, true);
     });
   }
 }

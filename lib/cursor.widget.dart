@@ -8,6 +8,9 @@ class CursorWidget extends StatefulWidget {
     this.hoverColor = Colors.transparent,
     this.bgColor = Colors.transparent,
     this.onTap,
+    this.buttonHeight,
+    this.buttonWidth,
+    this.borderColor,
   }) : super(key: key);
 
   final Widget child;
@@ -15,6 +18,9 @@ class CursorWidget extends StatefulWidget {
   final Color hoverColor;
   final Color bgColor;
   final Function? onTap;
+  final double? buttonHeight;
+  final double? buttonWidth;
+  final Color? borderColor;
   @override
   State<CursorWidget> createState() => _CursorWidgetState();
 }
@@ -44,10 +50,13 @@ class _CursorWidgetState extends State<CursorWidget> {
       },
       child: widget.isButton
           ? Container(
-              height: 40,
+              width: widget.buttonWidth ?? double.infinity,
+              height: widget.buttonHeight ?? 40,
               margin: const EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
                 color: widget.bgColor,
+                border:
+                    Border.all(color: widget.borderColor ?? Colors.transparent),
                 borderRadius: BorderRadius.circular(8),
                 boxShadow: isHovered
                     ? [

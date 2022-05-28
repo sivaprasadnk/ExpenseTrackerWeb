@@ -11,9 +11,11 @@ class DesktopView extends StatefulWidget {
     Key? key,
     required this.child,
     required this.appBarTitle,
+    this.topPadding = 0,
   }) : super(key: key);
   final Widget child;
   final String appBarTitle;
+  final double topPadding;
   @override
   State<DesktopView> createState() => _DesktopViewState();
 }
@@ -37,12 +39,8 @@ class _DesktopViewState extends State<DesktopView> {
           padding: const EdgeInsets.only(left: 5, top: 5),
           child: CursorWidget(
             onTap: () {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (ctx) => const HomeScreenDesktop(),
-                  ),
-                  (r) => false);
+              Navigator.pushNamedAndRemoveUntil(
+                  context, HomeScreenDesktop.routeName, (r) => false);
             },
             child: Text(
               'EXPENSE TRACKER',
@@ -88,12 +86,15 @@ class _DesktopViewState extends State<DesktopView> {
                 TitleWidget(title: widget.appBarTitle),
               ],
             ),
+            SizedBox(
+              height: widget.topPadding,
+            ),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Center(
                   child: SizedBox(
-                    width: 450,
+                    // width: 450,
                     child: widget.child,
                   ),
                 ),

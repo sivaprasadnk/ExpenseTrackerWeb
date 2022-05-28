@@ -5,9 +5,7 @@ import 'package:expense_tracker/model/expense.model.dart';
 import 'package:expense_tracker/model/response.model.dart';
 import 'package:expense_tracker/provider/home.provider.dart';
 import 'package:expense_tracker/utils/loading.dialog.dart';
-import 'package:expense_tracker/view/home/desktop/home.screen.desktop.dart';
-import 'package:expense_tracker/view/home/mobile/home.screen.mobile.dart';
-import 'package:flutter/foundation.dart';
+import 'package:expense_tracker/utils/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -66,22 +64,7 @@ class AddExpenseController {
           Future.delayed(const Duration(seconds: 2)).then((value) {
             showOkAlertDialog(context: context, title: 'Expense Added !')
                 .then((value) {
-              if ((defaultTargetPlatform == TargetPlatform.android ||
-                  defaultTargetPlatform == TargetPlatform.iOS)) {
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (ctx) => const HomeScreenMobile(),
-                    ),
-                    (r) => false);
-              } else {
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (ctx) => const HomeScreenDesktop(),
-                    ),
-                    (r) => false);
-              }
+              Navigation.checkPlatformAndNavigateToHome(context);
             });
           });
         }

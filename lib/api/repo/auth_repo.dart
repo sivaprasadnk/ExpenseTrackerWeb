@@ -131,7 +131,7 @@ class AuthRepo {
     if (value1.data() != null) {
       dailyTotal = value1.data()!['totalExpense'];
     }
-    debugPrint('.. @@ dailyTotal : $dailyTotal');
+    debugPrint('.. @@ dailyTotal from db : $dailyTotal');
     return ResponseModel(
         status: ResponseStatus.success,
         message: 'Success',

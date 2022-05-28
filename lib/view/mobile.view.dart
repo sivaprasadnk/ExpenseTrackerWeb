@@ -43,12 +43,8 @@ class _MobileViewState extends State<MobileView> {
           child: widget.isHome
               ? GestureDetector(
                   onTap: () {
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (ctx) => const HomeScreenMobile(),
-                        ),
-                        (r) => false);
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, HomeScreenMobile.routeName, (r) => false);
                   },
                   child: Padding(
                     padding: const EdgeInsets.only(left: 13),
@@ -96,7 +92,6 @@ class _MobileViewState extends State<MobileView> {
             const SizedBox(
               height: 10,
             ),
-            // if (!widget.isHome) TitleWidget(title: widget.appBarTitle),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),

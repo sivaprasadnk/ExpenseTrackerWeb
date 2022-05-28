@@ -56,19 +56,11 @@ class _RecentExpenseDetailsState extends State<RecentExpenseDetails> {
                 Future.delayed(const Duration(seconds: 1)).then((value) {
                   if ((defaultTargetPlatform == TargetPlatform.android ||
                       defaultTargetPlatform == TargetPlatform.iOS)) {
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (ctx) => const HomeScreenMobile(),
-                        ),
-                        (r) => false);
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, HomeScreenMobile.routeName, (r) => false);
                   } else {
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (ctx) => const HomeScreenDesktop(),
-                        ),
-                        (r) => false);
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, HomeScreenDesktop.routeName, (r) => false);
                   }
                 });
               });

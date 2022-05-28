@@ -3,16 +3,17 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 enum AppTheme {
-  cream,
-  grey,
-  cream1,
-  brown,
-  purple,
-  green,
+  creamLight,
+  creamDark,
+  greenLight,
+  greenDark,
+
+  brownLight,
+  brownDark,
 }
 final appThemeData = {
   /// first
-  AppTheme.cream: ThemeData(
+  AppTheme.creamLight: ThemeData(
     pageTransitionsTheme: PageTransitionsTheme(
       builders: kIsWeb
           ? {
@@ -48,7 +49,7 @@ final appThemeData = {
   ),
 
   /// second
-  AppTheme.brown: ThemeData(
+  AppTheme.brownDark: ThemeData(
     pageTransitionsTheme: PageTransitionsTheme(
       builders: kIsWeb
           ? {
@@ -77,8 +78,7 @@ final appThemeData = {
     scaffoldBackgroundColor: const Color.fromRGBO(85, 66, 61, 1),
   ),
 
-  /// third
-  AppTheme.purple: ThemeData(
+  AppTheme.creamDark: ThemeData(
     pageTransitionsTheme: PageTransitionsTheme(
       builders: kIsWeb
           ? {
@@ -96,7 +96,8 @@ final appThemeData = {
     brightness: Brightness.dark,
     cardColor: const Color.fromRGBO(238, 187, 195, 1),
     splashColor: const Color.fromARGB(255, 110, 115, 143),
-    primaryColor: const Color.fromRGBO(184, 193, 236, 1),
+    // primaryColor: const Color.fromRGBO(184, 193, 236, 1),
+    primaryColor: const Color.fromRGBO(255, 243, 236, 1),
     textTheme: const TextTheme(
       bodyMedium: TextStyle(
         color: Color.fromRGBO(184, 193, 236, 1),
@@ -108,7 +109,7 @@ final appThemeData = {
   ),
 
   ///  fourth
-  AppTheme.green: ThemeData(
+  AppTheme.greenDark: ThemeData(
     pageTransitionsTheme: PageTransitionsTheme(
       builders: kIsWeb
           ? {
@@ -137,7 +138,7 @@ final appThemeData = {
     scaffoldBackgroundColor: const Color.fromRGBO(0, 70, 67, 1),
   ),
 
-  AppTheme.grey: ThemeData(
+  AppTheme.brownLight: ThemeData(
     pageTransitionsTheme: PageTransitionsTheme(
       builders: kIsWeb
           ? {
@@ -166,7 +167,7 @@ final appThemeData = {
     scaffoldBackgroundColor: const Color.fromRGBO(247, 204, 172, 1),
   ),
 
-  AppTheme.cream1: ThemeData(
+  AppTheme.greenLight: ThemeData(
     pageTransitionsTheme: PageTransitionsTheme(
       builders: kIsWeb
           ? {

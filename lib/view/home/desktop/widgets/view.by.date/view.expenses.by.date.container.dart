@@ -55,7 +55,6 @@ class _ViewExpensesByDateContainerState
               'View Expenses',
               style: TextStyle(
                 fontSize: 15,
-                // fontFamily: 'Rajdhani',
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -63,7 +62,6 @@ class _ViewExpensesByDateContainerState
               ' by Date',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                // fontFamily: 'Rajdhani',
                 fontSize: 15,
                 color: Colors.red,
               ),

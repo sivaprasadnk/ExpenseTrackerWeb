@@ -18,38 +18,40 @@ class DrawerScreen extends StatefulWidget {
 class _DrawerScreenState extends State<DrawerScreen> {
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: const [
-        SizedBox(height: 20),
-        BackArrow(),
-        SizedBox(height: 10),
-        SettingsTextContainer(),
-        SizedBox(height: 10),
-        GoHomeMenu(),
-        SizedBox(height: 20),
+    return Drawer(
+      child: ListView(
+        children: const [
+          SizedBox(height: 20),
+          BackArrow(),
+          SizedBox(height: 10),
+          SettingsTextContainer(),
+          SizedBox(height: 10),
+          GoHomeMenu(),
+          SizedBox(height: 20),
 
-        ChangeThemeMenu(),
-        // ThemeList(),
-        SizedBox(height: 20),
+          ChangeThemeMenu(),
+          // ThemeList(),
+          SizedBox(height: 20),
 
-        // AppName(),
-        VisitWeb(),
-        SizedBox(height: 20),
-        VisitPlayStore(),
-        SizedBox(
-          height: 20,
-        ),
-        LogoutButton(),
-        Divider(
-          thickness: 2,
-          indent: 20,
-          endIndent: 20,
-          color: Colors.black,
-        ),
-        SizedBox(height: 20),
+          // AppName(),
+          VisitWeb(),
+          SizedBox(height: 20),
+          VisitPlayStore(),
+          SizedBox(
+            height: 20,
+          ),
+          LogoutButton(),
+          Divider(
+            thickness: 2,
+            indent: 20,
+            endIndent: 20,
+            color: Colors.black,
+          ),
+          SizedBox(height: 20),
 
-        VersionText(),
-      ],
+          VersionText(),
+        ],
+      ),
     );
   }
 }

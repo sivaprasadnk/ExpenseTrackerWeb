@@ -1,6 +1,6 @@
-import 'package:expense_tracker/view/home/desktop/widgets/recent.expense.list/recent.expenses.list.container.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/recent.expense.list/recent.expenses.text.dart';
 import 'package:expense_tracker/view/home/mobile/widgets/add.expense.button.mobile.dart';
+import 'package:expense_tracker/view/home/mobile/widgets/recent.expenses.list.container.mobile.dart';
 import 'package:expense_tracker/view/home/mobile/widgets/todays.total.expense.container.mobile.dart';
 import 'package:expense_tracker/view/home/mobile/widgets/view.expense.by.category.container.mobile.dart';
 import 'package:expense_tracker/view/home/mobile/widgets/view.expenses.by.date.container.mobile.dart';
@@ -11,15 +11,13 @@ class HomeScreenMobile extends StatefulWidget {
   const HomeScreenMobile({
     Key? key,
   }) : super(key: key);
-
+  static const routeName = 'Home';
   @override
   _HomeScreenMobileState createState() => _HomeScreenMobileState();
 }
 
 class _HomeScreenMobileState extends State<HomeScreenMobile>
     with TickerProviderStateMixin {
-  final GlobalKey<ScaffoldState> _key = GlobalKey();
-
   late AnimationController _controller;
   late Animation<double> _todaysTextContainerOpacity;
   late Animation<double> _expenseByDateOpacity;
@@ -213,7 +211,7 @@ class _HomeScreenMobileState extends State<HomeScreenMobile>
                         height: 10,
                       ),
                       const RecentExpensesText(),
-                      const RecentExpensesListContainer(),
+                      const RecentExpensesListContainerMobile(),
                     ],
                   ),
                 ),

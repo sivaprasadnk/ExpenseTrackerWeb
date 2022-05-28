@@ -1,5 +1,5 @@
 import 'package:expense_tracker/view/home/desktop/widgets/add.expense.button/add.expense.button.desktop.dart';
-import 'package:expense_tracker/view/home/desktop/widgets/recent.expense.list/recent.expenses.list.container.dart';
+import 'package:expense_tracker/view/home/desktop/widgets/recent.expense.list/recent.expenses.list.container.desktop.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/recent.expense.list/recent.expenses.text.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/todays.total.expense.container.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/view.by.category/view.expense.by.category.container.dart';
@@ -133,13 +133,11 @@ class _HomeScreenDesktopBodyState extends State<HomeScreenDesktopBody>
       builder: (_, child) {
         return Container(
           height: widget.constraints.maxHeight,
-          // width: 430,
           decoration: const BoxDecoration(),
           child: Padding(
             padding: const EdgeInsets.all(12.0),
             child: Center(
               child: SizedBox(
-                // color: Colors.amber,
                 width: 430,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -209,7 +207,7 @@ class _HomeScreenDesktopBodyState extends State<HomeScreenDesktopBody>
                       height: 10,
                     ),
                     const RecentExpensesText(),
-                    const RecentExpensesListContainer(),
+                    const RecentExpensesListContainerDesktop(),
                   ],
                 ),
               ),

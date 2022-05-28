@@ -32,31 +32,41 @@ class ExpenseByDateListScreen extends StatelessWidget {
           return snapshot.connectionState != ConnectionState.done
               ? snapshot.hasData &&
                       (snapshot.data! as QuerySnapshot).docs.isNotEmpty
-                  ? ListView.separated(
-                      separatorBuilder: (ctx, _) => const SizedBox(
-                        height: 10,
+                  ? SizedBox(
+                      // width: 430,
+                      child: ListView.separated(
+                        separatorBuilder: (ctx, _) => const SizedBox(
+                          height: 10,
+                        ),
+                        itemCount:
+                            (snapshot.data! as QuerySnapshot).docs.length,
+                        itemBuilder: (ctx, index) {
+                          var doc =
+                              (snapshot.data! as QuerySnapshot).docs[index];
+                          Expense expense = Expense(
+                            amount: doc['amount'],
+                            mode: doc['mode'],
+                            categoryIndex: doc['categoryId'],
+                            categoryName: doc['categoryName'],
+                            createdDate: doc['createdDate'],
+                            expenseDay: doc['expenseDay'],
+                            details: doc['details'],
+                            expenseDocId: doc['expenseDocId'],
+                            expenseTitle: doc['expenseTitle'],
+                            expenseDate: doc['expenseDate'],
+                            expenseMonth: doc['expenseMonth'],
+                          );
+                          return Center(
+                            child: SizedBox(
+                              width: 450,
+                              child: ExpenseDetailsCardDesktop(
+                                expense: expense,
+                                width: 450,
+                              ),
+                            ),
+                          );
+                        },
                       ),
-                      itemCount: (snapshot.data! as QuerySnapshot).docs.length,
-                      itemBuilder: (ctx, index) {
-                        var doc = (snapshot.data! as QuerySnapshot).docs[index];
-                        Expense expense = Expense(
-                          amount: doc['amount'],
-                          mode: doc['mode'],
-                          categoryIndex: doc['categoryId'],
-                          categoryName: doc['categoryName'],
-                          createdDate: doc['createdDate'],
-                          expenseDay: doc['expenseDay'],
-                          details: doc['details'],
-                          expenseDocId: doc['expenseDocId'],
-                          expenseTitle: doc['expenseTitle'],
-                          expenseDate: doc['expenseDate'],
-                          expenseMonth: doc['expenseMonth'],
-                        );
-                        return ExpenseDetailsCardDesktop(
-                          expense: expense,
-                          width: 450,
-                        );
-                      },
                     )
                   : Center(
                       child: NeumorphicLoader(

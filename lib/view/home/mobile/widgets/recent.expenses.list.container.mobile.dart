@@ -9,16 +9,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class RecentExpensesListContainer extends StatefulWidget {
-  const RecentExpensesListContainer({Key? key}) : super(key: key);
+class RecentExpensesListContainerMobile extends StatefulWidget {
+  const RecentExpensesListContainerMobile({Key? key}) : super(key: key);
 
   @override
-  _RecentExpensesListContainerState createState() =>
-      _RecentExpensesListContainerState();
+  _RecentExpensesListContainerMobileState createState() =>
+      _RecentExpensesListContainerMobileState();
 }
 
-class _RecentExpensesListContainerState
-    extends State<RecentExpensesListContainer> {
+class _RecentExpensesListContainerMobileState
+    extends State<RecentExpensesListContainerMobile> {
   Stream<QuerySnapshot<Map<String, dynamic>>>? stream;
 
   @override
@@ -46,7 +46,6 @@ class _RecentExpensesListContainerState
     final screenHeight = screenSize.height;
     return SizedBox(
       height: screenHeight * 0.4,
-      // width: 450,
       child: Consumer<HomeProvider>(
         builder: (_, provider, __) {
           return provider.recentExpensesList.isNotEmpty
@@ -82,7 +81,7 @@ class _RecentExpensesListContainerState
                   ),
                 )
               : const NoExpenseContainerMobile(
-                  title: 'No expense added !',
+                  title: 'Recently added expenses will list here.',
                 );
         },
       ),

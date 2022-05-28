@@ -222,7 +222,6 @@ class UserRepo {
       'lastUpdateTime': formattedTime,
       'categoryName': expense.categoryName,
       'categoryId': expense.categoryIndex,
-      // 'categoryDocId': "",
     });
     debugPrint('... @@ here@@@@@');
     await fireStoreInstance
@@ -246,54 +245,7 @@ class UserRepo {
       'categoryName': expense.categoryName,
       'updatedTime': formattedTime,
       'active': true,
-      // 'totalAmount': 0,
     });
-    // await fireStoreInstance
-    //     .collection(kUsersCollection)
-    //     .doc(userId)
-    //     .collection(kExpenseCategoriesCollection)
-    //     .doc(expense.categoryName)
-    //     .collection(kExpenseCollection)
-    //     .doc(categoryDoc.id)
-    //     .update({
-    //   'lastUpdateTime': formattedTime,
-    //   'categoryName': expense.categoryName,
-    //   'categoryDocId': categoryDoc.id,
-    // });
-    // await fireStoreInstance
-    //     .collection(kUsersCollection)
-    //     .doc(userId)
-    //     .collection(kExpenseCategoriesCollection)
-    //     .doc(expense.categoryName)
-    //     .update({
-    //   'lastUpdateTime': formattedTime,
-    //   'categoryName': expense.categoryName,
-    // });
-
-    // Future.delayed(const Duration(seconds: 1)).then((value) async {
-    //   await fireStoreInstance
-    //       .collection(kUsersCollection)
-    //       .doc(userId)
-    //       .collection(kExpenseCategoriesCollection)
-    //       .doc(ex)
-    //       .collection(kExpenseCollection)
-    //       .doc(expense.expenseDate)
-    //       .collection(kExpenseCollection)
-    //       .add({
-    //     'expenseTitle': expense.expenseTitle,
-    //     'amount': expense.amount,
-    //     'expenseMonth': expense.expenseMonth,
-    //     'expenseDate': expense.expenseDate,
-    //     'details': expense.details,
-    //     'createdDate': formattedTime,
-    //     'categoryId': expense.categoryIndex,
-    //     'categoryName': expense.categoryName,
-    //     'updatedTime': formattedTime,
-    //     'mode': expense.mode,
-    //     'active': true,
-    //     'expenseDocId': expenseDocId,
-    //   });
-    // });
 
     return ResponseModel(
         status: ResponseStatus.success, message: 'Success', data: '');
@@ -431,5 +383,28 @@ class UserRepo {
     }
     recentExpList.sort((a, b) => b.createdDate.compareTo(a.createdDate));
     return recentExpList;
+  }
+
+  Future<ResponseModel> getExpenseDetails(String userId) async {
+    // String userId = FirebaseAuth.instance.currentUser!.uid;
+    final DateTime now = DateTime.now();
+
+    var date = DateFormat('dd-MM-yyyy').format(now);
+    int dailyTotal = 0;
+    var value1 = await fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(userId)
+        .collection(kExpenseDatesNewCollection)
+        .doc(date)
+        .get();
+
+    if (value1.data() != null) {
+      dailyTotal = value1.data()!['totalExpense'];
+    }
+    debugPrint('.. @@ dailyTotal from db : $dailyTotal');
+    return ResponseModel(
+        status: ResponseStatus.success,
+        message: 'Success',
+        data: dailyTotal.toString() + "." + "0");
   }
 }

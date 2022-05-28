@@ -1,5 +1,7 @@
 import 'package:expense_tracker/view/home/drawer/widgets/drawer.menu.item.dart';
-import 'package:expense_tracker/view/home/drawer/widgets/theme.list.dart';
+import 'package:expense_tracker/view/select.theme/select.theme.desktop.screen.dart';
+import 'package:expense_tracker/view/select.theme/select.theme.mobile.screen.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class ChangeThemeMenu extends StatefulWidget {
@@ -15,42 +17,12 @@ class _ChangeThemeMenuState extends State<ChangeThemeMenu> {
     return DrawerMenuItem(
       onTap: () {
         Navigator.pop(context);
-        showDialog(
-          barrierDismissible: false,
-          context: context,
-          barrierColor: Colors.black87,
-          builder: (ctx) {
-            return Dialog(
-              insetPadding: const EdgeInsets.symmetric(horizontal: 10),
-              backgroundColor: const Color.fromARGB(14, 0, 0, 0),
-              elevation: 0,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const SizedBox(
-                    child: ThemeList(),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(ctx);
-                    },
-                    child: const CircleAvatar(
-                      backgroundColor: Colors.red,
-                      child: Icon(
-                        Icons.close,
-                        color: Colors.white,
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            );
-          },
-        );
+        if (defaultTargetPlatform == TargetPlatform.android ||
+            defaultTargetPlatform == TargetPlatform.iOS) {
+          Navigator.pushNamed(context, SelectThemeMobileScreen.routeName);
+        } else {
+          Navigator.pushNamed(context, SelectThemeDesktopScreen.routeName);
+        }
       },
       title: 'Change Theme',
       icon: Icons.format_paint_outlined,

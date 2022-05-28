@@ -1,7 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:blur/blur.dart';
 import 'package:expense_tracker/common_strings.dart';
-import 'package:expense_tracker/controller/login.controller.dart';
+import 'package:expense_tracker/controller/user.controller.dart';
 import 'package:expense_tracker/cursor.widget.dart';
 import 'package:expense_tracker/view/login/widgets/login.submit.button.dart';
 import 'package:expense_tracker/view/login/widgets/text.field.container.dart';
@@ -13,7 +12,7 @@ import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
-
+  static const routeName = 'Login';
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -33,10 +32,16 @@ class _LoginScreenState extends State<LoginScreen>
   String email = "";
   String password = "";
   FirebaseAuth auth = FirebaseAuth.instance;
-
+  // GoogleSignIn? _googleSignIn;
   @override
   void initState() {
     super.initState();
+    // _googleSignIn = GoogleSignIn(
+    //   scopes: [
+    //     'email',
+    //     'https://www.googleapis.com/auth/contacts.readonly',
+    //   ],
+    // );
     _controller = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
@@ -126,6 +131,7 @@ class _LoginScreenState extends State<LoginScreen>
     super.dispose();
   }
 
+  FocusNode textSecondFocusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -133,23 +139,21 @@ class _LoginScreenState extends State<LoginScreen>
     final screenSize = MediaQuery.of(context).size;
     const opacityDuration = Duration(milliseconds: 900);
     const slideDuration = Duration(milliseconds: 400);
-    // final ThemeNotifier theme =
-    //     Provider.of<ThemeNotifier>(context, listen: true);
-    // var primaryColor = theme.themeData.primaryColor;
-    return Scaffold(
-      extendBody: true,
-      bottomNavigationBar: const Text(
-        kCopyRightText,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-          color: Color.fromRGBO(0, 24, 88, 1),
+
+    return Form(
+      key: _formKey,
+      child: Scaffold(
+        extendBody: true,
+        bottomNavigationBar: const Text(
+          kCopyRightText,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Color.fromRGBO(0, 24, 88, 1),
+          ),
         ),
-      ),
-      body: Form(
-        key: _formKey,
-        child: Container(
+        body: Container(
           height: screenSize.height,
           decoration: const BoxDecoration(
             image: DecorationImage(
@@ -167,7 +171,7 @@ class _LoginScreenState extends State<LoginScreen>
                 const Padding(
                   padding: EdgeInsets.all(10.0),
                   child: Text(
-                    kExpenseTrackerText,
+                    kExpenseTrackerText + '',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 30,
@@ -182,6 +186,7 @@ class _LoginScreenState extends State<LoginScreen>
                     width: 100,
                     decoration: const BoxDecoration(
                       color: Colors.cyan,
+                      // border: Border.
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(12),
                         topRight: Radius.circular(12),
@@ -205,6 +210,9 @@ class _LoginScreenState extends State<LoginScreen>
                     return Container(
                       width: 300,
                       decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.black,
+                        ),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Column(
@@ -231,10 +239,18 @@ class _LoginScreenState extends State<LoginScreen>
                               offset: _emailFieldSlide.value,
                               child: TextFieldContainer(
                                 child: TextFormField(
+                                  textInputAction: TextInputAction.next,
+                                  onFieldSubmitted: (_) {
+                                    FocusScope.of(context)
+                                        .requestFocus(textSecondFocusNode);
+                                  },
+                                  onEditingComplete: () {
+                                    FocusScope.of(context)
+                                        .requestFocus(textSecondFocusNode);
+                                  },
+                                  autocorrect: false,
                                   style: const TextStyle(
                                     color: Colors.black,
-                                    // fontWeight: FontWeight.bold,
-                                    // fontFamily: 'Rajdhani',
                                   ),
                                   keyboardType: TextInputType.emailAddress,
                                   onSaved: (val) {
@@ -267,16 +283,16 @@ class _LoginScreenState extends State<LoginScreen>
                               offset: _passwordFieldSlide.value,
                               child: TextFieldContainer(
                                 child: TextFormField(
+                                  focusNode: textSecondFocusNode,
                                   obscureText: true,
                                   style: const TextStyle(
                                     color: Colors.black,
-                                    // fontFamily: 'Rajdhani',
-                                    fontWeight: FontWeight.bold,
                                   ),
                                   onSaved: (val) {
                                     password = val.toString();
                                   },
                                   decoration: const InputDecoration(
+                                    hintText: '',
                                     border: InputBorder.none,
                                     isDense: true,
                                   ),
@@ -325,13 +341,35 @@ class _LoginScreenState extends State<LoginScreen>
                           const SizedBox(height: 10),
                         ],
                       ),
-                    ).frosted(
-                      blur: 1,
-                      borderRadius: BorderRadius.circular(20),
-                      padding: const EdgeInsets.all(8),
                     );
                   },
-                )
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                // GestureDetector(
+                //   onTap: () async {
+                //     try {
+                //       GoogleSignInAccount? account =
+                //           await _googleSignIn!.signIn();
+                //       if (account != null) {
+                //         debugPrint(account.displayName);
+                //         debugPrint(account.email);
+                //         debugPrint(account.email);
+                //       }
+                //     } catch (error) {
+                //       debugPrint(error.toString());
+                //     }
+                //   },
+                //   child: Container(
+                //     height: 20,
+                //     width: 50,
+                //     decoration: BoxDecoration(
+                //       borderRadius: BorderRadius.circular(8),
+                //     ),
+                //     child: const Text('Google Sign-In'),
+                //   ),
+                // )
               ],
             ),
           ),
@@ -349,7 +387,7 @@ class _LoginScreenState extends State<LoginScreen>
         message: 'Enter email !',
       );
     } else {
-      if (password.isEmpty) {
+      if (password.trim().isEmpty) {
         await showOkAlertDialog(
           context: context,
           title: 'Alert',

@@ -1,6 +1,5 @@
 import 'package:expense_tracker/provider/cache_notifier.dart';
 import 'package:expense_tracker/themes.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,7 +9,7 @@ class ThemeNotifier extends ChangeNotifier {
     _initiateTheme();
   }
 
-  late ThemeData? _themeData = appThemeData[AppTheme.cream];
+  late ThemeData? _themeData = appThemeData[AppTheme.creamLight];
   ThemeData get themeData => _themeData!;
 
   final kThemePreference = 'kTheme';
