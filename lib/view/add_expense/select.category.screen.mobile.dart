@@ -1,17 +1,21 @@
 import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:expense_tracker/utils/category.list.dart';
-import 'package:expense_tracker/view/desktop.view.dart';
+import 'package:expense_tracker/view/mobile.view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SelectCategory extends StatefulWidget {
-  const SelectCategory({Key? key}) : super(key: key);
+class SelectCategoryScreenMobile extends StatefulWidget {
+  const SelectCategoryScreenMobile({Key? key}) : super(key: key);
+
+  static const routeName = 'SelectCategory';
 
   @override
-  State<SelectCategory> createState() => _SelectCategoryState();
+  State<SelectCategoryScreenMobile> createState() =>
+      _SelectCategoryScreenMobileState();
 }
 
-class _SelectCategoryState extends State<SelectCategory> {
+class _SelectCategoryScreenMobileState
+    extends State<SelectCategoryScreenMobile> {
   int selectedIndex = 100;
 
   @override
@@ -21,7 +25,7 @@ class _SelectCategoryState extends State<SelectCategory> {
     final ThemeNotifier theme =
         Provider.of<ThemeNotifier>(context, listen: true);
     var primaryColor = theme.themeData.primaryColor;
-    return DesktopView(
+    return MobileView(
       appBarTitle: 'Select Category',
       child: Column(
         children: [
@@ -38,9 +42,6 @@ class _SelectCategoryState extends State<SelectCategory> {
                 var category = CategoryList.list[index];
                 return GestureDetector(
                   onTap: () {
-                    // setState(() {
-                    //   selectedIndex = index;
-                    // });
                     Navigator.pop(context, index);
                   },
                   child: Container(
@@ -78,38 +79,6 @@ class _SelectCategoryState extends State<SelectCategory> {
                     ),
                   ),
                 );
-
-                // return Container();
-                // return Container(
-                //   height: 50,
-                //   decoration: BoxDecoration(
-                //       border: Border.all(
-                //         color: Colors.cyan,
-                //       ),
-                //       borderRadius: BorderRadius.circular(8)),
-                //   child: Column(
-                //     mainAxisAlignment: MainAxisAlignment.center,
-                //     mainAxisSize: MainAxisSize.min,
-                //     children: [
-                //       index == 0
-                //           ? const FaIcon(FontAwesomeIcons.bowlFood)
-                //           : index == 1
-                //               ? const FaIcon(FontAwesomeIcons.taxi)
-                //               : index == 2
-                //                   ? const FaIcon(FontAwesomeIcons.hospital)
-                //                   : const Icon(
-                //                       FontAwesomeIcons.bottleWater),
-                //       const SizedBox(
-                //         height: 10,
-                //       ),
-                //       const Text(
-                //         'Food',
-                //       )
-                //     ],
-                //   ),
-                // );
-
-                // return Container();
               },
             ),
           )

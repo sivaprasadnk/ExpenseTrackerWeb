@@ -6,12 +6,16 @@ import 'package:provider/provider.dart';
 
 class NoExpenseContainerDesktop extends StatelessWidget {
   const NoExpenseContainerDesktop(
-      {Key? key, this.height, this.title, this.initSpace})
+      {Key? key,
+      this.height,
+      this.title,
+      this.initSpace,
+      this.showAddButton = false})
       : super(key: key);
   final double? height;
   final String? title;
   final double? initSpace;
-
+  final bool? showAddButton;
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -39,40 +43,38 @@ class NoExpenseContainerDesktop extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                SizedBox(
-                  width: 135,
-                  child: CursorWidget(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (ctx) =>
-                                  const WindowsSmallAddExpenseScreen()));
-                    },
-                    isButton: true,
-                    bgColor: Theme.of(context).primaryColor,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text(
-                            'Add Expense',
-                            style: TextStyle(
-                              color: theme.scaffoldBackgroundColor,
-                              fontWeight: FontWeight.bold,
+                if (showAddButton!)
+                  SizedBox(
+                    width: 135,
+                    child: CursorWidget(
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, AddExpenseScreenDesktop.routeName);
+                      },
+                      isButton: true,
+                      bgColor: Theme.of(context).primaryColor,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              'Add Expense',
+                              style: TextStyle(
+                                color: theme.scaffoldBackgroundColor,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          Icon(
-                            Icons.add,
-                            size: 20,
-                            color: theme.scaffoldBackgroundColor,
-                          )
-                        ],
+                            Icon(
+                              Icons.add,
+                              size: 20,
+                              color: theme.scaffoldBackgroundColor,
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                )
+                  )
               ],
             ),
           ),

@@ -30,6 +30,7 @@ class ExpenseByCategoryListDesktopScreen extends StatelessWidget {
             .collection(kExpenseCategoriesCollection)
             .doc(categoryName)
             .collection(kExpenseCollection)
+            .orderBy('createdDate', descending: true)
             .snapshots(),
         builder: (_, snapshot) {
           return snapshot.connectionState != ConnectionState.done

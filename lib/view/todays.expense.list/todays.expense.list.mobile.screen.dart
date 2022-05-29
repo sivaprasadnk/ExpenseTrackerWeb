@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 
 class TodaysExpenseListMobileScreen extends StatelessWidget {
   const TodaysExpenseListMobileScreen({Key? key}) : super(key: key);
+  static const routeName = '/TodaysExpenseList';
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +21,7 @@ class TodaysExpenseListMobileScreen extends StatelessWidget {
     var month = DateFormat('MMM, yyyy').format(now);
     var day = date.split('-').first;
     var userId = FirebaseAuth.instance.currentUser!.uid;
-    // var primaryColor = Provider.of<ThemeNotifier>(context, listen: false)
-    //     .themeData
-    //     .primaryColor;
+
     return MobileView(
       appBarTitle: '$day $month',
       child: StreamBuilder(
@@ -32,7 +31,7 @@ class TodaysExpenseListMobileScreen extends StatelessWidget {
             .collection(kExpenseDatesNewCollection)
             .doc(date)
             .collection(kExpenseCollection)
-            .orderBy('createdDate')
+            .orderBy('createdDate', descending: true)
             .snapshots(),
         builder: (_, snapshot) {
           return snapshot.connectionState != ConnectionState.done
@@ -66,6 +65,7 @@ class TodaysExpenseListMobileScreen extends StatelessWidget {
                     )
                   : const NoExpenseContainerMobile(
                       title: 'No Expenses added today !',
+                      showAddButton: true,
                     )
               : const Center(
                   child: CircularProgressIndicator(),

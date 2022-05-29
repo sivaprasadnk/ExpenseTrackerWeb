@@ -1,7 +1,7 @@
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/controller/user.controller.dart';
 import 'package:expense_tracker/cursor.widget.dart';
+import 'package:expense_tracker/utils/dialog.dart';
 import 'package:expense_tracker/view/login/widgets/login.submit.button.dart';
 import 'package:expense_tracker/view/login/widgets/text.field.container.dart';
 import 'package:expense_tracker/view/login/widgets/text.field.title.dart';
@@ -378,21 +378,13 @@ class _LoginScreenState extends State<LoginScreen>
     );
   }
 
-  Future<void> validateAndProceed() async {
+  void validateAndProceed() {
     _formKey.currentState!.save();
     if (email.trim().isEmpty) {
-      await showOkAlertDialog(
-        context: context,
-        title: 'Alert',
-        message: 'Enter email !',
-      );
+      Dialogs.showAlertDialog(context: context, title: 'Enter email !');
     } else {
       if (password.trim().isEmpty) {
-        await showOkAlertDialog(
-          context: context,
-          title: 'Alert',
-          message: 'Enter Password !',
-        );
+        Dialogs.showAlertDialog(context: context, title: 'Enter password !');
       } else {
         UserController.login(context, email.trim(), password.trim());
       }

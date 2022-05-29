@@ -94,7 +94,6 @@ class _DesktopViewState extends State<DesktopView> {
                 padding: const EdgeInsets.all(12.0),
                 child: Center(
                   child: SizedBox(
-                    // width: 450,
                     child: widget.child,
                   ),
                 ),

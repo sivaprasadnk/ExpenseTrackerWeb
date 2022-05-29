@@ -28,10 +28,7 @@ class _AddExpenseButtonDesktopState extends State<AddExpenseButtonDesktop> {
         });
       },
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (ctx) => const WindowsSmallAddExpenseScreen()));
+        Navigator.pushNamed(context, AddExpenseScreenDesktop.routeName);
       },
       child: Container(
         height: 150,

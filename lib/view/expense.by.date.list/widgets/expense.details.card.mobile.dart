@@ -25,7 +25,7 @@ class ExpenseDetailsCardMobile extends StatelessWidget {
       children: [
         Container(
           margin: const EdgeInsets.only(top: 20),
-          height: 114,
+          height: 106,
           width: width,
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(

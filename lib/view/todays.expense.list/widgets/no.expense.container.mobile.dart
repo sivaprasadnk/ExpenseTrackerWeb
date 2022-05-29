@@ -5,10 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class NoExpenseContainerMobile extends StatelessWidget {
-  const NoExpenseContainerMobile({Key? key, required this.title})
-      : super(key: key);
-  final String? title;
+  const NoExpenseContainerMobile({
+    Key? key,
+    required this.title,
+    this.showAddButton = false,
+  }) : super(key: key);
 
+  final String? title;
+  final bool showAddButton;
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -33,39 +37,38 @@ class NoExpenseContainerMobile extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                SizedBox(
-                  width: 135,
-                  child: CursorWidget(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (ctx) => const AddExpenseMobile()));
-                    },
-                    isButton: true,
-                    bgColor: theme.primaryColor,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text(
-                            'Add Expense',
-                            style: TextStyle(
-                              color: theme.scaffoldBackgroundColor,
-                              fontWeight: FontWeight.bold,
+                if (showAddButton)
+                  SizedBox(
+                    width: 135,
+                    child: CursorWidget(
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, AddExpenseMobile.routeName);
+                      },
+                      isButton: true,
+                      bgColor: theme.primaryColor,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              'Add Expense',
+                              style: TextStyle(
+                                color: theme.scaffoldBackgroundColor,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          Icon(
-                            Icons.add,
-                            size: 20,
-                            color: theme.scaffoldBackgroundColor,
-                          )
-                        ],
+                            Icon(
+                              Icons.add,
+                              size: 20,
+                              color: theme.scaffoldBackgroundColor,
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
                 const Spacer(),
               ],
             ),

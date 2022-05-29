@@ -25,6 +25,7 @@ class UserController {
           Navigator.pop(context);
         });
       } else {
+        // Provider.of<AuthProvider>(context, listen: false).setUserStatus(true);
         String responseData = response.data;
         String dailyExpString = responseData.split('.').first;
         int dailyExp = int.parse(dailyExpString);

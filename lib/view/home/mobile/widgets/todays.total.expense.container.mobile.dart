@@ -17,10 +17,8 @@ class TodaysTotalExpenseContainerMobile extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => const TodaysExpenseListMobileScreen()));
+            Navigator.pushNamed(
+                context, TodaysExpenseListMobileScreen.routeName);
           },
           child: Container(
             height: 150,

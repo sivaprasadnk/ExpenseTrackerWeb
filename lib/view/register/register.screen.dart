@@ -1,7 +1,7 @@
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/controller/user.controller.dart';
 import 'package:expense_tracker/cursor.widget.dart';
+import 'package:expense_tracker/utils/dialog.dart';
 import 'package:expense_tracker/view/login/login.screen.dart';
 import 'package:expense_tracker/view/login/widgets/login.submit.button.dart';
 import 'package:expense_tracker/view/login/widgets/text.field.container.dart';
@@ -341,51 +341,12 @@ class _RegisterScreenState extends State<RegisterScreen>
   Future<void> validateAndProceed() async {
     _formKey.currentState!.save();
     if (email.trim().isEmpty) {
-      await showOkAlertDialog(
-        context: context,
-        title: 'Alert',
-        message: 'Enter email',
-      );
+      Dialogs.showAlertDialog(context: context, title: 'Enter email !');
     } else {
       if (password.trim().isEmpty) {
-        await showOkAlertDialog(
-          context: context,
-          title: 'Alert',
-          message: 'Enter Password',
-        );
+        Dialogs.showAlertDialog(context: context, title: 'Enter password !');
       } else {
         UserController.register(context, email.trim(), password.trim());
-        // Loading().showLoading(context);
-        // AuthRepo().loginNew(email, password).then((response) async {
-        //   if (response.status == ResponseStatus.error) {
-        //     await showOkAlertDialog(
-        //       context: context,
-        //       title: 'Alert',
-        //       message: response.message,
-        //     ).then((value) {
-        //       Navigator.pop(context);
-        //     });
-        //   } else {
-        //     String responseData = response.data;
-        //     String dailyExpString = responseData.split('.').first;
-        //     int dailyExp = int.parse(dailyExpString);
-        //     if (mounted) {
-        //       Provider.of<HomeProvider>(context, listen: false)
-        //           .updateDailyTotalExpense(dailyExp);
-        //       UserRepo().getRecentExpense().then((recentExpList) {
-        //         Provider.of<HomeProvider>(context, listen: false)
-        //             .updateRecentList(recentExpList);
-
-        //         Navigator.pushAndRemoveUntil(
-        //             context,
-        //             MaterialPageRoute(
-        //               builder: (ctx) => const WindowsSmallHome(),
-        //             ),
-        //             (r) => false);
-        //       });
-        //     }
-        //   }
-        // });
       }
     }
   }

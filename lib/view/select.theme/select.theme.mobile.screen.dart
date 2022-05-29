@@ -9,13 +9,18 @@ class SelectThemeMobileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MobileView(
-      child: ListView(
-        children: const [
-          ThemeGrid(),
-          SizedBox(
-            height: 50,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const DarkThemeCheckBox(),
+          const SizedBox(
+            height: 20,
           ),
-          ApplyButton(),
+          const ThemeGrid(),
+          Expanded(
+            child: Container(),
+          ),
+          const ApplyButton(),
         ],
       ),
       appBarTitle: 'Select Theme',

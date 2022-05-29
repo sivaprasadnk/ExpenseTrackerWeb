@@ -8,12 +8,13 @@ class DrawerMenuItem extends StatefulWidget {
     required this.onTap,
     required this.icon,
     required this.title,
+    this.removeContext = false,
   }) : super(key: key);
 
   final VoidCallback onTap;
   final IconData icon;
   final String title;
-
+  final bool removeContext;
   @override
   State<DrawerMenuItem> createState() => _DrawerMenuItemState();
 }
@@ -29,7 +30,12 @@ class _DrawerMenuItemState extends State<DrawerMenuItem> {
       hoverColor: Colors.transparent,
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
-      onTap: widget.onTap,
+      onTap: () {
+        // if (widget.removeContext) {
+        //   Navigator.pop(context);
+        // }
+        widget.onTap.call();
+      },
       onHover: (val) {
         setState(() {
           isHovered = val;

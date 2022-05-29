@@ -22,14 +22,11 @@ class ExpenseByDateMobileScreen extends StatefulWidget {
 }
 
 class _ExpenseByDateMobileScreenState extends State<ExpenseByDateMobileScreen> {
-  // late AnimationController _controller;
   bool show = false;
 
   @override
   Widget build(BuildContext context) {
     var userId = FirebaseAuth.instance.currentUser!.uid;
-    // final screenSize = MediaQuery.of(context).size;
-    // final screenHeight = screenSize.height;
     final ThemeNotifier theme =
         Provider.of<ThemeNotifier>(context, listen: true);
     var primaryColor = theme.themeData.primaryColor;

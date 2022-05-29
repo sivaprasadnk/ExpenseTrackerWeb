@@ -1,5 +1,4 @@
 import 'package:expense_tracker/firebase_options.dart';
-import 'package:expense_tracker/provider/auth.provider.dart';
 import 'package:expense_tracker/provider/cache_notifier.dart';
 import 'package:expense_tracker/provider/dark.theme.provider.dart';
 import 'package:expense_tracker/provider/home.provider.dart';
@@ -19,16 +18,36 @@ void main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  // @override
+  // void initState() {
+  //   Future.delayed(const Duration(milliseconds: 500)).then((value) {
+  //     FirebaseAuth.instance.authStateChanges().listen((User? user) {
+  //       if (user != null) {
+  //         Navigation.checkPlatformAndNavigateToHome(context);
+  //       } else {
+  //         Navigator.pushNamed(context, LoginScreen.routeName);
+  //       }
+  //     });
+  //   });
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
     precacheImage(const AssetImage("assets/images/mesh1.jpg"), context);
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<HomeProvider>(create: (_) => HomeProvider()),
-        ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
+        // ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
         ChangeNotifierProvider<ThemeNotifier>(create: (_) => ThemeNotifier()),
         ChangeNotifierProvider<DarkThemeProvider>(
             create: (_) => DarkThemeProvider()),
@@ -41,7 +60,20 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             routes: routes,
             theme: provider.themeData,
+            // home: Consumer<AuthProvider>(
+            //   builder: (_, auth, __) {
+            //     return auth.isLoggedIn
+            //         ? const SplashScreen()
+            //         : const SplashScreen();
+            //   },
+            // )
             home: const SplashScreen(),
+            // home: StreamBuilder(
+            //   stream: FirebaseAuth.instance.authStateChanges(),
+            //   builder: (_, __) {
+            //     return const SplashScreen();
+            //   },
+            // ),
           );
         },
       ),

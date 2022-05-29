@@ -4,8 +4,11 @@ import 'package:expense_tracker/api/response.status.dart';
 import 'package:expense_tracker/model/expense.model.dart';
 import 'package:expense_tracker/model/response.model.dart';
 import 'package:expense_tracker/provider/home.provider.dart';
+import 'package:expense_tracker/utils/dialog.dart';
+import 'package:expense_tracker/utils/enums.dart';
 import 'package:expense_tracker/utils/loading.dialog.dart';
 import 'package:expense_tracker/utils/navigation.dart';
+import 'package:expense_tracker/utils/string.extension.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,10 +24,10 @@ class AddExpenseController {
       Mode selectedMode,
       BuildContext context) async {
     Loading.showLoading(context);
-    List<String> title = expenseTitle.split(" ");
-    var titleFirstWord = title.first;
-    var capitalFirstWord = titleFirstWord[0].toUpperCase() +
-        titleFirstWord.substring(1).toLowerCase();
+    // List<String> title = expenseTitle.split(" ");
+    // var titleFirstWord = title.first;
+    // var capitalFirstWord = titleFirstWord[0].toUpperCase() +
+    //     titleFirstWord.substring(1).toLowerCase();
     int dailyTotal =
         Provider.of<HomeProvider>(context, listen: false).dailyTotalExpense;
     int monthlyTotal =
@@ -40,18 +43,14 @@ class AddExpenseController {
         expenseMonth: month,
         expenseDate: date,
         expenseDay: date.split('-').first,
-        mode: selectedMode.toString().split('.').last);
+        mode: selectedMode.toString().split('.').last.initCap());
     ResponseModel response = await UserRepo().addExpenseNew(
       exp,
       dailyTotal,
       monthlyTotal,
     );
     if (response.status == ResponseStatus.error) {
-      await showOkAlertDialog(
-        context: context,
-        title: 'Alert',
-        message: response.message,
-      );
+      Dialogs.showAlertDialog(context: context, title: response.message);
     } else {
       Provider.of<HomeProvider>(context, listen: false)
           .addToDailyExpense(expenseAmount);

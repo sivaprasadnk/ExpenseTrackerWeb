@@ -9,7 +9,7 @@ class ThemeNotifier extends ChangeNotifier {
     _initiateTheme();
   }
 
-  late ThemeData? _themeData = appThemeData[AppTheme.creamLight];
+  late ThemeData? _themeData = appThemeData[AppTheme.cream];
   ThemeData get themeData => _themeData!;
 
   final kThemePreference = 'kTheme';
@@ -33,6 +33,28 @@ class ThemeNotifier extends ChangeNotifier {
         Provider.of<CacheNotifier>(ctx, listen: false);
     await cacheNotifier.writeCache(
         key: kThemePreference, value: _themeData.toString(), appTheme: theme);
+    notifyListeners();
+  }
+
+  void toggleBrightness() {
+    _themeData = ThemeData(
+        scaffoldBackgroundColor: themeData.primaryColor,
+        primaryColor: themeData.scaffoldBackgroundColor,
+        drawerTheme: DrawerThemeData(backgroundColor: themeData.primaryColor),
+        brightness: themeData.brightness == Brightness.light
+            ? Brightness.dark
+            : Brightness.light,
+        appBarTheme: themeData.appBarTheme,
+        pageTransitionsTheme: themeData.pageTransitionsTheme,
+        splashColor: Colors.white,
+        cardColor: themeData.cardColor,
+        textTheme: TextTheme(
+          bodyMedium: TextStyle(
+            fontFamily: 'Rajdhani',
+            color: themeData.scaffoldBackgroundColor,
+          ),
+        ),
+        secondaryHeaderColor: themeData.secondaryHeaderColor);
     notifyListeners();
   }
 }

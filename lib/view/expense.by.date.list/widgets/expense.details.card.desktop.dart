@@ -27,7 +27,6 @@ class ExpenseDetailsCardDesktop extends StatelessWidget {
           alignment: Alignment.center,
           margin: const EdgeInsets.only(top: 20),
           height: 104,
-          // width: width,
           padding: const EdgeInsets.only(left: 10, top: 10),
           decoration: BoxDecoration(
             color: theme.scaffoldBackgroundColor,

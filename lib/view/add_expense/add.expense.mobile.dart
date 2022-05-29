@@ -1,9 +1,9 @@
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:expense_tracker/controller/add.expense.controller.dart';
-import 'package:expense_tracker/model/expense.model.dart';
 import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:expense_tracker/utils/category.list.dart';
-import 'package:expense_tracker/view/add_expense/select.category.screen.dart';
+import 'package:expense_tracker/utils/dialog.dart';
+import 'package:expense_tracker/utils/enums.dart';
+import 'package:expense_tracker/view/add_expense/select.category.screen.mobile.dart';
 import 'package:expense_tracker/view/add_expense/widgets/submit.button.dart';
 import 'package:expense_tracker/view/add_expense/widgets/textfield.title.dart';
 import 'package:expense_tracker/view/mobile.view.dart';
@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 
 class AddExpenseMobile extends StatefulWidget {
   const AddExpenseMobile({Key? key}) : super(key: key);
-
+  static const routeName = '/AddExpense';
   @override
   _AddExpenseMobileState createState() => _AddExpenseMobileState();
 }
@@ -26,24 +26,24 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
   final DateTime now = DateTime.now();
   DateTime selectedDate = DateTime.now();
   String formattedTime = "";
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-        formattedTime = DateFormat('dd-MM-yyyy').format(selectedDate);
-      });
-    }
-  }
+  // Future<void> _selectDate(BuildContext context) async {
+  //   final DateTime? picked = await showDatePicker(
+  //       context: context,
+  //       initialDate: selectedDate,
+  //       firstDate: DateTime(2015, 8),
+  //       lastDate: DateTime(2101));
+  //   if (picked != null && picked != selectedDate) {
+  //     setState(() {
+  //       selectedDate = picked;
+  //       formattedTime = DateFormat('dd-MM-yyyy').format(selectedDate);
+  //     });
+  //   }
+  // }
 
   final _formKey = GlobalKey<FormState>();
 
   int selectedIndex = 0;
-  Mode _selectedMode = Mode.Cash;
+  Mode _selectedMode = Mode.cash;
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +133,7 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                     Row(
                       children: [
                         Radio<Mode>(
-                          value: Mode.Cash,
+                          value: Mode.cash,
                           groupValue: _selectedMode,
                           onChanged: (value) {
                             setState(() {
@@ -146,7 +146,7 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                           width: 30,
                         ),
                         Radio<Mode>(
-                          value: Mode.Online,
+                          value: Mode.online,
                           groupValue: _selectedMode,
                           onChanged: (value) {
                             setState(() {
@@ -233,7 +233,8 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                       Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (_) => const SelectCategory()))
+                                  builder: (_) =>
+                                      const SelectCategoryScreenMobile()))
                           .then((index) {
                         if (index != null) {
                           setState(() {
@@ -311,25 +312,13 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
     try {
       _formKey.currentState!.save();
       if (expenseTitle.isEmpty) {
-        await showOkAlertDialog(
-          context: context,
-          title: 'Alert',
-          message: 'Enter title',
-        );
+        Dialogs.showAlertDialog(context: context, title: 'Enter title !');
       } else {
         if (expenseAmount == 0) {
-          await showOkAlertDialog(
-            context: context,
-            title: 'Alert',
-            message: 'Enter Amount',
-          );
+          Dialogs.showAlertDialog(context: context, title: 'Enter amount !');
         } else {
           if (expenseDetails.isEmpty) {
-            await showOkAlertDialog(
-              context: context,
-              title: 'Alert',
-              message: 'Enter details',
-            );
+            Dialogs.showAlertDialog(context: context, title: 'Enter details !');
           } else {
             AddExpenseController().addExpense(
                 expenseTitle,
@@ -345,11 +334,8 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
         }
       }
     } catch (err) {
-      await showOkAlertDialog(
-        context: context,
-        title: 'Alert',
-        message: 'Something went wrong !',
-      );
+      Dialogs.showAlertDialog(
+          context: context, title: 'Something went wrong !');
     }
   }
 }

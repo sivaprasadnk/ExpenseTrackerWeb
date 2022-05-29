@@ -27,6 +27,9 @@ class _DrawerScreenState extends State<DrawerScreen> {
           SettingsTextContainer(),
           SizedBox(height: 10),
           GoHomeMenu(),
+          // SizedBox(height: 20),
+
+          // DarkThemeCheckBox(),
           SizedBox(height: 20),
 
           ChangeThemeMenu(),

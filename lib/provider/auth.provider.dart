@@ -1,13 +1,20 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:flutter/material.dart';
 
-class AuthProvider extends ChangeNotifier {
+// class AuthProvider extends ChangeNotifier {
+//   final FirebaseAuth _auth = FirebaseAuth.instance;
+//   bool loggedIn = false;
+//   bool get isLoggedIn => loggedIn;
 
-    final FirebaseAuth _auth = FirebaseAuth.instance;
+//   void setUserStatus(bool status) {
+//     loggedIn = status;
+//     notifyListeners();
+//   }
 
-    // create a getter stream
-    Stream<User?> get onAuthStateChanged => _auth.userChanges();
+//   // create a getter stream
+//   Stream<User?> get onAuthStateChanged => _auth.userChanges();
 
-    //Sign in async functions here ..
+//   bool get userLoggedIn => _auth.currentUser != null;
+//   //Sign in async functions here ..
 
-}
+// }

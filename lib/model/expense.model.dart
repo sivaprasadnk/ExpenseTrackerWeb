@@ -1,4 +1,4 @@
-enum Mode { Cash, Online }
+// enum Mode { Cash, Online, All }
 
 class Expense {
   String expenseTitle;

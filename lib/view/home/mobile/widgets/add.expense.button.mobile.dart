@@ -1,6 +1,5 @@
 import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:expense_tracker/view/add_expense/add.expense.mobile.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,8 +17,7 @@ class AddExpenseButtonMobile extends StatelessWidget {
     final screenWidth = screenSize.width;
     return GestureDetector(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (ctx) => const AddExpenseMobile()));
+        Navigator.pushNamed(context, AddExpenseMobile.routeName);
       },
       child: Container(
         height: 150,

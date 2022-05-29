@@ -13,16 +13,61 @@ class SelectThemeDesktopScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return DesktopView(
       topPadding: 50,
-      child: ListView(
-        children: const [
-          ThemeGrid(),
-          SizedBox(
-            height: 50,
+      child: Center(
+        child: SizedBox(
+          width: 450,
+          child: ListView(
+            children: const [
+              DarkThemeCheckBox(),
+              SizedBox(
+                height: 20,
+              ),
+              ThemeGrid(),
+              SizedBox(
+                height: 50,
+              ),
+              ApplyButton(),
+            ],
           ),
-          ApplyButton(),
-        ],
+        ),
       ),
       appBarTitle: 'Select Theme',
+    );
+  }
+}
+
+class DarkThemeCheckBox extends StatelessWidget {
+  const DarkThemeCheckBox({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        const SizedBox(
+          width: 1,
+        ),
+        Consumer<ThemeNotifier>(
+          builder: (_, provider, __) {
+            return Checkbox(
+              value: provider.themeData.brightness == Brightness.dark,
+              onChanged: (val) {
+                provider.toggleBrightness();
+              },
+            );
+          },
+        ),
+        const SizedBox(
+          width: 20,
+        ),
+        Text(
+          'Dark Theme',
+          style: TextStyle(
+            fontSize: 20,
+            color: Theme.of(context).primaryColor,
+          ),
+        ),
+      ],
     );
   }
 }
