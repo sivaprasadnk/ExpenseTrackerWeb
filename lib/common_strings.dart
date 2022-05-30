@@ -12,6 +12,7 @@ const String kExpenseCategoriesCollection = 'expenseCategories';
 const String kMayDoc = 'may2022';
 const String kFirstWeekCollection = 'firstWeek';
 const String kRecentExpensesCollection = 'recentExpenses';
+const String kLoginTimeCollection = 'loginTime';
 const String kRupeeSymbol = "₹";
 const String kExpenseTrackerText = "EXPENSE TRACKER";
 const String kCopyRightText = "© Sivaprasad NK, 2022";

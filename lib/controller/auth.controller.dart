@@ -69,7 +69,6 @@ class AuthController {
       if (password.isEmpty) {
         throw CustomException('Enter password !');
       }
-
       Loading.showLoading(context);
       authRepo.createAccount(email, password).then((response) async {
         if (response.status == ResponseStatus.error) {

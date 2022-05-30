@@ -6,12 +6,16 @@ import 'package:expense_tracker/model/response.model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class AuthRepo {
   final fireStoreInstance = FirebaseFirestore.instance;
 
   Future<ResponseModel> createAccount(String email, String password) async {
     final DateTime now = DateTime.now();
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    var version = packageInfo.version;
+    var build = packageInfo.buildNumber;
     final String formattedTime = DateFormat('dd-MM-yyyy  kk:mm').format(now);
     try {
       UserCredential credential = await FirebaseAuth.instance
@@ -26,6 +30,9 @@ class AuthRepo {
           'registeredTime': formattedTime,
           'isWeb': kIsWeb,
           'userId': credential.user!.uid,
+          'registrationAppVersion': version,
+          'registrationAppVersionCode': build,
+          // 'registrationBuildNumber': build,
         });
       }
     } catch (e) {
@@ -97,6 +104,9 @@ class AuthRepo {
 
   Future<ResponseModel> loginNew(String email, String password) async {
     final DateTime now = DateTime.now();
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    var version = packageInfo.version;
+    var build = packageInfo.buildNumber;
     final String formattedTime = DateFormat('dd-MM-yyyy  kk:mm').format(now);
 
     try {
@@ -109,6 +119,18 @@ class AuthRepo {
             .update({
           'lastLoginTime': formattedTime,
           'lastLoginIsWeb': kIsWeb,
+          'lastLoginVersion': version,
+          'lastLoginVersionCode': build,
+        });
+        fireStoreInstance
+            .collection(kUsersCollection)
+            .doc(credential.user!.uid)
+            .collection(kLoginTimeCollection)
+            .add({
+          'loginVersion': version,
+          'loginVersionCode': build,
+          'loginTime': formattedTime,
+          'isWeb': kIsWeb,
         });
       }
     } catch (e) {
