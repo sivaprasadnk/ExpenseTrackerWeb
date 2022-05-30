@@ -1,7 +1,6 @@
 import 'package:expense_tracker/common_strings.dart';
-import 'package:expense_tracker/controller/user.controller.dart';
+import 'package:expense_tracker/controller/auth.controller.dart';
 import 'package:expense_tracker/cursor.widget.dart';
-import 'package:expense_tracker/utils/dialog.dart';
 import 'package:expense_tracker/view/login/widgets/login.submit.button.dart';
 import 'package:expense_tracker/view/login/widgets/text.field.container.dart';
 import 'package:expense_tracker/view/login/widgets/text.field.title.dart';
@@ -380,14 +379,6 @@ class _LoginScreenState extends State<LoginScreen>
 
   void validateAndProceed() {
     _formKey.currentState!.save();
-    if (email.trim().isEmpty) {
-      Dialogs.showAlertDialog(context: context, title: 'Enter email !');
-    } else {
-      if (password.trim().isEmpty) {
-        Dialogs.showAlertDialog(context: context, title: 'Enter password !');
-      } else {
-        UserController.login(context, email.trim(), password.trim());
-      }
-    }
+    AuthController.login(context, email.trim(), password.trim());
   }
 }

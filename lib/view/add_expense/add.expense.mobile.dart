@@ -1,6 +1,7 @@
-import 'package:expense_tracker/controller/add.expense.controller.dart';
+import 'package:expense_tracker/controller/user.controller.dart';
+import 'package:expense_tracker/model/category.doc.model.dart';
 import 'package:expense_tracker/provider/theme_notifier.dart';
-import 'package:expense_tracker/utils/category.list.dart';
+import 'package:expense_tracker/utils/custom.exception.dart';
 import 'package:expense_tracker/utils/dialog.dart';
 import 'package:expense_tracker/utils/enums.dart';
 import 'package:expense_tracker/view/add_expense/select.category.screen.mobile.dart';
@@ -42,9 +43,10 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
 
   final _formKey = GlobalKey<FormState>();
 
-  int selectedIndex = 0;
   Mode _selectedMode = Mode.cash;
 
+  CategoryDoc selectedCategory =
+      CategoryDoc(name: 'Google Pay', id: 1, active: true, index: 1);
   @override
   Widget build(BuildContext context) {
     final ThemeNotifier theme =
@@ -214,12 +216,12 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                   const SizedBox(
                     width: 50,
                   ),
-                  Icon(CategoryList.list[selectedIndex].icon),
+                  Icon(CategoryDoc.getIcon(selectedCategory.name)),
                   const SizedBox(
                     width: 20,
                   ),
                   Text(
-                    CategoryList.list[selectedIndex].name,
+                    selectedCategory.name,
                     style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
@@ -230,15 +232,15 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(
+                      Navigator.push<CategoryDoc>(
                               context,
                               MaterialPageRoute(
                                   builder: (_) =>
                                       const SelectCategoryScreenMobile()))
-                          .then((index) {
-                        if (index != null) {
+                          .then((category) {
+                        if (category != null) {
                           setState(() {
-                            selectedIndex = index;
+                            selectedCategory = category;
                           });
                         }
                       });
@@ -307,32 +309,29 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
   }
 
   validateAndProceed() async {
-    var date = DateFormat('dd-MM-yyyy').format(selectedDate);
-    var month = DateFormat('MMM, yyyy').format(selectedDate);
     try {
       _formKey.currentState!.save();
-      if (expenseTitle.isEmpty) {
-        Dialogs.showAlertDialog(context: context, title: 'Enter title !');
-      } else {
-        if (expenseAmount == 0) {
-          Dialogs.showAlertDialog(context: context, title: 'Enter amount !');
-        } else {
-          if (expenseDetails.isEmpty) {
-            Dialogs.showAlertDialog(context: context, title: 'Enter details !');
-          } else {
-            AddExpenseController().addExpense(
-                expenseTitle,
-                selectedIndex,
-                expenseDetails,
-                expenseAmount,
-                CategoryList.list[selectedIndex].name,
-                month,
-                date,
-                _selectedMode,
-                context);
-          }
-        }
+      if (expenseTitle.trim().isEmpty) {
+        throw CustomException(' Enter title');
       }
+      if (expenseAmount == 0) {
+        throw CustomException(' Enter amount');
+      }
+      if (expenseDetails.trim().isEmpty) {
+        throw CustomException(' Enter details');
+      }
+      UserController.addExpense(
+        expenseTitle.trim(),
+        selectedCategory.id,
+        expenseDetails.trim(),
+        expenseAmount,
+        selectedCategory.name,
+        _selectedMode,
+        selectedDate,
+        context,
+      );
+    } on CustomException catch (exc) {
+      Dialogs.showAlertDialog(context: context, title: exc.message);
     } catch (err) {
       Dialogs.showAlertDialog(
           context: context, title: 'Something went wrong !');

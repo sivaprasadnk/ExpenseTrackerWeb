@@ -4,7 +4,7 @@ import 'package:expense_tracker/api/response.status.dart';
 import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/model/response.model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
 class AuthRepo {
@@ -24,6 +24,7 @@ class AuthRepo {
           'email': email,
           'password': password,
           'registeredTime': formattedTime,
+          'isWeb': kIsWeb,
           'userId': credential.user!.uid,
         });
       }
@@ -107,6 +108,7 @@ class AuthRepo {
             .doc(credential.user!.uid)
             .update({
           'lastLoginTime': formattedTime,
+          'lastLoginIsWeb': kIsWeb,
         });
       }
     } catch (e) {

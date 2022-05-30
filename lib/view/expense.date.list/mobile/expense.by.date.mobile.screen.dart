@@ -101,6 +101,8 @@ class _ExpenseByDateMobileScreenState extends State<ExpenseByDateMobileScreen> {
                                           ),
                                           ExpenseMonthText(
                                             month: expDate.month,
+                                            textColor: theme.themeData.textTheme
+                                                .bodyMedium!.color!,
                                           ),
                                         ],
                                       ),

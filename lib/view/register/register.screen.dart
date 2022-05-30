@@ -1,7 +1,6 @@
 import 'package:expense_tracker/common_strings.dart';
-import 'package:expense_tracker/controller/user.controller.dart';
+import 'package:expense_tracker/controller/auth.controller.dart';
 import 'package:expense_tracker/cursor.widget.dart';
-import 'package:expense_tracker/utils/dialog.dart';
 import 'package:expense_tracker/view/login/login.screen.dart';
 import 'package:expense_tracker/view/login/widgets/login.submit.button.dart';
 import 'package:expense_tracker/view/login/widgets/text.field.container.dart';
@@ -340,14 +339,6 @@ class _RegisterScreenState extends State<RegisterScreen>
 
   Future<void> validateAndProceed() async {
     _formKey.currentState!.save();
-    if (email.trim().isEmpty) {
-      Dialogs.showAlertDialog(context: context, title: 'Enter email !');
-    } else {
-      if (password.trim().isEmpty) {
-        Dialogs.showAlertDialog(context: context, title: 'Enter password !');
-      } else {
-        UserController.register(context, email.trim(), password.trim());
-      }
-    }
+    AuthController.register(context, email.trim(), password.trim());
   }
 }

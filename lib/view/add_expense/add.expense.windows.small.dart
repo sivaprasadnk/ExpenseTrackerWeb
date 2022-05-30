@@ -1,5 +1,6 @@
-import 'package:expense_tracker/controller/add.expense.controller.dart';
-import 'package:expense_tracker/utils/category.list.dart';
+import 'package:expense_tracker/controller/user.controller.dart';
+import 'package:expense_tracker/model/category.doc.model.dart';
+import 'package:expense_tracker/utils/custom.exception.dart';
 import 'package:expense_tracker/utils/dialog.dart';
 import 'package:expense_tracker/utils/enums.dart';
 import 'package:expense_tracker/view/add_expense/select.category.screen.desktop.dart';
@@ -44,7 +45,8 @@ class _AddExpenseScreenStateDesktop extends State<AddExpenseScreenDesktop> {
 
   final _formKey = GlobalKey<FormState>();
 
-  int selectedIndex = 0;
+  CategoryDoc selectedCategory =
+      CategoryDoc(name: 'Google Pay', id: 1, active: true, index: 1);
   Mode _selectedMode = Mode.cash;
 
   @override
@@ -175,27 +177,28 @@ class _AddExpenseScreenStateDesktop extends State<AddExpenseScreenDesktop> {
                       const SizedBox(
                         width: 30,
                       ),
-                      Icon(CategoryList.list[selectedIndex].icon),
+                      Icon(CategoryDoc.getIcon(selectedCategory.name)),
                       const SizedBox(
                         width: 20,
                       ),
                       TextFieldTitle(
-                          title: CategoryList.list[selectedIndex].name),
+                        title: selectedCategory.name,
+                      ),
 
                       const SizedBox(
                         width: 50,
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.push(
+                          Navigator.push<CategoryDoc>(
                                   context,
                                   MaterialPageRoute(
                                       builder: (_) =>
                                           const SelectCategoryScreenDesktop()))
-                              .then((index) {
-                            if (index != null) {
+                              .then((category) {
+                            if (category != null) {
                               setState(() {
-                                selectedIndex = index;
+                                selectedCategory = category;
                               });
                             }
                           });
@@ -249,32 +252,30 @@ class _AddExpenseScreenStateDesktop extends State<AddExpenseScreenDesktop> {
   }
 
   validateAndProceed() async {
-    var date = DateFormat('dd-MM-yyyy').format(selectedDate);
-    var month = DateFormat('MMM, yyyy').format(selectedDate);
     try {
       _formKey.currentState!.save();
-      if (expenseTitle.trim().isEmpty) {
-        Dialogs.showAlertDialog(context: context, title: 'Enter title !');
-      } else {
-        if (expenseAmount == 0) {
-          Dialogs.showAlertDialog(context: context, title: 'Enter amount !');
-        } else {
-          if (expenseDetails.isEmpty) {
-            Dialogs.showAlertDialog(context: context, title: 'Enter details !');
-          } else {
-            AddExpenseController().addExpense(
-                expenseTitle,
-                selectedIndex,
-                expenseDetails,
-                expenseAmount,
-                CategoryList.list[selectedIndex].name,
-                month,
-                date,
-                _selectedMode,
-                context);
-          }
-        }
+      if (expenseAmount == 0) {
+        throw CustomException(' Enter amount');
       }
+      if (expenseTitle.trim().isEmpty) {
+        throw CustomException(' Enter title');
+      }
+
+      if (expenseDetails.trim().isEmpty) {
+        throw CustomException(' Enter details');
+      }
+      UserController.addExpense(
+        expenseTitle.trim(),
+        selectedCategory.id,
+        expenseDetails.trim(),
+        expenseAmount,
+        selectedCategory.name,
+        _selectedMode,
+        selectedDate,
+        context,
+      );
+    } on CustomException catch (exc) {
+      Dialogs.showAlertDialog(context: context, title: exc.message);
     } catch (err) {
       Dialogs.showAlertDialog(
           context: context, title: 'Something went wrong !');

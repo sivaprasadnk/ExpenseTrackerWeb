@@ -3,7 +3,7 @@
 class Expense {
   String expenseTitle;
   String details;
-  int categoryIndex;
+  int categoryId;
   String categoryName;
   int amount;
   String expenseDate;
@@ -14,7 +14,7 @@ class Expense {
   String mode;
   Expense({
     required this.expenseTitle,
-    required this.categoryIndex,
+    required this.categoryId,
     required this.details,
     required this.amount,
     required this.categoryName,

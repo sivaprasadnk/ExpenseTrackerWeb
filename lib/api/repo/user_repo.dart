@@ -142,7 +142,7 @@ class UserRepo {
       'expenseDay': expense.expenseDay,
       'details': expense.details,
       'createdDate': formattedTime,
-      'categoryId': expense.categoryIndex,
+      'categoryId': expense.categoryId,
       'categoryName': expense.categoryName,
       'updatedTime': formattedTime,
       'mode': expense.mode,
@@ -174,7 +174,7 @@ class UserRepo {
       'expenseMonth': expense.expenseMonth,
       'expenseDate': expense.expenseDate,
       'expenseDay': expense.expenseDay,
-      'categoryId': expense.categoryIndex,
+      'categoryId': expense.categoryId,
       'categoryName': expense.categoryName,
       'updatedTime': formattedTime,
       'active': true,
@@ -221,7 +221,7 @@ class UserRepo {
         .set({
       'lastUpdateTime': formattedTime,
       'categoryName': expense.categoryName,
-      'categoryId': expense.categoryIndex,
+      'categoryId': expense.categoryId,
     });
     debugPrint('... @@ here@@@@@');
     await fireStoreInstance
@@ -241,7 +241,7 @@ class UserRepo {
       'expenseDate': expense.expenseDate,
       "expenseDocId": "",
       'expenseDay': expense.expenseDay,
-      'categoryId': expense.categoryIndex,
+      'categoryId': expense.categoryId,
       'categoryName': expense.categoryName,
       'updatedTime': formattedTime,
       'active': true,

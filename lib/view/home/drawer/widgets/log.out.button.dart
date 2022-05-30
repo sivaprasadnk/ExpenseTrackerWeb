@@ -17,8 +17,10 @@ class LogoutButton extends StatelessWidget {
             title: 'Do you wish to logout ?',
             positiveCallBack: () async {
               await FirebaseAuth.instance.signOut().then((value) {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (_) => const SplashScreen()));
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (_) => const SplashScreen()),
+                    (r) => false);
               });
             });
       },

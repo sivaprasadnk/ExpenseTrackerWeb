@@ -50,7 +50,7 @@ class ExpenseByCategoryListMobileScreen extends StatelessWidget {
                           Expense expense = Expense(
                             amount: doc['amount'],
                             mode: doc['mode'],
-                            categoryIndex: doc['categoryId'],
+                            categoryId: doc['categoryId'],
                             categoryName: doc['categoryName'],
                             createdDate: doc['createdDate'],
                             expenseDay: "",

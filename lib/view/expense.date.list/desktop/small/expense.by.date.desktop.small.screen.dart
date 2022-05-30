@@ -92,11 +92,13 @@ class _ExpenseDateListDesktopSmallState
                                   height: 80,
                                   margin: const EdgeInsets.only(top: 10),
                                   decoration: BoxDecoration(
+                                    color: !hoveredStatusList[index]
+                                        ? theme
+                                            .themeData.scaffoldBackgroundColor
+                                        : primaryColor,
                                     border: Border.all(
                                       width: 2,
-                                      color: !hoveredStatusList[index]
-                                          ? primaryColor
-                                          : theme.themeData.cardColor,
+                                      color: primaryColor,
                                     ),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
@@ -104,21 +106,24 @@ class _ExpenseDateListDesktopSmallState
                                     children: [
                                       ExpenseDateText(
                                         date: expDate.day,
-                                        fontColor: theme.themeData.textTheme
-                                            .bodyMedium!.color!,
+                                        fontColor: hoveredStatusList[index]
+                                            ? theme.themeData
+                                                .scaffoldBackgroundColor
+                                            : primaryColor,
                                       ),
                                       ExpenseMonthText(
-                                        month: expDate.month,
-                                      ),
+                                          month: expDate.month,
+                                          textColor: hoveredStatusList[index]
+                                              ? theme.themeData
+                                                  .scaffoldBackgroundColor
+                                              : primaryColor),
                                     ],
                                   ),
                                 ),
                                 ExpenseAmountText(
                                   fillColor:
                                       theme.themeData.scaffoldBackgroundColor,
-                                  borderColor: !hoveredStatusList[index]
-                                      ? primaryColor
-                                      : theme.themeData.cardColor,
+                                  borderColor: primaryColor,
                                   amount: expDate.totalExpense.toString(),
                                 )
                               ],

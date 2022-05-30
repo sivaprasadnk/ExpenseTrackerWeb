@@ -19,7 +19,7 @@ class ExpenseListItem extends StatelessWidget {
         onTap: () {
           Expense exp = Expense(
               expenseTitle: expense.expenseTitle,
-              categoryIndex: expense.categoryId,
+              categoryId: expense.categoryId,
               details: expense.details,
               amount: expense.amount,
               categoryName: expense.categoryName,
