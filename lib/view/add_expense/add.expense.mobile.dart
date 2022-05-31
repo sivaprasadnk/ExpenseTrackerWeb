@@ -292,7 +292,8 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              // const Spacer(),
+              const SizedBox(height: 50),
               GestureDetector(
                 onTap: () {
                   validateAndProceed();

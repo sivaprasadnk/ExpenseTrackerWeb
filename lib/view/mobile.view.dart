@@ -1,6 +1,8 @@
 import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:expense_tracker/view/home/drawer/drawer.screen.dart';
 import 'package:expense_tracker/view/home/mobile/home.screen.mobile.dart';
+import 'package:expense_tracker/view/network_aware_widget.dart';
+import 'package:expense_tracker/view/offline.widget.dart';
 import 'package:expense_tracker/view/title.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,10 +13,12 @@ class MobileView extends StatefulWidget {
     required this.child,
     this.isHome = false,
     required this.appBarTitle,
+    this.showNetworkStatus = true,
   }) : super(key: key);
   final Widget child;
   final String appBarTitle;
   final bool isHome;
+  final bool showNetworkStatus;
 
   @override
   State<MobileView> createState() => _MobileViewState();
@@ -82,31 +86,60 @@ class _MobileViewState extends State<MobileView> {
       endDrawer: const Drawer(
         child: DrawerScreen(),
       ),
-      body: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const SizedBox(
-              height: 10,
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: widget.child,
+      body: widget.showNetworkStatus
+          ? NetworkAwareWidget(
+              offlineChild: const OfflineWidget(),
+              onlineChild: SizedBox(
+                height: MediaQuery.of(context).size.height,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: widget.child,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                  ],
                 ),
               ),
+            )
+          : SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: widget.child,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

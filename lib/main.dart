@@ -4,6 +4,7 @@ import 'package:expense_tracker/provider/dark.theme.provider.dart';
 import 'package:expense_tracker/provider/home.provider.dart';
 import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:expense_tracker/routes.dart';
+import 'package:expense_tracker/utils/network.service.dart';
 import 'package:expense_tracker/view/splash.screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -46,8 +47,12 @@ class _MyAppState extends State<MyApp> {
 
     return MultiProvider(
       providers: [
+        StreamProvider<NetworkStatus>(
+          create: (context) =>
+              NetworkStatusService().networkStatusController.stream,
+          initialData: NetworkStatus.onLine,
+        ),
         ChangeNotifierProvider<HomeProvider>(create: (_) => HomeProvider()),
-        // ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
         ChangeNotifierProvider<ThemeNotifier>(create: (_) => ThemeNotifier()),
         ChangeNotifierProvider<DarkThemeProvider>(
             create: (_) => DarkThemeProvider()),

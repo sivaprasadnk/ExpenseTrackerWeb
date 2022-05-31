@@ -17,6 +17,7 @@ class ExpenseMonthText extends StatelessWidget {
           style: TextStyle(
             fontSize: 15,
             color: textColor,
+            height: 0.7,
           ),
         ),
       ],

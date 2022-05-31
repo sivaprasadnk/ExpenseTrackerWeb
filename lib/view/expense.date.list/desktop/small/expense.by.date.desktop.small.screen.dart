@@ -86,38 +86,45 @@ class _ExpenseDateListDesktopSmallState
                             },
                             child: Stack(
                               children: [
-                                Container(
-                                  padding: EdgeInsets.zero,
-                                  width: 130,
-                                  height: 80,
-                                  margin: const EdgeInsets.only(top: 10),
-                                  decoration: BoxDecoration(
-                                    color: !hoveredStatusList[index]
-                                        ? theme
-                                            .themeData.scaffoldBackgroundColor
-                                        : primaryColor,
-                                    border: Border.all(
-                                      width: 2,
-                                      color: primaryColor,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      ExpenseDateText(
-                                        date: expDate.day,
-                                        fontColor: hoveredStatusList[index]
-                                            ? theme.themeData
-                                                .scaffoldBackgroundColor
-                                            : primaryColor,
+                                Center(
+                                  child: Container(
+                                    padding: EdgeInsets.zero,
+                                    width: 130,
+                                    height: 80,
+                                    margin: const EdgeInsets.only(top: 10),
+                                    decoration: BoxDecoration(
+                                      color: !hoveredStatusList[index]
+                                          ? theme
+                                              .themeData.scaffoldBackgroundColor
+                                          : primaryColor,
+                                      border: Border.all(
+                                        width: 2,
+                                        color: primaryColor,
                                       ),
-                                      ExpenseMonthText(
-                                          month: expDate.month,
-                                          textColor: hoveredStatusList[index]
-                                              ? theme.themeData
-                                                  .scaffoldBackgroundColor
-                                              : primaryColor),
-                                    ],
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Center(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          ExpenseDateText(
+                                            date: expDate.day,
+                                            fontColor: hoveredStatusList[index]
+                                                ? theme.themeData
+                                                    .scaffoldBackgroundColor
+                                                : primaryColor,
+                                          ),
+                                          ExpenseMonthText(
+                                              month: expDate.month,
+                                              textColor: hoveredStatusList[
+                                                      index]
+                                                  ? theme.themeData
+                                                      .scaffoldBackgroundColor
+                                                  : primaryColor),
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 ),
                                 ExpenseAmountText(

@@ -9,6 +9,7 @@ class SelectThemeMobileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MobileView(
+      showNetworkStatus: false,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

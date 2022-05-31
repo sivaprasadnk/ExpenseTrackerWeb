@@ -17,8 +17,10 @@ class ExpenseDateText extends StatelessWidget {
         Text(
           date,
           style: TextStyle(
-            fontSize: 45, fontWeight: FontWeight.bold, color: fontColor,
-            // fontFamily: 'Rajdhani',
+            fontSize: 45,
+            fontWeight: FontWeight.bold,
+            color: fontColor,
+            height: 1,
           ),
         ),
       ],

@@ -18,6 +18,7 @@ class ExpenseAmountText extends StatelessWidget {
     final ThemeNotifier theme =
         Provider.of<ThemeNotifier>(context, listen: true);
     return Positioned.fill(
+      right: -2,
       child: Align(
         alignment: Alignment.topRight,
         child: Container(

@@ -93,6 +93,8 @@ class _ExpenseByDateMobileScreenState extends State<ExpenseByDateMobileScreen> {
                                     ),
                                     child: Center(
                                       child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           ExpenseDateText(
                                             date: expDate.day,
