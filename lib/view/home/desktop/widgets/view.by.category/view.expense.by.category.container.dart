@@ -1,7 +1,5 @@
-import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:expense_tracker/view/expense.by.category/expense.by.category.desktop.screen.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ViewExpenseByCategoryContainer extends StatefulWidget {
   const ViewExpenseByCategoryContainer({
@@ -19,9 +17,8 @@ class _ViewExpenseByCategoryContainerState
 
   @override
   Widget build(BuildContext context) {
-    final ThemeNotifier theme =
-        Provider.of<ThemeNotifier>(context, listen: true);
-    var primaryColor = theme.themeData.primaryColor;
+    final ThemeData theme = Theme.of(context);
+    var primaryColor = theme.primaryColor;
     return InkWell(
       borderRadius: BorderRadius.circular(12),
       onTap: () {
@@ -42,7 +39,7 @@ class _ViewExpenseByCategoryContainerState
         decoration: BoxDecoration(
           border: Border.all(
             width: isHovered ? 2 : 1,
-            color: isHovered ? theme.themeData.cardColor : primaryColor,
+            color: isHovered ? theme.cardColor : primaryColor,
           ),
           borderRadius: BorderRadius.circular(12),
         ),
@@ -54,7 +51,6 @@ class _ViewExpenseByCategoryContainerState
               'View Expenses',
               style: TextStyle(
                 fontSize: 15,
-                // fontFamily: 'Rajdhani',
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -62,7 +58,6 @@ class _ViewExpenseByCategoryContainerState
               ' by Category',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                // fontFamily: 'Rajdhani',
                 fontSize: 15,
                 color: Colors.red,
               ),

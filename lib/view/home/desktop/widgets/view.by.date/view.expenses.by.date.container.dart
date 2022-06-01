@@ -1,7 +1,5 @@
-import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:expense_tracker/view/expense.date.list/desktop/small/expense.by.date.desktop.small.screen.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ViewExpensesByDateContainer extends StatefulWidget {
   const ViewExpensesByDateContainer({
@@ -21,9 +19,8 @@ class _ViewExpensesByDateContainerState
 
   @override
   Widget build(BuildContext context) {
-    final ThemeNotifier theme =
-        Provider.of<ThemeNotifier>(context, listen: true);
-    var primaryColor = theme.themeData.primaryColor;
+    final ThemeData theme = Theme.of(context);
+    var primaryColor = theme.primaryColor;
     return InkWell(
       onHover: (val) {
         setState(() {
@@ -43,7 +40,7 @@ class _ViewExpensesByDateContainerState
         decoration: BoxDecoration(
           border: Border.all(
             width: isHovered ? 2 : 1,
-            color: isHovered ? theme.themeData.cardColor : primaryColor,
+            color: isHovered ? theme.cardColor : primaryColor,
           ),
           borderRadius: BorderRadius.circular(12),
         ),

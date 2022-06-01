@@ -46,7 +46,6 @@ class AuthController {
           UserRepo().getRecentExpense().then((recentExpList) {
             Provider.of<HomeProvider>(context, listen: false)
                 .updateRecentList(recentExpList);
-
             Navigation.checkPlatformAndNavigateToHome(context);
           });
         }

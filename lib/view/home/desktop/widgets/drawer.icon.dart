@@ -14,7 +14,6 @@ class DrawerIcon extends StatelessWidget {
       child: CursorWidget(
         onTap: () {
           onTap.call();
-          // _key.currentState!.openEndDrawer();
         },
         child: Icon(
           Icons.menu,

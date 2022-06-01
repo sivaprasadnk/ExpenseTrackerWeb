@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/model/expense.date.model.dart';
-import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:expense_tracker/view/desktop.view.dart';
 import 'package:expense_tracker/view/expense.by.date.list/expense.by.date.list.desktop.screen.dart';
 import 'package:expense_tracker/view/expense.date.list/widgets/expense.amount.text.dart';
@@ -10,7 +9,6 @@ import 'package:expense_tracker/view/expense.date.list/widgets/expense.month.tex
 import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.container.desktop.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ExpenseDateListDesktopSmall extends StatefulWidget {
   const ExpenseDateListDesktopSmall({Key? key}) : super(key: key);
@@ -22,16 +20,14 @@ class ExpenseDateListDesktopSmall extends StatefulWidget {
 
 class _ExpenseDateListDesktopSmallState
     extends State<ExpenseDateListDesktopSmall> {
-  bool onHovered = false;
-
   List<bool> hoveredStatusList = List<bool>.generate(100, (index) => false);
 
   @override
   Widget build(BuildContext context) {
     var userId = FirebaseAuth.instance.currentUser!.uid;
-    final ThemeNotifier theme =
-        Provider.of<ThemeNotifier>(context, listen: true);
-    var primaryColor = theme.themeData.primaryColor;
+    final ThemeData theme = Theme.of(context);
+    var primaryColor = theme.primaryColor;
+    var bgColor = theme.scaffoldBackgroundColor;
 
     return DesktopView(
       appBarTitle: 'Select Date',
@@ -62,13 +58,7 @@ class _ExpenseDateListDesktopSmallState
                         itemBuilder: (ctx, index) {
                           var doc =
                               (snapshot.data! as QuerySnapshot).docs[index];
-                          var expDate = ExpenseDate(
-                            day: doc['day'],
-                            date: doc['date'],
-                            month: doc['month'],
-                            totalExpense: doc['totalExpense'],
-                            updatedTime: doc['updatedTime'],
-                          );
+                          var expDate = ExpenseDate.fromJson(doc);
                           return InkWell(
                             hoverColor: Colors.transparent,
                             onHover: (val) {
@@ -94,8 +84,7 @@ class _ExpenseDateListDesktopSmallState
                                     margin: const EdgeInsets.only(top: 10),
                                     decoration: BoxDecoration(
                                       color: !hoveredStatusList[index]
-                                          ? theme
-                                              .themeData.scaffoldBackgroundColor
+                                          ? bgColor
                                           : primaryColor,
                                       border: Border.all(
                                         width: 2,
@@ -110,26 +99,23 @@ class _ExpenseDateListDesktopSmallState
                                         children: [
                                           ExpenseDateText(
                                             date: expDate.day,
-                                            fontColor: hoveredStatusList[index]
-                                                ? theme.themeData
-                                                    .scaffoldBackgroundColor
+                                            textColor: hoveredStatusList[index]
+                                                ? bgColor
                                                 : primaryColor,
                                           ),
                                           ExpenseMonthText(
-                                              month: expDate.month,
-                                              textColor: hoveredStatusList[
-                                                      index]
-                                                  ? theme.themeData
-                                                      .scaffoldBackgroundColor
-                                                  : primaryColor),
+                                            month: expDate.month,
+                                            textColor: hoveredStatusList[index]
+                                                ? bgColor
+                                                : primaryColor,
+                                          ),
                                         ],
                                       ),
                                     ),
                                   ),
                                 ),
                                 ExpenseAmountText(
-                                  fillColor:
-                                      theme.themeData.scaffoldBackgroundColor,
+                                  fillColor: bgColor,
                                   borderColor: primaryColor,
                                   amount: expDate.totalExpense.toString(),
                                 )

@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/model/category.doc.model.dart';
-import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:expense_tracker/view/mobile.view.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class SelectCategoryScreenMobile extends StatefulWidget {
   const SelectCategoryScreenMobile({Key? key}) : super(key: key);
@@ -35,9 +33,8 @@ class _SelectCategoryScreenMobileState
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     final screenHeight = screenSize.height;
-    final ThemeNotifier theme =
-        Provider.of<ThemeNotifier>(context, listen: true);
-    var primaryColor = theme.themeData.primaryColor;
+    final ThemeData theme = Theme.of(context);
+    var primaryColor = theme.primaryColor;
     return MobileView(
       appBarTitle: 'Select Category',
       child: Column(
@@ -57,12 +54,7 @@ class _SelectCategoryScreenMobileState
                     itemCount: (snapshot.data! as QuerySnapshot).docs.length,
                     itemBuilder: (_, index) {
                       var doc = (snapshot.data! as QuerySnapshot).docs[index];
-                      CategoryDoc model = CategoryDoc(
-                        name: doc['name'].toString(),
-                        id: doc['id'] as int,
-                        active: doc['active'] as bool,
-                        index: doc['index'] as int,
-                      );
+                      CategoryDoc model = CategoryDoc.fromJson(doc);
                       return GestureDetector(
                         onTap: () {
                           Navigator.pop(context, model);

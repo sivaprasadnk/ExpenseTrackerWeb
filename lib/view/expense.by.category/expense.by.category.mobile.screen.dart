@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/common_strings.dart';
-import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:expense_tracker/view/expense.by.category.list/expense.by.category.list.mobile.screen.dart';
 import 'package:expense_tracker/view/expense.by.category/widgets/category.icon.dart';
 import 'package:expense_tracker/view/expense.by.category/widgets/category.name.text.dart';
@@ -10,18 +9,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:neumorphic_loader/neumorphic_loader.dart';
-import 'package:provider/provider.dart';
 
 class ExpenseByCategoryMobileScreen extends StatelessWidget {
   const ExpenseByCategoryMobileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    final screenHeight = screenSize.height;
-    final ThemeNotifier theme =
-        Provider.of<ThemeNotifier>(context, listen: true);
-    var primaryColor = theme.themeData.primaryColor;
+    final ThemeData theme = Theme.of(context);
+    var primaryColor = theme.primaryColor;
     var userId = FirebaseAuth.instance.currentUser!.uid;
 
     return MobileView(
@@ -107,7 +102,7 @@ class ExpenseByCategoryMobileScreen extends StatelessWidget {
               : Center(
                   child: NeumorphicLoader(
                     size: 75,
-                    borderColor: Theme.of(context).primaryColor,
+                    borderColor: primaryColor,
                   ),
                 );
         },

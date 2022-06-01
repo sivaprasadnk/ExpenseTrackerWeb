@@ -1,6 +1,4 @@
-import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class TextFieldContainer extends StatelessWidget {
   const TextFieldContainer({
@@ -12,9 +10,8 @@ class TextFieldContainer extends StatelessWidget {
   final double height;
   @override
   Widget build(BuildContext context) {
-    final ThemeNotifier theme =
-        Provider.of<ThemeNotifier>(context, listen: true);
-    var primaryColor = theme.themeData.primaryColor;
+    final ThemeData theme = Theme.of(context);
+    var primaryColor = theme.primaryColor;
     return Container(
       height: height,
       width: 300,

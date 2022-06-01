@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ExpenseDate {
   String date;
   String day;
@@ -12,4 +14,14 @@ class ExpenseDate {
     required this.updatedTime,
     required this.totalExpense,
   });
+
+  static ExpenseDate fromJson(QueryDocumentSnapshot<Object?> doc) {
+    return ExpenseDate(
+      day: doc['day'],
+      date: doc['date'],
+      month: doc['month'],
+      totalExpense: doc['totalExpense'],
+      updatedTime: doc['updatedTime'],
+    );
+  }
 }

@@ -23,22 +23,49 @@ class ExpenseByDateListScreen extends StatefulWidget {
 }
 
 class _ExpenseByDateListScreenState extends State<ExpenseByDateListScreen> {
+  ///
   Stream<QuerySnapshot<Map<String, dynamic>>>? stream;
   var userId = FirebaseAuth.instance.currentUser!.uid;
+  final cloudStoreInstance = FirebaseFirestore.instance;
 
   Mode selectedMode = Mode.all;
 
   @override
   void initState() {
-    stream = FirebaseFirestore.instance
+    setStream(Mode.all);
+    super.initState();
+  }
+
+  setStream(Mode mode) {
+    final collectionRef = FirebaseFirestore.instance
         .collection(kUsersCollection)
         .doc(userId)
         .collection(kExpenseDatesNewCollection)
         .doc(widget.expenseDateItem.date)
-        .collection(kExpenseCollection)
-        .orderBy('createdDate', descending: true)
-        .snapshots();
-    super.initState();
+        .collection(kExpenseCollection);
+    if (mode == Mode.all) {
+      setState(() {
+        stream =
+            collectionRef.orderBy('createdDate', descending: true).snapshots();
+        selectedMode = Mode.all;
+      });
+    } else if (mode == Mode.cash) {
+      setState(() {
+        stream = collectionRef
+            .where('mode', isEqualTo: 'Cash')
+            .orderBy('createdDate', descending: true)
+            .snapshots();
+        selectedMode = Mode.cash;
+      });
+    } else {
+      setState(() {
+        stream = collectionRef
+            .where('mode', isEqualTo: 'Online')
+            .orderBy('createdDate', descending: true)
+            .snapshots();
+        selectedMode = Mode.online;
+      });
+    }
   }
 
   @override
@@ -62,17 +89,7 @@ class _ExpenseByDateListScreenState extends State<ExpenseByDateListScreen> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    setState(() {
-                      stream = FirebaseFirestore.instance
-                          .collection(kUsersCollection)
-                          .doc(userId)
-                          .collection(kExpenseDatesNewCollection)
-                          .doc(widget.expenseDateItem.date)
-                          .collection(kExpenseCollection)
-                          .orderBy('createdDate', descending: true)
-                          .snapshots();
-                      selectedMode = Mode.all;
-                    });
+                    setStream(Mode.all);
                   },
                   child: Container(
                     height: btnHeight,
@@ -98,18 +115,7 @@ class _ExpenseByDateListScreenState extends State<ExpenseByDateListScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    setState(() {
-                      stream = FirebaseFirestore.instance
-                          .collection(kUsersCollection)
-                          .doc(userId)
-                          .collection(kExpenseDatesNewCollection)
-                          .doc(widget.expenseDateItem.date)
-                          .collection(kExpenseCollection)
-                          .where('mode', isEqualTo: 'Cash')
-                          .orderBy('createdDate', descending: true)
-                          .snapshots();
-                      selectedMode = Mode.cash;
-                    });
+                    setStream(Mode.cash);
                   },
                   child: Container(
                     height: btnHeight,
@@ -136,18 +142,7 @@ class _ExpenseByDateListScreenState extends State<ExpenseByDateListScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    setState(() {
-                      stream = FirebaseFirestore.instance
-                          .collection(kUsersCollection)
-                          .doc(userId)
-                          .collection(kExpenseDatesNewCollection)
-                          .doc(widget.expenseDateItem.date)
-                          .collection(kExpenseCollection)
-                          .where('mode', isEqualTo: 'Online')
-                          .orderBy('createdDate', descending: true)
-                          .snapshots();
-                      selectedMode = Mode.online;
-                    });
+                    setStream(Mode.online);
                   },
                   child: Container(
                     height: btnHeight,
@@ -192,19 +187,7 @@ class _ExpenseByDateListScreenState extends State<ExpenseByDateListScreen> {
                                 itemBuilder: (ctx, index) {
                                   var doc = (snapshot.data! as QuerySnapshot)
                                       .docs[index];
-                                  Expense expense = Expense(
-                                    amount: doc['amount'],
-                                    mode: doc['mode'],
-                                    categoryId: doc['categoryId'],
-                                    categoryName: doc['categoryName'],
-                                    createdDate: doc['createdDate'],
-                                    expenseDay: doc['expenseDay'],
-                                    details: doc['details'],
-                                    expenseDocId: doc['expenseDocId'],
-                                    expenseTitle: doc['expenseTitle'],
-                                    expenseDate: doc['expenseDate'],
-                                    expenseMonth: doc['expenseMonth'],
-                                  );
+                                  Expense expense = Expense.fromJson(doc);
                                   return Center(
                                     child: SizedBox(
                                       width: 450,

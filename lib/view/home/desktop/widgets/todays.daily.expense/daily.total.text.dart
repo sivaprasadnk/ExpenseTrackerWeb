@@ -1,6 +1,5 @@
 import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/provider/home.provider.dart';
-import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -9,61 +8,18 @@ class DailyTotalText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeNotifier theme =
-        Provider.of<ThemeNotifier>(context, listen: true);
+    final ThemeData theme = Theme.of(context);
     return Consumer<HomeProvider>(
       builder: (_, provider, __) {
         return Text(
           "$kRupeeSymbol ${provider.dailyTotalExpense}",
-          // provider.dailyTotalExpense.toString(),
           style: TextStyle(
             fontSize: 60,
-            // fontFamily: 'Rajdhani',
             fontWeight: FontWeight.bold,
-            color: theme.themeData.scaffoldBackgroundColor,
+            color: theme.scaffoldBackgroundColor,
           ),
         );
       },
     );
-    // return StreamBuilder(
-    //   stream: FirebaseFirestore.instance
-    //       .collection(kUsersCollection)
-    //       .doc(userId)
-    //       .collection(kExpenseDatesNewCollection)
-    //       .doc(date)
-    //       // .collection(date)
-    //       .snapshots(),
-    //   builder:
-    //       (_, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>? snapshot) {
-    //     var doc = snapshot!.hasData && (snapshot.data!).docs.isNotEmpty
-    //         ? (snapshot.data!).docs[0]
-    //         : null;
-    //     // debugPrint('.. @@ doc ${doc!['totalExpense']}');
-    //     return snapshot.connectionState != ConnectionState.waiting &&
-    //             doc != null
-    //         ? Text(
-    //             doc['totalExpense'] != null
-    //                 ? doc['totalExpense'].toString()
-    //                 : "",
-    //             // provider.dailyTotalExpense.toString(),
-    //             style: const TextStyle(
-    //               fontSize: 30,
-    //               // fontFamily: 'Rajdhani',
-    //               fontWeight: FontWeight.bold,
-    //               color: Colors.red,
-    //             ),
-    //           )
-    //         : Text(
-    //             '',
-    //             // provider.dailyTotalExpense.toString(),
-    //             style: const TextStyle(
-    //               fontSize: 30,
-    //               // fontFamily: 'Rajdhani',
-    //               fontWeight: FontWeight.bold,
-    //               color: Colors.red,
-    //             ),
-    //           );
-    //   },
-    // );
   }
 }

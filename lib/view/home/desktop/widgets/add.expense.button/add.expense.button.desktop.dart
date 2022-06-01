@@ -1,7 +1,5 @@
-import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:expense_tracker/view/add_expense/add.expense.windows.small.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class AddExpenseButtonDesktop extends StatefulWidget {
   const AddExpenseButtonDesktop({Key? key}) : super(key: key);
@@ -16,9 +14,9 @@ class _AddExpenseButtonDesktopState extends State<AddExpenseButtonDesktop> {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeNotifier theme =
-        Provider.of<ThemeNotifier>(context, listen: true);
-    var primaryColor = theme.themeData.primaryColor;
+    final ThemeData theme = Theme.of(context);
+
+    var primaryColor = theme.primaryColor;
 
     // final screenHeight = screenSize.height;
     return InkWell(
@@ -36,7 +34,7 @@ class _AddExpenseButtonDesktopState extends State<AddExpenseButtonDesktop> {
         decoration: BoxDecoration(
           border: Border.all(
             width: isHovered ? 2 : 1,
-            color: isHovered ? theme.themeData.cardColor : primaryColor,
+            color: isHovered ? theme.cardColor : primaryColor,
           ),
           borderRadius: BorderRadius.circular(12),
         ),
@@ -44,10 +42,6 @@ class _AddExpenseButtonDesktopState extends State<AddExpenseButtonDesktop> {
           child: Text(
             'Add ',
             style: TextStyle(
-              // fontFamily: 'Rajdhani',
-              // color: isHovered
-              //     ? theme.themeData.splashColor
-              //     : Theme.of(context).textTheme.bodyMedium!.color!,
               fontSize: 30,
               fontWeight: FontWeight.bold,
             ),

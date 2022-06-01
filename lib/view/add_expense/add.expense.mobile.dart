@@ -1,16 +1,14 @@
 import 'package:expense_tracker/controller/user.controller.dart';
 import 'package:expense_tracker/model/category.doc.model.dart';
-import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:expense_tracker/utils/custom.exception.dart';
 import 'package:expense_tracker/utils/dialog.dart';
 import 'package:expense_tracker/utils/enums.dart';
-import 'package:expense_tracker/view/add_expense/select.category.screen.mobile.dart';
 import 'package:expense_tracker/view/add_expense/widgets/submit.button.dart';
 import 'package:expense_tracker/view/add_expense/widgets/textfield.title.dart';
 import 'package:expense_tracker/view/mobile.view.dart';
+import 'package:expense_tracker/view/select.category/select.category.screen.mobile.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
 class AddExpenseMobile extends StatefulWidget {
   const AddExpenseMobile({Key? key}) : super(key: key);
@@ -47,11 +45,11 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
 
   CategoryDoc selectedCategory =
       CategoryDoc(name: 'Google Pay', id: 1, active: true, index: 1);
+
   @override
   Widget build(BuildContext context) {
-    final ThemeNotifier theme =
-        Provider.of<ThemeNotifier>(context, listen: true);
-    var primaryColor = theme.themeData.cardColor;
+    final ThemeData theme = Theme.of(context);
+    var primaryColor = theme.primaryColor;
     var date = formattedTime.isEmpty
         ? DateFormat('dd-MM-yyyy').format(now)
         : formattedTime;

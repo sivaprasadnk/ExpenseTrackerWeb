@@ -52,7 +52,7 @@ class NoExpenseContainerDesktop extends StatelessWidget {
                             context, AddExpenseScreenDesktop.routeName);
                       },
                       isButton: true,
-                      bgColor: Theme.of(context).primaryColor,
+                      bgColor: theme.primaryColor,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5),
                         child: Row(

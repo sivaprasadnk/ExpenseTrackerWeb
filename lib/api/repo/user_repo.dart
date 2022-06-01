@@ -367,26 +367,14 @@ class UserRepo {
         .get();
     var recentExpList1 = querySnapshot.docs.map((doc) => doc.data()).toList();
     for (var element in recentExpList1) {
-      recentExpList.add(RecentExpense(
-          expenseTitle: element['expenseTitle'],
-          categoryId: element['categoryId'],
-          details: element['details'],
-          amount: element['amount'],
-          categoryName: element['categoryName'],
-          expenseDate: element['expenseDate'],
-          expenseMonth: element['expenseMonth'],
-          createdDate: element['createdDate'],
-          recentDocId: element['recentDocId'],
-          expenseDay: element['expenseDay'],
-          mode: element['mode'],
-          expenseDocId: element['expenseDocId']));
+      RecentExpense recentExpense = RecentExpense.toJson(element);
+      recentExpList.add(recentExpense);
     }
     recentExpList.sort((a, b) => b.createdDate.compareTo(a.createdDate));
     return recentExpList;
   }
 
   Future<ResponseModel> getExpenseDetails(String userId) async {
-    // String userId = FirebaseAuth.instance.currentUser!.uid;
     final DateTime now = DateTime.now();
 
     var date = DateFormat('dd-MM-yyyy').format(now);
@@ -400,6 +388,34 @@ class UserRepo {
 
     if (value1.data() != null) {
       dailyTotal = value1.data()!['totalExpense'];
+    }
+    debugPrint('.. @@ dailyTotal from db : $dailyTotal');
+    return ResponseModel(
+        status: ResponseStatus.success,
+        message: 'Success',
+        data: dailyTotal.toString() + "." + "0");
+  }
+
+  Future<ResponseModel> addCaseIgnoreTitle(String userId) async {
+    int dailyTotal = 0;
+    QuerySnapshot<Map<String, dynamic>> res = await fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(userId)
+        .collection(kRecentExpensesCollection)
+        .get();
+
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> list = res.docs;
+
+    for (var i = 0; i < list.length; i++) {
+      String title = list[i]['expenseTitle'].toString();
+      fireStoreInstance
+          .collection(kUsersCollection)
+          .doc(userId)
+          .collection(kRecentExpensesCollection)
+          .doc(list[i].id)
+          .update({
+        'expenseTitle_i': title.toLowerCase(),
+      });
     }
     debugPrint('.. @@ dailyTotal from db : $dailyTotal');
     return ResponseModel(

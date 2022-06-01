@@ -61,13 +61,7 @@ class _ExpenseByDateMobileScreenState extends State<ExpenseByDateMobileScreen> {
                           itemBuilder: (ctx, index) {
                             var doc =
                                 (snapshot.data! as QuerySnapshot).docs[index];
-                            var expDate = ExpenseDate(
-                              day: doc['day'],
-                              date: doc['date'],
-                              month: doc['month'],
-                              totalExpense: doc['totalExpense'],
-                              updatedTime: doc['updatedTime'],
-                            );
+                            var expDate = ExpenseDate.fromJson(doc);
                             return GestureDetector(
                               onTap: () {
                                 Navigator.push(
@@ -98,7 +92,7 @@ class _ExpenseByDateMobileScreenState extends State<ExpenseByDateMobileScreen> {
                                         children: [
                                           ExpenseDateText(
                                             date: expDate.day,
-                                            fontColor: theme.themeData.textTheme
+                                            textColor: theme.themeData.textTheme
                                                 .bodyMedium!.color!,
                                           ),
                                           ExpenseMonthText(

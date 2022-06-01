@@ -50,6 +50,9 @@ class DarkThemeCheckBox extends StatelessWidget {
         Consumer<ThemeNotifier>(
           builder: (_, provider, __) {
             return Checkbox(
+              checkColor: provider.themeData.brightness == Brightness.light
+                  ? Colors.black
+                  : Colors.white,
               value: provider.themeData.brightness == Brightness.dark,
               onChanged: (val) {
                 provider.toggleBrightness();

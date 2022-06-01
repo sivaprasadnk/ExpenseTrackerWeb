@@ -44,4 +44,20 @@ class RecentExpense {
       mode: data['mode'],
     );
   }
+
+  static RecentExpense toJson(Map element) {
+    return RecentExpense(
+        expenseTitle: element['expenseTitle'],
+        categoryId: element['categoryId'],
+        details: element['details'],
+        amount: element['amount'],
+        categoryName: element['categoryName'],
+        expenseDate: element['expenseDate'],
+        expenseMonth: element['expenseMonth'],
+        createdDate: element['createdDate'],
+        recentDocId: element['recentDocId'],
+        expenseDay: element['expenseDay'],
+        mode: element['mode'],
+        expenseDocId: element['expenseDocId']);
+  }
 }

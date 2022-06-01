@@ -24,22 +24,59 @@ class ExpenseByDateListMobileScreen extends StatefulWidget {
 
 class _ExpenseByDateListMobileScreenState
     extends State<ExpenseByDateListMobileScreen> {
+  ///
   Stream<QuerySnapshot<Map<String, dynamic>>>? stream;
   var userId = FirebaseAuth.instance.currentUser!.uid;
+  final cloudStoreInstance = FirebaseFirestore.instance;
 
   Mode selectedMode = Mode.all;
 
   @override
   void initState() {
-    stream = FirebaseFirestore.instance
-        .collection(kUsersCollection)
-        .doc(userId)
-        .collection(kExpenseDatesNewCollection)
-        .doc(widget.expenseDateItem.date)
-        .collection(kExpenseCollection)
-        .orderBy('createdDate', descending: true)
-        .snapshots();
+    setStream(Mode.all);
     super.initState();
+  }
+
+  setStream(Mode mode) {
+    if (mode == Mode.all) {
+      setState(() {
+        stream = cloudStoreInstance
+            .collection(kUsersCollection)
+            .doc(userId)
+            .collection(kExpenseDatesNewCollection)
+            .doc(widget.expenseDateItem.date)
+            .collection(kExpenseCollection)
+            .orderBy('createdDate', descending: true)
+            .snapshots();
+        selectedMode = Mode.all;
+      });
+    } else if (mode == Mode.cash) {
+      setState(() {
+        stream = cloudStoreInstance
+            .collection(kUsersCollection)
+            .doc(userId)
+            .collection(kExpenseDatesNewCollection)
+            .doc(widget.expenseDateItem.date)
+            .collection(kExpenseCollection)
+            .where('mode', isEqualTo: 'Cash')
+            .orderBy('createdDate', descending: true)
+            .snapshots();
+        selectedMode = Mode.cash;
+      });
+    } else {
+      setState(() {
+        stream = cloudStoreInstance
+            .collection(kUsersCollection)
+            .doc(userId)
+            .collection(kExpenseDatesNewCollection)
+            .doc(widget.expenseDateItem.date)
+            .collection(kExpenseCollection)
+            .where('mode', isEqualTo: 'Online')
+            .orderBy('createdDate', descending: true)
+            .snapshots();
+        selectedMode = Mode.online;
+      });
+    }
   }
 
   @override
@@ -64,17 +101,7 @@ class _ExpenseByDateListMobileScreenState
               children: [
                 GestureDetector(
                   onTap: () {
-                    setState(() {
-                      stream = FirebaseFirestore.instance
-                          .collection(kUsersCollection)
-                          .doc(userId)
-                          .collection(kExpenseDatesNewCollection)
-                          .doc(widget.expenseDateItem.date)
-                          .collection(kExpenseCollection)
-                          .orderBy('createdDate', descending: true)
-                          .snapshots();
-                      selectedMode = Mode.all;
-                    });
+                    setStream(Mode.all);
                   },
                   child: Container(
                     height: btnHeight,
@@ -100,18 +127,7 @@ class _ExpenseByDateListMobileScreenState
                 ),
                 GestureDetector(
                   onTap: () {
-                    setState(() {
-                      stream = FirebaseFirestore.instance
-                          .collection(kUsersCollection)
-                          .doc(userId)
-                          .collection(kExpenseDatesNewCollection)
-                          .doc(widget.expenseDateItem.date)
-                          .collection(kExpenseCollection)
-                          .where('mode', isEqualTo: 'Cash')
-                          .orderBy('createdDate', descending: true)
-                          .snapshots();
-                      selectedMode = Mode.cash;
-                    });
+                    setStream(Mode.cash);
                   },
                   child: Container(
                     height: btnHeight,
@@ -138,18 +154,7 @@ class _ExpenseByDateListMobileScreenState
                 ),
                 GestureDetector(
                   onTap: () {
-                    setState(() {
-                      stream = FirebaseFirestore.instance
-                          .collection(kUsersCollection)
-                          .doc(userId)
-                          .collection(kExpenseDatesNewCollection)
-                          .doc(widget.expenseDateItem.date)
-                          .collection(kExpenseCollection)
-                          .where('mode', isEqualTo: 'Online')
-                          .orderBy('createdDate', descending: true)
-                          .snapshots();
-                      selectedMode = Mode.online;
-                    });
+                    setStream(Mode.online);
                   },
                   child: Container(
                     height: btnHeight,
@@ -193,19 +198,7 @@ class _ExpenseByDateListMobileScreenState
                               itemBuilder: (ctx, index) {
                                 var doc = (snapshot.data! as QuerySnapshot)
                                     .docs[index];
-                                Expense expense = Expense(
-                                  amount: doc['amount'],
-                                  mode: doc['mode'],
-                                  categoryId: doc['categoryId'],
-                                  categoryName: doc['categoryName'],
-                                  createdDate: doc['createdDate'],
-                                  expenseDay: doc['expenseDay'],
-                                  details: doc['details'],
-                                  expenseDocId: doc['expenseDocId'],
-                                  expenseTitle: doc['expenseTitle'],
-                                  expenseDate: doc['expenseDate'],
-                                  expenseMonth: doc['expenseMonth'],
-                                );
+                                Expense expense = Expense.fromJson(doc);
                                 return ExpenseDetailsCardMobile(
                                   expense: expense,
                                 );

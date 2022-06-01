@@ -1,11 +1,9 @@
-import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:expense_tracker/view/home/drawer/drawer.screen.dart';
 import 'package:expense_tracker/view/home/mobile/home.screen.mobile.dart';
 import 'package:expense_tracker/view/network_aware_widget.dart';
 import 'package:expense_tracker/view/offline.widget.dart';
 import 'package:expense_tracker/view/title.widget.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class MobileView extends StatefulWidget {
   const MobileView({
@@ -29,10 +27,10 @@ class _MobileViewState extends State<MobileView> {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeNotifier theme =
-        Provider.of<ThemeNotifier>(context, listen: true);
+    final ThemeData theme = Theme.of(context);
+
     return Scaffold(
-      backgroundColor: theme.themeData.scaffoldBackgroundColor,
+      backgroundColor: theme.scaffoldBackgroundColor,
       drawerEnableOpenDragGesture: false,
       key: _key,
       appBar: AppBar(
@@ -58,7 +56,7 @@ class _MobileViewState extends State<MobileView> {
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Rajdhani',
-                        color: Theme.of(context).textTheme.bodyMedium!.color,
+                        color: theme.textTheme.bodyMedium!.color,
                       ),
                     ),
                   ),
@@ -75,7 +73,7 @@ class _MobileViewState extends State<MobileView> {
               },
               child: Icon(
                 Icons.menu,
-                color: Theme.of(context).brightness == Brightness.dark
+                color: theme.brightness == Brightness.dark
                     ? Colors.white
                     : Colors.black,
               ),

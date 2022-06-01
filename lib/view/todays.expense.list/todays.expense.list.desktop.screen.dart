@@ -20,10 +20,6 @@ class TodaysExpenseListDesktopScreen extends StatelessWidget {
 
     var day = date.split('-').first;
     var userId = FirebaseAuth.instance.currentUser!.uid;
-    // final screenSize = MediaQuery.of(context).size;
-    // final screenHeight = screenSize.height;
-    // final theme = Provider.of<ThemeNotifier>(context, listen: false).themeData;
-    // var primaryColor = theme.primaryColor;
     return DesktopView(
       appBarTitle: day + " $month",
       child: StreamBuilder(
@@ -46,19 +42,7 @@ class TodaysExpenseListDesktopScreen extends StatelessWidget {
                       itemCount: (snapshot.data! as QuerySnapshot).docs.length,
                       itemBuilder: (ctx, index) {
                         var doc = (snapshot.data! as QuerySnapshot).docs[index];
-                        Expense expense = Expense(
-                          amount: doc['amount'],
-                          mode: doc['mode'],
-                          categoryId: doc['categoryId'],
-                          categoryName: doc['categoryName'],
-                          createdDate: doc['createdDate'],
-                          expenseDay: doc['expenseDay'],
-                          details: doc['details'],
-                          expenseDocId: doc['expenseDocId'],
-                          expenseTitle: doc['expenseTitle'],
-                          expenseDate: doc['expenseDate'],
-                          expenseMonth: doc['expenseMonth'],
-                        );
+                        Expense expense = Expense.fromJson(doc);
                         return ExpenseDetailsCardDesktop(
                           expense: expense,
                           width: 450,

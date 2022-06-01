@@ -4,9 +4,11 @@ class ResponseModel {
   ResponseStatus status;
   String message;
   String data;
+  String userId;
   ResponseModel({
     required this.status,
     required this.message,
     required this.data,
+    this.userId = "",
   });
 }

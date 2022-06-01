@@ -7,9 +7,8 @@ class TextFieldTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       "$title ",
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 15,
-        // fontFamily: 'Rajdhani',
         fontWeight: FontWeight.bold,
       ),
     );

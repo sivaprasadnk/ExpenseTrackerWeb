@@ -1,7 +1,5 @@
 import 'package:expense_tracker/common_strings.dart';
-import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ExpenseListItemContainer extends StatefulWidget {
   const ExpenseListItemContainer({
@@ -24,9 +22,9 @@ class _ExpenseListItemContainerState extends State<ExpenseListItemContainer> {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeNotifier theme =
-        Provider.of<ThemeNotifier>(context, listen: true);
-    var primaryColor = theme.themeData.primaryColor;
+    final ThemeData theme = Theme.of(context);
+
+    var primaryColor = theme.primaryColor;
     return Container(
       height: 50,
       decoration: BoxDecoration(
@@ -57,7 +55,6 @@ class _ExpenseListItemContainerState extends State<ExpenseListItemContainer> {
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontSize: 20,
-                    // fontFamily: 'Rajdhani',
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -66,7 +63,6 @@ class _ExpenseListItemContainerState extends State<ExpenseListItemContainer> {
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontSize: 12,
-                    // fontFamily: 'Rajdhani',
                     fontStyle: FontStyle.italic,
                   ),
                 ),
@@ -78,7 +74,6 @@ class _ExpenseListItemContainerState extends State<ExpenseListItemContainer> {
               style: const TextStyle(
                 fontSize: 35,
                 fontWeight: FontWeight.bold,
-                // fontFamily: 'Rajdhani',
               ),
             ),
             const SizedBox(width: 20),

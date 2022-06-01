@@ -4,10 +4,10 @@ class ExpenseDateText extends StatelessWidget {
   const ExpenseDateText({
     Key? key,
     required this.date,
-    required this.fontColor,
+    required this.textColor,
   }) : super(key: key);
   final String date;
-  final Color fontColor;
+  final Color textColor;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -19,7 +19,7 @@ class ExpenseDateText extends StatelessWidget {
           style: TextStyle(
             fontSize: 45,
             fontWeight: FontWeight.bold,
-            color: fontColor,
+            color: textColor,
             height: 1,
           ),
         ),

@@ -159,6 +159,7 @@ class AuthRepo {
     return ResponseModel(
         status: ResponseStatus.success,
         message: 'Success',
+        userId: userId,
         data: dailyTotal.toString() + "." + "0");
   }
 }

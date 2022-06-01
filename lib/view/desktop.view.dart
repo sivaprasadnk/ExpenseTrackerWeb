@@ -1,12 +1,11 @@
 import 'package:expense_tracker/cursor.widget.dart';
-import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:expense_tracker/view/home/desktop/home.screen.desktop.dart';
 import 'package:expense_tracker/view/home/drawer/drawer.screen.dart';
 import 'package:expense_tracker/view/network_aware_widget.dart';
 import 'package:expense_tracker/view/offline.widget.dart';
+import 'package:expense_tracker/view/search.screen/search.screen.desktop.dart';
 import 'package:expense_tracker/view/title.widget.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class DesktopView extends StatefulWidget {
   const DesktopView({
@@ -30,10 +29,10 @@ class _DesktopViewState extends State<DesktopView> {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeNotifier theme =
-        Provider.of<ThemeNotifier>(context, listen: true);
+    final ThemeData theme = Theme.of(context);
+
     return Scaffold(
-      backgroundColor: theme.themeData.scaffoldBackgroundColor,
+      backgroundColor: theme.scaffoldBackgroundColor,
       drawerEnableOpenDragGesture: false,
       key: _key,
       appBar: AppBar(
@@ -52,13 +51,27 @@ class _DesktopViewState extends State<DesktopView> {
                 fontSize: 20,
                 fontFamily: 'Rajdhani',
                 fontWeight: FontWeight.bold,
-                color: Theme.of(context).textTheme.bodyMedium!.color,
+                color: theme.textTheme.bodyMedium!.color,
               ),
             ),
           ),
         ),
         centerTitle: false,
         actions: [
+          CursorWidget(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => const SearchScreenDesktop()));
+            },
+            child: Icon(
+              Icons.search,
+              color: theme.brightness == Brightness.dark
+                  ? Colors.white
+                  : Colors.black,
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.only(right: 10),
             child: CursorWidget(
@@ -67,7 +80,7 @@ class _DesktopViewState extends State<DesktopView> {
               },
               child: Icon(
                 Icons.menu,
-                color: Theme.of(context).brightness == Brightness.dark
+                color: theme.brightness == Brightness.dark
                     ? Colors.white
                     : Colors.black,
               ),

@@ -44,19 +44,8 @@ class TodaysExpenseListMobileScreen extends StatelessWidget {
                       itemCount: (snapshot.data! as QuerySnapshot).docs.length,
                       itemBuilder: (ctx, index) {
                         var doc = (snapshot.data! as QuerySnapshot).docs[index];
-                        Expense expense = Expense(
-                          amount: doc['amount'],
-                          mode: doc['mode'],
-                          categoryId: doc['categoryId'],
-                          categoryName: doc['categoryName'],
-                          createdDate: doc['createdDate'],
-                          expenseDay: doc['expenseDay'],
-                          details: doc['details'],
-                          expenseDocId: doc['expenseDocId'],
-                          expenseTitle: doc['expenseTitle'],
-                          expenseDate: doc['expenseDate'],
-                          expenseMonth: doc['expenseMonth'],
-                        );
+                        Expense expense = Expense.fromJson(doc);
+
                         return ExpenseDetailsCardMobile(
                           expense: expense,
                           width: 450,
