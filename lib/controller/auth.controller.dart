@@ -1,4 +1,3 @@
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:expense_tracker/api/repo/auth_repo.dart';
 import 'package:expense_tracker/api/repo/user_repo.dart';
 import 'package:expense_tracker/api/response.status.dart';
@@ -30,23 +29,24 @@ class AuthController {
 
       authRepo.loginNew(email, password).then((response) async {
         if (response.status == ResponseStatus.error) {
-          await showOkAlertDialog(
-            context: context,
-            title: 'Alert',
-            message: response.message,
-          ).then((value) {
-            Navigator.pop(context);
-          });
+          Dialogs.showAlertDialog(context: context, title: response.message);
+          // await showOkAlertDialog(
+          //   context: context,
+          //   title: 'Alert',
+          //   message: response.message,
+          // ).then((value) {
+          //   Navigator.pop(context);
+          // });
         } else {
-          String responseData = response.data;
-          String dailyExpString = responseData.split('.').first;
-          int dailyExp = int.parse(dailyExpString);
+          int dailyExp = response.dailyTotal;
           Provider.of<HomeProvider>(context, listen: false)
               .updateDailyTotalExpense(dailyExp);
           UserRepo().getRecentExpense().then((recentExpList) {
             Provider.of<HomeProvider>(context, listen: false)
                 .updateRecentList(recentExpList);
-            Navigation.checkPlatformAndNavigateToHome(context);
+            UserRepo().addCaseIgnoreTitle(response.userId).then((value) {
+              Navigation.checkPlatformAndNavigateToHome(context);
+            });
           });
         }
       });
@@ -71,13 +71,7 @@ class AuthController {
       Loading.showLoading(context);
       authRepo.createAccount(email, password).then((response) async {
         if (response.status == ResponseStatus.error) {
-          await showOkAlertDialog(
-            context: context,
-            title: 'Alert',
-            message: response.message,
-          ).then((value) {
-            Navigator.pop(context);
-          });
+          Dialogs.showAlertDialog(context: context, title: response.message);
         } else {
           Provider.of<HomeProvider>(context, listen: false)
               .updateDailyTotalExpense(0);

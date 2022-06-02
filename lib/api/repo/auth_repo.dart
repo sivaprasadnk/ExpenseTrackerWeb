@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/api/auth_exception_handler.dart';
 import 'package:expense_tracker/api/response.status.dart';
 import 'package:expense_tracker/common_strings.dart';
-import 'package:expense_tracker/model/response.model.dart';
+import 'package:expense_tracker/model/login.response.model.dart';
+import 'package:expense_tracker/model/registration.response.model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
@@ -11,14 +12,16 @@ import 'package:package_info_plus/package_info_plus.dart';
 class AuthRepo {
   final fireStoreInstance = FirebaseFirestore.instance;
 
-  Future<ResponseModel> createAccount(String email, String password) async {
+  Future<RegistrationResponse> createAccount(
+      String email, String password) async {
     final DateTime now = DateTime.now();
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     var version = packageInfo.version;
     var build = packageInfo.buildNumber;
+    UserCredential credential;
     final String formattedTime = DateFormat('dd-MM-yyyy  kk:mm').format(now);
     try {
-      UserCredential credential = await FirebaseAuth.instance
+      credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
       if (credential.user != null) {
         fireStoreInstance
@@ -32,19 +35,25 @@ class AuthRepo {
           'userId': credential.user!.uid,
           'registrationAppVersion': version,
           'registrationAppVersionCode': build,
-          // 'registrationBuildNumber': build,
         });
       }
     } catch (e) {
       debugPrint('Exception @createAccount: $e');
-      return ResponseModel(
+      return RegistrationResponse(
         status: ResponseStatus.error,
         data: '',
+        dailyTotal: 0,
+        userId: '',
         message: AuthExceptionHandler.handleException(e).toString(),
       );
     }
-    return ResponseModel(
-        status: ResponseStatus.success, message: 'Success', data: "");
+    return RegistrationResponse(
+      userId: credential.user!.uid,
+      status: ResponseStatus.success,
+      dailyTotal: 0,
+      message: 'Success',
+      data: "",
+    );
   }
 
   // Future<ResponseModel> login(String email, String password) async {
@@ -102,9 +111,9 @@ class AuthRepo {
   //       data: dailyTotal.toString() + "." + monthlyTotal.toString());
   // }
 
-  Future<ResponseModel> loginNew(String email, String password) async {
+  Future<LoginResponse> loginNew(String email, String password) async {
     final DateTime now = DateTime.now();
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    final PackageInfo packageInfo = await PackageInfo.fromPlatform();
     var version = packageInfo.version;
     var build = packageInfo.buildNumber;
     final String formattedTime = DateFormat('dd-MM-yyyy  kk:mm').format(now);
@@ -135,9 +144,11 @@ class AuthRepo {
       }
     } catch (e) {
       debugPrint('Exception @loginAccount: $e');
-      return ResponseModel(
+      return LoginResponse(
         status: ResponseStatus.error,
         data: '',
+        userId: '',
+        dailyTotal: 0,
         message: AuthExceptionHandler.handleException(e).toString(),
       );
     }
@@ -156,10 +167,11 @@ class AuthRepo {
       dailyTotal = value1.data()!['totalExpense'];
     }
     debugPrint('.. @@ dailyTotal from db : $dailyTotal');
-    return ResponseModel(
+    return LoginResponse(
         status: ResponseStatus.success,
         message: 'Success',
         userId: userId,
-        data: dailyTotal.toString() + "." + "0");
+        dailyTotal: dailyTotal,
+        data: '');
   }
 }

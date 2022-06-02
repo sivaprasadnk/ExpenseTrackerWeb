@@ -11,118 +11,6 @@ import 'package:intl/intl.dart';
 class UserRepo {
   final fireStoreInstance = FirebaseFirestore.instance;
 
-  // Future<ResponseModel> addExpense(
-  //     Expense expense, int dailyTotal, int monthlyTotal) async {
-  //   // try {
-  //   String userId = FirebaseAuth.instance.currentUser!.uid;
-  //   String expenseDocId = "", recentDocId = "";
-  //   final DateTime now = DateTime.now();
-  //   final String formattedTime = DateFormat('dd-MM-yyyy  kk:mm').format(now);
-  //   fireStoreInstance
-  //       .collection(kUsersCollection)
-  //       .doc(userId)
-  //       .collection(kRecentExpensesCollection)
-  //       .add({
-  //     'expenseTitle': expense.title,
-  //     'amount': expense.amount,
-  //     'expenseMonth': expense.expenseMonth,
-  //     'expenseDate': expense.expenseDate,
-  //     'details': expense.details,
-  //     'createdDate': formattedTime,
-  //     'categoryId': expense.categoryIndex,
-  //     'categoryName': expense.categoryName,
-  //     'updatedTime': formattedTime,
-  //     'expenseDocId': expenseDocId,
-  //   }).then((recentDoc) {
-  //     recentDocId = recentDoc.id;
-  //     fireStoreInstance
-  //         .collection(kUsersCollection)
-  //         .doc(userId)
-  //         .collection(kRecentExpensesCollection)
-  //         .doc(recentDocId)
-  //         .update({
-  //       'recentDocId': recentDoc.id,
-  //     });
-
-  //     fireStoreInstance
-  //         .collection(kUsersCollection)
-  //         .doc(userId)
-  //         .collection(kExpenseMonthsCollection)
-  //         .doc(expense.expenseMonth)
-  //         .collection(expense.expenseDate)
-  //         .doc(expense.expenseDate)
-  //         .collection(kExpenseCollection)
-  //         .add({
-  //       'expenseTitle': expense.title,
-  //       'amount': expense.amount,
-  //       'details': expense.details,
-  //       'createdDate': formattedTime,
-  //       'categoryId': expense.categoryIndex,
-  //       'categoryName': expense.categoryName,
-  //       'updatedTime': formattedTime,
-  //     }).then((doc) {
-  //       expenseDocId = doc.id;
-  //       fireStoreInstance
-  //           .collection(kUsersCollection)
-  //           .doc(userId)
-  //           .collection(kExpenseMonthsCollection)
-  //           .doc(expense.expenseMonth)
-  //           .collection(expense.expenseDate)
-  //           .doc(expense.expenseDate)
-  //           .collection(kExpenseCollection)
-  //           .doc(doc.id)
-  //           .update({
-  //         'expenseDocId': doc.id,
-  //       }).then((value) {
-  //         fireStoreInstance
-  //             .collection(kUsersCollection)
-  //             .doc(userId)
-  //             .collection(kRecentExpensesCollection)
-  //             .doc(recentDocId)
-  //             .update({
-  //           'expenseDocId': doc.id,
-  //         });
-  //       });
-  //     });
-  //     debugPrint(
-  //         '.. @@@ dailyTotal : $dailyTotal   dailyTotal ${expense.amount}');
-  //     fireStoreInstance
-  //         .collection(kUsersCollection)
-  //         .doc(userId)
-  //         .collection(kExpenseMonthsCollection)
-  //         .doc(expense.expenseMonth)
-  //         .collection(expense.expenseDate)
-  //         .doc(expense.expenseDate)
-  //         .set({
-  //       'totalExpense': dailyTotal + expense.amount,
-  //       'day': expense.expenseDate,
-  //       'updatedTime': formattedTime,
-  //     });
-
-  //     fireStoreInstance
-  //         .collection(kUsersCollection)
-  //         .doc(userId)
-  //         .collection(kExpenseMonthsCollection)
-  //         .doc(expense.expenseMonth)
-  //         .update({
-  //       'totalExpense': monthlyTotal + expense.amount,
-  //       'updatedTime': formattedTime,
-  //     });
-  //   });
-
-  //   // } catch (e) {
-  //   //   debugPrint(e.toString());
-  //   //   return ResponseModel(
-  //   //     status: ResponseStatus.error,
-  //   //     data: '',
-  //   //     message: e.toString(),
-  //   //   );
-  //   // }
-
-  //   return ResponseModel(
-  //       status: ResponseStatus.success, message: 'Success', data: '');
-  // }
-
   Future<ResponseModel> addExpenseNew(
       Expense expense, int dailyTotal, int monthlyTotal) async {
     String userId = FirebaseAuth.instance.currentUser!.uid;
@@ -134,13 +22,16 @@ class UserRepo {
         .doc(userId)
         .collection(kRecentExpensesCollection)
         .add({
-      'expenseTitle': expense.expenseTitle,
       'active': true,
+      'expenseTitle': expense.expenseTitle,
+      'expenseTitle_i': expense.expenseTitle.toLowerCase(),
+      'details': expense.details,
+      'details_i': expense.details.toLowerCase(),
       'amount': expense.amount,
+      'amount_i': expense.amount.toString().toLowerCase(),
       'expenseMonth': expense.expenseMonth,
       'expenseDate': expense.expenseDate,
       'expenseDay': expense.expenseDay,
-      'details': expense.details,
       'createdDate': formattedTime,
       'categoryId': expense.categoryId,
       'categoryName': expense.categoryName,
@@ -167,8 +58,11 @@ class UserRepo {
         .collection(kExpenseCollection)
         .add({
       'expenseTitle': expense.expenseTitle,
-      'amount': expense.amount,
+      'expenseTitle_i': expense.expenseTitle.toLowerCase(),
       'details': expense.details,
+      'details_i': expense.details.toLowerCase(),
+      'amount': expense.amount,
+      'amount_i': expense.amount.toString().toLowerCase(),
       'mode': expense.mode,
       'createdDate': formattedTime,
       'expenseMonth': expense.expenseMonth,
@@ -189,7 +83,7 @@ class UserRepo {
         .collection(kExpenseCollection)
         .doc(doc.id)
         .update({
-      'expenseDocId': doc.id,
+      'expenseDocId': expenseDocId,
     });
 
     fireStoreInstance
@@ -198,7 +92,7 @@ class UserRepo {
         .collection(kRecentExpensesCollection)
         .doc(recentDocId)
         .update({
-      'expenseDocId': doc.id,
+      'expenseDocId': expenseDocId,
     });
 
     fireStoreInstance
@@ -223,7 +117,6 @@ class UserRepo {
       'categoryName': expense.categoryName,
       'categoryId': expense.categoryId,
     });
-    debugPrint('... @@ here@@@@@');
     await fireStoreInstance
         .collection(kUsersCollection)
         .doc(userId)
@@ -233,13 +126,16 @@ class UserRepo {
         .doc(formattedTime)
         .set({
       'expenseTitle': expense.expenseTitle,
+      'expenseTitle_i': expense.expenseTitle.toLowerCase(),
       'amount': expense.amount,
+      'amount_i': expense.amount.toString().toLowerCase(),
       'details': expense.details,
+      'details_i': expense.details.toLowerCase(),
       'mode': expense.mode,
       'createdDate': formattedTime,
       'expenseMonth': expense.expenseMonth,
       'expenseDate': expense.expenseDate,
-      "expenseDocId": "",
+      "expenseDocId": expenseDocId,
       'expenseDay': expense.expenseDay,
       'categoryId': expense.categoryId,
       'categoryName': expense.categoryName,
@@ -256,7 +152,6 @@ class UserRepo {
     try {
       String userId = FirebaseAuth.instance.currentUser!.uid;
 
-      // debugPrint('.. @@ here  $userId $docId  $date 1');
       fireStoreInstance
           .collection(kUsersCollection)
           .doc(userId)
@@ -353,7 +248,6 @@ class UserRepo {
     var e = value.data()!['totalExpense'].toString();
     debugPrint('.. @@ getTodaysExpense : $e');
     return e;
-    // return "";
   }
 
   Future<List<RecentExpense>> getRecentExpense() async {
@@ -407,14 +301,16 @@ class UserRepo {
     List<QueryDocumentSnapshot<Map<String, dynamic>>> list = res.docs;
 
     for (var i = 0; i < list.length; i++) {
-      String title = list[i]['expenseTitle'].toString();
+      String details = list[i]['details'].toString();
+      String amount = list[i]['amount'].toString();
       fireStoreInstance
           .collection(kUsersCollection)
           .doc(userId)
           .collection(kRecentExpensesCollection)
           .doc(list[i].id)
           .update({
-        'expenseTitle_i': title.toLowerCase(),
+        'amount_i': amount.toLowerCase(),
+        'details_i': details.toLowerCase(),
       });
     }
     debugPrint('.. @@ dailyTotal from db : $dailyTotal');
