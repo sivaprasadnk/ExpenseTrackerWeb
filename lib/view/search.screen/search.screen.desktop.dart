@@ -104,85 +104,107 @@ class _SearchScreenDesktopState extends State<SearchScreenDesktop> {
               height: 10,
             ),
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Center(
-                        child: TextFormField(
-                          onChanged: (value) {
-                            setState(() {
-                              searchWord = value;
-                            });
-                          },
-                          autofocus: true,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            isDense: true,
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: SizedBox(
+                    width: 450,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                              color: theme.primaryColor,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Center(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                              child: TextFormField(
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                ),
+                                onChanged: (value) {
+                                  setState(() {
+                                    searchWord = value;
+                                  });
+                                },
+                                autofocus: true,
+                                decoration: const InputDecoration(
+                                  hintStyle: TextStyle(
+                                    color: Colors.black,
+                                  ),
+                                  border: InputBorder.none,
+                                  hintText: 'Enter search text',
+                                  isDense: true,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    const Text('Enter search text'),
-                    StreamBuilder(
-                      stream: FirebaseFirestore.instance
-                          .collection(kUsersCollection)
-                          .doc(userId)
-                          .collection(kRecentExpensesCollection)
-                          .where('expenseTitle_i', isEqualTo: searchWord)
-                          .snapshots(),
-                      builder: (_, snapshot) {
-                        return snapshot.connectionState != ConnectionState.done
-                            ? snapshot.hasData &&
-                                    (snapshot.data! as QuerySnapshot)
-                                        .docs
-                                        .isNotEmpty
-                                ? SizedBox(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.4,
-                                    child: ListView.separated(
-                                      separatorBuilder: (ctx, _) =>
-                                          const SizedBox(
-                                        height: 10,
-                                      ),
-                                      itemCount:
+                        const SizedBox(
+                          height: 50,
+                        ),
+                        Expanded(
+                          child: StreamBuilder(
+                            stream: FirebaseFirestore.instance
+                                .collection(kUsersCollection)
+                                .doc(userId)
+                                .collection(kRecentExpensesCollection)
+                                .where('expenseTitle_i',
+                                    isEqualTo: searchWord.toLowerCase())
+                                .snapshots(),
+                            builder: (_, snapshot) {
+                              return snapshot.connectionState !=
+                                      ConnectionState.done
+                                  ? snapshot.hasData &&
                                           (snapshot.data! as QuerySnapshot)
                                               .docs
-                                              .length,
-                                      itemBuilder: (ctx, index) {
-                                        var doc =
-                                            (snapshot.data! as QuerySnapshot)
-                                                .docs[index];
-                                        Expense expense = Expense.fromJson(doc);
-                                        return Center(
-                                          child: SizedBox(
-                                            width: 450,
-                                            child: ExpenseDetailsCardDesktop(
-                                              expense: expense,
-                                              width: 450,
+                                              .isNotEmpty
+                                      ? SizedBox(
+                                          child: ListView.separated(
+                                            separatorBuilder: (ctx, _) =>
+                                                const SizedBox(
+                                              height: 10,
                                             ),
+                                            itemCount: (snapshot.data!
+                                                    as QuerySnapshot)
+                                                .docs
+                                                .length,
+                                            itemBuilder: (ctx, index) {
+                                              var doc = (snapshot.data!
+                                                      as QuerySnapshot)
+                                                  .docs[index];
+                                              Expense expense =
+                                                  Expense.fromJson(doc);
+                                              return Center(
+                                                child: SizedBox(
+                                                  width: 450,
+                                                  child:
+                                                      ExpenseDetailsCardDesktop(
+                                                    expense: expense,
+                                                    width: 450,
+                                                  ),
+                                                ),
+                                              );
+                                            },
                                           ),
-                                        );
-                                      },
-                                    ),
-                                  )
-                                : const NoExpenseContainerDesktop()
-                            : const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                      },
-                    )
-                  ],
+                                        )
+                                      : const NoExpenseContainerDesktop()
+                                  : const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),

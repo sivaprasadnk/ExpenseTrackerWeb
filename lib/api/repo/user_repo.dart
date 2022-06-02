@@ -11,12 +11,9 @@ import 'package:intl/intl.dart';
 class UserRepo {
   final fireStoreInstance = FirebaseFirestore.instance;
 
-  Future<ResponseModel> addExpenseNew(
-      Expense expense, int dailyTotal, int monthlyTotal) async {
-    String userId = FirebaseAuth.instance.currentUser!.uid;
+  Future<ResponseModel> addExpense(Expense expense, int dailyTotal,
+      int monthlyTotal, String userId, String formattedTime) async {
     String expenseDocId = "", recentDocId = "";
-    final DateTime now = DateTime.now();
-    final String formattedTime = DateFormat('dd-MM-yyyy  kk:mm:ss').format(now);
     DocumentReference<Map<String, dynamic>> recentDoc = await fireStoreInstance
         .collection(kUsersCollection)
         .doc(userId)

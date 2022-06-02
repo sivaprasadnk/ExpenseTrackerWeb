@@ -1,14 +1,12 @@
 import 'package:expense_tracker/cursor.widget.dart';
-import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class TitleWidget extends StatelessWidget {
   const TitleWidget({Key? key, required this.title}) : super(key: key);
   final String title;
   @override
   Widget build(BuildContext context) {
-    var theme = Provider.of<ThemeNotifier>(context, listen: false).themeData;
+    var theme = Theme.of(context);
     return CursorWidget(
       onTap: () {
         Navigator.pop(context);
