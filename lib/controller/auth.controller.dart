@@ -12,6 +12,7 @@ import 'package:validators/validators.dart';
 
 class AuthController {
   static AuthRepo authRepo = AuthRepo();
+  static UserRepo userRepo = UserRepo();
 
   static void login(BuildContext context, String email, String password) {
     try {
@@ -41,12 +42,16 @@ class AuthController {
           int dailyExp = response.dailyTotal;
           Provider.of<HomeProvider>(context, listen: false)
               .updateDailyTotalExpense(dailyExp);
-          UserRepo().getRecentExpense().then((recentExpList) {
+          // UserRepo().addCaseIgnoreTitle(response.userId).then((value) {
+          //   Navigation.checkPlatformAndNavigateToHome(context);
+          // });
+          userRepo.getRecentExpense().then((recentExpList) {
             Provider.of<HomeProvider>(context, listen: false)
                 .updateRecentList(recentExpList);
-            UserRepo().addCaseIgnoreTitle(response.userId).then((value) {
-              Navigation.checkPlatformAndNavigateToHome(context);
-            });
+            // UserRepo().addCaseIgnoreTitle(response.userId).then((value) {
+            //   Navigation.checkPlatformAndNavigateToHome(context);
+            // });
+            Navigation.checkPlatformAndNavigateToHome(context);
           });
         }
       });

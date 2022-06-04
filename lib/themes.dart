@@ -142,3 +142,5 @@ final appThemeData = {
     scaffoldBackgroundColor: const Color.fromRGBO(212, 236, 221, 1),
   ),
 };
+
+//   https://assets8.lottiefiles.com/packages/lf20_zGHcl0.json

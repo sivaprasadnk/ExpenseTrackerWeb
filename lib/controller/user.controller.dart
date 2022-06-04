@@ -31,6 +31,7 @@ class UserController {
 
     var date = DateFormat('dd-MM-yyyy').format(selectedDate);
     var month = DateFormat('MMM, yyyy').format(selectedDate);
+    var monthDocId = DateFormat('MMM_yyyy').format(selectedDate);
     final DateTime now = DateTime.now();
     final String formattedTime = DateFormat('dd-MM-yyyy  kk:mm:ss').format(now);
     // List<String> title = expenseTitle.split(" ");
@@ -47,6 +48,7 @@ class UserController {
       expenseDocId: "",
       categoryId: categoryId,
       details: expenseDetails,
+      expenseMonthDocId: monthDocId,
       amount: expenseAmount,
       categoryName: categoryName,
       expenseMonth: month,

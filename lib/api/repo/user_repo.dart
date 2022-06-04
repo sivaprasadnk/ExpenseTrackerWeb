@@ -14,6 +14,8 @@ class UserRepo {
   Future<ResponseModel> addExpense(Expense expense, int dailyTotal,
       int monthlyTotal, String userId, String formattedTime) async {
     String expenseDocId = "", recentDocId = "";
+
+    /// adding recent expenses
     DocumentReference<Map<String, dynamic>> recentDoc = await fireStoreInstance
         .collection(kUsersCollection)
         .doc(userId)
@@ -27,6 +29,7 @@ class UserRepo {
       'amount': expense.amount,
       'amount_i': expense.amount.toString().toLowerCase(),
       'expenseMonth': expense.expenseMonth,
+      'expenseMonthDocId': expense.expenseMonthDocId,
       'expenseDate': expense.expenseDate,
       'expenseDay': expense.expenseDay,
       'createdDate': formattedTime,
@@ -37,6 +40,8 @@ class UserRepo {
       'expenseDocId': expenseDocId,
     });
 
+    /// updating recent expense docid
+
     recentDocId = recentDoc.id;
     fireStoreInstance
         .collection(kUsersCollection)
@@ -46,6 +51,8 @@ class UserRepo {
         .update({
       'recentDocId': recentDoc.id,
     });
+
+    /// adding expense for the date
 
     DocumentReference<Map<String, dynamic>> doc = await fireStoreInstance
         .collection(kUsersCollection)
@@ -63,6 +70,7 @@ class UserRepo {
       'mode': expense.mode,
       'createdDate': formattedTime,
       'expenseMonth': expense.expenseMonth,
+      'expenseMonthDocId': expense.expenseMonthDocId,
       'expenseDate': expense.expenseDate,
       'expenseDay': expense.expenseDay,
       'categoryId': expense.categoryId,
@@ -70,6 +78,8 @@ class UserRepo {
       'updatedTime': formattedTime,
       'active': true,
     });
+
+    /// updating  expense docid &  recent docid
 
     expenseDocId = doc.id;
     fireStoreInstance
@@ -81,7 +91,10 @@ class UserRepo {
         .doc(doc.id)
         .update({
       'expenseDocId': expenseDocId,
+      'recentDocId': recentDoc.id,
     });
+
+    /// updating  expense docid in recent expense item
 
     fireStoreInstance
         .collection(kUsersCollection)
@@ -91,6 +104,8 @@ class UserRepo {
         .update({
       'expenseDocId': expenseDocId,
     });
+
+    /// updating  total expense amount for the date
 
     fireStoreInstance
         .collection(kUsersCollection)
@@ -104,6 +119,9 @@ class UserRepo {
       'day': expense.expenseDay,
       'updatedTime': formattedTime,
     });
+
+    /// setting  expense category
+
     await fireStoreInstance
         .collection(kUsersCollection)
         .doc(userId)
@@ -114,6 +132,9 @@ class UserRepo {
       'categoryName': expense.categoryName,
       'categoryId': expense.categoryId,
     });
+
+    /// setting  expense category item in category list
+
     await fireStoreInstance
         .collection(kUsersCollection)
         .doc(userId)
@@ -131,13 +152,26 @@ class UserRepo {
       'mode': expense.mode,
       'createdDate': formattedTime,
       'expenseMonth': expense.expenseMonth,
+      'expenseMonthDocId': expense.expenseMonthDocId,
       'expenseDate': expense.expenseDate,
       "expenseDocId": expenseDocId,
+      'recentDocId': recentDoc.id,
       'expenseDay': expense.expenseDay,
       'categoryId': expense.categoryId,
       'categoryName': expense.categoryName,
       'updatedTime': formattedTime,
       'active': true,
+    });
+
+    fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(userId)
+        .collection(kExpenseMonthsCollection)
+        .doc(expense.expenseMonthDocId)
+        .set({
+      'totalExpense': monthlyTotal + expense.amount,
+      'lastUpdatedTime': formattedTime,
+      'lastUpdatedExpenseDocId': expenseDocId,
     });
 
     return ResponseModel(
@@ -255,13 +289,14 @@ class UserRepo {
         .collection(kUsersCollection)
         .doc(userId)
         .collection(kRecentExpensesCollection)
+        .orderBy('createdDateTime', descending: true)
+        .limit(4)
         .get();
     var recentExpList1 = querySnapshot.docs.map((doc) => doc.data()).toList();
     for (var element in recentExpList1) {
-      RecentExpense recentExpense = RecentExpense.toJson(element);
+      RecentExpense recentExpense = RecentExpense.fromMap(element);
       recentExpList.add(recentExpense);
     }
-    recentExpList.sort((a, b) => b.createdDate.compareTo(a.createdDate));
     return recentExpList;
   }
 
@@ -288,6 +323,7 @@ class UserRepo {
   }
 
   Future<ResponseModel> addCaseIgnoreTitle(String userId) async {
+    debugPrint('...@@ started');
     int dailyTotal = 0;
     QuerySnapshot<Map<String, dynamic>> res = await fireStoreInstance
         .collection(kUsersCollection)
@@ -298,16 +334,26 @@ class UserRepo {
     List<QueryDocumentSnapshot<Map<String, dynamic>>> list = res.docs;
 
     for (var i = 0; i < list.length; i++) {
-      String details = list[i]['details'].toString();
-      String amount = list[i]['amount'].toString();
+      debugPrint('...@@ here @1');
+
+      String createdDateValue =
+          list[i]['createdDateTimeString'].toString().split(' ').first;
+      String timeValue =
+          list[i]['createdDateTimeString'].toString().split(' ').last;
+      String dateValue = createdDateValue.split('-').first;
+      String monthValue = createdDateValue.split('-')[1];
+      String yearValue = createdDateValue.split('-').last;
+      String reversedValue = yearValue + "-" + monthValue + "-" + dateValue;
+
+      var createdDateTime = DateTime.parse(reversedValue + " " + timeValue);
+
       fireStoreInstance
           .collection(kUsersCollection)
           .doc(userId)
           .collection(kRecentExpensesCollection)
           .doc(list[i].id)
           .update({
-        'amount_i': amount.toLowerCase(),
-        'details_i': details.toLowerCase(),
+        'createdDateTime': createdDateTime,
       });
     }
     debugPrint('.. @@ dailyTotal from db : $dailyTotal');

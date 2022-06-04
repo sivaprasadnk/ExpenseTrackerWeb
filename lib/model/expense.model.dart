@@ -1,6 +1,7 @@
 // enum Mode { Cash, Online, All }
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expense_tracker/model/recent.expense.model.dart';
 
 class Expense {
   String expenseTitle;
@@ -11,6 +12,7 @@ class Expense {
   String expenseDate;
   String expenseDay;
   String expenseMonth;
+  String expenseMonthDocId;
   String expenseDocId;
   String createdDate;
   String mode;
@@ -23,6 +25,7 @@ class Expense {
     required this.expenseDate,
     required this.expenseDay,
     required this.expenseMonth,
+    required this.expenseMonthDocId,
     required this.createdDate,
     required this.expenseDocId,
     required this.mode,
@@ -39,9 +42,28 @@ class Expense {
       expenseDay: "",
       details: doc['details'],
       expenseDocId: doc['expenseDocId'] ?? "",
+      expenseMonthDocId: "",
       expenseTitle: doc['expenseTitle'],
       expenseDate: doc['expenseDate'] ?? "",
       expenseMonth: doc['expenseMonth'],
+    );
+  }
+
+  static Expense fromRecentExpense(RecentExpense expense) {
+    return Expense(
+      expenseTitle: expense.expenseTitle,
+      categoryId: expense.categoryId,
+      details: expense.details,
+      amount: expense.amount,
+      categoryName: expense.categoryName,
+      expenseDate: expense.expenseDate,
+      expenseDay: expense.expenseDay,
+      expenseMonth: expense.expenseMonth,
+      createdDate: expense.createdDateTimeString,
+      expenseDocId: expense.expenseDocId,
+      // expenseMonthDocId: expense.expenseMonthDocId,
+      expenseMonthDocId: '',
+      mode: expense.mode,
     );
   }
 }

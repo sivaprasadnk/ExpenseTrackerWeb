@@ -30,6 +30,7 @@ class _LoginScreenState extends State<LoginScreen>
 
   String email = "";
   String password = "";
+  bool showPassword = false;
   FirebaseAuth auth = FirebaseAuth.instance;
   // GoogleSignIn? _googleSignIn;
   @override
@@ -281,21 +282,61 @@ class _LoginScreenState extends State<LoginScreen>
                               duration: slideDuration,
                               offset: _passwordFieldSlide.value,
                               child: TextFieldContainer(
-                                child: TextFormField(
-                                  focusNode: textSecondFocusNode,
-                                  obscureText: true,
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                  ),
-                                  onSaved: (val) {
-                                    password = val.toString();
-                                  },
-                                  decoration: const InputDecoration(
-                                    hintText: '',
-                                    border: InputBorder.none,
-                                    isDense: true,
-                                  ),
+                                child: Stack(
+                                  alignment: Alignment.centerRight,
+                                  children: <Widget>[
+                                    TextFormField(
+                                      focusNode: textSecondFocusNode,
+                                      obscureText: !showPassword,
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                      ),
+                                      onSaved: (val) {
+                                        password = val.toString();
+                                      },
+                                      decoration: const InputDecoration(
+                                        // hintText: '',
+                                        border: InputBorder.none,
+                                        isDense: true,
+                                      ),
+                                    ),
+                                    IconButton(
+                                      icon: showPassword
+                                          ? const Icon(Icons.visibility)
+                                          : const Icon(Icons.visibility_off),
+                                      onPressed: () {
+                                        // do something
+                                        setState(() {
+                                          showPassword = !showPassword;
+                                        });
+                                      },
+                                    ),
+                                  ],
                                 ),
+                                // child: TextFormField(
+                                //   focusNode: textSecondFocusNode,
+                                //   obscureText: !showPassword,
+                                //   style: const TextStyle(
+                                //     color: Colors.black,
+                                //   ),
+                                //   onSaved: (val) {
+                                //     password = val.toString();
+                                //   },
+                                //   decoration: InputDecoration(
+                                //     suffixIcon: GestureDetector(
+                                //       onTap: () {
+                                //         setState(() {
+                                //           showPassword = !showPassword;
+                                //         });
+                                //       },
+                                //       child: const Icon(
+                                //           Icons.remove_red_eye_rounded),
+                                //     ),
+                                //     hintText: '',
+                                //     border: InputBorder.none,
+                                //     isDense: true,
+                                //   ),
+                                // ),
                               ),
                             ),
                           ),

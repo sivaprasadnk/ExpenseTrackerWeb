@@ -59,6 +59,8 @@ class ExpenseByCategoryListMobileScreen extends StatelessWidget {
                             expenseTitle: doc['expenseTitle'],
                             expenseDate: doc['expenseDate'],
                             expenseMonth: doc['expenseMonth'],
+                            // expenseMonthDocId: doc['expenseMonthDocId'],
+                            expenseMonthDocId: '',
                           );
                           return ExpenseDetailsCardMobile(
                             expense: expense,

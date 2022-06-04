@@ -135,6 +135,7 @@ class _HomeScreenMobileState extends State<HomeScreenMobile>
     return MobileView(
       isHome: true,
       appBarTitle: '',
+      showSearchIcon: true,
       child: AnimatedBuilder(
         animation: _controller,
         builder: (_, child) {

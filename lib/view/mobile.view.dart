@@ -1,7 +1,9 @@
+import 'package:expense_tracker/cursor.widget.dart';
 import 'package:expense_tracker/view/home/drawer/drawer.screen.dart';
 import 'package:expense_tracker/view/home/mobile/home.screen.mobile.dart';
 import 'package:expense_tracker/view/network_aware_widget.dart';
 import 'package:expense_tracker/view/offline.widget.dart';
+import 'package:expense_tracker/view/search.screen/search.screen.mobile.dart';
 import 'package:expense_tracker/view/title.widget.dart';
 import 'package:flutter/material.dart';
 
@@ -12,11 +14,13 @@ class MobileView extends StatefulWidget {
     this.isHome = false,
     required this.appBarTitle,
     this.showNetworkStatus = true,
+    this.showSearchIcon = true,
   }) : super(key: key);
   final Widget child;
   final String appBarTitle;
   final bool isHome;
   final bool showNetworkStatus;
+  final bool showSearchIcon;
 
   @override
   State<MobileView> createState() => _MobileViewState();
@@ -65,6 +69,21 @@ class _MobileViewState extends State<MobileView> {
         ),
         centerTitle: false,
         actions: [
+          if (widget.showSearchIcon)
+            CursorWidget(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => const SearchScreenMobile()));
+              },
+              child: Icon(
+                Icons.search,
+                color: theme.brightness == Brightness.dark
+                    ? Colors.white
+                    : Colors.black,
+              ),
+            ),
           Padding(
             padding: const EdgeInsets.only(right: 10),
             child: GestureDetector(

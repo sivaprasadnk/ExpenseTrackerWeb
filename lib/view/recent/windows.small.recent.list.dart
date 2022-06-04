@@ -32,7 +32,7 @@ class WindowsSmallRecentList extends StatelessWidget {
             builder: (ctx, snapshot) {
               return snapshot.connectionState != ConnectionState.waiting
                   ? snapshot.hasData &&
-                          (snapshot.data! as QuerySnapshot).docs.length > 0
+                          (snapshot.data! as QuerySnapshot).docs.isNotEmpty
                       ? SizedBox(
                           height: screenHeight * 0.5,
                           child: LiveList(
@@ -46,19 +46,8 @@ class WindowsSmallRecentList extends StatelessWidget {
                               (index) {
                                 var doc = (snapshot.data! as QuerySnapshot)
                                     .docs[index];
-                                RecentExpense recentExp = RecentExpense(
-                                    expenseTitle: doc['expenseTitle'],
-                                    categoryId: doc['categoryId'],
-                                    details: doc['details'],
-                                    amount: doc['amount'],
-                                    categoryName: doc['categoryName'],
-                                    expenseDate: doc['expenseDate'],
-                                    expenseMonth: doc['expenseMonth'],
-                                    createdDate: doc['createdDate'],
-                                    expenseDocId: doc['expenseDocId'],
-                                    expenseDay: doc['expenseDay'],
-                                    mode: doc['mode'],
-                                    recentDocId: doc['recentDocId']);
+                                RecentExpense recentExp =
+                                    RecentExpense.toModel(doc);
                                 return Padding(
                                   padding: const EdgeInsets.only(bottom: 10),
                                   child: ExpenseListItem(

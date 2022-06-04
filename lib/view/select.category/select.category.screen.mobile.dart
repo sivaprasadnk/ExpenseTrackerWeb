@@ -35,6 +35,7 @@ class _SelectCategoryScreenMobileState
     final screenHeight = screenSize.height;
     final ThemeData theme = Theme.of(context);
     var primaryColor = theme.primaryColor;
+    final bgColor = theme.scaffoldBackgroundColor;
     return MobileView(
       appBarTitle: 'Select Category',
       child: Column(
@@ -62,7 +63,7 @@ class _SelectCategoryScreenMobileState
                         child: Container(
                           height: 50,
                           decoration: BoxDecoration(
-                              color: primaryColor,
+                              color: bgColor,
                               border: Border.all(
                                 color: primaryColor,
                               ),

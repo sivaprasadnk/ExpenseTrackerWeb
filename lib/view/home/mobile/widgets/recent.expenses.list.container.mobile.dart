@@ -1,11 +1,8 @@
 import 'package:auto_animated/auto_animated.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/model/recent.expense.model.dart';
 import 'package:expense_tracker/provider/home.provider.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/recent.expense.list/expense.list.item.dart';
 import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.container.mobile.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,27 +16,6 @@ class RecentExpensesListContainerMobile extends StatefulWidget {
 
 class _RecentExpensesListContainerMobileState
     extends State<RecentExpensesListContainerMobile> {
-  Stream<QuerySnapshot<Map<String, dynamic>>>? stream;
-
-  @override
-  void initState() {
-    var userId = FirebaseAuth.instance.currentUser!.uid;
-
-    stream = FirebaseFirestore.instance
-        .collection(kUsersCollection)
-        .doc(userId)
-        .collection(kRecentExpensesCollection)
-        .limit(5)
-        .orderBy('createdDate', descending: true)
-        .snapshots();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -57,24 +33,12 @@ class _RecentExpensesListContainerMobileState
                   itemCount: provider.recentExpensesList.length,
                   itemBuilder: animationItemBuilder(
                     (index) {
-                      var doc = provider.recentExpensesList[index];
-                      RecentExpense recentExp = RecentExpense(
-                          expenseTitle: doc.expenseTitle,
-                          categoryId: doc.categoryId,
-                          details: doc.details,
-                          amount: doc.amount,
-                          categoryName: doc.categoryName,
-                          expenseDate: doc.expenseDate,
-                          expenseMonth: doc.expenseMonth,
-                          createdDate: doc.createdDate,
-                          expenseDocId: doc.expenseDocId,
-                          recentDocId: doc.recentDocId,
-                          expenseDay: doc.expenseDay,
-                          mode: doc.mode);
+                      RecentExpense doc = provider.recentExpensesList[index];
+
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 10),
                         child: ExpenseListItem(
-                          expense: recentExp,
+                          expense: doc,
                         ),
                       );
                     },
