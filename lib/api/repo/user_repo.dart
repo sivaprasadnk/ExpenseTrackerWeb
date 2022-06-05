@@ -322,13 +322,13 @@ class UserRepo {
         data: dailyTotal.toString() + "." + "0");
   }
 
-  Future<ResponseModel> addCaseIgnoreTitle(String userId) async {
+  Future<ResponseModel> updateDbValue(String userId) async {
     debugPrint('...@@ started');
     int dailyTotal = 0;
     QuerySnapshot<Map<String, dynamic>> res = await fireStoreInstance
         .collection(kUsersCollection)
         .doc(userId)
-        .collection(kRecentExpensesCollection)
+        .collection(kExpenseDatesNewCollection)
         .get();
 
     List<QueryDocumentSnapshot<Map<String, dynamic>>> list = res.docs;
@@ -336,24 +336,25 @@ class UserRepo {
     for (var i = 0; i < list.length; i++) {
       debugPrint('...@@ here @1');
 
-      String createdDateValue =
-          list[i]['createdDateTimeString'].toString().split(' ').first;
-      String timeValue =
-          list[i]['createdDateTimeString'].toString().split(' ').last;
-      String dateValue = createdDateValue.split('-').first;
-      String monthValue = createdDateValue.split('-')[1];
-      String yearValue = createdDateValue.split('-').last;
-      String reversedValue = yearValue + "-" + monthValue + "-" + dateValue;
+      String monthWIthComma = list[i]['month'].toString().split(' ').first;
+      String yearValue = list[i]['month'].toString().split(' ').last;
 
-      var createdDateTime = DateTime.parse(reversedValue + " " + timeValue);
+      String monthWithoutComma = monthWIthComma.split(',').first;
+      // String timeValue =
+      //     list[i]['createdDateTimeString'].toString().split(' ').last;
+      // String dateValue = createdDateValue.split('-').first;
+      // String monthValue = createdDateValue.split('-')[1];
+      String monthWithHyphen = monthWithoutComma + "_" + yearValue;
+
+      // var createdDateTime = DateTime.parse(reversedValue + " " + timeValue);
 
       fireStoreInstance
           .collection(kUsersCollection)
           .doc(userId)
-          .collection(kRecentExpensesCollection)
+          .collection(kExpenseDatesNewCollection)
           .doc(list[i].id)
           .update({
-        'createdDateTime': createdDateTime,
+        'monthDocId': monthWithHyphen,
       });
     }
     debugPrint('.. @@ dailyTotal from db : $dailyTotal');

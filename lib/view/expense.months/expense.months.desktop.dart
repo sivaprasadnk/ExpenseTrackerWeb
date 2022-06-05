@@ -1,27 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/common_strings.dart';
-import 'package:expense_tracker/model/expense.date.model.dart';
+import 'package:expense_tracker/model/expense.month.model.dart';
 import 'package:expense_tracker/view/desktop.view.dart';
-import 'package:expense_tracker/view/expense.by.date.list/expense.by.date.list.desktop.screen.dart';
-import 'package:expense_tracker/view/expense.date.list/widgets/expense.amount.text.dart';
+import 'package:expense_tracker/view/expense.date.list/desktop/small/expense.by.date.desktop.small.screen.dart';
 import 'package:expense_tracker/view/expense.date.list/widgets/expense.date.text.dart';
 import 'package:expense_tracker/view/expense.date.list/widgets/expense.month.text.dart';
-import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.container.desktop.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:neumorphic_loader/neumorphic_loader.dart';
 
-class ExpenseDateListDesktopSmall extends StatefulWidget {
-  const ExpenseDateListDesktopSmall({Key? key, required this.monthDocId})
-      : super(key: key);
-  final String monthDocId;
+class ExpenseMonthsDesktop extends StatefulWidget {
+  const ExpenseMonthsDesktop({Key? key}) : super(key: key);
+  static const routeName = '/SelectMonth';
+
   @override
-  _ExpenseDateListDesktopSmallState createState() =>
-      _ExpenseDateListDesktopSmallState();
+  State<ExpenseMonthsDesktop> createState() => _ExpenseMonthsDesktopState();
 }
 
-class _ExpenseDateListDesktopSmallState
-    extends State<ExpenseDateListDesktopSmall> {
-  List<bool> hoveredStatusList = List<bool>.generate(100, (index) => false);
+class _ExpenseMonthsDesktopState extends State<ExpenseMonthsDesktop> {
+  List<bool> hoveredStatusList = List<bool>.generate(12, (index) => false);
 
   @override
   Widget build(BuildContext context) {
@@ -29,16 +26,12 @@ class _ExpenseDateListDesktopSmallState
     final ThemeData theme = Theme.of(context);
     var primaryColor = theme.primaryColor;
     var bgColor = theme.scaffoldBackgroundColor;
-
     return DesktopView(
-      appBarTitle: 'Select Date',
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection(kUsersCollection)
             .doc(userId)
-            .collection(kExpenseDatesNewCollection)
-            .where('monthDocId', isEqualTo: widget.monthDocId)
-            .orderBy('day', descending: false)
+            .collection(kExpenseMonthsCollection)
             .snapshots(),
         builder: (_, snapshot) {
           return snapshot.connectionState != ConnectionState.done
@@ -61,7 +54,7 @@ class _ExpenseDateListDesktopSmallState
                         itemBuilder: (ctx, index) {
                           var doc =
                               (snapshot.data! as QuerySnapshot).docs[index];
-                          var expDate = ExpenseDate.fromJson(doc);
+                          var expenseMonth = ExpenseMonth.fromDb(doc);
                           return InkWell(
                             hoverColor: Colors.transparent,
                             onHover: (val) {
@@ -73,9 +66,10 @@ class _ExpenseDateListDesktopSmallState
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (_) => ExpenseByDateListScreen(
-                                            expenseDateItem: expDate,
-                                          )));
+                                    builder: (_) => ExpenseDateListDesktopSmall(
+                                      monthDocId: expenseMonth.monthDocId,
+                                    ),
+                                  ));
                             },
                             child: Stack(
                               children: [
@@ -101,13 +95,13 @@ class _ExpenseDateListDesktopSmallState
                                             MainAxisAlignment.center,
                                         children: [
                                           ExpenseDateText(
-                                            date: expDate.day,
+                                            date: expenseMonth.monthOnly,
                                             textColor: hoveredStatusList[index]
                                                 ? bgColor
                                                 : primaryColor,
                                           ),
                                           ExpenseMonthText(
-                                            month: expDate.month,
+                                            month: expenseMonth.year.toString(),
                                             textColor: hoveredStatusList[index]
                                                 ? bgColor
                                                 : primaryColor,
@@ -117,25 +111,27 @@ class _ExpenseDateListDesktopSmallState
                                     ),
                                   ),
                                 ),
-                                ExpenseAmountText(
-                                  fillColor: bgColor,
-                                  borderColor: primaryColor,
-                                  amount: expDate.totalExpense.toString(),
-                                )
+                                // ExpenseAmountText(
+                                //   fillColor: bgColor,
+                                //   borderColor: primaryColor,
+                                //   amount: expDate.totalExpense.toString(),
+                                // )
                               ],
                             ),
                           );
                         },
                       ),
                     )
-                  : const NoExpenseContainerDesktop(
-                      title: 'Dates of expenses added will list here.',
-                    )
-              : const Center(
-                  child: CircularProgressIndicator(),
+                  : Container()
+              : Center(
+                  child: NeumorphicLoader(
+                    size: 75,
+                    borderColor: primaryColor,
+                  ),
                 );
         },
       ),
+      appBarTitle: 'Select Month',
     );
   }
 }

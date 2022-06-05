@@ -40,7 +40,6 @@ class ViewExpenseByCategoryContainerMobile extends StatelessWidget {
               'View Expenses',
               style: TextStyle(
                 fontSize: 15,
-                // fontFamily: 'Rajdhani',
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -48,7 +47,6 @@ class ViewExpenseByCategoryContainerMobile extends StatelessWidget {
               ' by Category',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                // fontFamily: 'Rajdhani',
                 fontSize: 15,
                 color: Colors.red,
               ),

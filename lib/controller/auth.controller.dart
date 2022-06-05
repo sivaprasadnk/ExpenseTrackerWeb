@@ -51,7 +51,9 @@ class AuthController {
             // UserRepo().addCaseIgnoreTitle(response.userId).then((value) {
             //   Navigation.checkPlatformAndNavigateToHome(context);
             // });
-            Navigation.checkPlatformAndNavigateToHome(context);
+            userRepo.updateDbValue(response.userId).then((value) {
+              Navigation.checkPlatformAndNavigateToHome(context);
+            });
           });
         }
       });

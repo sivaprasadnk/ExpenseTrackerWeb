@@ -13,7 +13,6 @@ class AddExpenseButtonMobile extends StatelessWidget {
     var primaryColor = theme.themeData.primaryColor;
 
     final screenSize = MediaQuery.of(context).size;
-    // final screenHeight = screenSize.height;
     final screenWidth = screenSize.width;
     return GestureDetector(
       onTap: () {
@@ -32,7 +31,6 @@ class AddExpenseButtonMobile extends StatelessWidget {
           child: Text(
             'Add ',
             style: TextStyle(
-              // fontFamily: 'Rajdhani',
               fontSize: 30,
               fontWeight: FontWeight.bold,
             ),

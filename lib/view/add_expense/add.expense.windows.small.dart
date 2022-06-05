@@ -173,7 +173,6 @@ class _AddExpenseScreenStateDesktop extends State<AddExpenseScreenDesktop> {
                   child: Row(
                     children: [
                       const TextFieldTitle(title: 'Category'),
-
                       const SizedBox(
                         width: 30,
                       ),
@@ -184,7 +183,6 @@ class _AddExpenseScreenStateDesktop extends State<AddExpenseScreenDesktop> {
                       TextFieldTitle(
                         title: selectedCategory.name,
                       ),
-
                       const SizedBox(
                         width: 50,
                       ),
@@ -207,7 +205,6 @@ class _AddExpenseScreenStateDesktop extends State<AddExpenseScreenDesktop> {
                           Icons.edit,
                         ),
                       )
-                      // FaIcon(icon)
                     ],
                   ),
                 ),
@@ -224,6 +221,7 @@ class _AddExpenseScreenStateDesktop extends State<AddExpenseScreenDesktop> {
                       TextFieldContainer(
                         height: 150,
                         child: TextFormField(
+                          maxLines: 7,
                           onSaved: (val) {
                             expenseDetails = val.toString();
                           },

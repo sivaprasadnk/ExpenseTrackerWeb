@@ -259,7 +259,6 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                     'Details :',
                     style: TextStyle(
                       fontSize: 15,
-                      // fontFamily: 'Rajdhani',
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -290,7 +289,6 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                   ),
                 ],
               ),
-              // const Spacer(),
               const SizedBox(height: 50),
               GestureDetector(
                 onTap: () {

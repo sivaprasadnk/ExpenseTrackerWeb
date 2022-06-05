@@ -37,11 +37,14 @@ class _HomeScreenDesktopState extends State<HomeScreenDesktop> {
                   MaterialPageRoute(
                       builder: (_) => const SearchScreenDesktop()));
             },
-            child: Icon(
-              Icons.search,
-              color: theme.brightness == Brightness.dark
-                  ? Colors.white
-                  : Colors.black,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: Icon(
+                Icons.search,
+                color: theme.brightness == Brightness.dark
+                    ? Colors.white
+                    : Colors.black,
+              ),
             ),
           ),
           DrawerIcon(onTap: () {

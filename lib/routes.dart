@@ -1,5 +1,6 @@
 import 'package:expense_tracker/view/add_expense/add.expense.mobile.dart';
 import 'package:expense_tracker/view/add_expense/add.expense.windows.small.dart';
+import 'package:expense_tracker/view/expense.months/expense.months.desktop.dart';
 import 'package:expense_tracker/view/home/desktop/home.screen.desktop.dart';
 import 'package:expense_tracker/view/home/mobile/home.screen.mobile.dart';
 import 'package:expense_tracker/view/login/login.screen.dart';
@@ -20,5 +21,6 @@ var routes = <String, WidgetBuilder>{
   SelectCategoryScreenMobile.routeName: (_) =>
       const SelectCategoryScreenMobile(),
   TodaysExpenseListMobileScreen.routeName: (_) =>
-      const TodaysExpenseListMobileScreen()
+      const TodaysExpenseListMobileScreen(),
+  ExpenseMonthsDesktop.routeName: ((context) => const ExpenseMonthsDesktop()),
 };

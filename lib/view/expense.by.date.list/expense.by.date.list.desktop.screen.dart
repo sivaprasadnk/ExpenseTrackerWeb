@@ -206,7 +206,7 @@ class _ExpenseByDateListScreenState extends State<ExpenseByDateListScreen> {
                       : Center(
                           child: NeumorphicLoader(
                             size: 75,
-                            borderColor: Theme.of(context).primaryColor,
+                            borderColor: primaryColor,
                           ),
                         );
                 },

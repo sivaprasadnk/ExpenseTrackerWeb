@@ -140,7 +140,7 @@ class _MobileViewState extends State<MobileView> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const SizedBox(
-                    height: 10,
+                    height: 5,
                   ),
                   Expanded(
                     child: Padding(
