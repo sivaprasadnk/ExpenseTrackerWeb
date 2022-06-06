@@ -37,9 +37,9 @@ class Expense {
       mode: doc['mode'],
       categoryId: doc['categoryId'],
       categoryName: doc['categoryName'],
-      createdDate: doc['createdDate'],
+      createdDate: doc['createdDateTimeString'],
       // expenseDay: doc['expenseDay'] ?? "",
-      expenseDay: "",
+      expenseDay: doc['expenseDay'],
       details: doc['details'],
       expenseDocId: doc['expenseDocId'] ?? "",
       expenseMonthDocId: "",
@@ -65,5 +65,27 @@ class Expense {
       expenseMonthDocId: '',
       mode: expense.mode,
     );
+  }
+
+  static Map<String, dynamic> toJson(Expense expense) {
+    return {
+      'active': true,
+      'amount': expense.amount,
+      'amount_i': expense.amount.toString().toLowerCase(),
+      'details': expense.details,
+      'details_i': expense.details.toLowerCase(),
+      'mode': expense.mode,
+      'expenseTitle': expense.expenseTitle,
+      'expenseTitle_i': expense.expenseTitle.toLowerCase(),
+      'expenseMonth': expense.expenseMonth,
+      'expenseMonthDocId': expense.expenseMonthDocId,
+      'expenseDate': expense.expenseDate,
+      'expenseDay': expense.expenseDay,
+      'categoryId': expense.categoryId,
+      'categoryName': expense.categoryName,
+      // 'createdDateTime': request.createdDateTime,
+      // 'createdDateTimeString': request.createdDateTimeString,
+      // 'expenseDocId': '',
+    };
   }
 }

@@ -1,16 +1,13 @@
-import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:expense_tracker/view/add_expense/add.expense.mobile.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class AddExpenseButtonMobile extends StatelessWidget {
   const AddExpenseButtonMobile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final ThemeNotifier theme =
-        Provider.of<ThemeNotifier>(context, listen: true);
-    var primaryColor = theme.themeData.primaryColor;
+    final theme = Theme.of(context);
+    var primaryColor = theme.primaryColor;
 
     final screenSize = MediaQuery.of(context).size;
     final screenWidth = screenSize.width;

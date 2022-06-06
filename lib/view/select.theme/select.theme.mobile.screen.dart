@@ -1,5 +1,7 @@
 import 'package:expense_tracker/view/mobile.view.dart';
-import 'package:expense_tracker/view/select.theme/select.theme.desktop.screen.dart';
+import 'package:expense_tracker/view/select.theme/widgets/apply.button.dart';
+import 'package:expense_tracker/view/select.theme/widgets/dark.theme.check.box.dart';
+import 'package:expense_tracker/view/select.theme/widgets/theme.grid.dart';
 import 'package:flutter/material.dart';
 
 class SelectThemeMobileScreen extends StatelessWidget {

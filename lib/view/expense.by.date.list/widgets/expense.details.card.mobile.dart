@@ -1,13 +1,11 @@
 import 'package:expense_tracker/model/expense.model.dart';
-import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:expense_tracker/view/expense.by.date.list/widgets/expense.amount.text.dart';
 import 'package:expense_tracker/view/expense.by.date.list/widgets/expense.category.name.container.dart';
 import 'package:expense_tracker/view/expense.by.date.list/widgets/expense.created.date.text.dart';
 import 'package:expense_tracker/view/expense.by.date.list/widgets/expense.details.text.dart';
 import 'package:expense_tracker/view/expense.by.date.list/widgets/expense.mode.text.dart';
 import 'package:expense_tracker/view/expense.by.date.list/widgets/expense.title.text.dart';
-import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
 
 class ExpenseDetailsCardMobile extends StatelessWidget {
   const ExpenseDetailsCardMobile({
@@ -19,8 +17,9 @@ class ExpenseDetailsCardMobile extends StatelessWidget {
   final double width;
   @override
   Widget build(BuildContext context) {
-    var theme = Provider.of<ThemeNotifier>(context, listen: false).themeData;
+    var theme = Theme.of(context);
     var primaryColor = theme.primaryColor;
+    var bgColor = theme.scaffoldBackgroundColor;
     return Stack(
       children: [
         Container(
@@ -29,7 +28,7 @@ class ExpenseDetailsCardMobile extends StatelessWidget {
           width: width,
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: theme.scaffoldBackgroundColor,
+            color: bgColor,
             border: Border.all(
               color: primaryColor,
               width: 2,

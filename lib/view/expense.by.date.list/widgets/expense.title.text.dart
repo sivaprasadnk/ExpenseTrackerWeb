@@ -1,15 +1,12 @@
-import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ExpenseTitleText extends StatelessWidget {
   const ExpenseTitleText({Key? key, required this.title}) : super(key: key);
   final String title;
   @override
   Widget build(BuildContext context) {
-    var theme = Provider.of<ThemeNotifier>(context, listen: false).themeData;
+    var theme = Theme.of(context);
     var primaryColor = theme.primaryColor;
-    final width = MediaQuery.of(context).size.width;
     return Positioned.fill(
       left: 20,
       child: Align(

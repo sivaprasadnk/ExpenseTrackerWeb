@@ -1,6 +1,4 @@
-import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class DrawerMenuItem extends StatefulWidget {
   const DrawerMenuItem({
@@ -24,8 +22,7 @@ class _DrawerMenuItemState extends State<DrawerMenuItem> {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeNotifier theme =
-        Provider.of<ThemeNotifier>(context, listen: true);
+    final theme = Theme.of(context);
     return InkWell(
       hoverColor: Colors.transparent,
       splashColor: Colors.transparent,
@@ -49,10 +46,10 @@ class _DrawerMenuItemState extends State<DrawerMenuItem> {
           Icon(
             widget.icon,
             color: !isHovered
-                ? Theme.of(context).brightness == Brightness.dark
+                ? theme.brightness == Brightness.dark
                     ? Colors.white
                     : Colors.black
-                : theme.themeData.cardColor,
+                : theme.cardColor,
           ),
           const SizedBox(
             width: 20,
@@ -62,10 +59,10 @@ class _DrawerMenuItemState extends State<DrawerMenuItem> {
             style: TextStyle(
               fontSize: 20,
               color: !isHovered
-                  ? Theme.of(context).brightness == Brightness.dark
+                  ? theme.brightness == Brightness.dark
                       ? Colors.white
                       : Colors.black
-                  : theme.themeData.cardColor,
+                  : theme.cardColor,
             ),
           ),
         ],

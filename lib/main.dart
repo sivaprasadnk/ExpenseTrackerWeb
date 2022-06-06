@@ -8,6 +8,8 @@ import 'package:expense_tracker/utils/network.service.dart';
 import 'package:expense_tracker/view/splash.screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:month_year_picker/month_year_picker.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -62,6 +64,11 @@ class _MyAppState extends State<MyApp> {
         builder: (_, provider, __) {
           return MaterialApp(
             title: 'Expense Tracker',
+            localizationsDelegates: const [
+              GlobalWidgetsLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              MonthYearPickerLocalizations.delegate,
+            ],
             debugShowCheckedModeBanner: false,
             routes: routes,
             theme: provider.themeData,

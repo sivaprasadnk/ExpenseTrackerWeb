@@ -1,7 +1,8 @@
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:expense_tracker/api/repo/user_repo.dart';
 import 'package:expense_tracker/api/response.status.dart';
+import 'package:expense_tracker/model/add.expense.model.dart';
 import 'package:expense_tracker/model/expense.model.dart';
+import 'package:expense_tracker/model/expense.month.model.dart';
 import 'package:expense_tracker/model/response.model.dart';
 import 'package:expense_tracker/provider/home.provider.dart';
 import 'package:expense_tracker/utils/dialog.dart';
@@ -30,18 +31,21 @@ class UserController {
     String userId = FirebaseAuth.instance.currentUser!.uid;
 
     var date = DateFormat('dd-MM-yyyy').format(selectedDate);
+    // var a = DateTime.parse(createdDateTime)
     var month = DateFormat('MMM, yyyy').format(selectedDate);
+    var monthOnly = DateFormat('MMM').format(selectedDate);
     var monthDocId = DateFormat('MMM_yyyy').format(selectedDate);
     final DateTime now = DateTime.now();
+    var a = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
+    var createdDateTime = DateTime.parse(a);
+
     final String formattedTime = DateFormat('dd-MM-yyyy  kk:mm:ss').format(now);
-    // List<String> title = expenseTitle.split(" ");
-    // var titleFirstWord = title.first;
-    // var capitalFirstWord = titleFirstWord[0].toUpperCase() +
-    //     titleFirstWord.substring(1).toLowerCase();
+
+    final year = int.parse(DateFormat('yyyy').format(now));
     int dailyTotal =
         Provider.of<HomeProvider>(context, listen: false).dailyTotalExpense;
-    int monthlyTotal =
-        Provider.of<HomeProvider>(context, listen: false).monthlyTotalExpense;
+
+    ///
     Expense exp = Expense(
       expenseTitle: expenseTitle,
       createdDate: "",
@@ -57,11 +61,25 @@ class UserController {
       mode: selectedMode.toString().split('.').last.initCap(),
     );
 
-    ResponseModel response = await userRepo.addExpense(
-        exp, dailyTotal, monthlyTotal, userId, formattedTime);
+    ExpenseMonth expMonth = ExpenseMonth(
+      year: year,
+      month: month,
+      monthOnly: monthOnly,
+      monthDocId: monthDocId,
+    );
+    var request = AddExpenseModel(
+      expense: exp,
+      dailyTotal: dailyTotal,
+      userId: userId,
+      createdDateTimeString: formattedTime,
+      expenseMonth: expMonth,
+      createdDateTime: createdDateTime,
+    );
+
+    ResponseModel response = await userRepo.addExpense(request);
 
     if (response.status == ResponseStatus.error) {
-      Dialogs.showAlertDialog(context: context, title: response.message);
+      Dialogs.showAlertDialog(context: context, description: response.message);
     } else {
       Provider.of<HomeProvider>(context, listen: false)
           .addToDailyExpense(expenseAmount);
@@ -72,10 +90,12 @@ class UserController {
               .updateRecentList(recentExpList);
 
           Future.delayed(const Duration(seconds: 2)).then((value) {
-            showOkAlertDialog(context: context, title: 'Expense Added !')
-                .then((value) {
-              Navigation.checkPlatformAndNavigateToHome(context);
-            });
+            Dialogs.showAlertDialogAndNavigateToHome(
+                context: context, description: 'Expense Added !');
+            // showOkAlertDialog(context: context, title: 'Expense Added !')
+            //     .then((value) {
+            //   Navigation.checkPlatformAndNavigateToHome(context);
+            // });
           });
         }
       });
@@ -91,7 +111,7 @@ class UserController {
     int dailyExp = int.parse(dailyExpString);
     Provider.of<HomeProvider>(context, listen: false)
         .updateDailyTotalExpense(dailyExp);
-    UserRepo().getRecentExpense().then((recentExpList) {
+    userRepo.getRecentExpense().then((recentExpList) {
       Provider.of<HomeProvider>(context, listen: false)
           .updateRecentList(recentExpList);
       Navigation.checkPlatformAndNavigateToHome(context, true);

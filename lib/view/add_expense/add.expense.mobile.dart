@@ -328,10 +328,10 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
         context,
       );
     } on CustomException catch (exc) {
-      Dialogs.showAlertDialog(context: context, title: exc.message);
+      Dialogs.showAlertDialog(context: context, description: exc.message);
     } catch (err) {
       Dialogs.showAlertDialog(
-          context: context, title: 'Something went wrong !');
+          context: context, description: 'Something went wrong !');
     }
   }
 }

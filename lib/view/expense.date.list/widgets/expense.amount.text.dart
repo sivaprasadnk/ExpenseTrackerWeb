@@ -1,7 +1,5 @@
 import 'package:expense_tracker/common_strings.dart';
-import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ExpenseAmountText extends StatelessWidget {
   const ExpenseAmountText(
@@ -15,8 +13,6 @@ class ExpenseAmountText extends StatelessWidget {
   final Color fillColor;
   @override
   Widget build(BuildContext context) {
-    final ThemeNotifier theme =
-        Provider.of<ThemeNotifier>(context, listen: true);
     return Positioned.fill(
       right: -2,
       child: Align(

@@ -25,6 +25,8 @@ class ExpenseByDateListScreen extends StatefulWidget {
 class _ExpenseByDateListScreenState extends State<ExpenseByDateListScreen> {
   ///
   Stream<QuerySnapshot<Map<String, dynamic>>>? stream;
+
+  ///
   var userId = FirebaseAuth.instance.currentUser!.uid;
   final cloudStoreInstance = FirebaseFirestore.instance;
 
@@ -33,6 +35,7 @@ class _ExpenseByDateListScreenState extends State<ExpenseByDateListScreen> {
   @override
   void initState() {
     setStream(Mode.all);
+
     super.initState();
   }
 
@@ -45,15 +48,16 @@ class _ExpenseByDateListScreenState extends State<ExpenseByDateListScreen> {
         .collection(kExpenseCollection);
     if (mode == Mode.all) {
       setState(() {
-        stream =
-            collectionRef.orderBy('createdDate', descending: true).snapshots();
+        stream = collectionRef
+            .orderBy('createdDateTimeString', descending: true)
+            .snapshots();
         selectedMode = Mode.all;
       });
     } else if (mode == Mode.cash) {
       setState(() {
         stream = collectionRef
             .where('mode', isEqualTo: 'Cash')
-            .orderBy('createdDate', descending: true)
+            .orderBy('createdDateTimeString', descending: true)
             .snapshots();
         selectedMode = Mode.cash;
       });
@@ -61,7 +65,7 @@ class _ExpenseByDateListScreenState extends State<ExpenseByDateListScreen> {
       setState(() {
         stream = collectionRef
             .where('mode', isEqualTo: 'Online')
-            .orderBy('createdDate', descending: true)
+            .orderBy('createdDateTimeString', descending: true)
             .snapshots();
         selectedMode = Mode.online;
       });
@@ -87,6 +91,10 @@ class _ExpenseByDateListScreenState extends State<ExpenseByDateListScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                const Text('Mode :'),
+                const SizedBox(
+                  width: 15,
+                ),
                 GestureDetector(
                   onTap: () {
                     setStream(Mode.all);

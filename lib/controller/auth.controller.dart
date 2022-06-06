@@ -30,37 +30,29 @@ class AuthController {
 
       authRepo.loginNew(email, password).then((response) async {
         if (response.status == ResponseStatus.error) {
-          Dialogs.showAlertDialog(context: context, title: response.message);
-          // await showOkAlertDialog(
-          //   context: context,
-          //   title: 'Alert',
-          //   message: response.message,
-          // ).then((value) {
-          //   Navigator.pop(context);
-          // });
+          Dialogs.showAlertDialog(
+                  context: context, description: response.message)
+              .then((value) {
+            Navigator.pop(context);
+          });
         } else {
           int dailyExp = response.dailyTotal;
           Provider.of<HomeProvider>(context, listen: false)
               .updateDailyTotalExpense(dailyExp);
-          // UserRepo().addCaseIgnoreTitle(response.userId).then((value) {
-          //   Navigation.checkPlatformAndNavigateToHome(context);
-          // });
           userRepo.getRecentExpense().then((recentExpList) {
             Provider.of<HomeProvider>(context, listen: false)
                 .updateRecentList(recentExpList);
-            // UserRepo().addCaseIgnoreTitle(response.userId).then((value) {
+            // userRepo.updateDbValue(response.userId).then((value) {
             //   Navigation.checkPlatformAndNavigateToHome(context);
             // });
-            userRepo.updateDbValue(response.userId).then((value) {
-              Navigation.checkPlatformAndNavigateToHome(context);
-            });
+            Navigation.checkPlatformAndNavigateToHome(context);
           });
         }
       });
     } on CustomException catch (exc) {
-      Dialogs.showAlertDialog(context: context, title: exc.message);
+      Dialogs.showAlertDialog(context: context, description: exc.message);
     } catch (err) {
-      Dialogs.showAlertDialog(context: context, title: err.toString());
+      Dialogs.showAlertDialog(context: context, description: err.toString());
     }
   }
 
@@ -78,7 +70,8 @@ class AuthController {
       Loading.showLoading(context);
       authRepo.createAccount(email, password).then((response) async {
         if (response.status == ResponseStatus.error) {
-          Dialogs.showAlertDialog(context: context, title: response.message);
+          Dialogs.showAlertDialog(
+              context: context, description: response.message);
         } else {
           Provider.of<HomeProvider>(context, listen: false)
               .updateDailyTotalExpense(0);
@@ -89,9 +82,9 @@ class AuthController {
         }
       });
     } on CustomException catch (exc) {
-      Dialogs.showAlertDialog(context: context, title: exc.message);
+      Dialogs.showAlertDialog(context: context, description: exc.message);
     } catch (err) {
-      Dialogs.showAlertDialog(context: context, title: err.toString());
+      Dialogs.showAlertDialog(context: context, description: err.toString());
     }
   }
 }

@@ -1,8 +1,6 @@
-import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/daily.total.text.dart';
 import 'package:expense_tracker/view/todays.expense.list/todays.expense.list.mobile.screen.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class TodaysTotalExpenseContainerMobile extends StatelessWidget {
   const TodaysTotalExpenseContainerMobile({
@@ -10,9 +8,9 @@ class TodaysTotalExpenseContainerMobile extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final ThemeNotifier theme =
-        Provider.of<ThemeNotifier>(context, listen: true);
-    var primaryColor = theme.themeData.primaryColor;
+    final theme = Theme.of(context);
+    var primaryColor = theme.primaryColor;
+    var bgColor = theme.scaffoldBackgroundColor;
     return Stack(
       children: [
         GestureDetector(
@@ -40,7 +38,7 @@ class TodaysTotalExpenseContainerMobile extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: theme.themeData.scaffoldBackgroundColor,
+                    color: bgColor,
                   ),
                 ),
                 const DailyTotalText(),
@@ -54,7 +52,7 @@ class TodaysTotalExpenseContainerMobile extends StatelessWidget {
             alignment: Alignment.centerRight,
             child: Icon(
               Icons.arrow_forward_ios,
-              color: theme.themeData.scaffoldBackgroundColor,
+              color: bgColor,
             ),
           ),
         )

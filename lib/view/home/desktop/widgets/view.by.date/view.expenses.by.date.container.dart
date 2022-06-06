@@ -1,4 +1,4 @@
-import 'package:expense_tracker/view/expense.months/expense.months.desktop.dart';
+import 'package:expense_tracker/view/expense.date.list/desktop/small/expense.by.date.desktop.small.screen.dart';
 import 'package:flutter/material.dart';
 
 class ViewExpensesByDateContainer extends StatefulWidget {
@@ -30,7 +30,9 @@ class _ViewExpensesByDateContainerState
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (_) => const ExpenseMonthsDesktop()),
+          MaterialPageRoute(
+            builder: (_) => const ExpenseDateListDesktopSmall(),
+          ),
         );
       },
       child: Container(

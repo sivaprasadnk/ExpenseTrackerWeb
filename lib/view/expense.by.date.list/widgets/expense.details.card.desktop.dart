@@ -1,13 +1,11 @@
 import 'package:expense_tracker/model/expense.model.dart';
-import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:expense_tracker/view/expense.by.date.list/widgets/expense.amount.text.dart';
 import 'package:expense_tracker/view/expense.by.date.list/widgets/expense.category.name.container.dart';
-import 'package:expense_tracker/view/expense.by.date.list/widgets/expense.created.date.text.dart';
+import 'package:expense_tracker/view/expense.by.date.list/widgets/expense.date.text.dart';
 import 'package:expense_tracker/view/expense.by.date.list/widgets/expense.details.text.dart';
 import 'package:expense_tracker/view/expense.by.date.list/widgets/expense.mode.text.dart';
 import 'package:expense_tracker/view/expense.by.date.list/widgets/expense.title.text.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ExpenseDetailsCardDesktop extends StatelessWidget {
   const ExpenseDetailsCardDesktop({
@@ -19,7 +17,7 @@ class ExpenseDetailsCardDesktop extends StatelessWidget {
   final double width;
   @override
   Widget build(BuildContext context) {
-    var theme = Provider.of<ThemeNotifier>(context, listen: false).themeData;
+    var theme = Theme.of(context);
     var primaryColor = theme.primaryColor;
     return Stack(
       children: [
@@ -53,9 +51,14 @@ class ExpenseDetailsCardDesktop extends StatelessWidget {
                   const SizedBox(
                     height: 3,
                   ),
-                  ExpenseCreatedDateText(
-                    createdDate: expense.createdDate,
+                  ExpenseDateText(
+                    date: expense.expenseDay,
+                    month: expense.expenseMonth,
                   ),
+
+                  // ExpenseCreatedDateText(
+                  //   createdDate: expense.createdDate,
+                  // ),
                   const SizedBox(
                     height: 10,
                   ),

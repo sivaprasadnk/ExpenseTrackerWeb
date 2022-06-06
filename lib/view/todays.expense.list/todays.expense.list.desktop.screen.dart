@@ -29,7 +29,7 @@ class TodaysExpenseListDesktopScreen extends StatelessWidget {
             .collection(kExpenseDatesNewCollection)
             .doc(date)
             .collection(kExpenseCollection)
-            .orderBy('createdDate')
+            .orderBy('createdDateTimeString')
             .snapshots(),
         builder: (_, snapshot) {
           return snapshot.connectionState != ConnectionState.done
@@ -43,9 +43,14 @@ class TodaysExpenseListDesktopScreen extends StatelessWidget {
                       itemBuilder: (ctx, index) {
                         var doc = (snapshot.data! as QuerySnapshot).docs[index];
                         Expense expense = Expense.fromJson(doc);
-                        return ExpenseDetailsCardDesktop(
-                          expense: expense,
-                          width: 450,
+                        return Center(
+                          child: SizedBox(
+                            width: 450,
+                            child: ExpenseDetailsCardDesktop(
+                              expense: expense,
+                              width: 450,
+                            ),
+                          ),
                         );
                       },
                     )

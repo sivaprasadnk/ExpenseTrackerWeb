@@ -1,7 +1,5 @@
-import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:expense_tracker/view/expense.date.list/mobile/expense.by.date.mobile.screen.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ViewExpensesByDateContainerMobile extends StatelessWidget {
   const ViewExpensesByDateContainerMobile({
@@ -11,9 +9,9 @@ class ViewExpensesByDateContainerMobile extends StatelessWidget {
   final double width;
   @override
   Widget build(BuildContext context) {
-    final ThemeNotifier theme =
-        Provider.of<ThemeNotifier>(context, listen: true);
-    var primaryColor = theme.themeData.primaryColor;
+    final theme = Theme.of(context);
+    var primaryColor = theme.primaryColor;
+    var bgColor = theme.scaffoldBackgroundColor;
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -38,7 +36,6 @@ class ViewExpensesByDateContainerMobile extends StatelessWidget {
               'View Expenses',
               style: TextStyle(
                 fontSize: 15,
-                // fontFamily: 'Rajdhani',
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -46,7 +43,6 @@ class ViewExpensesByDateContainerMobile extends StatelessWidget {
               ' by Date',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                // fontFamily: 'Rajdhani',
                 fontSize: 15,
                 color: Colors.red,
               ),

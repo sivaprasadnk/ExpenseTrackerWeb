@@ -1,7 +1,5 @@
-import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:expense_tracker/view/expense.by.category/expense.by.category.mobile.screen.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ViewExpenseByCategoryContainerMobile extends StatelessWidget {
   const ViewExpenseByCategoryContainerMobile({
@@ -12,9 +10,9 @@ class ViewExpenseByCategoryContainerMobile extends StatelessWidget {
   final double width;
   @override
   Widget build(BuildContext context) {
-    final ThemeNotifier theme =
-        Provider.of<ThemeNotifier>(context, listen: true);
-    var primaryColor = theme.themeData.primaryColor;
+    final theme = Theme.of(context);
+    var primaryColor = theme.primaryColor;
+
     return GestureDetector(
       onTap: () {
         Navigator.push(

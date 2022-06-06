@@ -4,14 +4,14 @@ class ExpenseDate {
   String date;
   String day;
   String month;
-  String updatedTime;
+  String updatedDateTime;
   int totalExpense;
   // String expenseDate;
   ExpenseDate({
     required this.date,
     required this.day,
     required this.month,
-    required this.updatedTime,
+    required this.updatedDateTime,
     required this.totalExpense,
   });
 
@@ -21,7 +21,7 @@ class ExpenseDate {
       date: doc['date'],
       month: doc['month'],
       totalExpense: doc['totalExpense'],
-      updatedTime: doc['updatedTime'],
+      updatedDateTime: '',
     );
   }
 }
