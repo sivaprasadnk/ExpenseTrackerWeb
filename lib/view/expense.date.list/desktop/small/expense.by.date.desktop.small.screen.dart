@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/model/expense.date.model.dart';
+import 'package:expense_tracker/utils/month.model.dart';
 import 'package:expense_tracker/view/desktop.view.dart';
 import 'package:expense_tracker/view/expense.by.date.list/expense.by.date.list.desktop.screen.dart';
 import 'package:expense_tracker/view/expense.date.list/widgets/expense.amount.text.dart';
@@ -10,7 +11,6 @@ import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.cont
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:month_year_picker/month_year_picker.dart';
 
 class ExpenseDateListDesktopSmall extends StatefulWidget {
   const ExpenseDateListDesktopSmall({Key? key, this.monthDocId = ""})
@@ -45,31 +45,7 @@ class _ExpenseDateListDesktopSmallState
   }
 
   Future<void> _selectDate(BuildContext context) async {
-    // final DateTime? picked = await showDatePicker(
-    //     context: context,
-    //     initialDate: selectedDate,
-    //     firstDate: DateTime(2022, 1),
-    //     lastDate: DateTime(2101));
-    // if (picked != null && picked != selectedDate) {
-    //   setState(() {
-    //     selectedDate = picked;
-    //     formattedTime = DateFormat('dd-MM-yyyy').format(selectedDate);
-    //   });
-    // }
-
-    // date_picker.MonthPicker.single(
-    //   selectedDate: selectedDate,
-    //   onChanged: (val) {},
-    //   firstDate: DateTime(2022, 1),
-    //   lastDate: DateTime(2101),
-    // );
-
-    var selectedDate1 = await showMonthYearPicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2022),
-      lastDate: DateTime(2050),
-    );
+    var selectedDate1 = await MonthYearPicker.showMonthYearPicker(context);
     if (selectedDate1 != null) {
       selectedDate = selectedDate1;
       setState(() {
@@ -244,6 +220,33 @@ class _ExpenseDateListDesktopSmallState
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class MonthContainer extends StatelessWidget {
+  const MonthContainer({
+    Key? key,
+    required this.month,
+  }) : super(key: key);
+
+  final String month;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 25,
+      width: 60,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: Center(
+        child: Text(
+          month,
+          style: const TextStyle(
+            fontSize: 20,
+          ),
+        ),
       ),
     );
   }
