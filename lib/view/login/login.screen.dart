@@ -393,9 +393,7 @@ class _LoginScreenState extends State<LoginScreen>
                       GoogleSignInAccount? account =
                           await _googleSignIn!.signIn();
                       if (account != null) {
-                        debugPrint(account.displayName);
-                        debugPrint(account.email);
-                        AuthController.googleSignIn3(
+                        AuthController.googleSignIn(
                             context: context, account: account);
                       }
                     } catch (error) {
@@ -422,7 +420,44 @@ class _LoginScreenState extends State<LoginScreen>
                       ),
                     ),
                   ),
-                )
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                // GestureDetector(
+                //   onTap: () async {
+                //     try {
+                //       GoogleSignInAccount? account =
+                //           await _googleSignIn!.signIn();
+                //       if (account != null) {
+                //         AuthController.googleSignIn3(
+                //             context: context, account: account);
+                //       }
+                //     } catch (error) {
+                //       debugPrint(error.toString());
+                //     }
+                //   },
+                //   child: Container(
+                //     width: 300,
+                //     height: 40,
+                //     decoration: BoxDecoration(
+                //       border: Border.all(
+                //         color: Colors.black,
+                //       ),
+                //       borderRadius: BorderRadius.circular(8),
+                //     ),
+                //     child: const Center(
+                //       child: Text(
+                //         'Sign In with Phone',
+                //         style: TextStyle(
+                //           fontSize: 20,
+                //           color: Colors.black,
+                //           fontWeight: FontWeight.bold,
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // )
               ],
             ),
           ),
