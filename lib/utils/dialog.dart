@@ -118,7 +118,6 @@ class Dialogs {
             child: Material(
               borderRadius: BorderRadius.circular(8),
               child: Container(
-                height: 150,
                 width: width,
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 decoration: BoxDecoration(
@@ -152,8 +151,6 @@ class Dialogs {
                       isButton: true,
                       borderColor: Theme.of(context).primaryColor,
                       bgColor: Theme.of(context).primaryColor,
-                      // borderColor: Theme.of(context).primaryColor,
-                      // bgColor: Theme.of(context).scaffoldBackgroundColor,
                       buttonWidth: 100,
                       child: Center(
                         child: Text(
@@ -163,7 +160,10 @@ class Dialogs {
                               color: Theme.of(context).scaffoldBackgroundColor),
                         ),
                       ),
-                    )
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                   ],
                 ),
               ),

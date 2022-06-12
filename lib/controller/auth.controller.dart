@@ -7,6 +7,7 @@ import 'package:expense_tracker/utils/dialog.dart';
 import 'package:expense_tracker/utils/loading.dialog.dart';
 import 'package:expense_tracker/utils/navigation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:validators/validators.dart';
 
@@ -71,7 +72,10 @@ class AuthController {
       authRepo.createAccount(email, password).then((response) async {
         if (response.status == ResponseStatus.error) {
           Dialogs.showAlertDialog(
-              context: context, description: response.message);
+                  context: context, description: response.message)
+              .then((value) {
+            Navigator.pop(context);
+          });
         } else {
           Provider.of<HomeProvider>(context, listen: false)
               .updateDailyTotalExpense(0);
@@ -79,6 +83,123 @@ class AuthController {
               .updateRecentList([]);
 
           Navigation.checkPlatformAndNavigateToHome(context);
+        }
+      });
+    } on CustomException catch (exc) {
+      Dialogs.showAlertDialog(context: context, description: exc.message);
+    } catch (err) {
+      Dialogs.showAlertDialog(context: context, description: err.toString());
+    }
+  }
+
+  static void googleSignIn1({
+    required String email,
+    required userName,
+    required BuildContext context,
+  }) {
+    try {
+      Loading.showLoading(context);
+      authRepo.createAccount(email, 'googleSignIn').then((response) async {
+        if (response.status == ResponseStatus.error) {
+          authRepo.loginNew(email, 'googleSignIn').then((response) async {
+            if (response.status == ResponseStatus.error) {
+              Dialogs.showAlertDialog(
+                      context: context, description: response.message)
+                  .then((value) {
+                Navigator.pop(context);
+              });
+            } else {
+              int dailyExp = response.dailyTotal;
+              Provider.of<HomeProvider>(context, listen: false)
+                  .updateDailyTotalExpense(dailyExp);
+              userRepo.getRecentExpense().then((recentExpList) {
+                Provider.of<HomeProvider>(context, listen: false)
+                    .updateRecentList(recentExpList);
+                // userRepo.updateDbValue(response.userId).then((value) {
+                //   Navigation.checkPlatformAndNavigateToHome(context);
+                // });
+                Navigation.checkPlatformAndNavigateToHome(context);
+              });
+            }
+          });
+        } else {
+          Provider.of<HomeProvider>(context, listen: false)
+              .updateDailyTotalExpense(0);
+          Provider.of<HomeProvider>(context, listen: false)
+              .updateRecentList([]);
+
+          Navigation.checkPlatformAndNavigateToHome(context);
+        }
+      });
+    } on CustomException catch (exc) {
+      Dialogs.showAlertDialog(context: context, description: exc.message);
+    } catch (err) {
+      Dialogs.showAlertDialog(context: context, description: err.toString());
+    }
+  }
+
+  static void googleSignIn2({
+    required String email,
+    required userName,
+    required BuildContext context,
+  }) {
+    try {
+      Loading.showLoading(context);
+
+      authRepo.loginNew(email, 'googleSignIn').then((response) async {
+        if (response.status == ResponseStatus.error) {
+          Dialogs.showAlertDialog(
+                  context: context, description: response.message)
+              .then((value) {
+            Navigator.pop(context);
+          });
+        } else {
+          int dailyExp = response.dailyTotal;
+          Provider.of<HomeProvider>(context, listen: false)
+              .updateDailyTotalExpense(dailyExp);
+          userRepo.getRecentExpense().then((recentExpList) {
+            Provider.of<HomeProvider>(context, listen: false)
+                .updateRecentList(recentExpList);
+            // userRepo.updateDbValue(response.userId).then((value) {
+            //   Navigation.checkPlatformAndNavigateToHome(context);
+            // });
+            Navigation.checkPlatformAndNavigateToHome(context);
+          });
+        }
+      });
+    } on CustomException catch (exc) {
+      Dialogs.showAlertDialog(context: context, description: exc.message);
+    } catch (err) {
+      Dialogs.showAlertDialog(context: context, description: err.toString());
+    }
+  }
+
+  static void googleSignIn3({
+    required BuildContext context,
+    required GoogleSignInAccount account,
+  }) {
+    try {
+      Loading.showLoading(context);
+
+      authRepo.googleSignIn2(account).then((response) async {
+        if (response.status == ResponseStatus.error) {
+          Dialogs.showAlertDialog(
+                  context: context, description: response.message)
+              .then((value) {
+            Navigator.pop(context);
+          });
+        } else {
+          int dailyExp = response.dailyTotal;
+          Provider.of<HomeProvider>(context, listen: false)
+              .updateDailyTotalExpense(dailyExp);
+          userRepo.getRecentExpense().then((recentExpList) {
+            Provider.of<HomeProvider>(context, listen: false)
+                .updateRecentList(recentExpList);
+            // userRepo.updateDbValue(response.userId).then((value) {
+            //   Navigation.checkPlatformAndNavigateToHome(context);
+            // });
+            Navigation.checkPlatformAndNavigateToHome(context);
+          });
         }
       });
     } on CustomException catch (exc) {

@@ -8,6 +8,7 @@ import 'package:expense_tracker/view/register/register.screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -32,16 +33,14 @@ class _LoginScreenState extends State<LoginScreen>
   String password = "";
   bool showPassword = false;
   FirebaseAuth auth = FirebaseAuth.instance;
-  // GoogleSignIn? _googleSignIn;
+  GoogleSignIn? _googleSignIn;
   @override
   void initState() {
     super.initState();
-    // _googleSignIn = GoogleSignIn(
-    //   scopes: [
-    //     'email',
-    //     'https://www.googleapis.com/auth/contacts.readonly',
-    //   ],
-    // );
+    _googleSignIn = GoogleSignIn(
+      scopes: ['email', 'https://www.googleapis.com/auth/userinfo.profile'],
+      // hostedDomain: 'https://expensetrackerapp-9617f.web.app/',
+    );
     _controller = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
@@ -181,14 +180,13 @@ class _LoginScreenState extends State<LoginScreen>
                     ),
                   ),
                 ),
-                const SizedBox(height: 100),
+                const SizedBox(height: 50),
                 Center(
                   child: Container(
                     height: 30,
                     width: 100,
                     decoration: const BoxDecoration(
                       color: Colors.cyan,
-                      // border: Border.
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(12),
                         topRight: Radius.circular(12),
@@ -389,49 +387,42 @@ class _LoginScreenState extends State<LoginScreen>
                 const SizedBox(
                   height: 20,
                 ),
-                // GestureDetector(
-                //   onTap: () async {
-                //     // FirebaseAuth _auth = FirebaseAuth.instance;
-                //     // await _auth.signInWithPhoneNumber('+918086028340');
-
-                //     await MonthYearPicker.showMonthYearPicker(context)
-                //         .then((selected) {
-                //       if (selected != null) {
-                //         debugPrint('..@@ month : ${selected.month}');
-                //         debugPrint('..@@ year : ${selected.year}');
-                //       }
-                //     });
-                //   },
-                //   child: const Text(
-                //     'show monthPicker',
-                //     style: TextStyle(
-                //       fontSize: 25,
-                //     ),
-                //   ),
-                // )
-                // GestureDetector(
-                //   onTap: () async {
-                //     try {
-                //       GoogleSignInAccount? account =
-                //           await _googleSignIn!.signIn();
-                //       if (account != null) {
-                //         debugPrint(account.displayName);
-                //         debugPrint(account.email);
-                //         debugPrint(account.email);
-                //       }
-                //     } catch (error) {
-                //       debugPrint(error.toString());
-                //     }
-                //   },
-                //   child: Container(
-                //     height: 20,
-                //     width: 50,
-                //     decoration: BoxDecoration(
-                //       borderRadius: BorderRadius.circular(8),
-                //     ),
-                //     child: const Text('Google Sign-In'),
-                //   ),
-                // )
+                GestureDetector(
+                  onTap: () async {
+                    try {
+                      GoogleSignInAccount? account =
+                          await _googleSignIn!.signIn();
+                      if (account != null) {
+                        debugPrint(account.displayName);
+                        debugPrint(account.email);
+                        AuthController.googleSignIn3(
+                            context: context, account: account);
+                      }
+                    } catch (error) {
+                      debugPrint(error.toString());
+                    }
+                  },
+                  child: Container(
+                    width: 300,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        'Google Sign-In',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
               ],
             ),
           ),

@@ -6,6 +6,7 @@ import 'package:expense_tracker/model/login.response.model.dart';
 import 'package:expense_tracker/model/registration.response.model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -55,6 +56,50 @@ class AuthRepo {
       data: "",
     );
   }
+
+  // Future<RegistrationResponse> googleSignIn(
+  //     String email, String password) async {
+  //   final DateTime now = DateTime.now();
+  //   PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  //   var version = packageInfo.version;
+  //   var build = packageInfo.buildNumber;
+  //   UserCredential credential;
+  //   final String formattedTime = DateFormat('dd-MM-yyyy  kk:mm').format(now);
+  //   try {
+  //     credential = await FirebaseAuth.instance
+  //         .createUserWithEmailAndPassword(email: email, password: password);
+  //     if (credential.user != null) {
+  //       fireStoreInstance
+  //           .collection(kUsersCollection)
+  //           .doc(credential.user!.uid)
+  //           .set({
+  //         'email': email,
+  //         'password': password,
+  //         'registeredTime': formattedTime,
+  //         'isWeb': kIsWeb,
+  //         'userId': credential.user!.uid,
+  //         'registrationAppVersion': version,
+  //         'registrationAppVersionCode': build,
+  //       });
+  //     }
+  //   } catch (e) {
+  //     debugPrint('Exception @createAccount: $e');
+  //     return RegistrationResponse(
+  //       status: ResponseStatus.error,
+  //       data: '',
+  //       dailyTotal: 0,
+  //       userId: '',
+  //       message: AuthExceptionHandler.handleException(e).toString(),
+  //     );
+  //   }
+  //   return RegistrationResponse(
+  //     userId: credential.user!.uid,
+  //     status: ResponseStatus.success,
+  //     dailyTotal: 0,
+  //     message: 'Success',
+  //     data: "",
+  //   );
+  // }
 
   // Future<ResponseModel> login(String email, String password) async {
   //   final DateTime now = DateTime.now();
@@ -134,6 +179,141 @@ class AuthRepo {
         fireStoreInstance
             .collection(kUsersCollection)
             .doc(credential.user!.uid)
+            .collection(kLoginTimeCollection)
+            .add({
+          'loginVersion': version,
+          'loginVersionCode': build,
+          'loginTime': formattedTime,
+          'isWeb': kIsWeb,
+        });
+      }
+    } catch (e) {
+      debugPrint('Exception @loginAccount: $e');
+      return LoginResponse(
+        status: ResponseStatus.error,
+        data: '',
+        userId: '',
+        dailyTotal: 0,
+        message: AuthExceptionHandler.handleException(e).toString(),
+      );
+    }
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+
+    var date = DateFormat('dd-MM-yyyy').format(now);
+    int dailyTotal = 0;
+    var value1 = await fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(userId)
+        .collection(kExpenseDatesNewCollection)
+        .doc(date)
+        .get();
+
+    if (value1.data() != null) {
+      dailyTotal = value1.data()!['totalExpense'];
+    }
+    debugPrint('.. @@ dailyTotal from db : $dailyTotal');
+    return LoginResponse(
+        status: ResponseStatus.success,
+        message: 'Success',
+        userId: userId,
+        dailyTotal: dailyTotal,
+        data: '');
+  }
+
+  Future<LoginResponse> googleSignIn1(String email, String password) async {
+    final DateTime now = DateTime.now();
+    final PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    var version = packageInfo.version;
+    var build = packageInfo.buildNumber;
+    final String formattedTime = DateFormat('dd-MM-yyyy  kk:mm').format(now);
+
+    try {
+      UserCredential credential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+      if (credential.user != null) {
+        fireStoreInstance
+            .collection(kUsersCollection)
+            .doc(credential.user!.uid)
+            .update({
+          'lastLoginTime': formattedTime,
+          'lastLoginIsWeb': kIsWeb,
+          'lastLoginVersion': version,
+          'lastLoginVersionCode': build,
+        });
+        fireStoreInstance
+            .collection(kUsersCollection)
+            .doc(credential.user!.uid)
+            .collection(kLoginTimeCollection)
+            .add({
+          'loginVersion': version,
+          'loginVersionCode': build,
+          'loginTime': formattedTime,
+          'isWeb': kIsWeb,
+        });
+      }
+    } catch (e) {
+      debugPrint('Exception @loginAccount: $e');
+      return LoginResponse(
+        status: ResponseStatus.error,
+        data: '',
+        userId: '',
+        dailyTotal: 0,
+        message: AuthExceptionHandler.handleException(e).toString(),
+      );
+    }
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+
+    var date = DateFormat('dd-MM-yyyy').format(now);
+    int dailyTotal = 0;
+    var value1 = await fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(userId)
+        .collection(kExpenseDatesNewCollection)
+        .doc(date)
+        .get();
+
+    if (value1.data() != null) {
+      dailyTotal = value1.data()!['totalExpense'];
+    }
+    debugPrint('.. @@ dailyTotal from db : $dailyTotal');
+    return LoginResponse(
+        status: ResponseStatus.success,
+        message: 'Success',
+        userId: userId,
+        dailyTotal: dailyTotal,
+        data: '');
+  }
+
+  Future<LoginResponse> googleSignIn2(GoogleSignInAccount account) async {
+    final DateTime now = DateTime.now();
+    final PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    var version = packageInfo.version;
+    var build = packageInfo.buildNumber;
+    final String formattedTime = DateFormat('dd-MM-yyyy  kk:mm').format(now);
+
+    try {
+      GoogleSignInAuthentication? googleSignInAuthentication =
+          await account.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+      if (userCredential.user != null) {
+        fireStoreInstance
+            .collection(kUsersCollection)
+            .doc(userCredential.user!.uid)
+            .update({
+          'lastLoginTime': formattedTime,
+          'lastLoginIsWeb': kIsWeb,
+          'lastLoginVersion': version,
+          'lastLoginVersionCode': build,
+        });
+        fireStoreInstance
+            .collection(kUsersCollection)
+            .doc(userCredential.user!.uid)
             .collection(kLoginTimeCollection)
             .add({
           'loginVersion': version,
