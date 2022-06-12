@@ -45,7 +45,7 @@ class ExpenseByCategoryDesktopScreen extends StatelessWidget {
                             crossAxisCount: 3,
                             mainAxisSpacing: 20,
                             crossAxisSpacing: 20,
-                            mainAxisExtent: 90,
+                            mainAxisExtent: 110,
                           ),
                           itemBuilder: (ctx, index) {
                             var doc =
@@ -63,7 +63,7 @@ class ExpenseByCategoryDesktopScreen extends StatelessWidget {
                               },
                               child: Container(
                                 width: 130,
-                                height: 80,
+                                height: 130,
                                 decoration: BoxDecoration(
                                   border: Border.all(
                                     color: primaryColor,

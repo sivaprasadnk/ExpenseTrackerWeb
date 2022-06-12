@@ -27,6 +27,9 @@ class ExpenseAmountText extends StatelessWidget {
           ),
           child: Text(
             "$kRupeeSymbol " + amount,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),

@@ -1,7 +1,7 @@
 import 'package:expense_tracker/model/expense.model.dart';
 import 'package:expense_tracker/view/expense.by.date.list/widgets/expense.amount.text.dart';
 import 'package:expense_tracker/view/expense.by.date.list/widgets/expense.category.name.container.dart';
-import 'package:expense_tracker/view/expense.by.date.list/widgets/expense.created.date.text.dart';
+import 'package:expense_tracker/view/expense.by.date.list/widgets/expense.date.text.dart';
 import 'package:expense_tracker/view/expense.by.date.list/widgets/expense.details.text.dart';
 import 'package:expense_tracker/view/expense.by.date.list/widgets/expense.mode.text.dart';
 import 'package:expense_tracker/view/expense.by.date.list/widgets/expense.title.text.dart';
@@ -52,9 +52,13 @@ class ExpenseDetailsCardMobile extends StatelessWidget {
                   const SizedBox(
                     height: 3,
                   ),
-                  ExpenseCreatedDateText(
-                    createdDate: expense.createdDate,
+                  ExpenseDateText(
+                    date: expense.expenseDay,
+                    month: expense.expenseMonth,
                   ),
+                  // ExpenseCreatedDateText(
+                  //   createdDate: expense.createdDate,
+                  // ),
                   const SizedBox(
                     height: 10,
                   ),

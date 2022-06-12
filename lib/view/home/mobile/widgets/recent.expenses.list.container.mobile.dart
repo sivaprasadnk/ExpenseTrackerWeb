@@ -27,6 +27,7 @@ class _RecentExpensesListContainerMobileState
           return provider.recentExpensesList.isNotEmpty
               ? LiveList(
                   visibleFraction: 0.8,
+                  physics: const BouncingScrollPhysics(),
                   showItemDuration: const Duration(milliseconds: 900),
                   padding: const EdgeInsets.only(left: 1, top: 10),
                   showItemInterval: const Duration(milliseconds: 50),

@@ -4,6 +4,7 @@ import 'package:expense_tracker/model/expense.date.model.dart';
 import 'package:expense_tracker/model/expense.model.dart';
 import 'package:expense_tracker/utils/enums.dart';
 import 'package:expense_tracker/view/expense.by.date.list/widgets/expense.details.card.mobile.dart';
+import 'package:expense_tracker/view/expense.by.date.list/widgets/total.expense.container.mobile.dart';
 import 'package:expense_tracker/view/mobile.view.dart';
 import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.container.mobile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -89,12 +90,24 @@ class _ExpenseByDateListMobileScreenState
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            TotalExpenseContainerMobile(
+              totalExpense: widget.expenseDateItem.totalExpense,
+            ),
             const SizedBox(
               height: 5,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                const Text(
+                  'Mode :',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(
+                  width: 15,
+                ),
                 GestureDetector(
                   onTap: () {
                     setStream(Mode.all);

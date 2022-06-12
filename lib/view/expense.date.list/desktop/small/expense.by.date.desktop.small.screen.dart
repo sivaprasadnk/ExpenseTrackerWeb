@@ -131,7 +131,7 @@ class _ExpenseDateListDesktopSmallState
                                 crossAxisCount: 3,
                                 mainAxisSpacing: 20,
                                 crossAxisSpacing: 20,
-                                mainAxisExtent: 90,
+                                mainAxisExtent: 110,
                               ),
                               itemBuilder: (ctx, index) {
                                 var doc = (snapshot.data! as QuerySnapshot)
@@ -159,7 +159,7 @@ class _ExpenseDateListDesktopSmallState
                                         child: Container(
                                           padding: EdgeInsets.zero,
                                           width: 130,
-                                          height: 80,
+                                          height: 130,
                                           margin:
                                               const EdgeInsets.only(top: 10),
                                           decoration: BoxDecoration(

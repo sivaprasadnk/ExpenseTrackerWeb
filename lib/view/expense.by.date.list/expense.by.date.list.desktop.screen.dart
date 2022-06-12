@@ -5,6 +5,7 @@ import 'package:expense_tracker/model/expense.model.dart';
 import 'package:expense_tracker/utils/enums.dart';
 import 'package:expense_tracker/view/desktop.view.dart';
 import 'package:expense_tracker/view/expense.by.date.list/widgets/expense.details.card.desktop.dart';
+import 'package:expense_tracker/view/expense.by.date.list/widgets/total.expense.container.desktop.dart';
 import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.container.desktop.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -79,8 +80,9 @@ class _ExpenseByDateListScreenState extends State<ExpenseByDateListScreen> {
   Widget build(BuildContext context) {
     double btnWidth = 60;
     double btnHeight = 25;
-    var primaryColor = Theme.of(context).primaryColor;
-    var bgColor = Theme.of(context).scaffoldBackgroundColor;
+    var theme = Theme.of(context);
+    var primaryColor = theme.primaryColor;
+    var bgColor = theme.scaffoldBackgroundColor;
     return DesktopView(
       appBarTitle: widget.expenseDateItem.date,
       child: SizedBox(
@@ -88,13 +90,21 @@ class _ExpenseByDateListScreenState extends State<ExpenseByDateListScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            TotalExpenseContainerDesktop(
+              totalExpense: widget.expenseDateItem.totalExpense,
+            ),
             const SizedBox(
               height: 10,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text('Mode :'),
+                const Text(
+                  'Mode :',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 const SizedBox(
                   width: 15,
                 ),

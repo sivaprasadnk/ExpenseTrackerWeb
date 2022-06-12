@@ -139,84 +139,81 @@ class _HomeScreenMobileState extends State<HomeScreenMobile>
       child: AnimatedBuilder(
         animation: _controller,
         builder: (_, child) {
-          return SizedBox(
-            height: height,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(
-                child: SizedBox(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      AnimatedOpacity(
-                        duration: opacityDuration,
-                        opacity: _todaysTextContainerOpacity.value,
-                        child: AnimatedSlide(
-                          duration: slideDuration,
-                          offset: _todaysTextContainerSlide.value,
-                          child: const TodaysTotalExpenseContainerMobile(),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      SizedBox(
-                        height: 100,
-                        // width: 430,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            AnimatedOpacity(
-                              duration: opacityDuration,
-                              opacity: _expenseByDateOpacity.value,
-                              child: AnimatedSlide(
-                                duration: slideDuration,
-                                offset: _expenseByDateSlide.value,
-                                child: ViewExpensesByDateContainerMobile(
-                                  width: width / 3 - 20,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            AnimatedOpacity(
-                              duration: opacityDuration,
-                              opacity: _expenseByCategoryOpacity.value,
-                              child: AnimatedSlide(
-                                duration: slideDuration,
-                                offset: _expenseByCategorySlide.value,
-                                child: ViewExpenseByCategoryContainerMobile(
-                                  width: width / 3 - 20,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            AnimatedOpacity(
-                              duration: opacityDuration,
-                              opacity: _addExpenseOpacity.value,
-                              child: AnimatedSlide(
-                                duration: slideDuration,
-                                offset: _addExpenseSlide.value,
-                                child: const AddExpenseButtonMobile(),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const RecentExpensesText(),
-                      const RecentExpensesListContainerMobile(),
-                    ],
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AnimatedOpacity(
+                  duration: opacityDuration,
+                  opacity: _todaysTextContainerOpacity.value,
+                  child: AnimatedSlide(
+                    duration: slideDuration,
+                    offset: _todaysTextContainerSlide.value,
+                    child: const TodaysTotalExpenseContainerMobile(),
                   ),
                 ),
-              ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Flexible(
+                  child: SizedBox(
+                    height: 100,
+                    // width: 430,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Flexible(
+                          child: AnimatedOpacity(
+                            duration: opacityDuration,
+                            opacity: _expenseByDateOpacity.value,
+                            child: AnimatedSlide(
+                              duration: slideDuration,
+                              offset: _expenseByDateSlide.value,
+                              child: ViewExpensesByDateContainerMobile(
+                                width: width / 3 - 20,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        AnimatedOpacity(
+                          duration: opacityDuration,
+                          opacity: _expenseByCategoryOpacity.value,
+                          child: AnimatedSlide(
+                            duration: slideDuration,
+                            offset: _expenseByCategorySlide.value,
+                            child: ViewExpenseByCategoryContainerMobile(
+                              width: width / 3 - 20,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        AnimatedOpacity(
+                          duration: opacityDuration,
+                          opacity: _addExpenseOpacity.value,
+                          child: AnimatedSlide(
+                            duration: slideDuration,
+                            offset: _addExpenseSlide.value,
+                            child: const AddExpenseButtonMobile(),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                const RecentExpensesText(),
+                const RecentExpensesListContainerMobile(),
+              ],
             ),
           );
         },
