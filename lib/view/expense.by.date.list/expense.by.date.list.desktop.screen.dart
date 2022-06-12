@@ -28,8 +28,11 @@ class _ExpenseByDateListScreenState extends State<ExpenseByDateListScreen> {
 
   ///
   var userId = FirebaseAuth.instance.currentUser!.uid;
+
+  ///
   final cloudStoreInstance = FirebaseFirestore.instance;
 
+  ///
   Mode selectedMode = Mode.all;
 
   @override

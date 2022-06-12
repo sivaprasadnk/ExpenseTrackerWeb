@@ -30,7 +30,7 @@ class ExpenseByCategoryListMobileScreen extends StatelessWidget {
             .collection(kExpenseCategoriesCollection)
             .doc(categoryName)
             .collection(kExpenseCollection)
-            .orderBy('createdDate', descending: true)
+            .orderBy('createdDateTimeString', descending: true)
             .snapshots(),
         builder: (_, snapshot) {
           return snapshot.connectionState != ConnectionState.done
@@ -47,21 +47,7 @@ class ExpenseByCategoryListMobileScreen extends StatelessWidget {
                         itemBuilder: (ctx, index) {
                           var doc =
                               (snapshot.data! as QuerySnapshot).docs[index];
-                          Expense expense = Expense(
-                            amount: doc['amount'],
-                            mode: doc['mode'],
-                            categoryId: doc['categoryId'],
-                            categoryName: doc['categoryName'],
-                            createdDate: doc['createdDate'],
-                            expenseDay: "",
-                            details: doc['details'],
-                            expenseDocId: doc['expenseDocId'],
-                            expenseTitle: doc['expenseTitle'],
-                            expenseDate: doc['expenseDate'],
-                            expenseMonth: doc['expenseMonth'],
-                            // expenseMonthDocId: doc['expenseMonthDocId'],
-                            expenseMonthDocId: '',
-                          );
+                          Expense expense = Expense.fromJson(doc);
                           return ExpenseDetailsCardMobile(
                             expense: expense,
                             // width: double.infinity,

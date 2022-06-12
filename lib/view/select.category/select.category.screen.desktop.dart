@@ -46,7 +46,7 @@ class _SelectCategoryScreenDesktopState
             child: StreamBuilder(
               stream: stream,
               builder: (context, snapshot) {
-                return snapshot.hasData
+                return snapshot.connectionState != ConnectionState.waiting
                     ? Center(
                         child: SizedBox(
                           width: 430,
@@ -115,7 +115,7 @@ class _SelectCategoryScreenDesktopState
                     : Center(
                         child: NeumorphicLoader(
                           size: 75,
-                          borderColor: Theme.of(context).primaryColor,
+                          borderColor: primaryColor,
                         ),
                       );
               },

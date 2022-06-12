@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/model/expense.date.model.dart';
-import 'package:expense_tracker/utils/month.model.dart';
 import 'package:expense_tracker/view/desktop.view.dart';
 import 'package:expense_tracker/view/expense.by.date.list/expense.by.date.list.desktop.screen.dart';
 import 'package:expense_tracker/view/expense.date.list/widgets/expense.amount.text.dart';
@@ -11,6 +10,7 @@ import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.cont
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:simple_month_year_picker/simple_month_year_picker.dart';
 
 class ExpenseDateListDesktopSmall extends StatefulWidget {
   const ExpenseDateListDesktopSmall({Key? key, this.monthDocId = ""})
@@ -45,7 +45,8 @@ class _ExpenseDateListDesktopSmallState
   }
 
   Future<void> _selectDate(BuildContext context) async {
-    var selectedDate1 = await MonthYearPicker.showMonthYearPicker(context);
+    var selectedDate1 =
+        await SimpleMonthYearPicker.showMonthYearPickerDialog(context: context);
     if (selectedDate1 != null) {
       selectedDate = selectedDate1;
       setState(() {
@@ -74,32 +75,29 @@ class _ExpenseDateListDesktopSmallState
                 _selectDate(context);
               },
               child: Container(
-                width: 111,
                 decoration: BoxDecoration(
                     color: primaryColor,
                     borderRadius: BorderRadius.circular(5)),
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 11,
-                      vertical: 5,
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          month + ", " + year,
-                          style: TextStyle(
-                            color: bgColor,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        Icon(
-                          Icons.arrow_drop_down,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 11,
+                    vertical: 5,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        month + ", " + year,
+                        style: TextStyle(
                           color: bgColor,
-                        )
-                      ],
-                    ),
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Icon(
+                        Icons.arrow_drop_down,
+                        color: bgColor,
+                      )
+                    ],
                   ),
                 ),
               ),

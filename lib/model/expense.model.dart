@@ -32,6 +32,8 @@ class Expense {
   });
 
   static Expense fromJson(QueryDocumentSnapshot<Object?> doc) {
+    String expDate = doc['expenseDate'];
+    String expDay = expDate.split('-').first;
     return Expense(
       amount: doc['amount'],
       mode: doc['mode'],
@@ -39,9 +41,10 @@ class Expense {
       categoryName: doc['categoryName'],
       createdDate: doc['createdDateTimeString'],
       // expenseDay: doc['expenseDay'] ?? "",
-      expenseDay: doc['expenseDay'],
+      // expenseDay: doc['expenseDay'],
+      expenseDay: expDay,
       details: doc['details'],
-      expenseDocId: doc['expenseDocId'] ?? "",
+      expenseDocId: "",
       expenseMonthDocId: "",
       expenseTitle: doc['expenseTitle'],
       expenseDate: doc['expenseDate'] ?? "",

@@ -26,9 +26,14 @@ class _ExpenseByDateListMobileScreenState
     extends State<ExpenseByDateListMobileScreen> {
   ///
   Stream<QuerySnapshot<Map<String, dynamic>>>? stream;
+
+  ///
   var userId = FirebaseAuth.instance.currentUser!.uid;
+
+  ///
   final cloudStoreInstance = FirebaseFirestore.instance;
 
+  ///
   Mode selectedMode = Mode.all;
 
   @override
@@ -38,41 +43,32 @@ class _ExpenseByDateListMobileScreenState
   }
 
   setStream(Mode mode) {
+    final collectionRef = FirebaseFirestore.instance
+        .collection(kUsersCollection)
+        .doc(userId)
+        .collection(kExpenseDatesNewCollection)
+        .doc(widget.expenseDateItem.date)
+        .collection(kExpenseCollection);
     if (mode == Mode.all) {
       setState(() {
-        stream = cloudStoreInstance
-            .collection(kUsersCollection)
-            .doc(userId)
-            .collection(kExpenseDatesNewCollection)
-            .doc(widget.expenseDateItem.date)
-            .collection(kExpenseCollection)
-            .orderBy('createdDate', descending: true)
+        stream = collectionRef
+            .orderBy('createdDateTimeString', descending: true)
             .snapshots();
         selectedMode = Mode.all;
       });
     } else if (mode == Mode.cash) {
       setState(() {
-        stream = cloudStoreInstance
-            .collection(kUsersCollection)
-            .doc(userId)
-            .collection(kExpenseDatesNewCollection)
-            .doc(widget.expenseDateItem.date)
-            .collection(kExpenseCollection)
+        stream = collectionRef
             .where('mode', isEqualTo: 'Cash')
-            .orderBy('createdDate', descending: true)
+            .orderBy('createdDateTimeString', descending: true)
             .snapshots();
         selectedMode = Mode.cash;
       });
     } else {
       setState(() {
-        stream = cloudStoreInstance
-            .collection(kUsersCollection)
-            .doc(userId)
-            .collection(kExpenseDatesNewCollection)
-            .doc(widget.expenseDateItem.date)
-            .collection(kExpenseCollection)
+        stream = collectionRef
             .where('mode', isEqualTo: 'Online')
-            .orderBy('createdDate', descending: true)
+            .orderBy('createdDateTimeString', descending: true)
             .snapshots();
         selectedMode = Mode.online;
       });
