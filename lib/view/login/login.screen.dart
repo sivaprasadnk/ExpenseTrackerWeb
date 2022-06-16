@@ -1,3 +1,4 @@
+import 'package:auth_buttons/auth_buttons.dart';
 import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/controller/auth.controller.dart';
 import 'package:expense_tracker/cursor.widget.dart';
@@ -8,6 +9,7 @@ import 'package:expense_tracker/view/register/register.screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -138,9 +140,6 @@ class _LoginScreenState extends State<LoginScreen>
     final screenSize = MediaQuery.of(context).size;
     const opacityDuration = Duration(milliseconds: 900);
     const slideDuration = Duration(milliseconds: 400);
-    final ThemeData theme = Theme.of(context);
-    var primaryColor = theme.primaryColor;
-    var bgColor = theme.scaffoldBackgroundColor;
     return Form(
       key: _formKey,
       child: Scaffold(
@@ -172,7 +171,7 @@ class _LoginScreenState extends State<LoginScreen>
                 const Padding(
                   padding: EdgeInsets.all(10.0),
                   child: Text(
-                    kExpenseTrackerText + '',
+                    kExpenseTrackerText + ' v1',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 30,
@@ -295,7 +294,6 @@ class _LoginScreenState extends State<LoginScreen>
                                         password = val.toString();
                                       },
                                       decoration: const InputDecoration(
-                                        // hintText: '',
                                         border: InputBorder.none,
                                         isDense: true,
                                       ),
@@ -387,77 +385,111 @@ class _LoginScreenState extends State<LoginScreen>
                 const SizedBox(
                   height: 20,
                 ),
-                GestureDetector(
-                  onTap: () async {
-                    try {
-                      GoogleSignInAccount? account =
-                          await _googleSignIn!.signIn();
-                      if (account != null) {
-                        AuthController.googleSignIn(
-                            context: context, account: account);
-                      }
-                    } catch (error) {
-                      debugPrint(error.toString());
-                    }
-                  },
-                  child: Container(
-                    width: 300,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.black,
-                      ),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        'Google Sign-In',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+               
                 const SizedBox(
-                  height: 20,
+                  height: 5,
                 ),
-                // GestureDetector(
-                //   onTap: () async {
-                //     try {
-                //       GoogleSignInAccount? account =
-                //           await _googleSignIn!.signIn();
-                //       if (account != null) {
-                //         AuthController.googleSignIn3(
-                //             context: context, account: account);
-                //       }
-                //     } catch (error) {
-                //       debugPrint(error.toString());
-                //     }
-                //   },
-                //   child: Container(
-                //     width: 300,
-                //     height: 40,
-                //     decoration: BoxDecoration(
-                //       border: Border.all(
-                //         color: Colors.black,
-                //       ),
-                //       borderRadius: BorderRadius.circular(8),
-                //     ),
-                //     child: const Center(
-                //       child: Text(
-                //         'Sign In with Phone',
-                //         style: TextStyle(
-                //           fontSize: 20,
-                //           color: Colors.black,
-                //           fontWeight: FontWeight.bold,
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // )
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GoogleAuthButton(
+                      onPressed: () async {
+                        try {
+                          GoogleSignInAccount? account =
+                              await _googleSignIn!.signIn();
+                          if (account != null) {
+                            AuthController.googleSignIn(
+                                context: context, account: account);
+                          }
+                        } catch (error) {
+                          debugPrint(error.toString());
+                        }
+                      },
+                      darkMode: true,
+                      isLoading: false,
+                      style: const AuthButtonStyle(
+                        padding: EdgeInsets.all(9),
+                        // separator: ,
+                        buttonType: AuthButtonType.icon,
+                        iconType: AuthIconType.secondary,
+                      ),
+                    ),
+                    const SizedBox(width: 15),
+                    FacebookAuthButton(
+                      onPressed: () async {
+                        try {
+                          final LoginResult result = await FacebookAuth.instance
+                              .login(); // by default we request the email and the public profile
+// or FacebookAuth.i.login()
+                          if (result.status == LoginStatus.success) {
+                            // you are logged
+                            final AccessToken accessToken = result.accessToken!;
+                            debugPrint(" accessToken.token : ");
+                            // result.
+                            debugPrint(accessToken.token);
+                          } else {
+                            debugPrint("  result.status : ");
+                            debugPrint(result.status.toString());
+                            debugPrint(" result.message  :");
+                            debugPrint(result.message);
+                          }
+                        } catch (error) {
+                          debugPrint(error.toString());
+                        }
+                      },
+                      darkMode: true,
+                      isLoading: false,
+                      style: const AuthButtonStyle(
+                        padding: EdgeInsets.all(9),
+                        // separator: ,
+                        buttonType: AuthButtonType.icon,
+                        iconType: AuthIconType.secondary,
+                      ),
+                    ),
+                  ],
+                ),
+//                 GestureDetector(
+//                   onTap: () async {
+//                     try {
+//                       final LoginResult result = await FacebookAuth.instance
+//                           .login(); // by default we request the email and the public profile
+// // or FacebookAuth.i.login()
+//                       if (result.status == LoginStatus.success) {
+//                         // you are logged
+//                         final AccessToken accessToken = result.accessToken!;
+//                         debugPrint(" accessToken.token : ");
+//                         debugPrint(accessToken.token);
+//                       } else {
+//                         debugPrint("  result.status : ");
+//                         debugPrint(result.status.toString());
+//                         debugPrint(" result.message  :");
+//                         debugPrint(result.message);
+//                       }
+//                     } catch (error) {
+//                       debugPrint(error.toString());
+//                     }
+//                   },
+//                   child: Container(
+//                     width: 300,
+//                     height: 40,
+//                     decoration: BoxDecoration(
+//                       border: Border.all(
+//                         color: Colors.black,
+//                       ),
+//                       borderRadius: BorderRadius.circular(8),
+//                     ),
+//                     child: const Center(
+//                       child: Text(
+//                         'Facebook  Login',
+//                         style: TextStyle(
+//                           fontSize: 20,
+//                           color: Colors.black,
+//                           fontWeight: FontWeight.bold,
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                 )
               ],
             ),
           ),

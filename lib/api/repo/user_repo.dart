@@ -1,13 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:expense_tracker/api/response.status.dart';
 import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/model/add.expense.model.dart';
 import 'package:expense_tracker/model/expense.model.dart';
+import 'package:expense_tracker/model/location.response.model.dart';
 import 'package:expense_tracker/model/recent.expense.model.dart';
 import 'package:expense_tracker/model/response.model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+
+import '../../key.dart';
 
 class UserRepo {
   final fireStoreInstance = FirebaseFirestore.instance;
@@ -329,5 +333,21 @@ class UserRepo {
         status: ResponseStatus.success,
         message: 'Success',
         data: dailyTotal.toString() + "." + "0");
+  }
+
+  Future<LocationResponseModel> getLocationDetails() async {
+    LocationResponseModel model;
+      final String url = 'https://ipapi.co/json/?key=$key';
+      final uri = Uri.parse(url);
+      debugPrint(uri.toString());
+      var response = await Dio().getUri(uri, options: Options(headers: {}));
+
+      final Map<String, dynamic> responseData = response.data;
+
+       model =
+          LocationResponseModel.fromJson(responseData);
+      debugPrint(response.toString());
+    
+      return model;
   }
 }

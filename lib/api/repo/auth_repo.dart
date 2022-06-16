@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/api/auth_exception_handler.dart';
 import 'package:expense_tracker/api/response.status.dart';
 import 'package:expense_tracker/common_strings.dart';
+import 'package:expense_tracker/model/location.response.model.dart';
 import 'package:expense_tracker/model/login.response.model.dart';
 import 'package:expense_tracker/model/registration.response.model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -156,7 +157,8 @@ class AuthRepo {
   //       data: dailyTotal.toString() + "." + monthlyTotal.toString());
   // }
 
-  Future<LoginResponse> loginNew(String email, String password) async {
+  Future<LoginResponse> loginNew(
+      String email, String password, LocationResponseModel model) async {
     final DateTime now = DateTime.now();
     final PackageInfo packageInfo = await PackageInfo.fromPlatform();
     var version = packageInfo.version;
@@ -164,6 +166,7 @@ class AuthRepo {
     final String formattedTime = DateFormat('dd-MM-yyyy  kk:mm').format(now);
 
     try {
+      var json = model.toJson();
       UserCredential credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       if (credential.user != null) {
@@ -186,6 +189,12 @@ class AuthRepo {
           'loginTime': formattedTime,
           'isWeb': kIsWeb,
         });
+
+        fireStoreInstance
+            .collection(kUsersCollection)
+            .doc(credential.user!.uid)
+            .collection('location')
+            .add(json);
       }
     } catch (e) {
       debugPrint('Exception @loginAccount: $e');
@@ -213,11 +222,12 @@ class AuthRepo {
     }
     debugPrint('.. @@ dailyTotal from db : $dailyTotal');
     return LoginResponse(
-        status: ResponseStatus.success,
-        message: 'Success',
-        userId: userId,
-        dailyTotal: dailyTotal,
-        data: '');
+      status: ResponseStatus.success,
+      message: 'Success',
+      userId: userId,
+      dailyTotal: dailyTotal,
+      data: model.currency.toString(),
+    );
   }
 
   Future<LoginResponse> googleSignIn(GoogleSignInAccount account) async {

@@ -9,7 +9,10 @@ class TitleWidget extends StatelessWidget {
     var theme = Theme.of(context);
     return CursorWidget(
       onTap: () {
-        Navigator.pop(context);
+        FocusScope.of(context).unfocus();
+        Future.delayed(const Duration(seconds: 1)).then((value) {
+          Navigator.pop(context);
+        });
       },
       child: Container(
         height: 50,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../common_strings.dart';
+import '../../../provider/home.provider.dart';
 
 class TotalExpenseContainerDesktop extends StatelessWidget {
   const TotalExpenseContainerDesktop({
@@ -14,6 +16,8 @@ class TotalExpenseContainerDesktop extends StatelessWidget {
     var theme = Theme.of(context);
     var primaryColor = theme.primaryColor;
     var bgColor = theme.scaffoldBackgroundColor;
+    var currency =
+        Provider.of<HomeProvider>(context, listen: false).currencySymbol;
     return Container(
       height: 150,
       width: 430,
@@ -38,7 +42,7 @@ class TotalExpenseContainerDesktop extends StatelessWidget {
             ),
           ),
           Text(
-            "$kRupeeSymbol $totalExpense",
+            "$currency $totalExpense",
             style: TextStyle(
               fontSize: 60,
               fontWeight: FontWeight.bold,

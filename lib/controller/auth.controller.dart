@@ -15,7 +15,7 @@ class AuthController {
   static AuthRepo authRepo = AuthRepo();
   static UserRepo userRepo = UserRepo();
 
-  static void login(BuildContext context, String email, String password) {
+  static void login(BuildContext context, String email, String password) async {
     try {
       if (email.isEmpty) {
         throw CustomException('Enter email !');
@@ -28,8 +28,9 @@ class AuthController {
       }
 
       Loading.showLoading(context);
+      var model = await userRepo.getLocationDetails();
 
-      authRepo.loginNew(email, password).then((response) async {
+      authRepo.loginNew(email, password, model).then((response) async {
         if (response.status == ResponseStatus.error) {
           Dialogs.showAlertDialog(
                   context: context, description: response.message)
@@ -43,6 +44,8 @@ class AuthController {
           userRepo.getRecentExpense().then((recentExpList) {
             Provider.of<HomeProvider>(context, listen: false)
                 .updateRecentList(recentExpList);
+            Provider.of<HomeProvider>(context, listen: false)
+                .updateCurrency(response.data);
             // userRepo.updateDbValue(response.userId).then((value) {
             //   Navigation.checkPlatformAndNavigateToHome(context);
             // });

@@ -1,5 +1,7 @@
 import 'package:expense_tracker/common_strings.dart';
+import 'package:expense_tracker/provider/home.provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ExpenseListItemContainer extends StatefulWidget {
   const ExpenseListItemContainer({
@@ -25,6 +27,8 @@ class _ExpenseListItemContainerState extends State<ExpenseListItemContainer> {
     final ThemeData theme = Theme.of(context);
 
     var primaryColor = theme.primaryColor;
+    var currency =
+        Provider.of<HomeProvider>(context, listen: false).currencySymbol;
     return Container(
       height: 50,
       decoration: BoxDecoration(
@@ -70,7 +74,7 @@ class _ExpenseListItemContainerState extends State<ExpenseListItemContainer> {
             ),
             const Spacer(),
             Text(
-              "$kRupeeSymbol ${widget.amount}",
+              "$currency ${widget.amount}",
               style: const TextStyle(
                 fontSize: 35,
                 fontWeight: FontWeight.bold,

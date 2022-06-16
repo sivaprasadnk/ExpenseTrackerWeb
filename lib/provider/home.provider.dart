@@ -1,7 +1,29 @@
+import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/model/recent.expense.model.dart';
 import 'package:flutter/cupertino.dart';
 
 class HomeProvider extends ChangeNotifier {
+  String currencySymbol_ = kRupeeSymbol;
+  String get currencySymbol => currencySymbol_;
+
+  String currency_ = "";
+  String get currency => currency_;
+
+  void updateCurrency(String currency) {
+    currency_ = currency;
+    if (currency == "INR") {
+      currencySymbol_ = kRupeeSymbol;
+      // currencySymbol_ = "د.إ";
+    } else if (currency == "USD") {
+      currencySymbol_ = '\$';
+    } else if (currency == "AED") {
+      currencySymbol_ = "د.إ";
+    } else {
+      currencySymbol_ = '\$';
+    }
+    notifyListeners();
+  }
+
   List<RecentExpense> recentExpensesList_ = [];
   List<RecentExpense> get recentExpensesList => recentExpensesList_;
 

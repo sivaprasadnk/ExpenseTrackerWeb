@@ -1,4 +1,3 @@
-import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/provider/home.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +11,7 @@ class DailyTotalText extends StatelessWidget {
     return Consumer<HomeProvider>(
       builder: (_, provider, __) {
         return Text(
-          "$kRupeeSymbol ${provider.dailyTotalExpense}",
+          "${provider.currencySymbol} ${provider.dailyTotalExpense}",
           style: TextStyle(
             fontSize: 60,
             fontWeight: FontWeight.bold,

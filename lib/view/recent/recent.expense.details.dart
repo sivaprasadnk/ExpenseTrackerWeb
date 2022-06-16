@@ -31,6 +31,8 @@ class _RecentExpenseDetailsState extends State<RecentExpenseDetails> {
     var userId = FirebaseAuth.instance.currentUser!.uid;
     final screenSize = MediaQuery.of(context).size;
     final screenHeight = screenSize.height;
+    var currency =
+        Provider.of<HomeProvider>(context, listen: false).currencySymbol;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.expense.expenseTitle),
@@ -97,7 +99,7 @@ class _RecentExpenseDetailsState extends State<RecentExpenseDetails> {
                                 // height: 100,
                                 child: Column(
                                   children: [
-                                    Text(kRupeeSymbol +
+                                    Text(currency +
                                         " " +
                                         snapshot.data!["amount"].toString()),
                                     const SizedBox(height: 20),
