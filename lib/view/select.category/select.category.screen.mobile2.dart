@@ -88,12 +88,7 @@ class _SelectCategoryScreenMobile2State
                                               ),
                                             ),
                                             const SizedBox(height: 15),
-                                            ExpenseAmountText(
-                                              amount:
-                                                  doc['totalAmount'].toString(),
-                                              textColor: primaryColor,
-                                              fontSize: 25,
-                                            )
+                                           
                                           ],
                                         ),
                                       ),

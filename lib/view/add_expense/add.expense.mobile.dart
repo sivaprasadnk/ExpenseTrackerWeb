@@ -6,7 +6,7 @@ import 'package:expense_tracker/utils/enums.dart';
 import 'package:expense_tracker/view/add_expense/widgets/submit.button.dart';
 import 'package:expense_tracker/view/add_expense/widgets/textfield.title.dart';
 import 'package:expense_tracker/view/mobile.view.dart';
-import 'package:expense_tracker/view/select.category/select.category.screen.mobile.dart';
+import 'package:expense_tracker/view/select.category/select.category.screen.mobile2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -238,7 +238,7 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                               context,
                               MaterialPageRoute(
                                   builder: (_) =>
-                                      const SelectCategoryScreenMobile()))
+                                      const SelectCategoryScreenMobile2()))
                           .then((category) {
                         if (category != null) {
                           setState(() {
