@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/model/expense.month.model.dart';
 import 'package:expense_tracker/view/desktop.view.dart';
-import 'package:expense_tracker/view/expense.date.list/desktop/small/expense.by.date.desktop.small.screen.dart';
+import 'package:expense_tracker/view/expense.date.list/expense.date.list.desktop.small.screen.dart';
 import 'package:expense_tracker/view/expense.date.list/widgets/expense.date.text.dart';
 import 'package:expense_tracker/view/expense.date.list/widgets/expense.month.text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,6 +27,8 @@ class _ExpenseMonthsDesktopState extends State<ExpenseMonthsDesktop> {
     var primaryColor = theme.primaryColor;
     var bgColor = theme.scaffoldBackgroundColor;
     return DesktopView(
+      isHome: false,
+
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection(kUsersCollection)

@@ -12,6 +12,7 @@ class DesktopView extends StatefulWidget {
     Key? key,
     required this.child,
     required this.appBarTitle,
+    required this.isHome,
     this.topPadding = 0,
     this.showNetworkStatus = true,
   }) : super(key: key);
@@ -19,6 +20,7 @@ class DesktopView extends StatefulWidget {
   final String appBarTitle;
   final double topPadding;
   final bool showNetworkStatus;
+  final bool isHome;
 
   @override
   State<DesktopView> createState() => _DesktopViewState();
@@ -104,7 +106,10 @@ class _DesktopViewState extends State<DesktopView> {
                   children: [
                     Row(
                       children: [
-                        TitleWidget(title: widget.appBarTitle),
+                        TitleWidget(
+                          title: widget.appBarTitle,
+                          isHome: widget.isHome,
+                        ),
                       ],
                     ),
                     SizedBox(
@@ -133,7 +138,10 @@ class _DesktopViewState extends State<DesktopView> {
                 children: [
                   Row(
                     children: [
-                      TitleWidget(title: widget.appBarTitle),
+                       TitleWidget(
+                          title: widget.appBarTitle,
+                          isHome: widget.isHome,
+                        ),
                     ],
                   ),
                   SizedBox(

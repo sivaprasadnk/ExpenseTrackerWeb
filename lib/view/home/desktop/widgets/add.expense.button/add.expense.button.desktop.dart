@@ -20,6 +20,7 @@ class _AddExpenseButtonDesktopState extends State<AddExpenseButtonDesktop> {
 
     // final screenHeight = screenSize.height;
     return InkWell(
+      borderRadius: BorderRadius.circular(12),
       onHover: (val) {
         setState(() {
           isHovered = val;

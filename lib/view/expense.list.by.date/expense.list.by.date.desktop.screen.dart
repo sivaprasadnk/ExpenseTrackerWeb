@@ -3,28 +3,28 @@ import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/model/expense.date.model.dart';
 import 'package:expense_tracker/model/expense.model.dart';
 import 'package:expense_tracker/utils/enums.dart';
-import 'package:expense_tracker/view/expense.by.date.list/widgets/expense.details.card.mobile.dart';
-import 'package:expense_tracker/view/expense.by.date.list/widgets/total.expense.container.mobile.dart';
-import 'package:expense_tracker/view/mobile.view.dart';
-import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.container.mobile.dart';
+import 'package:expense_tracker/view/desktop.view.dart';
+import 'package:expense_tracker/view/expense.list.by.date/widgets/expense.details.card.desktop.dart';
+import 'package:expense_tracker/view/expense.list.by.date/widgets/total.expense.container.desktop.dart';
+import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.container.desktop.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:neumorphic_loader/neumorphic_loader.dart';
 
-class ExpenseByDateListMobileScreen extends StatefulWidget {
-  const ExpenseByDateListMobileScreen({
+class ExpenseListByDateDesktopScreen extends StatefulWidget {
+  const ExpenseListByDateDesktopScreen({
     Key? key,
     required this.expenseDateItem,
   }) : super(key: key);
   final ExpenseDate expenseDateItem;
 
   @override
-  State<ExpenseByDateListMobileScreen> createState() =>
-      _ExpenseByDateListMobileScreenState();
+  State<ExpenseListByDateDesktopScreen> createState() =>
+      _ExpenseListByDateDesktopScreenState();
 }
 
-class _ExpenseByDateListMobileScreenState
-    extends State<ExpenseByDateListMobileScreen> {
+class _ExpenseListByDateDesktopScreenState
+    extends State<ExpenseListByDateDesktopScreen> {
   ///
   Stream<QuerySnapshot<Map<String, dynamic>>>? stream;
 
@@ -40,6 +40,7 @@ class _ExpenseByDateListMobileScreenState
   @override
   void initState() {
     setStream(Mode.all);
+
     super.initState();
   }
 
@@ -78,23 +79,24 @@ class _ExpenseByDateListMobileScreenState
 
   @override
   Widget build(BuildContext context) {
-    var userId = FirebaseAuth.instance.currentUser!.uid;
     double btnWidth = 60;
     double btnHeight = 25;
-    var primaryColor = Theme.of(context).primaryColor;
-    var bgColor = Theme.of(context).scaffoldBackgroundColor;
-    return MobileView(
+    var theme = Theme.of(context);
+    var primaryColor = theme.primaryColor;
+    var bgColor = theme.scaffoldBackgroundColor;
+    return DesktopView(
+      isHome: false,
       appBarTitle: widget.expenseDateItem.date,
       child: SizedBox(
         height: MediaQuery.of(context).size.height * 0.9,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            TotalExpenseContainerMobile(
+            TotalExpenseContainerDesktop(
               totalExpense: widget.expenseDateItem.totalExpense,
             ),
             const SizedBox(
-              height: 5,
+              height: 10,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -197,29 +199,37 @@ class _ExpenseByDateListMobileScreenState
                 builder: (_, snapshot) {
                   return snapshot.hasData
                       ? (snapshot.data! as QuerySnapshot).docs.isNotEmpty
-                          ? ListView.separated(
-                              separatorBuilder: (ctx, _) => const SizedBox(
-                                height: 10,
+                          ? SizedBox(
+                              child: ListView.separated(
+                                separatorBuilder: (ctx, _) => const SizedBox(
+                                  height: 10,
+                                ),
+                                itemCount: (snapshot.data! as QuerySnapshot)
+                                    .docs
+                                    .length,
+                                itemBuilder: (ctx, index) {
+                                  var doc = (snapshot.data! as QuerySnapshot)
+                                      .docs[index];
+                                  Expense expense = Expense.fromJson(doc);
+                                  return Center(
+                                    child: SizedBox(
+                                      width: 450,
+                                      child: ExpenseDetailsCardDesktop(
+                                        expense: expense,
+                                        // width: 450,
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
-                              shrinkWrap: true,
-                              itemCount:
-                                  (snapshot.data! as QuerySnapshot).docs.length,
-                              itemBuilder: (ctx, index) {
-                                var doc = (snapshot.data! as QuerySnapshot)
-                                    .docs[index];
-                                Expense expense = Expense.fromJson(doc);
-                                return ExpenseDetailsCardMobile(
-                                  expense: expense,
-                                );
-                              },
                             )
-                          : const NoExpenseContainerMobile(
-                              title: 'No expenses added .',
+                          : const NoExpenseContainerDesktop(
+                              title: 'No Expenses added',
                             )
                       : Center(
                           child: NeumorphicLoader(
                             size: 75,
-                            borderColor: Theme.of(context).primaryColor,
+                            borderColor: primaryColor,
                           ),
                         );
                 },

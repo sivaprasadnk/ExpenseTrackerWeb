@@ -65,6 +65,7 @@ class _SelectCategoryScreenMobileState
                                 Navigator.pop(context, model);
                               },
                               child: Container(
+                                width: double.infinity,
                                 height: 50,
                                 decoration: BoxDecoration(
                                     color: bgColor,

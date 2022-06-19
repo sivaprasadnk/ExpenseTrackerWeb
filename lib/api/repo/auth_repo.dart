@@ -195,6 +195,14 @@ class AuthRepo {
             .doc(credential.user!.uid)
             .collection('location')
             .add(json);
+
+        var res = await fireStoreInstance
+            .collection(kExpenseCategoriesCollection)
+            .get();
+       var docsList= res.docs;
+       for(var i =0; i< docsList.length;i++){
+        
+       }
       }
     } catch (e) {
       debugPrint('Exception @loginAccount: $e');

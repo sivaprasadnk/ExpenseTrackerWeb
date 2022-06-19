@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/model/expense.date.model.dart';
-import 'package:expense_tracker/view/expense.by.date.list/expense.by.date.list.mobile.screen.dart';
+import 'package:expense_tracker/view/expense.date.list/widgets/calendar.item.left.container.dart';
+import 'package:expense_tracker/view/expense.date.list/widgets/calendar.item.right.container.dart';
+import 'package:expense_tracker/view/expense.date.list/widgets/calendar.item.top.shade.dart';
 import 'package:expense_tracker/view/expense.date.list/widgets/expense.amount.text.dart';
 import 'package:expense_tracker/view/expense.date.list/widgets/expense.date.text.dart';
-import 'package:expense_tracker/view/expense.date.list/widgets/expense.month.text.dart';
+import 'package:expense_tracker/view/expense.date.list/widgets/month.year.container.dart';
+import 'package:expense_tracker/view/expense.list.by.date/expense.list.by.date.mobile.screen.dart';
 import 'package:expense_tracker/view/mobile.view.dart';
 import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.container.mobile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -73,34 +76,9 @@ class _ExpenseByDateMobileScreenState extends State<ExpenseByDateMobileScreen> {
               onTap: () {
                 _selectDate(context);
               },
-              child: Container(
-                // width: 111,
-                decoration: BoxDecoration(
-                    color: primaryColor,
-                    borderRadius: BorderRadius.circular(5)),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 11,
-                    vertical: 5,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        month + ", " + year,
-                        style: TextStyle(
-                          color: bgColor,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      Icon(
-                        Icons.arrow_drop_down,
-                        color: bgColor,
-                      )
-                    ],
-                  ),
-                ),
+              child: MonthYearContainer(
+                month: month,
+                year: year,
               ),
             ),
           ),
@@ -134,7 +112,7 @@ class _ExpenseByDateMobileScreenState extends State<ExpenseByDateMobileScreen> {
                                   crossAxisCount: 3,
                                   mainAxisSpacing: 20,
                                   crossAxisSpacing: 20,
-                                  mainAxisExtent: 90,
+                                  mainAxisExtent: 110,
                                 ),
                                 itemBuilder: (ctx, index) {
                                   var doc = (snapshot.data! as QuerySnapshot)
@@ -146,7 +124,7 @@ class _ExpenseByDateMobileScreenState extends State<ExpenseByDateMobileScreen> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (_) =>
-                                                  ExpenseByDateListMobileScreen(
+                                                  ExpenseListByDateMobileScreen(
                                                     expenseDateItem: expDate,
                                                   )));
                                     },
@@ -154,8 +132,8 @@ class _ExpenseByDateMobileScreenState extends State<ExpenseByDateMobileScreen> {
                                       children: [
                                         Container(
                                           padding: EdgeInsets.zero,
-                                          width: 130,
-                                          height: 150,
+                                          width: 120,
+                                          height: 140,
                                           margin:
                                               const EdgeInsets.only(top: 10),
                                           decoration: BoxDecoration(
@@ -165,29 +143,35 @@ class _ExpenseByDateMobileScreenState extends State<ExpenseByDateMobileScreen> {
                                             borderRadius:
                                                 BorderRadius.circular(8),
                                           ),
-                                          child: Center(
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                ExpenseDateText(
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              CalendarItemTopShade(
+                                                  primaryColor: primaryColor),
+                                              const SizedBox(height: 12),
+                                              Center(
+                                                child: ExpenseDateText(
                                                   date: expDate.day,
                                                   textColor: primaryColor,
                                                 ),
-                                                ExpenseMonthText(
-                                                  month: expDate.month,
-                                                  textColor: primaryColor,
-                                                ),
-                                              ],
-                                            ),
+                                              ),
+                                              ExpenseAmountText(
+                                                amount: expDate.totalExpense
+                                                    .toString(),
+                                                textColor: primaryColor,
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        ExpenseAmountText(
-                                          borderColor: primaryColor,
-                                          fillColor: bgColor,
-                                          amount:
-                                              expDate.totalExpense.toString(),
-                                        )
+                                        CalendarItemLeftContainer(
+                                            bgColor: bgColor,
+                                            primaryColor: primaryColor),
+                                        CalendarItemRightContainer(
+                                            rightPosition: 30,
+                                            bgColor: bgColor,
+                                            primaryColor: primaryColor),
                                       ],
                                     ),
                                   );

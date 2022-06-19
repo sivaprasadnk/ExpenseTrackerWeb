@@ -8,6 +8,7 @@ import 'package:expense_tracker/view/add_expense/widgets/textfield.title.dart';
 import 'package:expense_tracker/view/mobile.view.dart';
 import 'package:expense_tracker/view/select.category/select.category.screen.mobile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class AddExpenseMobile extends StatefulWidget {
@@ -187,6 +188,9 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10, right: 10),
                         child: TextFormField(
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(10),
+                          ],
                           onSaved: (val) {
                             expenseTitle = val.toString();
                           },

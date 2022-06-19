@@ -7,8 +7,9 @@ import 'package:expense_tracker/view/add_expense/widgets/submit.button.dart';
 import 'package:expense_tracker/view/add_expense/widgets/textfield.container.dart';
 import 'package:expense_tracker/view/add_expense/widgets/textfield.title.dart';
 import 'package:expense_tracker/view/desktop.view.dart';
-import 'package:expense_tracker/view/select.category/select.category.screen.desktop.dart';
+import 'package:expense_tracker/view/select.category/select.category.screen.desktop2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class AddExpenseScreenDesktop extends StatefulWidget {
@@ -29,19 +30,6 @@ class _AddExpenseScreenStateDesktop extends State<AddExpenseScreenDesktop> {
   final DateTime now = DateTime.now();
   DateTime selectedDate = DateTime.now();
   String formattedTime = "";
-  // Future<void> _selectDate(BuildContext context) async {
-  //   final DateTime? picked = await showDatePicker(
-  //       context: context,
-  //       initialDate: selectedDate,
-  //       firstDate: DateTime(2015, 8),
-  //       lastDate: DateTime(2101));
-  //   if (picked != null && picked != selectedDate) {
-  //     setState(() {
-  //       selectedDate = picked;
-  //       formattedTime = DateFormat('dd-MM-yyyy').format(selectedDate);
-  //     });
-  //   }
-  // }
 
   final _formKey = GlobalKey<FormState>();
 
@@ -55,6 +43,7 @@ class _AddExpenseScreenStateDesktop extends State<AddExpenseScreenDesktop> {
         ? DateFormat('dd-MM-yyyy').format(now)
         : formattedTime;
     return DesktopView(
+      isHome: false,
       appBarTitle: 'Add Expense',
       child: SizedBox(
         width: 430,
@@ -155,6 +144,9 @@ class _AddExpenseScreenStateDesktop extends State<AddExpenseScreenDesktop> {
                       ),
                       TextFieldContainer(
                         child: TextFormField(
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(10),
+                          ],
                           onSaved: (val) {
                             expenseTitle = val.toString();
                           },
@@ -192,7 +184,7 @@ class _AddExpenseScreenStateDesktop extends State<AddExpenseScreenDesktop> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (_) =>
-                                          const SelectCategoryScreenDesktop()))
+                                          const SelectCategoryScreenDesktop2()))
                               .then((category) {
                             if (category != null) {
                               setState(() {

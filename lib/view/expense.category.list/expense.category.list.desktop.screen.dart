@@ -2,16 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/view/desktop.view.dart';
 import 'package:expense_tracker/view/expense.by.category.list/expense.by.category.list.desktop.screen.dart';
-import 'package:expense_tracker/view/expense.by.category/widgets/category.icon.dart';
-import 'package:expense_tracker/view/expense.by.category/widgets/category.name.text.dart';
+import 'package:expense_tracker/view/expense.category.list/widgets/category.icon.dart';
+import 'package:expense_tracker/view/expense.category.list/widgets/category.name.text.dart';
 import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.container.desktop.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:neumorphic_loader/neumorphic_loader.dart';
 
-class ExpenseByCategoryDesktopScreen extends StatelessWidget {
-  const ExpenseByCategoryDesktopScreen({Key? key}) : super(key: key);
+class ExpenseCategoryListDesktopScreen extends StatelessWidget {
+  const ExpenseCategoryListDesktopScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +22,7 @@ class ExpenseByCategoryDesktopScreen extends StatelessWidget {
     var userId = FirebaseAuth.instance.currentUser!.uid;
 
     return DesktopView(
+      isHome: false,
       appBarTitle: 'Select Category',
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
@@ -81,7 +82,9 @@ class ExpenseByCategoryDesktopScreen extends StatelessWidget {
                                       ),
                                       Center(
                                         child: CategoryNameText(
-                                            name: categoryName),
+                                          name: categoryName,
+                                          textColor: primaryColor,
+                                        ),
                                       )
                                     ],
                                   ),

@@ -1,4 +1,4 @@
-import 'package:expense_tracker/view/expense.date.list/desktop/small/expense.by.date.desktop.small.screen.dart';
+import 'package:expense_tracker/view/expense.date.list/expense.date.list.desktop.small.screen.dart';
 import 'package:flutter/material.dart';
 
 class ViewExpensesByDateContainer extends StatefulWidget {
@@ -22,6 +22,7 @@ class _ViewExpensesByDateContainerState
     final ThemeData theme = Theme.of(context);
     var primaryColor = theme.primaryColor;
     return InkWell(
+      borderRadius: BorderRadius.circular(12),
       onHover: (val) {
         setState(() {
           isHovered = val;

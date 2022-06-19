@@ -1,4 +1,4 @@
-import 'package:expense_tracker/view/expense.by.category/expense.by.category.mobile.screen.dart';
+import 'package:expense_tracker/view/expense.category.list/expense.category.list.mobile.screen.dart';
 import 'package:flutter/material.dart';
 
 class ViewExpenseByCategoryContainerMobile extends StatelessWidget {
@@ -18,7 +18,7 @@ class ViewExpenseByCategoryContainerMobile extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (_) => const ExpenseByCategoryMobileScreen()),
+              builder: (_) => const ExpenseCategoryListMobileScreen()),
         );
       },
       child: Container(

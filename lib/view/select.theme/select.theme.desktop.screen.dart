@@ -10,6 +10,8 @@ class SelectThemeDesktopScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DesktopView(
+      isHome: false,
+
       topPadding: 50,
       child: Center(
         child: SizedBox(

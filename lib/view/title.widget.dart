@@ -2,17 +2,26 @@ import 'package:expense_tracker/cursor.widget.dart';
 import 'package:flutter/material.dart';
 
 class TitleWidget extends StatelessWidget {
-  const TitleWidget({Key? key, required this.title}) : super(key: key);
+  const TitleWidget({
+    Key? key,
+    required this.title,
+    required this.isHome,
+  }) : super(key: key);
   final String title;
+  final bool isHome;
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     return CursorWidget(
       onTap: () {
         FocusScope.of(context).unfocus();
-        Future.delayed(const Duration(seconds: 1)).then((value) {
+        if (isHome) {
+          Future.delayed(const Duration(seconds: 1)).then((value) {
+            Navigator.pop(context);
+          });
+        } else {
           Navigator.pop(context);
-        });
+        }
       },
       child: Container(
         height: 50,

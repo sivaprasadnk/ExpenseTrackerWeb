@@ -171,7 +171,7 @@ class _LoginScreenState extends State<LoginScreen>
                 const Padding(
                   padding: EdgeInsets.all(10.0),
                   child: Text(
-                    kExpenseTrackerText + ' v1',
+                    kExpenseTrackerText + '',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 30,
@@ -385,7 +385,7 @@ class _LoginScreenState extends State<LoginScreen>
                 const SizedBox(
                   height: 20,
                 ),
-               
+
                 const SizedBox(
                   height: 5,
                 ),

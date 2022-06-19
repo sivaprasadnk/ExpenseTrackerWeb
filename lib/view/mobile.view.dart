@@ -6,6 +6,7 @@ import 'package:expense_tracker/view/offline.widget.dart';
 import 'package:expense_tracker/view/search.screen/search.screen.mobile.dart';
 import 'package:expense_tracker/view/title.widget.dart';
 import 'package:flutter/material.dart';
+import 'package:validators/validators.dart';
 
 class MobileView extends StatefulWidget {
   const MobileView({
@@ -65,7 +66,7 @@ class _MobileViewState extends State<MobileView> {
                     ),
                   ),
                 )
-              : TitleWidget(title: widget.appBarTitle),
+              : TitleWidget(title: widget.appBarTitle, isHome: widget.isHome,),
         ),
         centerTitle: false,
         actions: [

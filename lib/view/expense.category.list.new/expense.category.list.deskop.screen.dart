@@ -1,31 +1,34 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/common_strings.dart';
-import 'package:expense_tracker/view/expense.by.category.list/expense.by.category.list.mobile.screen.dart';
-import 'package:expense_tracker/view/expense.by.category/widgets/category.icon.dart';
-import 'package:expense_tracker/view/expense.by.category/widgets/category.name.text.dart';
-import 'package:expense_tracker/view/mobile.view.dart';
-import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.container.mobile.dart';
+import 'package:expense_tracker/view/desktop.view.dart';
+import 'package:expense_tracker/view/expense.by.category.list/expense.by.category.list.desktop.screen.dart';
+import 'package:expense_tracker/view/expense.category.list/widgets/category.icon.dart';
+import 'package:expense_tracker/view/expense.category.list/widgets/category.name.text.dart';
+import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.container.desktop.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:neumorphic_loader/neumorphic_loader.dart';
 
-class ExpenseByCategoryMobileScreen extends StatelessWidget {
-  const ExpenseByCategoryMobileScreen({Key? key}) : super(key: key);
+class ExpenseCategoryListDesktopScreenNew extends StatelessWidget {
+  const ExpenseCategoryListDesktopScreenNew({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    final screenHeight = screenSize.height;
     final ThemeData theme = Theme.of(context);
     var primaryColor = theme.primaryColor;
     var userId = FirebaseAuth.instance.currentUser!.uid;
 
-    return MobileView(
+    return DesktopView(
+      isHome: false,
       appBarTitle: 'Select Category',
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
-            .collection(kUsersCollection)
-            .doc(userId)
             .collection(kExpenseCategoriesCollection)
+            // .doc(userId)
+            // .collection(kUsersCollection)
             .snapshots(),
         builder: (_, snapshot) {
           return snapshot.connectionState != ConnectionState.done
@@ -34,6 +37,7 @@ class ExpenseByCategoryMobileScreen extends StatelessWidget {
                   ? Center(
                       child: SizedBox(
                         width: 450,
+                        height: screenHeight * 0.8,
                         child: GridView.builder(
                           itemCount:
                               (snapshot.data! as QuerySnapshot).docs.length,
@@ -42,7 +46,7 @@ class ExpenseByCategoryMobileScreen extends StatelessWidget {
                             crossAxisCount: 3,
                             mainAxisSpacing: 20,
                             crossAxisSpacing: 20,
-                            mainAxisExtent: 90,
+                            mainAxisExtent: 110,
                           ),
                           itemBuilder: (ctx, index) {
                             var doc =
@@ -54,13 +58,13 @@ class ExpenseByCategoryMobileScreen extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                         builder: (_) =>
-                                            ExpenseByCategoryListMobileScreen(
+                                            ExpenseByCategoryListDesktopScreen(
                                               categoryName: categoryName,
                                             )));
                               },
                               child: Container(
                                 width: 130,
-                                height: 80,
+                                height: 130,
                                 decoration: BoxDecoration(
                                   border: Border.all(
                                     color: primaryColor,
@@ -70,22 +74,17 @@ class ExpenseByCategoryMobileScreen extends StatelessWidget {
                                 child: Center(
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    // padding: EdgeInsets.zero,
-                                    // itemExtent: 50,
                                     children: [
-                                      // Spacer(),
-                                      // const SizedBox(
-                                      //   height: 10,
-                                      // ),
                                       Center(
                                         child: CategoryIcon(
                                           icon: getIcon(categoryName),
                                         ),
                                       ),
-
                                       Center(
                                         child: CategoryNameText(
-                                            name: categoryName),
+                                          textColor: primaryColor,
+                                          name: categoryName,
+                                        ),
                                       )
                                     ],
                                   ),
@@ -96,13 +95,13 @@ class ExpenseByCategoryMobileScreen extends StatelessWidget {
                         ),
                       ),
                     )
-                  : const NoExpenseContainerMobile(
-                      title: 'Categories of expenses added will list here !',
+                  : const NoExpenseContainerDesktop(
+                      title: 'Categories of expenses added will list here.',
                     )
               : Center(
                   child: NeumorphicLoader(
                     size: 75,
-                    borderColor: primaryColor,
+                    borderColor: Theme.of(context).primaryColor,
                   ),
                 );
         },

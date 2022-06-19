@@ -1,11 +1,12 @@
 import 'package:expense_tracker/model/expense.model.dart';
-import 'package:expense_tracker/view/expense.by.date.list/widgets/expense.amount.text.dart';
-import 'package:expense_tracker/view/expense.by.date.list/widgets/expense.category.name.container.dart';
-import 'package:expense_tracker/view/expense.by.date.list/widgets/expense.date.text.dart';
-import 'package:expense_tracker/view/expense.by.date.list/widgets/expense.details.text.dart';
-import 'package:expense_tracker/view/expense.by.date.list/widgets/expense.mode.text.dart';
-import 'package:expense_tracker/view/expense.by.date.list/widgets/expense.title.text.dart';
 import 'package:flutter/material.dart';
+
+import 'expense.amount.text.dart';
+import 'expense.category.name.container.dart';
+import 'expense.date.text.dart';
+import 'expense.details.text.dart';
+import 'expense.mode.text.dart';
+import 'expense.title.text.dart';
 
 class ExpenseDetailsCardDesktop extends StatelessWidget {
   const ExpenseDetailsCardDesktop({
@@ -24,7 +25,7 @@ class ExpenseDetailsCardDesktop extends StatelessWidget {
         Container(
           alignment: Alignment.center,
           margin: const EdgeInsets.only(top: 20),
-          height: 104,
+          // height: 104,
           padding: const EdgeInsets.only(left: 10, top: 10),
           decoration: BoxDecoration(
             color: theme.scaffoldBackgroundColor,
@@ -59,11 +60,10 @@ class ExpenseDetailsCardDesktop extends StatelessWidget {
                   // ExpenseCreatedDateText(
                   //   createdDate: expense.createdDate,
                   // ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  const SizedBox(height: 10),
                   ExpenseCategoryNameContainer(
                       categoryName: expense.categoryName),
+                  const SizedBox(height: 10),
                 ],
               ),
               const Spacer(),

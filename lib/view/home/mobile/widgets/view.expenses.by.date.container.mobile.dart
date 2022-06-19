@@ -1,4 +1,4 @@
-import 'package:expense_tracker/view/expense.date.list/mobile/expense.by.date.mobile.screen.dart';
+import 'package:expense_tracker/view/expense.date.list/expense.date.list.mobile.screen.dart';
 import 'package:flutter/material.dart';
 
 class ViewExpensesByDateContainerMobile extends StatelessWidget {

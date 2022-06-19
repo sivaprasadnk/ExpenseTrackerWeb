@@ -1,4 +1,5 @@
-import 'package:expense_tracker/view/expense.by.category/expense.by.category.desktop.screen.dart';
+import 'package:expense_tracker/view/expense.category.list/expense.category.list.desktop.screen.dart';
+import 'package:expense_tracker/view/expense.category.list/expense.category.list.desktop.screen2.dart';
 import 'package:flutter/material.dart';
 
 class ViewExpenseByCategoryContainer extends StatefulWidget {
@@ -25,7 +26,7 @@ class _ViewExpenseByCategoryContainerState
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (_) => const ExpenseByCategoryDesktopScreen()),
+              builder: (_) => const ExpenseCategoryListDesktopScreen2()),
         );
       },
       onHover: (val) {

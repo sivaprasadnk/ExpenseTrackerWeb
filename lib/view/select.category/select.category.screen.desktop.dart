@@ -6,16 +6,16 @@ import 'package:expense_tracker/view/select.category/widgets/category.name.dart'
 import 'package:flutter/material.dart';
 import 'package:neumorphic_loader/neumorphic_loader.dart';
 
-class SelectCategoryScreenDesktop extends StatefulWidget {
-  const SelectCategoryScreenDesktop({Key? key}) : super(key: key);
+class SelectCategoryScreenDesktop1 extends StatefulWidget {
+  const SelectCategoryScreenDesktop1({Key? key}) : super(key: key);
 
   @override
-  State<SelectCategoryScreenDesktop> createState() =>
+  State<SelectCategoryScreenDesktop1> createState() =>
       _SelectCategoryScreenDesktopState();
 }
 
 class _SelectCategoryScreenDesktopState
-    extends State<SelectCategoryScreenDesktop> {
+    extends State<SelectCategoryScreenDesktop1> {
   Stream<QuerySnapshot<Map<String, dynamic>>>? stream;
   List<bool> hoveredStatusList = List<bool>.generate(100, (index) => false);
   // int selectedIndex =
@@ -38,6 +38,8 @@ class _SelectCategoryScreenDesktopState
     var primaryColor = theme.primaryColor;
     var bgColor = theme.scaffoldBackgroundColor;
     return DesktopView(
+      isHome: false,
+
       appBarTitle: 'Select Category',
       child: Column(
         children: [

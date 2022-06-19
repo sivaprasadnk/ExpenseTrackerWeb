@@ -21,7 +21,7 @@ class LocationResponseModel {
   String? currency;
   String? currencyName;
   String? languages;
-  int? countryArea;
+  double? countryArea;
   int? countryPopulation;
   String? asn;
   String? org;
