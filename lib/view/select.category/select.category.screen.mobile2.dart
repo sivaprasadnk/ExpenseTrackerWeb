@@ -1,39 +1,52 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/common_strings.dart';
-import 'package:expense_tracker/view/expense.by.category.list/expense.by.category.list.mobile.screen.dart';
+import 'package:expense_tracker/model/category.doc.model.dart';
+import 'package:expense_tracker/view/desktop.view.dart';
+import 'package:expense_tracker/view/expense.by.category.list/expense.by.category.list.desktop.screen.dart';
 import 'package:expense_tracker/view/expense.category.list/widgets/category.icon.dart';
 import 'package:expense_tracker/view/expense.category.list/widgets/category.name.text.dart';
 import 'package:expense_tracker/view/expense.date.list/widgets/expense.amount.text.dart';
 import 'package:expense_tracker/view/mobile.view.dart';
-import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.container.mobile.dart';
+import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.container.desktop.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:neumorphic_loader/neumorphic_loader.dart';
 
-class ExpenseCategoryListMobileScreen extends StatelessWidget {
-  const ExpenseCategoryListMobileScreen({Key? key}) : super(key: key);
+class SelectCategoryScreenMobile2 extends StatefulWidget {
+  const SelectCategoryScreenMobile2({Key? key}) : super(key: key);
+
+  @override
+  State<SelectCategoryScreenMobile2> createState() =>
+      _SelectCategoryScreenMobile2State();
+}
+
+class _SelectCategoryScreenMobile2State
+    extends State<SelectCategoryScreenMobile2> {
+  ///
+  List<bool> hoveredStatusList = List<bool>.generate(31, (index) => false);
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-    var primaryColor = theme.primaryColor;
-    var userId = FirebaseAuth.instance.currentUser!.uid;
     final screenSize = MediaQuery.of(context).size;
     final width = screenSize.width;
+    final ThemeData theme = Theme.of(context);
+    var primaryColor = theme.primaryColor;
+    var bgColor = theme.scaffoldBackgroundColor;
+    var userId = FirebaseAuth.instance.currentUser!.uid;
+
     return MobileView(
-      appBarTitle: 'Select Category',
+      isHome: false,
+      appBarTitle: 'Select Category', 
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
-            .collection(kUsersCollection)
-            .doc(userId)
             .collection(kExpenseCategoriesCollection)
             .snapshots(),
         builder: (_, snapshot) {
           return snapshot.connectionState != ConnectionState.done
               ? snapshot.hasData &&
                       (snapshot.data! as QuerySnapshot).docs.isNotEmpty
-                  ? Center(
+                  ?Center(
                       child: SizedBox(
                         width: double.infinity,
                         child: SingleChildScrollView(
@@ -45,18 +58,11 @@ class ExpenseCategoryListMobileScreen extends StatelessWidget {
                             children:
                                 (snapshot.data! as QuerySnapshot).docs.map(
                               (doc) {
-                                String categoryName = doc['categoryName'];
+                            CategoryDoc model = CategoryDoc.fromJson(doc);
+
                                 return GestureDetector(
                                   onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) =>
-                                            ExpenseByCategoryListMobileScreen(
-                                          categoryName: categoryName,
-                                        ),
-                                      ),
-                                    );
+                                   Navigator.pop(context, model);
                                   },
                                   child: Stack(
                                     children: [
@@ -77,7 +83,7 @@ class ExpenseCategoryListMobileScreen extends StatelessWidget {
                                           children: [
                                             Center(
                                               child: CategoryNameText(
-                                                name: categoryName,
+                                                name: model.name,
                                                 textColor: primaryColor,
                                               ),
                                             ),
@@ -107,7 +113,7 @@ class ExpenseCategoryListMobileScreen extends StatelessWidget {
                                               ),
                                             ),
                                             child: CategoryIcon(
-                                              icon: getIcon(categoryName),
+                                              icon: getIcon(model.name),
                                             ),
                                           ),
                                         ),
@@ -121,13 +127,13 @@ class ExpenseCategoryListMobileScreen extends StatelessWidget {
                         ),
                       ),
                     )
-                  : const NoExpenseContainerMobile(
-                      title: 'Categories of expenses added will list here !',
+                  : const NoExpenseContainerDesktop(
+                      title: 'Categories of expenses added will list here.',
                     )
               : Center(
                   child: NeumorphicLoader(
                     size: 75,
-                    borderColor: primaryColor,
+                    borderColor: Theme.of(context).primaryColor,
                   ),
                 );
         },
