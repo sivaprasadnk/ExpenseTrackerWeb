@@ -43,9 +43,8 @@ class _ExpenseCategoryListDesktopScreen2State
             .collection(kExpenseCategoriesCollection)
             .snapshots(),
         builder: (_, snapshot) {
-          return snapshot.connectionState != ConnectionState.done
-              ? snapshot.hasData &&
-                      (snapshot.data! as QuerySnapshot).docs.isNotEmpty
+          return snapshot.hasData
+              ? (snapshot.data! as QuerySnapshot).docs.isNotEmpty
                   ? SingleChildScrollView(
                       padding: EdgeInsets.symmetric(horizontal: width * 0.1) +
                           const EdgeInsets.only(bottom: 20),

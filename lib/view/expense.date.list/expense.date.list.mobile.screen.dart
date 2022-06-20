@@ -95,9 +95,8 @@ class _ExpenseByDateMobileScreenState extends State<ExpenseByDateMobileScreen> {
                   .orderBy('day', descending: false)
                   .snapshots(),
               builder: (_, snapshot) {
-                return snapshot.connectionState != ConnectionState.done
-                    ? snapshot.hasData &&
-                            (snapshot.data! as QuerySnapshot).docs.isNotEmpty
+                return snapshot.hasData
+                    ? (snapshot.data! as QuerySnapshot).docs.isNotEmpty
                         ? Center(
                             child: SizedBox(
                               width: 450,

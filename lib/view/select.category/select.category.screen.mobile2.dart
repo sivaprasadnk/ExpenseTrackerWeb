@@ -1,11 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/model/category.doc.model.dart';
-import 'package:expense_tracker/view/desktop.view.dart';
-import 'package:expense_tracker/view/expense.by.category.list/expense.by.category.list.desktop.screen.dart';
 import 'package:expense_tracker/view/expense.category.list/widgets/category.icon.dart';
 import 'package:expense_tracker/view/expense.category.list/widgets/category.name.text.dart';
-import 'package:expense_tracker/view/expense.date.list/widgets/expense.amount.text.dart';
 import 'package:expense_tracker/view/mobile.view.dart';
 import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.container.desktop.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -37,16 +34,15 @@ class _SelectCategoryScreenMobile2State
 
     return MobileView(
       isHome: false,
-      appBarTitle: 'Select Category', 
+      appBarTitle: 'Select Category',
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection(kExpenseCategoriesCollection)
             .snapshots(),
         builder: (_, snapshot) {
-          return snapshot.connectionState != ConnectionState.done
-              ? snapshot.hasData &&
-                      (snapshot.data! as QuerySnapshot).docs.isNotEmpty
-                  ?Center(
+          return snapshot.hasData
+              ? (snapshot.data! as QuerySnapshot).docs.isNotEmpty
+                  ? Center(
                       child: SizedBox(
                         width: double.infinity,
                         child: SingleChildScrollView(
@@ -58,11 +54,11 @@ class _SelectCategoryScreenMobile2State
                             children:
                                 (snapshot.data! as QuerySnapshot).docs.map(
                               (doc) {
-                            CategoryDoc model = CategoryDoc.fromJson(doc);
+                                CategoryDoc model = CategoryDoc.fromJson(doc);
 
                                 return GestureDetector(
                                   onTap: () {
-                                   Navigator.pop(context, model);
+                                    Navigator.pop(context, model);
                                   },
                                   child: Stack(
                                     children: [
@@ -88,7 +84,6 @@ class _SelectCategoryScreenMobile2State
                                               ),
                                             ),
                                             const SizedBox(height: 15),
-                                           
                                           ],
                                         ),
                                       ),

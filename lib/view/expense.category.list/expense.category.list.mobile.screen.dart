@@ -30,9 +30,8 @@ class ExpenseCategoryListMobileScreen extends StatelessWidget {
             .collection(kExpenseCategoriesCollection)
             .snapshots(),
         builder: (_, snapshot) {
-          return snapshot.connectionState != ConnectionState.done
-              ? snapshot.hasData &&
-                      (snapshot.data! as QuerySnapshot).docs.isNotEmpty
+          return snapshot.hasData
+              ? (snapshot.data! as QuerySnapshot).docs.isNotEmpty
                   ? Center(
                       child: SizedBox(
                         width: double.infinity,

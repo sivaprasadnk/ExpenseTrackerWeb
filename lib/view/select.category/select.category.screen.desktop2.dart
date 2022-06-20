@@ -2,10 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/model/category.doc.model.dart';
 import 'package:expense_tracker/view/desktop.view.dart';
-import 'package:expense_tracker/view/expense.by.category.list/expense.by.category.list.desktop.screen.dart';
 import 'package:expense_tracker/view/expense.category.list/widgets/category.icon.dart';
 import 'package:expense_tracker/view/expense.category.list/widgets/category.name.text.dart';
-import 'package:expense_tracker/view/expense.date.list/widgets/expense.amount.text.dart';
 import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.container.desktop.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -42,9 +40,8 @@ class _SelectCategoryScreenDesktop2State
             .collection(kExpenseCategoriesCollection)
             .snapshots(),
         builder: (_, snapshot) {
-          return snapshot.connectionState != ConnectionState.done
-              ? snapshot.hasData &&
-                      (snapshot.data! as QuerySnapshot).docs.isNotEmpty
+          return snapshot.hasData
+              ? (snapshot.data! as QuerySnapshot).docs.isNotEmpty
                   ? SingleChildScrollView(
                       padding: EdgeInsets.symmetric(horizontal: width * 0.1) +
                           const EdgeInsets.only(bottom: 20),
@@ -53,7 +50,7 @@ class _SelectCategoryScreenDesktop2State
                         runSpacing: 15,
                         children: (snapshot.data! as QuerySnapshot).docs.map(
                           (doc) {
-                              CategoryDoc model = CategoryDoc.fromJson(doc);
+                            CategoryDoc model = CategoryDoc.fromJson(doc);
                             return InkWell(
                               hoverColor: Colors.transparent,
                               highlightColor: Colors.transparent,
@@ -87,13 +84,11 @@ class _SelectCategoryScreenDesktop2State
                                       children: [
                                         CategoryNameText(
                                           name: model.name,
-                                          textColor:
-                                              hoveredStatusList[model.id]
-                                                  ? bgColor
-                                                  : primaryColor,
+                                          textColor: hoveredStatusList[model.id]
+                                              ? bgColor
+                                              : primaryColor,
                                         ),
                                         const SizedBox(height: 8),
-                                      
                                       ],
                                     ),
                                   ),
@@ -124,59 +119,6 @@ class _SelectCategoryScreenDesktop2State
                         ).toList(),
                       ),
                     )
-                  // ? GridView.builder(
-                  //     shrinkWrap: true,
-                  //     padding: EdgeInsets.symmetric(horizontal: width * 0.1),
-                  //     // itemCount: (snapshot.data! as QuerySnapshot).docs.length,
-                  //     gridDelegate:
-                  //         const SliverGridDelegateWithFixedCrossAxisCount(
-                  //       // maxCrossAxisExtent: 150,
-                  //       crossAxisCount: 2,
-                  //       crossAxisSpacing: 20,
-                  //       mainAxisSpacing: 20,
-                  //       mainAxisExtent: 150,
-                  //       // childAspectRatio: 2,
-                  //     ),
-                  //     itemBuilder: (context, index) {
-                  //       var doc = (snapshot.data! as QuerySnapshot).docs[index];
-                  //       String categoryName = doc['categoryName'];
-                  //       return GestureDetector(
-                  //         onTap: () {
-                  //           Navigator.push(
-                  //             context,
-                  //             MaterialPageRoute(
-                  //               builder: (_) =>
-                  //                   ExpenseByCategoryListDesktopScreen(
-                  //                 categoryName: categoryName,
-                  //               ),
-                  //             ),
-                  //           );
-                  //         },
-                  //         child: Container(
-                  //           width: 100,
-                  //           decoration: BoxDecoration(
-                  //             border: Border.all(
-                  //               color: primaryColor,
-                  //             ),
-                  //             borderRadius: BorderRadius.circular(8),
-                  //           ),
-                  //           child: Column(
-                  //             mainAxisAlignment: MainAxisAlignment.center,
-                  //             children: [
-                  //               Center(
-                  //                 child: CategoryIcon(
-                  //                   icon: getIcon(categoryName),
-                  //                 ),
-                  //               ),
-                  //               Center(
-                  //                 child: CategoryNameText(name: categoryName),
-                  //               )
-                  //             ],
-                  //           ),
-                  //         ),
-                  //       );
-                  //     },
-                  //   )
                   : const NoExpenseContainerDesktop(
                       title: 'Categories of expenses added will list here.',
                     )

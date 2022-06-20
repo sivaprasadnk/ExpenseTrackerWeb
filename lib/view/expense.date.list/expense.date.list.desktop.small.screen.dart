@@ -13,10 +13,7 @@ import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.cont
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:simple_month_year_picker/simple_month_year_picker.dart';
-
-import '../../provider/home.provider.dart';
 
 class ExpenseDateListDesktopSmall extends StatefulWidget {
   const ExpenseDateListDesktopSmall({Key? key, this.monthDocId = ""})
@@ -78,11 +75,10 @@ class _ExpenseDateListDesktopSmallState
         children: [
           Center(
             child: GestureDetector(
-              onTap: () {
-                _selectDate(context);
-              },
-              child: MonthYearContainer(month: month, year: year)
-            ),
+                onTap: () {
+                  _selectDate(context);
+                },
+                child: MonthYearContainer(month: month, year: year)),
           ),
           const SizedBox(
             height: 10,
@@ -97,9 +93,8 @@ class _ExpenseDateListDesktopSmallState
                   .orderBy('day', descending: false)
                   .snapshots(),
               builder: (_, snapshot) {
-                return snapshot.connectionState != ConnectionState.done
-                    ? snapshot.hasData &&
-                            (snapshot.data! as QuerySnapshot).docs.isNotEmpty
+                return snapshot.hasData
+                    ? (snapshot.data! as QuerySnapshot).docs.isNotEmpty
                         ? SizedBox(
                             width: 450,
                             height: MediaQuery.of(context).size.height * 0.8,
@@ -119,9 +114,9 @@ class _ExpenseDateListDesktopSmallState
                                     .docs[index];
                                 var expDate = ExpenseDate.fromJson(doc);
                                 return InkWell(
-                                    hoverColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              splashFactory: NoSplash.splashFactory,
+                                  hoverColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
+                                  splashFactory: NoSplash.splashFactory,
                                   onHover: (val) {
                                     setState(() {
                                       hoveredStatusList[index] = val;
@@ -169,7 +164,8 @@ class _ExpenseDateListDesktopSmallState
                                                       : primaryColor,
                                             ),
                                             ExpenseAmountText(
-                                              amount: expDate.totalExpense.toString(),
+                                              amount: expDate.totalExpense
+                                                  .toString(),
                                               textColor:
                                                   hoveredStatusList[index]
                                                       ? bgColor
