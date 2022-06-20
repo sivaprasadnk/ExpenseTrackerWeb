@@ -48,155 +48,98 @@ class _ExpenseCategoryListDesktopScreen2State
                   ? SingleChildScrollView(
                       padding: EdgeInsets.symmetric(horizontal: width * 0.1) +
                           const EdgeInsets.only(bottom: 20),
-                      child: Column(
-                        children: [
-                          Wrap(
-                            spacing: 15,
-                            runSpacing: 15,
-                            children: (snapshot.data! as QuerySnapshot).docs.map(
-                              (doc) {
-                                String categoryName = doc['categoryName'];
-                                int categoryId = doc['categoryId'];
-                                return InkWell(
-                                  hoverColor: Colors.transparent,
-                                  highlightColor: Colors.transparent,
-                                  splashFactory: NoSplash.splashFactory,
-                                  onHover: (val) {
-                                    setState(() {
-                                      hoveredStatusList[categoryId] = val;
-                                    });
-                                  },
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) =>
-                                            ExpenseByCategoryListDesktopScreen(
-                                          categoryName: categoryName,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  child: Stack(
-                                    children: [
-                                      Container(
-                                        margin: const EdgeInsets.only(top: 38),
-                                        width: 250,
-                                        height: 120,
-                                        decoration: BoxDecoration(
-                                          color: !hoveredStatusList[categoryId]
-                                              ? bgColor
-                                              : primaryColor,
-                                          border: Border.all(
-                                            color: primaryColor,
-                                          ),
-                                          borderRadius: BorderRadius.circular(8),
-                                        ),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            CategoryNameText(
-                                              name: categoryName,
-                                              textColor:
-                                                  hoveredStatusList[categoryId]
-                                                      ? bgColor
-                                                      : primaryColor,
-                                            ),
-                                            const SizedBox(height: 8),
-                                            ExpenseAmountText(
-                                              amount: doc['totalAmount'].toString(),
-                                              textColor:
-                                                  hoveredStatusList[categoryId]
-                                                      ? bgColor
-                                                      : primaryColor,
-                                              fontSize: 20,
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      Positioned.fill(
-                                        top: 5,
-                                        child: Align(
-                                          alignment: Alignment.topCenter,
-                                          child: Container(
-                                            height: 60,
-                                            width: 60,
-                                            decoration: BoxDecoration(
-                                              color: bgColor,
-                                              shape: BoxShape.circle,
-                                              border: Border.all(
-                                                color: primaryColor,
-                                              ),
-                                            ),
-                                            child: CategoryIcon(
-                                              icon: getIcon(categoryName),
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    ],
+                      child: Wrap(
+                        spacing: 15,
+                        runSpacing: 15,
+                        children: (snapshot.data! as QuerySnapshot).docs.map(
+                          (doc) {
+                            String categoryName = doc['categoryName'];
+                            int categoryId = doc['categoryId'];
+                            return InkWell(
+                              hoverColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              splashFactory: NoSplash.splashFactory,
+                              onHover: (val) {
+                                setState(() {
+                                  hoveredStatusList[categoryId] = val;
+                                });
+                              },
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) =>
+                                        ExpenseByCategoryListDesktopScreen(
+                                      categoryName: categoryName,
+                                    ),
                                   ),
                                 );
                               },
-                            ).toList(),
-                          ),
-                        ],
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    margin: const EdgeInsets.only(top: 38),
+                                    width: 250,
+                                    height: 120,
+                                    decoration: BoxDecoration(
+                                      color: !hoveredStatusList[categoryId]
+                                          ? bgColor
+                                          : primaryColor,
+                                      border: Border.all(
+                                        color: primaryColor,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        CategoryNameText(
+                                          name: categoryName,
+                                          textColor:
+                                              hoveredStatusList[categoryId]
+                                                  ? bgColor
+                                                  : primaryColor,
+                                        ),
+                                        const SizedBox(height: 8),
+                                        ExpenseAmountText(
+                                          amount: doc['totalAmount'].toString(),
+                                          textColor:
+                                              hoveredStatusList[categoryId]
+                                                  ? bgColor
+                                                  : primaryColor,
+                                          fontSize: 20,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  Positioned.fill(
+                                    top: 5,
+                                    child: Align(
+                                      alignment: Alignment.topCenter,
+                                      child: Container(
+                                        height: 60,
+                                        width: 60,
+                                        decoration: BoxDecoration(
+                                          color: bgColor,
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: primaryColor,
+                                          ),
+                                        ),
+                                        child: CategoryIcon(
+                                          icon: getIcon(categoryName),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        ).toList(),
                       ),
                     )
-                  // ? GridView.builder(
-                  //     shrinkWrap: true,
-                  //     padding: EdgeInsets.symmetric(horizontal: width * 0.1),
-                  //     // itemCount: (snapshot.data! as QuerySnapshot).docs.length,
-                  //     gridDelegate:
-                  //         const SliverGridDelegateWithFixedCrossAxisCount(
-                  //       // maxCrossAxisExtent: 150,
-                  //       crossAxisCount: 2,
-                  //       crossAxisSpacing: 20,
-                  //       mainAxisSpacing: 20,
-                  //       mainAxisExtent: 150,
-                  //       // childAspectRatio: 2,
-                  //     ),
-                  //     itemBuilder: (context, index) {
-                  //       var doc = (snapshot.data! as QuerySnapshot).docs[index];
-                  //       String categoryName = doc['categoryName'];
-                  //       return GestureDetector(
-                  //         onTap: () {
-                  //           Navigator.push(
-                  //             context,
-                  //             MaterialPageRoute(
-                  //               builder: (_) =>
-                  //                   ExpenseByCategoryListDesktopScreen(
-                  //                 categoryName: categoryName,
-                  //               ),
-                  //             ),
-                  //           );
-                  //         },
-                  //         child: Container(
-                  //           width: 100,
-                  //           decoration: BoxDecoration(
-                  //             border: Border.all(
-                  //               color: primaryColor,
-                  //             ),
-                  //             borderRadius: BorderRadius.circular(8),
-                  //           ),
-                  //           child: Column(
-                  //             mainAxisAlignment: MainAxisAlignment.center,
-                  //             children: [
-                  //               Center(
-                  //                 child: CategoryIcon(
-                  //                   icon: getIcon(categoryName),
-                  //                 ),
-                  //               ),
-                  //               Center(
-                  //                 child: CategoryNameText(name: categoryName),
-                  //               )
-                  //             ],
-                  //           ),
-                  //         ),
-                  //       );
-                  //     },
-                  //   )
                   : const NoExpenseContainerDesktop(
                       title: 'Categories of expenses added will list here.',
                     )

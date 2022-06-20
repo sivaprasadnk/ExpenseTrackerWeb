@@ -1,4 +1,3 @@
-import 'package:expense_tracker/view/expense.category.list/expense.category.list.desktop.screen.dart';
 import 'package:expense_tracker/view/expense.category.list/expense.category.list.desktop.screen2.dart';
 import 'package:flutter/material.dart';
 

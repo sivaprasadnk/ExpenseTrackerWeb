@@ -45,195 +45,197 @@ class _AddExpenseScreenStateDesktop extends State<AddExpenseScreenDesktop> {
     return DesktopView(
       isHome: false,
       appBarTitle: 'Add Expense',
-      child: SizedBox(
-        width: 430,
-        child: Form(
-          key: _formKey,
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      date,
-                      style: const TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
+      child: Center(
+        child: SizedBox(
+          width: 430,
+          child: Form(
+            key: _formKey,
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        date,
+                        style: const TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
+                      const SizedBox(width: 10),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      children: [
+                        const TextFieldTitle(title: 'Amount'),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        TextFieldContainer(
+                          child: TextFormField(
+                            onSaved: (val) {
+                              if (val != null && val.trim().isNotEmpty) {
+                                debugPrint('.. @@ $val');
+                                expenseAmount = int.parse(val.toString());
+                              }
+                            },
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              isDense: true,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 10),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    children: [
-                      const TextFieldTitle(title: 'Amount'),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      TextFieldContainer(
-                        child: TextFormField(
-                          onSaved: (val) {
-                            if (val != null && val.trim().isNotEmpty) {
-                              debugPrint('.. @@ $val');
-                              expenseAmount = int.parse(val.toString());
-                            }
-                          },
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            isDense: true,
-                          ),
+                  ),
+                  const SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      children: [
+                        const TextFieldTitle(title: 'Mode'),
+                        const SizedBox(
+                          width: 23,
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    children: [
-                      const TextFieldTitle(title: 'Mode'),
-                      const SizedBox(
-                        width: 23,
-                      ),
-                      Row(
-                        children: [
-                          Radio<Mode>(
-                            value: Mode.cash,
-                            groupValue: _selectedMode,
-                            onChanged: (value) {
-                              setState(() {
-                                _selectedMode = value!;
-                              });
-                            },
-                          ),
-                          const TextFieldTitle(title: 'Cash'),
-                          const SizedBox(
-                            width: 30,
-                          ),
-                          Radio<Mode>(
-                            value: Mode.online,
-                            groupValue: _selectedMode,
-                            onChanged: (value) {
-                              setState(() {
-                                _selectedMode = value!;
-                              });
-                            },
-                          ),
-                          const TextFieldTitle(title: 'Online'),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    children: [
-                      const TextFieldTitle(title: 'Title'),
-                      const SizedBox(
-                        width: 30,
-                      ),
-                      TextFieldContainer(
-                        child: TextFormField(
-                          inputFormatters: [
-                            LengthLimitingTextInputFormatter(10),
+                        Row(
+                          children: [
+                            Radio<Mode>(
+                              value: Mode.cash,
+                              groupValue: _selectedMode,
+                              onChanged: (value) {
+                                setState(() {
+                                  _selectedMode = value!;
+                                });
+                              },
+                            ),
+                            const TextFieldTitle(title: 'Cash'),
+                            const SizedBox(
+                              width: 30,
+                            ),
+                            Radio<Mode>(
+                              value: Mode.online,
+                              groupValue: _selectedMode,
+                              onChanged: (value) {
+                                setState(() {
+                                  _selectedMode = value!;
+                                });
+                              },
+                            ),
+                            const TextFieldTitle(title: 'Online'),
                           ],
-                          onSaved: (val) {
-                            expenseTitle = val.toString();
-                          },
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            isDense: true,
+                        )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      children: [
+                        const TextFieldTitle(title: 'Title'),
+                        const SizedBox(
+                          width: 30,
+                        ),
+                        TextFieldContainer(
+                          child: TextFormField(
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(10),
+                            ],
+                            onSaved: (val) {
+                              expenseTitle = val.toString();
+                            },
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              isDense: true,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    children: [
-                      const TextFieldTitle(title: 'Category'),
-                      const SizedBox(
-                        width: 30,
-                      ),
-                      Icon(CategoryDoc.getIcon(selectedCategory.name)),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      TextFieldTitle(
-                        title: selectedCategory.name,
-                      ),
-                      const SizedBox(
-                        width: 50,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push<CategoryDoc>(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) =>
-                                          const SelectCategoryScreenDesktop2()))
-                              .then((category) {
-                            if (category != null) {
-                              setState(() {
-                                selectedCategory = category;
-                              });
-                            }
-                          });
-                        },
-                        child: const Icon(
-                          Icons.edit,
+                  const SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      children: [
+                        const TextFieldTitle(title: 'Category'),
+                        const SizedBox(
+                          width: 30,
                         ),
-                      )
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const TextFieldTitle(title: 'Details'),
-                      const SizedBox(
-                        width: 15,
-                      ),
-                      TextFieldContainer(
-                        height: 150,
-                        child: TextFormField(
-                          maxLines: 7,
-                          onSaved: (val) {
-                            expenseDetails = val.toString();
+                        Icon(CategoryDoc.getIcon(selectedCategory.name)),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        TextFieldTitle(
+                          title: selectedCategory.name,
+                        ),
+                        const SizedBox(
+                          width: 50,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push<CategoryDoc>(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) =>
+                                            const SelectCategoryScreenDesktop2()))
+                                .then((category) {
+                              if (category != null) {
+                                setState(() {
+                                  selectedCategory = category;
+                                });
+                              }
+                            });
                           },
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            isDense: true,
+                          child: const Icon(
+                            Icons.edit,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const TextFieldTitle(title: 'Details'),
+                        const SizedBox(
+                          width: 15,
+                        ),
+                        TextFieldContainer(
+                          height: 150,
+                          child: TextFormField(
+                            maxLines: 7,
+                            onSaved: (val) {
+                              expenseDetails = val.toString();
+                            },
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              isDense: true,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(height: 20),
-                GestureDetector(
-                  onTap: () {
-                    validateAndProceed();
-                  },
-                  child: const SubmitButton(),
-                ),
-              ],
+                  const SizedBox(height: 20),
+                  GestureDetector(
+                    onTap: () {
+                      validateAndProceed();
+                    },
+                    child: const SubmitButton(),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

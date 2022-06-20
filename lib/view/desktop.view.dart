@@ -118,11 +118,7 @@ class _DesktopViewState extends State<DesktopView> {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.all(12.0),
-                        child: Center(
-                          child: SizedBox(
-                            child: widget.child,
-                          ),
-                        ),
+                        child: widget.child,
                       ),
                     ),
                   ],
@@ -150,11 +146,7 @@ class _DesktopViewState extends State<DesktopView> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
-                      child: Center(
-                        child: SizedBox(
-                          child: widget.child,
-                        ),
-                      ),
+                      child: widget.child,
                     ),
                   ),
                 ],
