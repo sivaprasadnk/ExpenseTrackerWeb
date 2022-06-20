@@ -4,7 +4,7 @@ import 'package:expense_tracker/model/expense.date.model.dart';
 import 'package:expense_tracker/model/expense.model.dart';
 import 'package:expense_tracker/utils/enums.dart';
 import 'package:expense_tracker/view/desktop.view.dart';
-import 'package:expense_tracker/view/expense.list.by.date/widgets/expense.details.card.desktop.dart';
+import 'package:expense_tracker/view/expense.list.by.date/widgets/expense.details.card.desktop/expense.details.card.desktop.dart';
 import 'package:expense_tracker/view/expense.list.by.date/widgets/total.expense.container.desktop.dart';
 import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.container.desktop.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -126,6 +126,7 @@ class _ExpenseListByDateDesktopScreenState
                       child: Text(
                         'All',
                         style: TextStyle(
+                          fontWeight: FontWeight.bold,
                           color:
                               selectedMode == Mode.all ? bgColor : primaryColor,
                         ),
@@ -152,6 +153,7 @@ class _ExpenseListByDateDesktopScreenState
                       child: Text(
                         'Cash',
                         style: TextStyle(
+                          fontWeight: FontWeight.bold,
                           color: selectedMode == Mode.cash
                               ? bgColor
                               : primaryColor,
@@ -180,6 +182,7 @@ class _ExpenseListByDateDesktopScreenState
                       child: Text(
                         'Online',
                         style: TextStyle(
+                          fontWeight: FontWeight.bold,
                           color: selectedMode == Mode.online
                               ? bgColor
                               : primaryColor,

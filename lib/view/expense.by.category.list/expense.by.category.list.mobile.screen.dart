@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/model/expense.model.dart';
-import 'package:expense_tracker/view/expense.list.by.date/widgets/expense.details.card.mobile.dart';
+import 'package:expense_tracker/view/expense.list.by.date/widgets/expense.details.card.mobile/expense.details.card.mobile.dart';
+import 'package:expense_tracker/view/expense.list.by.date/widgets/total.expense.container.mobile.dart';
 import 'package:expense_tracker/view/mobile.view.dart';
 import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.container.mobile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,10 +11,13 @@ import 'package:flutter/material.dart';
 import '../../utils/enums.dart';
 
 class ExpenseByCategoryListMobileScreen extends StatefulWidget {
-  const ExpenseByCategoryListMobileScreen(
-      {Key? key, required this.categoryName})
-      : super(key: key);
+  const ExpenseByCategoryListMobileScreen({
+    Key? key,
+    required this.categoryName,
+    required this.totalAmount,
+  }) : super(key: key);
   final String categoryName;
+  final int totalAmount;
 
   @override
   State<ExpenseByCategoryListMobileScreen> createState() =>
@@ -73,7 +77,6 @@ class _ExpenseByCategoryListMobileScreenState
 
   @override
   Widget build(BuildContext context) {
-    var userId = FirebaseAuth.instance.currentUser!.uid;
     var primaryColor = Theme.of(context).primaryColor;
     var bgColor = Theme.of(context).scaffoldBackgroundColor;
     double btnWidth = 60;
@@ -83,6 +86,9 @@ class _ExpenseByCategoryListMobileScreenState
       appBarTitle: widget.categoryName,
       child: Column(
         children: [
+           TotalExpenseContainerMobile(
+              totalExpense: widget.totalAmount,
+            ),
           const SizedBox(
             height: 5,
           ),
@@ -105,6 +111,8 @@ class _ExpenseByCategoryListMobileScreenState
                     child: Text(
                       'All',
                       style: TextStyle(
+                          fontWeight: FontWeight.bold,
+
                         color:
                             selectedMode == Mode.all ? bgColor : primaryColor,
                       ),
@@ -131,6 +139,8 @@ class _ExpenseByCategoryListMobileScreenState
                     child: Text(
                       'Cash',
                       style: TextStyle(
+                          fontWeight: FontWeight.bold,
+
                         color:
                             selectedMode == Mode.cash ? bgColor : primaryColor,
                       ),
@@ -157,6 +167,8 @@ class _ExpenseByCategoryListMobileScreenState
                     child: Text(
                       'Online',
                       style: TextStyle(
+                          fontWeight: FontWeight.bold,
+
                         color: selectedMode == Mode.online
                             ? bgColor
                             : primaryColor,

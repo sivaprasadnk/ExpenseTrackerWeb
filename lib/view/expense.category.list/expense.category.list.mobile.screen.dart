@@ -45,6 +45,8 @@ class ExpenseCategoryListMobileScreen extends StatelessWidget {
                                 (snapshot.data! as QuerySnapshot).docs.map(
                               (doc) {
                                 String categoryName = doc['categoryName'];
+                                                          int totalAmount = doc['totalAmount'];
+
                                 return GestureDetector(
                                   onTap: () {
                                     Navigator.push(
@@ -53,6 +55,7 @@ class ExpenseCategoryListMobileScreen extends StatelessWidget {
                                         builder: (_) =>
                                             ExpenseByCategoryListMobileScreen(
                                           categoryName: categoryName,
+                                          totalAmount: totalAmount,
                                         ),
                                       ),
                                     );
@@ -83,7 +86,7 @@ class ExpenseCategoryListMobileScreen extends StatelessWidget {
                                             const SizedBox(height: 15),
                                             ExpenseAmountText(
                                               amount:
-                                                  doc['totalAmount'].toString(),
+                                                 totalAmount.toString(),
                                               textColor: primaryColor,
                                               fontSize: 25,
                                             )

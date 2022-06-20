@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/model/expense.model.dart';
 import 'package:expense_tracker/view/desktop.view.dart';
-import 'package:expense_tracker/view/expense.list.by.date/widgets/expense.details.card.desktop.dart';
+import 'package:expense_tracker/view/expense.list.by.date/widgets/expense.details.card.desktop/expense.details.card.desktop.dart';
+import 'package:expense_tracker/view/expense.list.by.date/widgets/total.expense.container.desktop.dart';
 import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.container.desktop.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +13,12 @@ import '../../utils/enums.dart';
 
 class ExpenseByCategoryListDesktopScreen extends StatefulWidget {
   const ExpenseByCategoryListDesktopScreen(
-      {Key? key, required this.categoryName})
+      {Key? key, required this.categoryName, required this.totalAmount})
       : super(key: key);
 
   ///
   final String categoryName;
+  final int totalAmount;
 
   @override
   State<ExpenseByCategoryListDesktopScreen> createState() =>
@@ -82,13 +84,15 @@ class _ExpenseByCategoryListDesktopScreenState
     double btnHeight = 25;
     return DesktopView(
       isHome: false,
-
       appBarTitle: widget.categoryName,
       child: SizedBox(
         height: MediaQuery.of(context).size.height * 0.9,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            TotalExpenseContainerDesktop(
+              totalExpense: widget.totalAmount,
+            ),
             const SizedBox(
               height: 10,
             ),
@@ -120,6 +124,7 @@ class _ExpenseByCategoryListDesktopScreenState
                       child: Text(
                         'All',
                         style: TextStyle(
+                          fontWeight: FontWeight.bold,
                           color:
                               selectedMode == Mode.all ? bgColor : primaryColor,
                         ),
@@ -146,6 +151,7 @@ class _ExpenseByCategoryListDesktopScreenState
                       child: Text(
                         'Cash',
                         style: TextStyle(
+                          fontWeight: FontWeight.bold,
                           color: selectedMode == Mode.cash
                               ? bgColor
                               : primaryColor,
@@ -174,6 +180,7 @@ class _ExpenseByCategoryListDesktopScreenState
                       child: Text(
                         'Online',
                         style: TextStyle(
+                          fontWeight: FontWeight.bold,
                           color: selectedMode == Mode.online
                               ? bgColor
                               : primaryColor,

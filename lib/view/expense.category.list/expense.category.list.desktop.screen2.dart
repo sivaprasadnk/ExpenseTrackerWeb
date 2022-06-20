@@ -55,6 +55,7 @@ class _ExpenseCategoryListDesktopScreen2State
                           (doc) {
                             String categoryName = doc['categoryName'];
                             int categoryId = doc['categoryId'];
+                            int totalAmount = doc['totalAmount'];
                             return InkWell(
                               hoverColor: Colors.transparent,
                               highlightColor: Colors.transparent,
@@ -71,6 +72,7 @@ class _ExpenseCategoryListDesktopScreen2State
                                     builder: (_) =>
                                         ExpenseByCategoryListDesktopScreen(
                                       categoryName: categoryName,
+                                      totalAmount: totalAmount,
                                     ),
                                   ),
                                 );
@@ -103,7 +105,7 @@ class _ExpenseCategoryListDesktopScreen2State
                                         ),
                                         const SizedBox(height: 8),
                                         ExpenseAmountText(
-                                          amount: doc['totalAmount'].toString(),
+                                          amount: totalAmount.toString(),
                                           textColor:
                                               hoveredStatusList[categoryId]
                                                   ? bgColor

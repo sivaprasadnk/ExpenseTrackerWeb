@@ -1,12 +1,12 @@
 import 'package:expense_tracker/model/expense.model.dart';
 import 'package:flutter/material.dart';
 
-import 'expense.amount.text.dart';
-import 'expense.category.name.container.dart';
-import 'expense.date.text.dart';
-import 'expense.details.text.dart';
-import 'expense.mode.text.dart';
-import 'expense.title.text.dart';
+import '../expense.details.card.desktop/expense.amount.text.dart';
+import '../expense.details.card.desktop/expense.category.name.container.dart';
+import '../expense.details.card.desktop/expense.date.text.dart';
+import '../expense.details.card.desktop/expense.details.text.dart';
+import '../expense.details.card.desktop/expense.mode.text.dart';
+import '../expense.details.card.desktop/expense.title.text.dart';
 
 class ExpenseDetailsCardMobile extends StatelessWidget {
   const ExpenseDetailsCardMobile({

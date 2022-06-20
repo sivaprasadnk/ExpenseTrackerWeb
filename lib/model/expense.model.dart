@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/model/recent.expense.model.dart';
+import 'package:flutter/foundation.dart';
 
 class Expense {
   String expenseTitle;
@@ -33,6 +34,8 @@ class Expense {
 
   static Expense fromJson(QueryDocumentSnapshot<Object?> doc) {
     String expDate = doc['expenseDate'];
+    var id = doc['expenseDocId'];
+    debugPrint('.. docID : $id');
     String expDay = expDate.split('-').first;
     return Expense(
       amount: doc['amount'],
@@ -44,7 +47,7 @@ class Expense {
       // expenseDay: doc['expenseDay'],
       expenseDay: expDay,
       details: doc['details'],
-      expenseDocId: "",
+      expenseDocId: id,
       expenseMonthDocId: "",
       expenseTitle: doc['expenseTitle'],
       expenseDate: doc['expenseDate'] ?? "",

@@ -30,6 +30,8 @@ class _RegisterScreenState extends State<RegisterScreen>
 
   String email = "";
   String password = "";
+  bool showPassword = false;
+
   FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
@@ -265,22 +267,49 @@ class _RegisterScreenState extends State<RegisterScreen>
                             child: AnimatedSlide(
                               duration: slideDuration,
                               offset: _passwordFieldSlide.value,
-                              child: TextFieldContainer(
-                                child: TextFormField(
-                                  obscureText: true,
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    // fontFamily: 'Rajdhani',
-                                    fontWeight: FontWeight.bold,
+                              child: Row(
+                                children: [
+                                  TextFieldContainer(
+                                    width: 222,
+                                    child: TextFormField(
+                                      obscureText: true,
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        // fontFamily: 'Rajdhani',
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      onSaved: (val) {
+                                        password = val.toString();
+                                      },
+                                      decoration: const InputDecoration(
+                                        border: InputBorder.none,
+                                        isDense: true,
+                                      ),
+                                    ),
                                   ),
-                                  onSaved: (val) {
-                                    password = val.toString();
-                                  },
-                                  decoration: const InputDecoration(
-                                    border: InputBorder.none,
-                                    isDense: true,
-                                  ),
-                                ),
+                                  TextFieldContainer(
+                                    width: 43,
+                                    margin: const EdgeInsets.only(left: 3),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          showPassword = !showPassword;
+                                        });
+                                      },
+                                      child: Center(
+                                        child: showPassword
+                                            ? const Icon(
+                                                Icons.visibility,
+                                                color: Colors.black,
+                                              )
+                                            : const Icon(
+                                                Icons.visibility_off,
+                                                color: Colors.black,
+                                              ),
+                                      ),
+                                    ),
+                                  )
+                                ],
                               ),
                             ),
                           ),

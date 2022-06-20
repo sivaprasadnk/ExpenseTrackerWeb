@@ -3,7 +3,7 @@ import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/model/expense.date.model.dart';
 import 'package:expense_tracker/model/expense.model.dart';
 import 'package:expense_tracker/utils/enums.dart';
-import 'package:expense_tracker/view/expense.list.by.date/widgets/expense.details.card.mobile.dart';
+import 'package:expense_tracker/view/expense.list.by.date/widgets/expense.details.card.mobile/expense.details.card.mobile.dart';
 import 'package:expense_tracker/view/expense.list.by.date/widgets/total.expense.container.mobile.dart';
 import 'package:expense_tracker/view/mobile.view.dart';
 import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.container.mobile.dart';
@@ -124,6 +124,8 @@ class _ExpenseListByDateMobileScreenState
                       child: Text(
                         'All',
                         style: TextStyle(
+                          fontWeight: FontWeight.bold,
+
                           color:
                               selectedMode == Mode.all ? bgColor : primaryColor,
                         ),
@@ -150,6 +152,8 @@ class _ExpenseListByDateMobileScreenState
                       child: Text(
                         'Cash',
                         style: TextStyle(
+                          fontWeight: FontWeight.bold,
+
                           color: selectedMode == Mode.cash
                               ? bgColor
                               : primaryColor,
@@ -178,6 +182,8 @@ class _ExpenseListByDateMobileScreenState
                       child: Text(
                         'Online',
                         style: TextStyle(
+                          fontWeight: FontWeight.bold,
+
                           color: selectedMode == Mode.online
                               ? bgColor
                               : primaryColor,

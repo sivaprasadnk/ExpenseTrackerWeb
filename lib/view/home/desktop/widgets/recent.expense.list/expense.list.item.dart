@@ -1,7 +1,7 @@
 import 'package:expense_tracker/model/expense.model.dart';
 import 'package:expense_tracker/model/recent.expense.model.dart';
-import 'package:expense_tracker/view/expense.list.by.date/widgets/expense.details.card.desktop.dart';
-import 'package:expense_tracker/view/expense.list.by.date/widgets/expense.details.card.mobile.dart';
+import 'package:expense_tracker/view/expense.list.by.date/widgets/expense.details.card.desktop/expense.details.card.desktop.dart';
+import 'package:expense_tracker/view/expense.list.by.date/widgets/expense.details.card.mobile/expense.details.card.mobile.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/recent.expense.list/expense.list.item.container.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

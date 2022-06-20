@@ -1,4 +1,5 @@
 import 'package:expense_tracker/model/expense.model.dart';
+import 'package:expense_tracker/view/expense.list.by.date/widgets/expense.details.card.desktop/expense.edit.icon.dart';
 import 'package:flutter/material.dart';
 
 import 'expense.amount.text.dart';
@@ -25,7 +26,6 @@ class ExpenseDetailsCardDesktop extends StatelessWidget {
         Container(
           alignment: Alignment.center,
           margin: const EdgeInsets.only(top: 20),
-          // height: 104,
           padding: const EdgeInsets.only(left: 10, top: 10),
           decoration: BoxDecoration(
             color: theme.scaffoldBackgroundColor,
@@ -56,10 +56,6 @@ class ExpenseDetailsCardDesktop extends StatelessWidget {
                     date: expense.expenseDay,
                     month: expense.expenseMonth,
                   ),
-
-                  // ExpenseCreatedDateText(
-                  //   createdDate: expense.createdDate,
-                  // ),
                   const SizedBox(height: 10),
                   ExpenseCategoryNameContainer(
                       categoryName: expense.categoryName),
@@ -72,6 +68,7 @@ class ExpenseDetailsCardDesktop extends StatelessWidget {
         ),
         ExpenseAmountText(amount: expense.amount.toString()),
         ExpenseModeText(mode: expense.mode),
+        ExpenseEditIcon(expense: expense),
         ExpenseTitleText(title: expense.expenseTitle),
       ],
     );

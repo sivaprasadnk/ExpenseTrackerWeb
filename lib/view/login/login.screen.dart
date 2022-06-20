@@ -165,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(
-                  height: 40,
+                  height: 30,
                 ),
                 const Padding(
                   padding: EdgeInsets.all(10.0),
@@ -178,7 +178,7 @@ class _LoginScreenState extends State<LoginScreen>
                     ),
                   ),
                 ),
-                const SizedBox(height: 50),
+                const SizedBox(height: 30),
                 Center(
                   child: Container(
                     height: 30,
@@ -279,11 +279,11 @@ class _LoginScreenState extends State<LoginScreen>
                             child: AnimatedSlide(
                               duration: slideDuration,
                               offset: _passwordFieldSlide.value,
-                              child: TextFieldContainer(
-                                child: Stack(
-                                  alignment: Alignment.centerRight,
-                                  children: <Widget>[
-                                    TextFormField(
+                              child: Row(
+                                children: [
+                                  TextFieldContainer(
+                                    width: 222,
+                                    child: TextFormField(
                                       focusNode: textSecondFocusNode,
                                       obscureText: !showPassword,
                                       style: const TextStyle(
@@ -297,43 +297,30 @@ class _LoginScreenState extends State<LoginScreen>
                                         isDense: true,
                                       ),
                                     ),
-                                    IconButton(
-                                      icon: showPassword
-                                          ? const Icon(Icons.visibility)
-                                          : const Icon(Icons.visibility_off),
-                                      onPressed: () {
-                                        // do something
+                                  ),
+                                  TextFieldContainer(
+                                    width: 43,
+                                    margin: const EdgeInsets.only(left: 3),
+                                    child: GestureDetector(
+                                      onTap: () {
                                         setState(() {
                                           showPassword = !showPassword;
                                         });
                                       },
+                                      child: Center(
+                                        child: showPassword
+                                            ? const Icon(
+                                                Icons.visibility,
+                                                color: Colors.black,
+                                              )
+                                            : const Icon(
+                                                Icons.visibility_off,
+                                                color: Colors.black,
+                                              ),
+                                      ),
                                     ),
-                                  ],
-                                ),
-                                // child: TextFormField(
-                                //   focusNode: textSecondFocusNode,
-                                //   obscureText: !showPassword,
-                                //   style: const TextStyle(
-                                //     color: Colors.black,
-                                //   ),
-                                //   onSaved: (val) {
-                                //     password = val.toString();
-                                //   },
-                                //   decoration: InputDecoration(
-                                //     suffixIcon: GestureDetector(
-                                //       onTap: () {
-                                //         setState(() {
-                                //           showPassword = !showPassword;
-                                //         });
-                                //       },
-                                //       child: const Icon(
-                                //           Icons.remove_red_eye_rounded),
-                                //     ),
-                                //     hintText: '',
-                                //     border: InputBorder.none,
-                                //     isDense: true,
-                                //   ),
-                                // ),
+                                  )
+                                ],
                               ),
                             ),
                           ),
@@ -384,9 +371,16 @@ class _LoginScreenState extends State<LoginScreen>
                 const SizedBox(
                   height: 20,
                 ),
-
+                const Text(
+                  "OR Continue using",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                  ),
+                ),
                 const SizedBox(
-                  height: 5,
+                  height: 20,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -447,48 +441,6 @@ class _LoginScreenState extends State<LoginScreen>
                     ),
                   ],
                 ),
-//                 GestureDetector(
-//                   onTap: () async {
-//                     try {
-//                       final LoginResult result = await FacebookAuth.instance
-//                           .login(); // by default we request the email and the public profile
-// // or FacebookAuth.i.login()
-//                       if (result.status == LoginStatus.success) {
-//                         // you are logged
-//                         final AccessToken accessToken = result.accessToken!;
-//                         debugPrint(" accessToken.token : ");
-//                         debugPrint(accessToken.token);
-//                       } else {
-//                         debugPrint("  result.status : ");
-//                         debugPrint(result.status.toString());
-//                         debugPrint(" result.message  :");
-//                         debugPrint(result.message);
-//                       }
-//                     } catch (error) {
-//                       debugPrint(error.toString());
-//                     }
-//                   },
-//                   child: Container(
-//                     width: 300,
-//                     height: 40,
-//                     decoration: BoxDecoration(
-//                       border: Border.all(
-//                         color: Colors.black,
-//                       ),
-//                       borderRadius: BorderRadius.circular(8),
-//                     ),
-//                     child: const Center(
-//                       child: Text(
-//                         'Facebook  Login',
-//                         style: TextStyle(
-//                           fontSize: 20,
-//                           color: Colors.black,
-//                           fontWeight: FontWeight.bold,
-//                         ),
-//                       ),
-//                     ),
-//                   ),
-//                 )
               ],
             ),
           ),
@@ -502,3 +454,20 @@ class _LoginScreenState extends State<LoginScreen>
     AuthController.login(context, email.trim(), password.trim());
   }
 }
+
+
+/*
+
+
+IconButton(
+    icon: showPassword
+        ? const Icon(Icons.visibility)
+        : const Icon(Icons.visibility_off),
+    onPressed: () {
+      setState(() {
+        showPassword = !showPassword;
+      });
+    },
+  ),
+
+*/

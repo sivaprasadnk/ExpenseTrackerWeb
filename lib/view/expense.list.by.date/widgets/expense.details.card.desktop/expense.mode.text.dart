@@ -7,13 +7,12 @@ class ExpenseModeText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Positioned.fill(
       top: 25,
-      right: 15,
+      right: 30,
       child: Align(
         alignment: Alignment.topRight,
         child: Text(
-          'Mode : ${mode}',
-          style: TextStyle(
-            // fontFamily: 'Rajdhani',
+          'Mode : $mode',
+          style: const TextStyle(
             fontSize: 18,
           ),
         ),
