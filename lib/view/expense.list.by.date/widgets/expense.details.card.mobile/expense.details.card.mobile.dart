@@ -1,4 +1,5 @@
 import 'package:expense_tracker/model/expense.model.dart';
+import 'package:expense_tracker/view/expense.list.by.date/widgets/expense.details.card.desktop/expense.edit.icon.dart';
 import 'package:flutter/material.dart';
 
 import '../expense.details.card.desktop/expense.amount.text.dart';
@@ -72,6 +73,8 @@ class ExpenseDetailsCardMobile extends StatelessWidget {
         ),
         ExpenseAmountText(amount: expense.amount.toString()),
         ExpenseModeText(mode: expense.mode),
+        ExpenseEditIcon(expense: expense),
+
         ExpenseTitleText(title: expense.expenseTitle),
       ],
     );

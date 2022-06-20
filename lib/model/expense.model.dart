@@ -35,7 +35,6 @@ class Expense {
   static Expense fromJson(QueryDocumentSnapshot<Object?> doc) {
     String expDate = doc['expenseDate'];
     var id = doc['expenseDocId'];
-    debugPrint('.. docID : $id');
     String expDay = expDate.split('-').first;
     return Expense(
       amount: doc['amount'],
