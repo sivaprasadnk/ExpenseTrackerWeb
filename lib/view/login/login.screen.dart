@@ -41,7 +41,6 @@ class _LoginScreenState extends State<LoginScreen>
     super.initState();
     _googleSignIn = GoogleSignIn(
       scopes: ['email', 'https://www.googleapis.com/auth/userinfo.profile'],
-      // hostedDomain: 'https://expensetrackerapp-9617f.web.app/',
     );
     _controller = AnimationController(
       duration: const Duration(seconds: 2),
