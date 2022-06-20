@@ -48,96 +48,100 @@ class _ExpenseCategoryListDesktopScreen2State
                   ? SingleChildScrollView(
                       padding: EdgeInsets.symmetric(horizontal: width * 0.1) +
                           const EdgeInsets.only(bottom: 20),
-                      child: Wrap(
-                        spacing: 15,
-                        runSpacing: 15,
-                        children: (snapshot.data! as QuerySnapshot).docs.map(
-                          (doc) {
-                            String categoryName = doc['categoryName'];
-                            int categoryId = doc['categoryId'];
-                            return InkWell(
-                              hoverColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              splashFactory: NoSplash.splashFactory,
-                              onHover: (val) {
-                                setState(() {
-                                  hoveredStatusList[categoryId] = val;
-                                });
-                              },
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) =>
-                                        ExpenseByCategoryListDesktopScreen(
-                                      categoryName: categoryName,
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: Stack(
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(top: 38),
-                                    width: 250,
-                                    height: 120,
-                                    decoration: BoxDecoration(
-                                      color: !hoveredStatusList[categoryId]
-                                          ? bgColor
-                                          : primaryColor,
-                                      border: Border.all(
-                                        color: primaryColor,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        CategoryNameText(
-                                          name: categoryName,
-                                          textColor:
-                                              hoveredStatusList[categoryId]
-                                                  ? bgColor
-                                                  : primaryColor,
+                      child: Column(
+                        children: [
+                          Wrap(
+                            spacing: 15,
+                            runSpacing: 15,
+                            children: (snapshot.data! as QuerySnapshot).docs.map(
+                              (doc) {
+                                String categoryName = doc['categoryName'];
+                                int categoryId = doc['categoryId'];
+                                return InkWell(
+                                  hoverColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
+                                  splashFactory: NoSplash.splashFactory,
+                                  onHover: (val) {
+                                    setState(() {
+                                      hoveredStatusList[categoryId] = val;
+                                    });
+                                  },
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) =>
+                                            ExpenseByCategoryListDesktopScreen(
+                                          categoryName: categoryName,
                                         ),
-                                        const SizedBox(height: 8),
-                                        ExpenseAmountText(
-                                          amount: doc['totalAmount'].toString(),
-                                          textColor:
-                                              hoveredStatusList[categoryId]
-                                                  ? bgColor
-                                                  : primaryColor,
-                                          fontSize: 20,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  Positioned.fill(
-                                    top: 5,
-                                    child: Align(
-                                      alignment: Alignment.topCenter,
-                                      child: Container(
-                                        height: 60,
-                                        width: 60,
+                                      ),
+                                    );
+                                  },
+                                  child: Stack(
+                                    children: [
+                                      Container(
+                                        margin: const EdgeInsets.only(top: 38),
+                                        width: 250,
+                                        height: 120,
                                         decoration: BoxDecoration(
-                                          color: bgColor,
-                                          shape: BoxShape.circle,
+                                          color: !hoveredStatusList[categoryId]
+                                              ? bgColor
+                                              : primaryColor,
                                           border: Border.all(
                                             color: primaryColor,
                                           ),
+                                          borderRadius: BorderRadius.circular(8),
                                         ),
-                                        child: CategoryIcon(
-                                          icon: getIcon(categoryName),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            CategoryNameText(
+                                              name: categoryName,
+                                              textColor:
+                                                  hoveredStatusList[categoryId]
+                                                      ? bgColor
+                                                      : primaryColor,
+                                            ),
+                                            const SizedBox(height: 8),
+                                            ExpenseAmountText(
+                                              amount: doc['totalAmount'].toString(),
+                                              textColor:
+                                                  hoveredStatusList[categoryId]
+                                                      ? bgColor
+                                                      : primaryColor,
+                                              fontSize: 20,
+                                            )
+                                          ],
                                         ),
                                       ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            );
-                          },
-                        ).toList(),
+                                      Positioned.fill(
+                                        top: 5,
+                                        child: Align(
+                                          alignment: Alignment.topCenter,
+                                          child: Container(
+                                            height: 60,
+                                            width: 60,
+                                            decoration: BoxDecoration(
+                                              color: bgColor,
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                color: primaryColor,
+                                              ),
+                                            ),
+                                            child: CategoryIcon(
+                                              icon: getIcon(categoryName),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                            ).toList(),
+                          ),
+                        ],
                       ),
                     )
                   // ? GridView.builder(

@@ -38,6 +38,8 @@ class _SelectCategoryScreenMobile2State
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection(kExpenseCategoriesCollection)
+             .where('active', isEqualTo: true)
+            .orderBy('index', descending: false)
             .snapshots(),
         builder: (_, snapshot) {
           return snapshot.hasData

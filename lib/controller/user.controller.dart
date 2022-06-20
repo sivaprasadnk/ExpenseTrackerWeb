@@ -31,7 +31,6 @@ class UserController {
     String userId = FirebaseAuth.instance.currentUser!.uid;
 
     var date = DateFormat('dd-MM-yyyy').format(selectedDate);
-    // var a = DateTime.parse(createdDateTime)
     var month = DateFormat('MMM, yyyy').format(selectedDate);
     var monthOnly = DateFormat('MMM').format(selectedDate);
     var monthDocId = DateFormat('MMM_yyyy').format(selectedDate);
@@ -92,10 +91,6 @@ class UserController {
           Future.delayed(const Duration(seconds: 2)).then((value) {
             Dialogs.showAlertDialogAndNavigateToHome(
                 context: context, description: 'Expense Added !');
-            // showOkAlertDialog(context: context, title: 'Expense Added !')
-            //     .then((value) {
-            //   Navigation.checkPlatformAndNavigateToHome(context);
-            // });
           });
         }
       });

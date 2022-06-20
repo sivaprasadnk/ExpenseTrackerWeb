@@ -5,7 +5,6 @@ import 'package:expense_tracker/view/desktop.view.dart';
 import 'package:expense_tracker/view/expense.category.list/widgets/category.icon.dart';
 import 'package:expense_tracker/view/expense.category.list/widgets/category.name.text.dart';
 import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.container.desktop.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:neumorphic_loader/neumorphic_loader.dart';
@@ -30,7 +29,6 @@ class _SelectCategoryScreenDesktop2State
     final ThemeData theme = Theme.of(context);
     var primaryColor = theme.primaryColor;
     var bgColor = theme.scaffoldBackgroundColor;
-    var userId = FirebaseAuth.instance.currentUser!.uid;
 
     return DesktopView(
       isHome: false,
@@ -38,6 +36,8 @@ class _SelectCategoryScreenDesktop2State
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection(kExpenseCategoriesCollection)
+            .where('active', isEqualTo: true)
+            .orderBy('index', descending: false)
             .snapshots(),
         builder: (_, snapshot) {
           return snapshot.hasData

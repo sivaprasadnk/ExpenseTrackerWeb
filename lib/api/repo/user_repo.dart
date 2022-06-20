@@ -87,16 +87,43 @@ class UserRepo {
 
     /// setting  expense category
 
-    await fireStoreInstance
+    // await fireStoreInstance
+    //     .collection(kUsersCollection)
+    //     .doc(request.userId)
+    //     .collection(kExpenseCategoriesCollection)
+    //     .doc(expense.categoryName)
+    //     .set({
+    //   'lastUpdateTime': request.createdDateTimeString,
+    //   'categoryName': expense.categoryName,
+    //   'categoryId': expense.categoryId,
+    // });
+
+    DocumentSnapshot<Map<String, dynamic>> categoryDoc = await fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(request.userId)
+        .collection(kExpenseCategoriesCollection)
+        .doc(expense.categoryName)
+        .get();
+    int totAmt = 0;
+    if (categoryDoc.data() != null) {
+      totAmt = categoryDoc.data()!['totalAmount'] ?? 0;
+    } else {
+    }
+    debugPrint(' ${expense.categoryName} totalMount b4 :: $totAmt');
+
+    fireStoreInstance
         .collection(kUsersCollection)
         .doc(request.userId)
         .collection(kExpenseCategoriesCollection)
         .doc(expense.categoryName)
         .set({
+      'totalAmount': totAmt + expense.amount,
       'lastUpdateTime': request.createdDateTimeString,
       'categoryName': expense.categoryName,
       'categoryId': expense.categoryId,
     });
+    debugPrint(
+        ' ${expense.categoryName} totalMount after :: ${(totAmt + expense.amount)}');
 
     /// setting  expense category item in category list
 
@@ -337,17 +364,16 @@ class UserRepo {
 
   Future<LocationResponseModel> getLocationDetails() async {
     LocationResponseModel model;
-      final String url = 'https://ipapi.co/json/?key=$key';
-      final uri = Uri.parse(url);
-      debugPrint(uri.toString());
-      var response = await Dio().getUri(uri, options: Options(headers: {}));
+    final String url = 'https://ipapi.co/json/?key=$key';
+    final uri = Uri.parse(url);
+    debugPrint(uri.toString());
+    var response = await Dio().getUri(uri, options: Options(headers: {}));
 
-      final Map<String, dynamic> responseData = response.data;
+    final Map<String, dynamic> responseData = response.data;
 
-       model =
-          LocationResponseModel.fromJson(responseData);
-      debugPrint(response.toString());
-    
-      return model;
+    model = LocationResponseModel.fromJson(responseData);
+    debugPrint(response.toString());
+
+    return model;
   }
 }
