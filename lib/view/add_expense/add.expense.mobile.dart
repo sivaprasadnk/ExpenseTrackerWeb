@@ -322,11 +322,11 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
         throw CustomException(' Enter details');
       }
       UserController.addExpense(
-        expenseTitle.trim(),
         selectedCategory.id,
-        expenseDetails.trim(),
-        expenseAmount,
         selectedCategory.name,
+        expenseAmount,
+        expenseTitle.trim(),
+        expenseDetails.trim(),
         _selectedMode,
         selectedDate,
         context,

@@ -83,11 +83,12 @@ class _ExpenseByCategoryListMobileScreenState
     double btnHeight = 25;
 
     return MobileView(
-      appBarTitle: widget.categoryName,
+      appBarTitle: '',
       child: Column(
         children: [
            TotalExpenseContainerMobile(
               totalExpense: widget.totalAmount,
+              title: widget.categoryName,
             ),
           const SizedBox(
             height: 5,
@@ -95,6 +96,15 @@ class _ExpenseByCategoryListMobileScreenState
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const Text(
+                  'Mode :',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(
+                  width: 15,
+                ),
               GestureDetector(
                 onTap: () {
                   setStream(Mode.all);
@@ -203,7 +213,6 @@ class _ExpenseByCategoryListMobileScreenState
                                 Expense expense = Expense.fromJson(doc);
                                 return ExpenseDetailsCardMobile(
                                   expense: expense,
-                                  // width: double.infinity,
                                 );
                               },
                             ),

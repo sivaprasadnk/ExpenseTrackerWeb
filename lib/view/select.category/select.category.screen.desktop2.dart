@@ -43,80 +43,83 @@ class _SelectCategoryScreenDesktop2State
           return snapshot.hasData
               ? (snapshot.data! as QuerySnapshot).docs.isNotEmpty
                   ? SingleChildScrollView(
-                      padding: EdgeInsets.symmetric(horizontal: width * 0.1) +
+                      padding: EdgeInsets.symmetric(horizontal: width * 0.05) +
                           const EdgeInsets.only(bottom: 20),
-                      child: Wrap(
-                        spacing: 15,
-                        runSpacing: 15,
-                        children: (snapshot.data! as QuerySnapshot).docs.map(
-                          (doc) {
-                            CategoryDoc model = CategoryDoc.fromJson(doc);
-                            return InkWell(
-                              hoverColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              splashFactory: NoSplash.splashFactory,
-                              onHover: (val) {
-                                setState(() {
-                                  hoveredStatusList[model.id] = val;
-                                });
-                              },
-                              onTap: () {
-                                Navigator.pop(context, model);
-                              },
-                              child: Stack(
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(top: 38),
-                                    width: 250,
-                                    height: 120,
-                                    decoration: BoxDecoration(
-                                      color: !hoveredStatusList[model.id]
-                                          ? bgColor
-                                          : primaryColor,
-                                      border: Border.all(
-                                        color: primaryColor,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        CategoryNameText(
-                                          name: model.name,
-                                          textColor: hoveredStatusList[model.id]
-                                              ? bgColor
-                                              : primaryColor,
+                      child: Center(
+                        child: Wrap(
+                          spacing: 15,
+                          runSpacing: 15,
+                          children: (snapshot.data! as QuerySnapshot).docs.map(
+                            (doc) {
+                              CategoryDoc model = CategoryDoc.fromJson(doc);
+                              return InkWell(
+                                hoverColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                splashFactory: NoSplash.splashFactory,
+                                onHover: (val) {
+                                  setState(() {
+                                    hoveredStatusList[model.id] = val;
+                                  });
+                                },
+                                onTap: () {
+                                  Navigator.pop(context, model);
+                                },
+                                child: Stack(
+                                  children: [
+                                    Container(
+                                      margin: const EdgeInsets.only(top: 38),
+                                      width: 250,
+                                      height: 120,
+                                      decoration: BoxDecoration(
+                                        color: !hoveredStatusList[model.id]
+                                            ? bgColor
+                                            : primaryColor,
+                                        border: Border.all(
+                                          color: primaryColor,
                                         ),
-                                        const SizedBox(height: 8),
-                                      ],
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          CategoryNameText(
+                                            name: model.name,
+                                            textColor:
+                                                hoveredStatusList[model.id]
+                                                    ? bgColor
+                                                    : primaryColor,
+                                          ),
+                                          const SizedBox(height: 8),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  Positioned.fill(
-                                    top: 5,
-                                    child: Align(
-                                      alignment: Alignment.topCenter,
-                                      child: Container(
-                                        height: 60,
-                                        width: 60,
-                                        decoration: BoxDecoration(
-                                          color: bgColor,
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                            color: primaryColor,
+                                    Positioned.fill(
+                                      top: 5,
+                                      child: Align(
+                                        alignment: Alignment.topCenter,
+                                        child: Container(
+                                          height: 60,
+                                          width: 60,
+                                          decoration: BoxDecoration(
+                                            color: bgColor,
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                              color: primaryColor,
+                                            ),
+                                          ),
+                                          child: CategoryIcon(
+                                            icon: getIcon(model.name),
                                           ),
                                         ),
-                                        child: CategoryIcon(
-                                          icon: getIcon(model.name),
-                                        ),
                                       ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            );
-                          },
-                        ).toList(),
+                                    )
+                                  ],
+                                ),
+                              );
+                            },
+                          ).toList(),
+                        ),
                       ),
                     )
                   : const NoExpenseContainerDesktop(

@@ -1,10 +1,12 @@
 import 'package:expense_tracker/api/repo/user_repo.dart';
 import 'package:expense_tracker/api/response.status.dart';
 import 'package:expense_tracker/model/add.expense.model.dart';
+import 'package:expense_tracker/model/edit.expense.model.dart';
 import 'package:expense_tracker/model/expense.model.dart';
 import 'package:expense_tracker/model/expense.month.model.dart';
 import 'package:expense_tracker/model/response.model.dart';
 import 'package:expense_tracker/provider/home.provider.dart';
+import 'package:expense_tracker/utils/custom.exception.dart';
 import 'package:expense_tracker/utils/dialog.dart';
 import 'package:expense_tracker/utils/enums.dart';
 import 'package:expense_tracker/utils/loading.dialog.dart';
@@ -19,11 +21,11 @@ class UserController {
   static UserRepo userRepo = UserRepo();
 
   static void addExpense(
-      String expenseTitle,
       int categoryId,
-      String expenseDetails,
-      int expenseAmount,
       String categoryName,
+      int expenseAmount,
+      String expenseTitle,
+      String expenseDetails,
       Mode selectedMode,
       DateTime selectedDate,
       BuildContext context) async {
@@ -38,7 +40,7 @@ class UserController {
     var a = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
     var createdDateTime = DateTime.parse(a);
 
-    final String formattedTime = DateFormat('dd-MM-yyyy  kk:mm:ss').format(now);
+    final String createdDateTimeString = DateFormat('dd-MM-yyyy  kk:mm:ss').format(now);
 
     final year = int.parse(DateFormat('yyyy').format(now));
     int dailyTotal =
@@ -47,8 +49,9 @@ class UserController {
     ///
     Expense exp = Expense(
       expenseTitle: expenseTitle,
-      createdDate: "",
+      createdDateTimeString: "",
       expenseDocId: "",
+      recentDocId: "",
       categoryId: categoryId,
       details: expenseDetails,
       expenseMonthDocId: monthDocId,
@@ -70,7 +73,7 @@ class UserController {
       expense: exp,
       dailyTotal: dailyTotal,
       userId: userId,
-      createdDateTimeString: formattedTime,
+      createdDateTimeString: createdDateTimeString,
       expenseMonth: expMonth,
       createdDateTime: createdDateTime,
     );
@@ -111,5 +114,36 @@ class UserController {
           .updateRecentList(recentExpList);
       Navigation.checkPlatformAndNavigateToHome(context, true);
     });
+  }
+
+   static void editExpense(
+      {required Expense expense, required BuildContext context}) async {
+    try {
+      if (expense.expenseDocId.isEmpty) {
+        throw CustomException(' expenseDocId empty !');
+      }
+
+      if (expense.recentDocId.isEmpty) {
+        throw CustomException(' recentDocId empty !');
+      }
+      String userId = FirebaseAuth.instance.currentUser!.uid;
+
+      final DateTime now = DateTime.now();
+
+      var a = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
+      var updateDateTime = DateTime.parse(a);
+      final String updateDateTimeString =
+          DateFormat('dd-MM-yyyy  kk:mm:ss').format(now);
+      EditExpenseModel model = EditExpenseModel(
+          expense: expense,
+          userId: userId,
+          updateDateTime: updateDateTime,
+          updateDateTimeString: updateDateTimeString);
+      userRepo.editExpense(model);
+    } on CustomException catch (exc) {
+      Dialogs.showAlertDialog(context: context, description: exc.message);
+    } catch (err) {
+      Dialogs.showAlertDialog(context: context, description: err.toString());
+    }
   }
 }

@@ -31,7 +31,7 @@ class TodaysExpenseListMobileScreen extends StatelessWidget {
             .collection(kExpenseDatesNewCollection)
             .doc(date)
             .collection(kExpenseCollection)
-            .orderBy('createdDate', descending: true)
+            .orderBy('createdDateTimeString')
             .snapshots(),
         builder: (_, snapshot) {
           return snapshot.connectionState != ConnectionState.done

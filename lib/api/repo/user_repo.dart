@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:expense_tracker/api/response.status.dart';
 import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/model/add.expense.model.dart';
+import 'package:expense_tracker/model/edit.expense.model.dart';
 import 'package:expense_tracker/model/expense.model.dart';
 import 'package:expense_tracker/model/location.response.model.dart';
 import 'package:expense_tracker/model/recent.expense.model.dart';
@@ -17,7 +18,10 @@ class UserRepo {
   final fireStoreInstance = FirebaseFirestore.instance;
 
   Future<ResponseModel> addExpense(AddExpenseModel request) async {
-    String expenseDocId = "", recentDocId = "";
+    String expenseDocId = "",
+        recentDocId = "",
+        categoryDocId = request.expense.categoryName;
+
     Expense expense = request.expense;
 
     /// adding recent expenses
@@ -107,8 +111,7 @@ class UserRepo {
     int totAmt = 0;
     if (categoryDoc.data() != null) {
       totAmt = categoryDoc.data()!['totalAmount'] ?? 0;
-    } else {
-    }
+    } else {}
     debugPrint(' ${expense.categoryName} totalMount b4 :: $totAmt');
 
     fireStoreInstance
@@ -375,5 +378,29 @@ class UserRepo {
     debugPrint(response.toString());
 
     return model;
+  }
+
+  Future editExpense(EditExpenseModel model) async {
+    var userId = model.userId;
+    var expense = model.expense;
+    fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(model.userId)
+        .collection(kRecentExpensesCollection)
+        .doc(expense.recentDocId)
+        .update(
+          Expense.toJson(expense),
+        );
+
+    fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(userId)
+        .collection(kExpenseDatesNewCollection)
+        .doc(expense.expenseDate)
+        .collection(kExpenseCollection)
+        .doc(expense.expenseDocId)
+        .update(
+          Expense.toJson(expense),
+        );
   }
 }

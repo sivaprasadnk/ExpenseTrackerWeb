@@ -1,5 +1,5 @@
 import 'package:expense_tracker/cursor.widget.dart';
-import 'package:expense_tracker/view/home/desktop/home.screen.desktop.dart';
+import 'package:expense_tracker/view/back.arrow.title.widget.dart';
 import 'package:expense_tracker/view/home/drawer/drawer.screen.dart';
 import 'package:expense_tracker/view/network_aware_widget.dart';
 import 'package:expense_tracker/view/offline.widget.dart';
@@ -32,32 +32,20 @@ class _DesktopViewState extends State<DesktopView> {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-
+    final screenSize = MediaQuery.of(context).size;
+    final width = screenSize.width;
+    final double leftPadding = width > 600 ? width * 0.1 : 12;
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       drawerEnableOpenDragGesture: false,
       key: _key,
+      
       appBar: AppBar(
+        leadingWidth: 0,
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 5, top: 5),
-          child: CursorWidget(
-            onTap: () {
-              Navigator.pushNamedAndRemoveUntil(
-                  context, HomeScreenDesktop.routeName, (r) => false);
-            },
-            child: Text(
-              'EXPENSE TRACKER',
-              style: TextStyle(
-                fontSize: 20,
-                fontFamily: 'Rajdhani',
-                fontWeight: FontWeight.bold,
-                color: theme.textTheme.bodyMedium!.color,
-              ),
-            ),
-          ),
-        ),
+        titleSpacing: 0,
+        title: BackArrowTitleWidget(isHome: widget.isHome),
         centerTitle: false,
         actions: [
           CursorWidget(
@@ -106,6 +94,8 @@ class _DesktopViewState extends State<DesktopView> {
                   children: [
                     Row(
                       children: [
+                        SizedBox(width: leftPadding),
+                        if(widget.appBarTitle.trim().isNotEmpty)
                         TitleWidget(
                           title: widget.appBarTitle,
                           isHome: widget.isHome,
@@ -134,10 +124,10 @@ class _DesktopViewState extends State<DesktopView> {
                 children: [
                   Row(
                     children: [
-                       TitleWidget(
-                          title: widget.appBarTitle,
-                          isHome: widget.isHome,
-                        ),
+                      TitleWidget(
+                        title: widget.appBarTitle,
+                        isHome: widget.isHome,
+                      ),
                     ],
                   ),
                   SizedBox(

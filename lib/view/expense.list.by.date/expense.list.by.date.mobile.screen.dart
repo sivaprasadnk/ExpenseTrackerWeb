@@ -78,13 +78,13 @@ class _ExpenseListByDateMobileScreenState
 
   @override
   Widget build(BuildContext context) {
-    var userId = FirebaseAuth.instance.currentUser!.uid;
+    // var userId = FirebaseAuth.instance.currentUser!.uid;
     double btnWidth = 60;
     double btnHeight = 25;
     var primaryColor = Theme.of(context).primaryColor;
     var bgColor = Theme.of(context).scaffoldBackgroundColor;
     return MobileView(
-      appBarTitle: widget.expenseDateItem.date,
+      appBarTitle: "",
       child: SizedBox(
         height: MediaQuery.of(context).size.height * 0.9,
         child: Column(
@@ -92,6 +92,7 @@ class _ExpenseListByDateMobileScreenState
           children: [
             TotalExpenseContainerMobile(
               totalExpense: widget.expenseDateItem.totalExpense,
+              title: widget.expenseDateItem.date,
             ),
             const SizedBox(
               height: 5,

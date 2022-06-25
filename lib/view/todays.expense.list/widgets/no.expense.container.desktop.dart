@@ -30,7 +30,7 @@ class NoExpenseContainerDesktop extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(
-                  height: initSpace ?? screenHeight * 0.15,
+                  height: initSpace ?? screenHeight * 0.12,
                 ),
                 Text(
                   title ?? 'No Expenses added today!',

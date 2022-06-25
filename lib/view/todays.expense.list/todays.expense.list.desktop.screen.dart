@@ -57,6 +57,7 @@ class TodaysExpenseListDesktopScreen extends StatelessWidget {
                     )
                   : const NoExpenseContainerDesktop(
                       showAddButton: true,
+                      initSpace: 200,
                     )
               : const Center(
                   child: CircularProgressIndicator(),

@@ -11,6 +11,7 @@ class CursorWidget extends StatefulWidget {
     this.buttonHeight,
     this.buttonWidth,
     this.borderColor,
+    this.horizontalMargin= 10,
   }) : super(key: key);
 
   final Widget child;
@@ -21,6 +22,7 @@ class CursorWidget extends StatefulWidget {
   final double? buttonHeight;
   final double? buttonWidth;
   final Color? borderColor;
+  final double horizontalMargin;
   @override
   State<CursorWidget> createState() => _CursorWidgetState();
 }
@@ -52,7 +54,7 @@ class _CursorWidgetState extends State<CursorWidget> {
           ? Container(
               width: widget.buttonWidth ?? double.infinity,
               height: widget.buttonHeight ?? 40,
-              margin: const EdgeInsets.symmetric(horizontal: 10),
+              margin:  EdgeInsets.symmetric(horizontal: widget.horizontalMargin),
               decoration: BoxDecoration(
                 color: widget.bgColor,
                 border:

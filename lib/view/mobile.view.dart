@@ -1,4 +1,5 @@
 import 'package:expense_tracker/cursor.widget.dart';
+import 'package:expense_tracker/view/back.arrow.title.widget.dart';
 import 'package:expense_tracker/view/home/drawer/drawer.screen.dart';
 import 'package:expense_tracker/view/home/mobile/home.screen.mobile.dart';
 import 'package:expense_tracker/view/network_aware_widget.dart';
@@ -6,14 +7,13 @@ import 'package:expense_tracker/view/offline.widget.dart';
 import 'package:expense_tracker/view/search.screen/search.screen.mobile.dart';
 import 'package:expense_tracker/view/title.widget.dart';
 import 'package:flutter/material.dart';
-import 'package:validators/validators.dart';
 
 class MobileView extends StatefulWidget {
   const MobileView({
     Key? key,
     required this.child,
-    this.isHome = false,
     required this.appBarTitle,
+    this.isHome = false,
     this.showNetworkStatus = true,
     this.showSearchIcon = true,
   }) : super(key: key);
@@ -39,36 +39,34 @@ class _MobileViewState extends State<MobileView> {
       drawerEnableOpenDragGesture: false,
       key: _key,
       appBar: AppBar(
-        elevation: 0,
-        leading: const SizedBox.shrink(),
-        titleSpacing: 0,
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
         leadingWidth: 0,
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        titleSpacing: 0,
+        centerTitle: false,
         title: Padding(
-          padding: const EdgeInsets.only(top: 5),
-          child: widget.isHome
-              ? GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, HomeScreenMobile.routeName, (r) => false);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 13),
-                    child: Text(
-                      'EXPENSE TRACKER',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Rajdhani',
-                        color: theme.textTheme.bodyMedium!.color,
+            padding: const EdgeInsets.only(top: 5),
+            child: widget.isHome
+                ? GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, HomeScreenMobile.routeName, (r) => false);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 13),
+                      child: Text(
+                        'EXPENSE TRACKER',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: 'Rajdhani',
+                          fontWeight: FontWeight.bold,
+                          color: theme.textTheme.bodyMedium!.color,
+                        ),
                       ),
                     ),
-                  ),
-                )
-              : TitleWidget(title: widget.appBarTitle, isHome: widget.isHome,),
-        ),
-        centerTitle: false,
+                  )
+                : const BackArrowTitleWidget(isHome: false)
+            ),
         actions: [
           if (widget.showSearchIcon)
             CursorWidget(
@@ -117,6 +115,11 @@ class _MobileViewState extends State<MobileView> {
                     const SizedBox(
                       height: 10,
                     ),
+                    if (widget.appBarTitle.trim().isNotEmpty)
+                      TitleWidget(
+                        title: widget.appBarTitle,
+                        isHome: widget.isHome,
+                      ),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -141,8 +144,13 @@ class _MobileViewState extends State<MobileView> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const SizedBox(
-                    height: 5,
+                    height: 10,
                   ),
+                  if (widget.appBarTitle.trim().isNotEmpty)
+                    TitleWidget(
+                      title: widget.appBarTitle,
+                      isHome: widget.isHome,
+                    ),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),

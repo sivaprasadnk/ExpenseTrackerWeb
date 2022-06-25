@@ -84,7 +84,7 @@ class _ExpenseByCategoryListDesktopScreenState
     double btnHeight = 25;
     return DesktopView(
       isHome: false,
-      appBarTitle: widget.categoryName,
+      appBarTitle: '',
       child: SizedBox(
         height: MediaQuery.of(context).size.height * 0.9,
         child: Column(
@@ -92,6 +92,7 @@ class _ExpenseByCategoryListDesktopScreenState
           children: [
             TotalExpenseContainerDesktop(
               totalExpense: widget.totalAmount,
+              title: widget.categoryName,
             ),
             const SizedBox(
               height: 10,

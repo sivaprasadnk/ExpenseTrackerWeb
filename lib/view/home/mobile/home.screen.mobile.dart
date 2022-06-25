@@ -130,7 +130,6 @@ class _HomeScreenMobileState extends State<HomeScreenMobile>
     const opacityDuration = Duration(milliseconds: 900);
     const slideDuration = Duration(milliseconds: 100);
     final size = MediaQuery.of(context).size;
-    final height = size.height;
     final width = size.width;
     return MobileView(
       isHome: true,

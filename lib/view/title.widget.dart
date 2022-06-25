@@ -23,37 +23,20 @@ class TitleWidget extends StatelessWidget {
           Navigator.pop(context);
         }
       },
-      child: Container(
-        height: 50,
-        width: 170,
-        decoration: BoxDecoration(
-          color: theme.primaryColor,
-          borderRadius: const BorderRadius.only(
-            topRight: Radius.circular(25),
-            bottomRight: Radius.circular(25),
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Icon(
-                Icons.arrow_back_ios_new,
-                color: theme.scaffoldBackgroundColor,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: TextStyle(
+                color: theme.primaryColor,
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
               ),
-              const Spacer(),
-              Text(
-                title,
-                style: TextStyle(
-                  color: theme.scaffoldBackgroundColor,
-                  fontSize: 20,
-                  fontFamily: 'Rajdhani',
-                ),
-              ),
-              const Spacer(),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

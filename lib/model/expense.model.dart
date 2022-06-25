@@ -15,7 +15,9 @@ class Expense {
   String expenseMonth;
   String expenseMonthDocId;
   String expenseDocId;
-  String createdDate;
+  String recentDocId;
+  // String createdDate;
+  String createdDateTimeString;
   String mode;
   Expense({
     required this.expenseTitle,
@@ -27,26 +29,31 @@ class Expense {
     required this.expenseDay,
     required this.expenseMonth,
     required this.expenseMonthDocId,
-    required this.createdDate,
+    // required this.createdDate,
+    required this.createdDateTimeString,
     required this.expenseDocId,
+    required this.recentDocId,
     required this.mode,
   });
 
   static Expense fromJson(QueryDocumentSnapshot<Object?> doc) {
     String expDate = doc['expenseDate'];
     var id = doc['expenseDocId'];
+    var recentDocId = doc['recentDocId'];
     String expDay = expDate.split('-').first;
     return Expense(
       amount: doc['amount'],
       mode: doc['mode'],
       categoryId: doc['categoryId'],
       categoryName: doc['categoryName'],
-      createdDate: doc['createdDateTimeString'],
+      // createdDate: doc['createdDateTimeString'],
+      createdDateTimeString: doc['createdDateTimeString'],
       // expenseDay: doc['expenseDay'] ?? "",
       // expenseDay: doc['expenseDay'],
       expenseDay: expDay,
       details: doc['details'],
       expenseDocId: id,
+      recentDocId: recentDocId,
       expenseMonthDocId: "",
       expenseTitle: doc['expenseTitle'],
       expenseDate: doc['expenseDate'] ?? "",
@@ -60,11 +67,12 @@ class Expense {
       categoryId: expense.categoryId,
       details: expense.details,
       amount: expense.amount,
+      recentDocId: expense.recentDocId,
       categoryName: expense.categoryName,
       expenseDate: expense.expenseDate,
       expenseDay: expense.expenseDay,
       expenseMonth: expense.expenseMonth,
-      createdDate: expense.createdDateTimeString,
+      createdDateTimeString: expense.createdDateTimeString,
       expenseDocId: expense.expenseDocId,
       // expenseMonthDocId: expense.expenseMonthDocId,
       expenseMonthDocId: '',

@@ -7,8 +7,12 @@ class AppBarTitleDesktop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    final width = screenSize.width;
+    final double leftPadding = width > 600 ? width * 0.1 : 12;
+
     return Padding(
-      padding: const EdgeInsets.only(left: 5, top: 5),
+      padding: EdgeInsets.only(left: leftPadding, top: 5),
       child: CursorWidget(
         onTap: () {
           Navigator.pushAndRemoveUntil(

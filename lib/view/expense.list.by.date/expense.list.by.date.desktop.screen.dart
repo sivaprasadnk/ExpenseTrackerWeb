@@ -86,7 +86,7 @@ class _ExpenseListByDateDesktopScreenState
     var bgColor = theme.scaffoldBackgroundColor;
     return DesktopView(
       isHome: false,
-      appBarTitle: widget.expenseDateItem.date,
+      appBarTitle: '',
       child: SizedBox(
         height: MediaQuery.of(context).size.height * 0.9,
         child: Column(
@@ -94,6 +94,7 @@ class _ExpenseListByDateDesktopScreenState
           children: [
             TotalExpenseContainerDesktop(
               totalExpense: widget.expenseDateItem.totalExpense,
+              title: widget.expenseDateItem.date,
             ),
             const SizedBox(
               height: 10,
