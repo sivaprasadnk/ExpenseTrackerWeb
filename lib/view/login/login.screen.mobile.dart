@@ -1,22 +1,30 @@
 import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/controller/auth.controller.dart';
 import 'package:expense_tracker/cursor.widget.dart';
-import 'package:expense_tracker/view/login/login.screen.dart';
+import 'package:expense_tracker/view/login/widgets/app.name.text.dart';
+import 'package:expense_tracker/view/login/widgets/auth.title.text.dart';
+import 'package:expense_tracker/view/login/widgets/divider.dart';
 import 'package:expense_tracker/view/login/widgets/login.submit.button.dart';
+import 'package:expense_tracker/view/login/widgets/mobile/dont.have.account.container.mobile.dart';
+import 'package:expense_tracker/view/login/widgets/social.media.sign.in/fb.sign.in.dart';
+import 'package:expense_tracker/view/login/widgets/social.media.sign.in/google.sign.in.dart';
 import 'package:expense_tracker/view/login/widgets/text.field.container.dart';
 import 'package:expense_tracker/view/login/widgets/text.field.title.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
+import 'widgets/footer.text.dart';
 
+class LoginScreenMobile extends StatefulWidget {
+  const LoginScreenMobile({Key? key}) : super(key: key);
+  static const routeName = 'LoginMobile';
   @override
-  _RegisterScreenState createState() => _RegisterScreenState();
+  _LoginScreenMobileState createState() => _LoginScreenMobileState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen>
+class _LoginScreenMobileState extends State<LoginScreenMobile>
     with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _emailTextOpacity;
@@ -31,12 +39,14 @@ class _RegisterScreenState extends State<RegisterScreen>
   String email = "";
   String password = "";
   bool showPassword = false;
-
   FirebaseAuth auth = FirebaseAuth.instance;
-
+  GoogleSignIn? _googleSignIn;
   @override
   void initState() {
     super.initState();
+    _googleSignIn = GoogleSignIn(
+      scopes: ['email', 'https://www.googleapis.com/auth/userinfo.profile'],
+    );
     _controller = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
@@ -126,29 +136,19 @@ class _RegisterScreenState extends State<RegisterScreen>
     super.dispose();
   }
 
-  final _formKey = GlobalKey<FormState>();
   FocusNode textSecondFocusNode = FocusNode();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     const opacityDuration = Duration(milliseconds: 900);
     const slideDuration = Duration(milliseconds: 400);
-
-    return Scaffold(
-      extendBody: true,
-      bottomNavigationBar: const Text(
-        kCopyRightText,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-          color: Color.fromRGBO(0, 24, 88, 1),
-        ),
-      ),
-      body: Form(
-        key: _formKey,
-        child: Container(
+    return Form(
+      key: _formKey,
+      child: Scaffold(
+        extendBody: true,
+        body: Container(
           height: screenSize.height,
           decoration: const BoxDecoration(
             image: DecorationImage(
@@ -161,48 +161,17 @@ class _RegisterScreenState extends State<RegisterScreen>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(
-                  height: 40,
+                  height: 30,
                 ),
-                const Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Text(
-                    kExpenseTrackerText,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 100),
-                Center(
-                  child: Container(
-                    height: 30,
-                    width: 100,
-                    decoration: const BoxDecoration(
-                      color: Colors.cyan,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(12),
-                        topRight: Radius.circular(12),
-                      ),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        'Register',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromRGBO(0, 24, 88, 1),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                const AppNameText(),
+                const SizedBox(height: 30),
+                const AuthTitleText(title: 'Login'),
                 AnimatedBuilder(
                   animation: _controller,
                   builder: (_, child) {
                     return Container(
-                      width: 300,
+                      width: double.infinity,
+                      margin: const EdgeInsets.symmetric(horizontal: 50),
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: Colors.black,
@@ -232,11 +201,21 @@ class _RegisterScreenState extends State<RegisterScreen>
                               duration: slideDuration,
                               offset: _emailFieldSlide.value,
                               child: TextFieldContainer(
+                                width: double.infinity,
                                 child: TextFormField(
+                                  textInputAction: TextInputAction.next,
+                                  onFieldSubmitted: (_) {
+                                    FocusScope.of(context)
+                                        .requestFocus(textSecondFocusNode);
+                                  },
+                                  onEditingComplete: () {
+                                    FocusScope.of(context)
+                                        .requestFocus(textSecondFocusNode);
+                                  },
+                                  autocorrect: false,
                                   style: const TextStyle(
                                     color: Colors.black,
-                                    // fontWeight: FontWeight.bold,
-                                    // fontFamily: 'Rajdhani',
+                                    fontSize: 20,
                                   ),
                                   keyboardType: TextInputType.emailAddress,
                                   onSaved: (val) {
@@ -245,6 +224,8 @@ class _RegisterScreenState extends State<RegisterScreen>
                                   decoration: const InputDecoration(
                                     border: InputBorder.none,
                                     isDense: true,
+                                    contentPadding: EdgeInsets.symmetric(
+                                        horizontal: 8, vertical: 20),
                                   ),
                                 ),
                               ),
@@ -269,27 +250,31 @@ class _RegisterScreenState extends State<RegisterScreen>
                               offset: _passwordFieldSlide.value,
                               child: Row(
                                 children: [
-                                  TextFieldContainer(
-                                    width: 222,
-                                    child: TextFormField(
-                                      obscureText: true,
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        // fontFamily: 'Rajdhani',
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      onSaved: (val) {
-                                        password = val.toString();
-                                      },
-                                      decoration: const InputDecoration(
-                                        border: InputBorder.none,
-                                        isDense: true,
+                                  Expanded(
+                                    child: TextFieldContainer(
+                                      child: TextFormField(
+                                        focusNode: textSecondFocusNode,
+                                        obscureText: !showPassword,
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 20,
+                                        ),
+                                        onSaved: (val) {
+                                          password = val.toString();
+                                        },
+                                        decoration: const InputDecoration(
+                                          border: InputBorder.none,
+                                          isDense: true,
+                                          contentPadding: EdgeInsets.symmetric(
+                                              horizontal: 8, vertical: 20),
+                                        ),
                                       ),
                                     ),
                                   ),
                                   TextFieldContainer(
                                     width: 43,
-                                    margin: const EdgeInsets.only(left: 3),
+                                    margin: const EdgeInsets.only(
+                                        left: 3, right: 13),
                                     child: GestureDetector(
                                       onTap: () {
                                         setState(() {
@@ -320,44 +305,27 @@ class _RegisterScreenState extends State<RegisterScreen>
                               isButton: true,
                               bgColor: const Color.fromRGBO(0, 24, 88, 1),
                               child: const LoginButton(
-                                title: 'Register',
+                                title: 'Login',
                               ),
                             ),
                           ),
                           const SizedBox(height: 10),
-                          Center(
-                            child: RichText(
-                              text: TextSpan(
-                                text: "Have an account ? ",
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                ),
-                                children: [
-                                  TextSpan(
-                                    text: 'Login',
-                                    style: const TextStyle(
-                                      color: Color.fromRGBO(0, 24, 88, 1),
-                                      // color: primaryColor,
-                                    ),
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () {
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (_) =>
-                                                    const LoginScreen()));
-                                      },
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
+                          const DividerText(),
+                          const SizedBox(height: 10),
+                          const GoogleSignInButton(),
+                          const SizedBox(height: 10),
+                          const FbSignInButton(),
                           const SizedBox(height: 10),
                         ],
                       ),
                     );
                   },
-                )
+                ),
+                const SizedBox(height: 20),
+                const DontHaveAccoutContainerMobile(),
+                const SizedBox(height: 20),
+                const FooterText(),
+                const SizedBox(height: 50),
               ],
             ),
           ),
@@ -366,8 +334,57 @@ class _RegisterScreenState extends State<RegisterScreen>
     );
   }
 
-  Future<void> validateAndProceed() async {
+  void validateAndProceed() {
     _formKey.currentState!.save();
-    AuthController.register(context, email.trim(), password.trim());
+    AuthController.login(context, email.trim(), password.trim());
+  }
+
+  facebookLogin() async {
+    try {
+      final LoginResult result = await FacebookAuth.instance
+          .login(); // by default we request the email and the public profile
+// or FacebookAuth.i.login()
+      if (result.status == LoginStatus.success) {
+        // you are logged
+        final AccessToken accessToken = result.accessToken!;
+        debugPrint(" accessToken.token : ");
+        // result.
+        debugPrint(accessToken.token);
+      } else {
+        debugPrint("  result.status : ");
+        debugPrint(result.status.toString());
+        debugPrint(" result.message  :");
+        debugPrint(result.message);
+      }
+    } catch (error) {
+      debugPrint(error.toString());
+    }
+  }
+
+  googleLogin() async {
+    try {
+      GoogleSignInAccount? account = await _googleSignIn!.signIn();
+      if (account != null) {
+        AuthController.googleSignIn(context: context, account: account);
+      }
+    } catch (error) {
+      debugPrint(error.toString());
+    }
   }
 }
+
+/*
+
+
+IconButton(
+    icon: showPassword
+        ? const Icon(Icons.visibility)
+        : const Icon(Icons.visibility_off),
+    onPressed: () {
+      setState(() {
+        showPassword = !showPassword;
+      });
+    },
+  ),
+
+*/

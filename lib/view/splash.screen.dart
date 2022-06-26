@@ -1,5 +1,7 @@
 import 'package:expense_tracker/controller/user.controller.dart';
+import 'package:expense_tracker/utils/navigation.dart';
 import 'package:expense_tracker/view/login/login.screen.dart';
+import 'package:expense_tracker/view/login/login.screen.desktop.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:neumorphic_loader/neumorphic_loader.dart';
@@ -24,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
         String userId = FirebaseAuth.instance.currentUser!.uid;
         UserController.getExpenseDetails(context, userId);
       } else {
-        Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+        Navigation.checkPlatformAndNavigateToLogin(context: context);
       }
     });
   }

@@ -1,5 +1,7 @@
 import 'package:expense_tracker/view/home/desktop/home.screen.desktop.dart';
 import 'package:expense_tracker/view/home/mobile/home.screen.mobile.dart';
+import 'package:expense_tracker/view/login/login.screen.desktop.dart';
+import 'package:expense_tracker/view/login/login.screen.mobile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
@@ -23,7 +25,19 @@ class Navigation {
         Navigator.pushReplacementNamed(context, HomeScreenDesktop.routeName);
       }
     }
+
   }
+   static checkPlatformAndNavigateToLogin({required BuildContext context})async{
+    if ((defaultTargetPlatform == TargetPlatform.android ||
+          defaultTargetPlatform == TargetPlatform.iOS)) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, LoginScreenMobile.routeName, (r) => false);
+      } else {
+        Navigator.pushNamedAndRemoveUntil(
+            context, LoginScreenDesktop.routeName, (r) => false);
+      }
+
+   }
 
   // static checkPlatformAndNavigateToScreen(
   //     BuildContext context, String routeName,

@@ -1,3 +1,4 @@
+import 'package:expense_tracker/view/sample.text.dart';
 import 'package:flutter/material.dart';
 
 class SettingsTextContainer extends StatelessWidget {
@@ -8,7 +9,10 @@ class SettingsTextContainer extends StatelessWidget {
     final theme = Theme.of(context);
     final color = theme.primaryColor;
     return GestureDetector(
-      onTap: (){},
+      onTap: () {
+        // Navigator.push(
+        //     context, MaterialPageRoute(builder: (_) => const SampleText()));
+      },
       child: Container(
         margin: const EdgeInsets.all(10),
         height: 100,
