@@ -82,7 +82,6 @@ class _AddExpenseScreenStateDesktop extends State<AddExpenseScreenDesktop> {
                           child: TextFormField(
                             onSaved: (val) {
                               if (val != null && val.trim().isNotEmpty) {
-                                debugPrint('.. @@ $val');
                                 expenseAmount = int.parse(val.toString());
                               }
                             },
@@ -146,7 +145,7 @@ class _AddExpenseScreenStateDesktop extends State<AddExpenseScreenDesktop> {
                         TextFieldContainer(
                           child: TextFormField(
                             inputFormatters: [
-                              LengthLimitingTextInputFormatter(10),
+                              LengthLimitingTextInputFormatter(20),
                             ],
                             onSaved: (val) {
                               expenseTitle = val.toString();

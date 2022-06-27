@@ -70,8 +70,6 @@ class HomeProvider extends ChangeNotifier {
 
   void addToDailyExpense(int amt) {
     dailyTotal_ += amt;
-    debugPrint('daily total :');
-    debugPrint(dailyTotal_.toString());
     notifyListeners();
   }
 

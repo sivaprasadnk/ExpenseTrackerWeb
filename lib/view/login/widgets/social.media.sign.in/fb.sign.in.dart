@@ -1,3 +1,4 @@
+import 'package:expense_tracker/controller/auth.controller.dart';
 import 'package:expense_tracker/cursor.widget.dart';
 import 'package:expense_tracker/view/login/widgets/social.media.sign.in/social.media.sign.in.button.dart';
 import 'package:flutter/material.dart';
@@ -16,10 +17,12 @@ class FbSignInButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: CursorWidget(
-        onTap: facebookLogin,
+        onTap: () {
+          facebookLogin(context);
+        },
         isButton: true,
         bgColor: const Color.fromARGB(255, 18, 64, 155),
-        child:  SocialMediaSignInButton(
+        child: SocialMediaSignInButton(
           textColor: Colors.white,
           icon: FontAwesomeIcons.facebook,
           title: title,
@@ -28,23 +31,26 @@ class FbSignInButton extends StatelessWidget {
     );
   }
 
-  facebookLogin() async {
+  facebookLogin(BuildContext context) async {
     try {
-      final LoginResult result = await FacebookAuth.instance
-          .login(); // by default we request the email and the public profile
-// or FacebookAuth.i.login()
-      if (result.status == LoginStatus.success) {
-        // you are logged
-        final AccessToken accessToken = result.accessToken!;
-        debugPrint(" accessToken.token : ");
-        // result.
-        debugPrint(accessToken.token);
-      } else {
-        debugPrint("  result.status : ");
-        debugPrint(result.status.toString());
-        debugPrint(" result.message  :");
-        debugPrint(result.message);
-      }
+
+       AuthController.fbLogin(context: context);
+//       final LoginResult result = await FacebookAuth.instance
+//           .login(); // by default we request the email and the public profile
+// // or FacebookAuth.i.login()
+//       if (result.status == LoginStatus.success) {
+//         // you are logged
+//         final AccessToken accessToken = result.accessToken!;
+//         debugPrint(" accessToken.token : ");
+//         // accessToken.
+//         debugPrint(accessToken.token);
+//         AuthController.fbLogin(context: context);
+//       } else {
+//         debugPrint("  result.status : ");
+//         debugPrint(result.status.toString());
+//         debugPrint(" result.message  :");
+//         debugPrint(result.message);
+//       }
     } catch (error) {
       debugPrint(error.toString());
     }

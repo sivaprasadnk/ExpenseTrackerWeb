@@ -6,7 +6,9 @@ import 'package:expense_tracker/utils/custom.exception.dart';
 import 'package:expense_tracker/utils/dialog.dart';
 import 'package:expense_tracker/utils/loading.dialog.dart';
 import 'package:expense_tracker/utils/navigation.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:validators/validators.dart';
@@ -14,7 +16,11 @@ import 'package:validators/validators.dart';
 class AuthController {
   static AuthRepo authRepo = AuthRepo();
   static UserRepo userRepo = UserRepo();
+  static GoogleSignIn? googleSignIn = GoogleSignIn(
+    scopes: ['email', 'https://www.googleapis.com/auth/userinfo.profile'],
+  );
 
+  
   static void login(BuildContext context, String email, String password) async {
     try {
       if (email.isEmpty) {
@@ -95,9 +101,11 @@ class AuthController {
     }
   }
 
-  static void googleSignIn({
+  static void googleLogin({
     required BuildContext context,
     required GoogleSignInAccount account,
+    bool link = false,
+    AuthCredential? authCredential,
   }) {
     try {
       Loading.showLoading(context);
@@ -123,6 +131,69 @@ class AuthController {
           });
         }
       });
+    } on CustomException catch (exc) {
+      Dialogs.showAlertDialog(context: context, description: exc.message);
+    } catch (err) {
+      Dialogs.showAlertDialog(context: context, description: err.toString());
+    }
+  }
+
+  static void fbLogin({required BuildContext context}) async {
+    try {
+      final LoginResult result = await FacebookAuth.instance.login(
+        permissions: [
+          "public_profile",
+          "email",
+        ],
+      );
+      if (result.status == LoginStatus.success) {
+        Loading.showLoading(context);
+
+        authRepo.fbLogin(result: result).then((response) async {
+          if (response.status == ResponseStatus.error) {
+            FirebaseAuthException exc = response.data;
+            if (exc.code == 'account-exists-with-different-credential') {
+              Dialogs.showAlertWithPositiveCallback(
+                context: context,
+                description: response.message,
+                callback: () async {
+                  List<String> emailList = await FirebaseAuth.instance
+                      .fetchSignInMethodsForEmail(exc.email!);
+                  if (emailList.first == "google.com") {
+                    final GoogleSignInAccount? googleSignInAccount =
+                        await googleSignIn!.signIn();
+                    if (googleSignInAccount != null) {
+                      googleLogin(
+                          context: context,
+                          account: googleSignInAccount,
+                          link: true,
+                          authCredential: exc.credential);
+                      // authRepo.googleSignIn(
+                      //     googleSignInAccount, true, exc.credential);
+                    }
+                  }
+                },
+              );
+            } else {
+              Dialogs.showAlertDialog(
+                      context: context, description: response.message)
+                  .then((value) {
+                Navigator.pop(context);
+              });
+            }
+          } else {
+            int dailyExp = response.dailyTotal;
+            Provider.of<HomeProvider>(context, listen: false)
+                .updateDailyTotalExpense(dailyExp);
+            userRepo.getRecentExpense().then((recentExpList) {
+              Provider.of<HomeProvider>(context, listen: false)
+                  .updateRecentList(recentExpList);
+              Navigation.checkPlatformAndNavigateToHome(context);
+            });
+          }
+        });
+      } else {
+      }
     } on CustomException catch (exc) {
       Dialogs.showAlertDialog(context: context, description: exc.message);
     } catch (err) {

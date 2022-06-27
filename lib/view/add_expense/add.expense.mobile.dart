@@ -189,7 +189,7 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                         padding: const EdgeInsets.only(left: 10, right: 10),
                         child: TextFormField(
                           inputFormatters: [
-                            LengthLimitingTextInputFormatter(10),
+                            LengthLimitingTextInputFormatter(20),
                           ],
                           onSaved: (val) {
                             expenseTitle = val.toString();

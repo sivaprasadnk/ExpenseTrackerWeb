@@ -339,38 +339,6 @@ class _LoginScreenMobileState extends State<LoginScreenMobile>
     AuthController.login(context, email.trim(), password.trim());
   }
 
-  facebookLogin() async {
-    try {
-      final LoginResult result = await FacebookAuth.instance
-          .login(); // by default we request the email and the public profile
-// or FacebookAuth.i.login()
-      if (result.status == LoginStatus.success) {
-        // you are logged
-        final AccessToken accessToken = result.accessToken!;
-        debugPrint(" accessToken.token : ");
-        // result.
-        debugPrint(accessToken.token);
-      } else {
-        debugPrint("  result.status : ");
-        debugPrint(result.status.toString());
-        debugPrint(" result.message  :");
-        debugPrint(result.message);
-      }
-    } catch (error) {
-      debugPrint(error.toString());
-    }
-  }
-
-  googleLogin() async {
-    try {
-      GoogleSignInAccount? account = await _googleSignIn!.signIn();
-      if (account != null) {
-        AuthController.googleSignIn(context: context, account: account);
-      }
-    } catch (error) {
-      debugPrint(error.toString());
-    }
-  }
 }
 
 /*

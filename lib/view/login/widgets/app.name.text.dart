@@ -1,8 +1,6 @@
 import 'package:expense_tracker/common_strings.dart';
 import 'package:flutter/material.dart';
 
-
-
 class AppNameText extends StatelessWidget {
   const AppNameText({
     Key? key,

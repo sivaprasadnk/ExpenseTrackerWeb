@@ -89,8 +89,6 @@ class _RecentExpenseDetailsState extends State<RecentExpenseDetails> {
                     .snapshots(),
                 builder: (ct, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
-                    //  Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
-                    // debugPrint('..${snapshot.data!["amount"].toString()}');
                   }
                   return snapshot.connectionState != ConnectionState.done
                       ? snapshot.hasData

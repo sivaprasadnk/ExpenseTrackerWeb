@@ -1,9 +1,9 @@
 import 'package:expense_tracker/api/response.status.dart';
 
-class LoginResponse {
+class LoginResponse<T> {
   ResponseStatus status;
   String message;
-  String data;
+  T data;
   String userId;
   int dailyTotal;
   LoginResponse({

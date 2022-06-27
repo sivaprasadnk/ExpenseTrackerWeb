@@ -16,7 +16,6 @@ class ExpenseEditIcon extends StatelessWidget {
         alignment: Alignment.topRight,
         child: GestureDetector(
           onTap: () {
-            debugPrint('.. tapped ${expense.expenseDocId}');
           },
           child: Container(
             decoration: BoxDecoration(

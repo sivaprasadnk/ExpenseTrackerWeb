@@ -10,47 +10,39 @@ enum AuthResultStatus {
   userDisabled,
   operationNotAllowed,
   tooManyRequests,
+  accountExistsWithDifferentProvider,
   undefined,
 }
 
 class AuthExceptionHandler {
   static String handleException(e) {
-    // debugPrint(e.code);
-    // var status;
     switch (e.code) {
       case "invalid-email":
         return generateExceptionMessage(AuthResultStatus.invalidEmail);
-      // break;
       case "wrong-password":
         return generateExceptionMessage(AuthResultStatus.wrongPassword);
-      // break;
       case "user-not-found":
         return generateExceptionMessage(AuthResultStatus.userNotFound);
-      // break;
       case "ERROR_USER_DISABLED":
         return generateExceptionMessage(AuthResultStatus.userDisabled);
-      // break;
       case "ERROR_TOO_MANY_REQUESTS":
         return generateExceptionMessage(AuthResultStatus.tooManyRequests);
-      // break;
       case "ERROR_OPERATION_NOT_ALLOWED":
         return generateExceptionMessage(AuthResultStatus.operationNotAllowed);
-      // break;
       case "email-already-in-use":
         return generateExceptionMessage(AuthResultStatus.emailAlreadyExists);
-      // break;
       case "weak-password":
         return generateExceptionMessage(AuthResultStatus.weakPassword);
-      // break;
+      case "account-exists-with-different-credential":
+        return generateExceptionMessage(
+            AuthResultStatus.accountExistsWithDifferentProvider);
       default:
         return generateExceptionMessage(AuthResultStatus.undefined);
     }
-    // return status;
   }
 
   static String generateExceptionMessage(exceptionCode) {
     String errorMessage;
-    debugPrint(':::: exceptionCode $exceptionCode ');
     switch (exceptionCode) {
       case AuthResultStatus.invalidEmail:
         errorMessage = "Your email address appears to be malformed.";
@@ -77,8 +69,12 @@ class AuthExceptionHandler {
       case AuthResultStatus.weakPassword:
         errorMessage = "Password should be at least \n 6 characters.";
         break;
+      case AuthResultStatus.accountExistsWithDifferentProvider:
+        errorMessage =
+            " An account already exists with the same email address but different sign-in credentials. Sign in using a provider associated with this email address.";
+        break;
       default:
-        errorMessage = "An undefined Error happened.";
+        errorMessage = "Something went wrong ! Please try again .";
     }
 
     return errorMessage;

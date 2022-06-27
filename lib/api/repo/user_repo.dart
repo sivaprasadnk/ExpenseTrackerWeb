@@ -112,7 +112,6 @@ class UserRepo {
     if (categoryDoc.data() != null) {
       totAmt = categoryDoc.data()!['totalAmount'] ?? 0;
     } else {}
-    debugPrint(' ${expense.categoryName} totalMount b4 :: $totAmt');
 
     fireStoreInstance
         .collection(kUsersCollection)
@@ -241,14 +240,10 @@ class UserRepo {
               'totalExpense': totalMonthlyExp - expenseAmount,
             });
           });
-          // for (int i = 0; i < value.docs.length; i++) {
-          //   total = total + int.parse(value.docs[i]['amount'].toString());
-          //   debugPrint('...@@ total 2=>>$total');
-          // }
+       
         });
       });
 
-      debugPrint('.. @@ here  12');
     } catch (err) {
       debugPrint(err.toString());
       return ResponseModel(
@@ -278,7 +273,6 @@ class UserRepo {
         .doc(date)
         .get();
     var e = value.data()!['totalExpense'].toString();
-    debugPrint('.. @@ getTodaysExpense : $e');
     return e;
   }
 
@@ -316,7 +310,6 @@ class UserRepo {
     if (value1.data() != null) {
       dailyTotal = value1.data()!['totalExpense'];
     }
-    debugPrint('.. @@ dailyTotal from db : $dailyTotal');
     return ResponseModel(
         status: ResponseStatus.success,
         message: 'Success',
@@ -324,7 +317,6 @@ class UserRepo {
   }
 
   Future<ResponseModel> updateDbValue(String userId) async {
-    debugPrint('...@@ started');
     int dailyTotal = 0;
     QuerySnapshot<Map<String, dynamic>> res = await fireStoreInstance
         .collection(kUsersCollection)
@@ -335,7 +327,6 @@ class UserRepo {
     List<QueryDocumentSnapshot<Map<String, dynamic>>> list = res.docs;
 
     for (var i = 0; i < list.length; i++) {
-      debugPrint('...@@ here @1');
 
       String monthWIthComma = list[i]['month'].toString().split(' ').first;
       String yearValue = list[i]['month'].toString().split(' ').last;
@@ -358,7 +349,6 @@ class UserRepo {
         'monthDocId': monthWithHyphen,
       });
     }
-    debugPrint('.. @@ dailyTotal from db : $dailyTotal');
     return ResponseModel(
         status: ResponseStatus.success,
         message: 'Success',
@@ -369,13 +359,11 @@ class UserRepo {
     LocationResponseModel model;
     final String url = 'https://ipapi.co/json/?key=$key';
     final uri = Uri.parse(url);
-    debugPrint(uri.toString());
     var response = await Dio().getUri(uri, options: Options(headers: {}));
 
     final Map<String, dynamic> responseData = response.data;
 
     model = LocationResponseModel.fromJson(responseData);
-    debugPrint(response.toString());
 
     return model;
   }

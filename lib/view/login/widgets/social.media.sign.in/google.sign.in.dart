@@ -38,7 +38,7 @@ class GoogleSignInButton extends StatelessWidget {
       );
       GoogleSignInAccount? account = await _googleSignIn.signIn();
       if (account != null) {
-        AuthController.googleSignIn(context: context, account: account);
+        AuthController.googleLogin(context: context, account: account);
       }
     } catch (error) {
       debugPrint(error.toString());
