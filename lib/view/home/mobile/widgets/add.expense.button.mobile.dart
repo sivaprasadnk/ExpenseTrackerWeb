@@ -26,7 +26,7 @@ class AddExpenseButtonMobile extends StatelessWidget {
         ),
         child: const Center(
           child: Text(
-            'Add ',
+            'Add \n Expense',
             style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,

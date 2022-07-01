@@ -306,7 +306,7 @@ class UserRepo {
         .get();
 
     if (value1.data() != null) {
-      dailyTotal = value1.data()!['totalExpense'];
+      dailyTotal = value1.data()!['totalExpense'] as int;
     }
     return ResponseModel(
         status: ResponseStatus.success,
@@ -366,8 +366,10 @@ class UserRepo {
   }
 
   Future editExpense(EditExpenseModel model) async {
+    debugPrint('.. @editExpense @repo here 2');
     var userId = model.userId;
     var expense = model.expense;
+
     fireStoreInstance
         .collection(kUsersCollection)
         .doc(userId)
@@ -411,13 +413,22 @@ class UserRepo {
 
   Future<int> getDatewiseTotalAmount(
       {required String userId, required Expense expense}) async {
-    var docSnapshot = await fireStoreInstance
+    int totExpAmt = 0;
+    DocumentSnapshot<Map<String, dynamic>> docSnapshot = await fireStoreInstance
         .collection(kUsersCollection)
         .doc(userId)
         .collection(kExpenseDatesCollection)
         .doc(expense.expenseDate)
         .get();
-    int totExpAmt = docSnapshot['totalExpense'];
+    debugPrint(
+        '.. @getDatewiseTotalAmount @repo $userId ${expense.expenseDate} ');
+
+    if (docSnapshot.data() != null) {
+      Map doc = docSnapshot.data()!;
+      debugPrint('.. @getDatewiseTotalAmount @repo here 1234 ');
+
+      totExpAmt = doc['totalExpense'];
+    }
     return totExpAmt;
   }
 
@@ -429,7 +440,12 @@ class UserRepo {
         .collection(kExpenseCategoriesCollection)
         .doc(expense.categoryName)
         .get();
-    int totExpAmt = docSnapshot['totalAmount'];
+    debugPrint('.. @getCategorywiseTotalAmount @repo here 14');
+
+    var doc = docSnapshot.data();
+    debugPrint('.. @getCategorywiseTotalAmount @repo here 15');
+
+    int totExpAmt = doc!['totalAmount'];
     return totExpAmt;
   }
 }

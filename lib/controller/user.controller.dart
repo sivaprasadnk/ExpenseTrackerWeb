@@ -122,6 +122,8 @@ class UserController {
       required Expense newExpense,
       required BuildContext context}) async {
     try {
+      debugPrint('.. @editExpense @controller here 1');
+
       if (existingExpense.expenseDocId.isEmpty) {
         throw CustomException(' expenseDocId empty !');
       }
@@ -131,8 +133,14 @@ class UserController {
       }
 
       String userId = FirebaseAuth.instance.currentUser!.uid;
+      debugPrint('.. @editExpense @controller here 12 ');
+      debugPrint('.. @categoryName ${existingExpense.categoryName}');
+      debugPrint('.. @expenseDate ${existingExpense.expenseDate}');
+
       int currentDatewiseTotal = await userRepo.getDatewiseTotalAmount(
           userId: userId, expense: existingExpense);
+      debugPrint('.. @editExpense @controller here 13');
+
       var amtToAdd = newExpense.amount - existingExpense.amount;
       amtToAdd = newExpense.amount - existingExpense.amount;
 

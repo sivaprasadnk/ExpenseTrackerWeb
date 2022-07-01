@@ -264,6 +264,8 @@ class _AddExpenseScreenStateDesktop extends State<EditExpenseScreenDesktop> {
 
   validateAndProceed() async {
     try {
+      debugPrint('.. @editExpense @ui here 1');
+
       _formKey.currentState!.save();
       if (expenseAmount == 0) {
         throw CustomException(' Enter amount');
