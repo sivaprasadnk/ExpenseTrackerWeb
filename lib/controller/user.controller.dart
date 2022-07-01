@@ -40,7 +40,8 @@ class UserController {
     var a = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
     var createdDateTime = DateTime.parse(a);
 
-    final String createdDateTimeString = DateFormat('dd-MM-yyyy  kk:mm:ss').format(now);
+    final String createdDateTimeString =
+        DateFormat('dd-MM-yyyy  kk:mm:ss').format(now);
 
     final year = int.parse(DateFormat('yyyy').format(now));
     int dailyTotal =
@@ -116,29 +117,46 @@ class UserController {
     });
   }
 
-   static void editExpense(
-      {required Expense expense, required BuildContext context}) async {
+  static void editExpense(
+      {required Expense existingExpense,
+      required Expense newExpense,
+      required BuildContext context}) async {
     try {
-      if (expense.expenseDocId.isEmpty) {
+      if (existingExpense.expenseDocId.isEmpty) {
         throw CustomException(' expenseDocId empty !');
       }
 
-      if (expense.recentDocId.isEmpty) {
+      if (existingExpense.recentDocId.isEmpty) {
         throw CustomException(' recentDocId empty !');
       }
+
       String userId = FirebaseAuth.instance.currentUser!.uid;
+      int currentDatewiseTotal = await userRepo.getDatewiseTotalAmount(
+          userId: userId, expense: existingExpense);
+      var amtToAdd = newExpense.amount - existingExpense.amount;
+      amtToAdd = newExpense.amount - existingExpense.amount;
+
+      int currentCategorywiseTotal = await userRepo.getCategorywiseTotalAmount(
+          userId: userId, expense: existingExpense);
+
+      var newDateWiseTotal = currentDatewiseTotal + amtToAdd;
+      var newCategoryWiseTotal = currentCategorywiseTotal + amtToAdd;
 
       final DateTime now = DateTime.now();
 
       var a = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
-      var updateDateTime = DateTime.parse(a);
       final String updateDateTimeString =
           DateFormat('dd-MM-yyyy  kk:mm:ss').format(now);
+      var updateDateTime = DateTime.parse(a);
+
       EditExpenseModel model = EditExpenseModel(
-          expense: expense,
-          userId: userId,
-          updateDateTime: updateDateTime,
-          updateDateTimeString: updateDateTimeString);
+        newDateWiseTotal: newDateWiseTotal,
+        newCategoryWiseTotal: newCategoryWiseTotal,
+        expense: newExpense,
+        userId: userId,
+        updateDateTime: updateDateTime,
+        updateDateTimeString: updateDateTimeString,
+      );
       userRepo.editExpense(model);
     } on CustomException catch (exc) {
       Dialogs.showAlertDialog(context: context, description: exc.message);

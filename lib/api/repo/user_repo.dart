@@ -240,10 +240,8 @@ class UserRepo {
               'totalExpense': totalMonthlyExp - expenseAmount,
             });
           });
-       
         });
       });
-
     } catch (err) {
       debugPrint(err.toString());
       return ResponseModel(
@@ -327,7 +325,6 @@ class UserRepo {
     List<QueryDocumentSnapshot<Map<String, dynamic>>> list = res.docs;
 
     for (var i = 0; i < list.length; i++) {
-
       String monthWIthComma = list[i]['month'].toString().split(' ').first;
       String yearValue = list[i]['month'].toString().split(' ').last;
 
@@ -373,7 +370,7 @@ class UserRepo {
     var expense = model.expense;
     fireStoreInstance
         .collection(kUsersCollection)
-        .doc(model.userId)
+        .doc(userId)
         .collection(kRecentExpensesCollection)
         .doc(expense.recentDocId)
         .update(
@@ -390,5 +387,49 @@ class UserRepo {
         .update(
           Expense.toJson(expense),
         );
+
+    fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(userId)
+        .collection(kExpenseDatesNewCollection)
+        .doc(expense.expenseDate)
+        .update({
+      'totalExpense': model.newDateWiseTotal,
+      'updatedDateTime': model.updateDateTimeString,
+    });
+
+    fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(userId)
+        .collection(kExpenseCategoriesCollection)
+        .doc(expense.categoryName)
+        .update({
+      'totalAmount': model.newCategoryWiseTotal,
+      'lastUpdateTime': model.updateDateTimeString,
+    });
+  }
+
+  Future<int> getDatewiseTotalAmount(
+      {required String userId, required Expense expense}) async {
+    var docSnapshot = await fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(userId)
+        .collection(kExpenseDatesCollection)
+        .doc(expense.expenseDate)
+        .get();
+    int totExpAmt = docSnapshot['totalExpense'];
+    return totExpAmt;
+  }
+
+  Future<int> getCategorywiseTotalAmount(
+      {required String userId, required Expense expense}) async {
+    var docSnapshot = await fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(userId)
+        .collection(kExpenseCategoriesCollection)
+        .doc(expense.categoryName)
+        .get();
+    int totExpAmt = docSnapshot['totalAmount'];
+    return totExpAmt;
   }
 }

@@ -20,7 +20,6 @@ class AuthController {
     scopes: ['email', 'https://www.googleapis.com/auth/userinfo.profile'],
   );
 
-  
   static void login(BuildContext context, String email, String password) async {
     try {
       if (email.isEmpty) {
@@ -153,27 +152,13 @@ class AuthController {
           if (response.status == ResponseStatus.error) {
             FirebaseAuthException exc = response.data;
             if (exc.code == 'account-exists-with-different-credential') {
-              Dialogs.showAlertWithPositiveCallback(
-                context: context,
-                description: response.message,
-                callback: () async {
-                  List<String> emailList = await FirebaseAuth.instance
-                      .fetchSignInMethodsForEmail(exc.email!);
-                  if (emailList.first == "google.com") {
-                    final GoogleSignInAccount? googleSignInAccount =
-                        await googleSignIn!.signIn();
-                    if (googleSignInAccount != null) {
-                      googleLogin(
-                          context: context,
-                          account: googleSignInAccount,
-                          link: true,
-                          authCredential: exc.credential);
-                      // authRepo.googleSignIn(
-                      //     googleSignInAccount, true, exc.credential);
-                    }
-                  }
-                },
-              );
+              List<String> emailList = await FirebaseAuth.instance
+                  .fetchSignInMethodsForEmail(exc.email!);
+              if (emailList.first == "google.com") {
+                String message =
+                    "You have used 'Google sign in' option  for this account to use this app. Please select 'Sign In using Google' to login to app";
+                Dialogs.showAlertDialog(context: context, description: message);
+              }
             } else {
               Dialogs.showAlertDialog(
                       context: context, description: response.message)
@@ -192,8 +177,7 @@ class AuthController {
             });
           }
         });
-      } else {
-      }
+      } else {}
     } on CustomException catch (exc) {
       Dialogs.showAlertDialog(context: context, description: exc.message);
     } catch (err) {

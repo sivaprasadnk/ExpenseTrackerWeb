@@ -69,7 +69,6 @@ class _MyAppState extends State<MyApp> {
             title: 'Expense Tracker',
             locale: context.locale,
             supportedLocales: context.supportedLocales,
-            // localizationsDelegates: context.localizationDelegates,
             localizationsDelegates: const [
               GlobalWidgetsLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,

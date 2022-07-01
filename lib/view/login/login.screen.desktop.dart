@@ -1,10 +1,10 @@
-import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/controller/auth.controller.dart';
 import 'package:expense_tracker/cursor.widget.dart';
 import 'package:expense_tracker/view/login/widgets/app.name.text.dart';
 import 'package:expense_tracker/view/login/widgets/auth.title.text.dart';
 import 'package:expense_tracker/view/login/widgets/desktop/dont.have.account.container.desktop.dart';
 import 'package:expense_tracker/view/login/widgets/divider.dart';
+import 'package:expense_tracker/view/login/widgets/footer.text.dart';
 import 'package:expense_tracker/view/login/widgets/login.submit.button.dart';
 import 'package:expense_tracker/view/login/widgets/social.media.sign.in/fb.sign.in.dart';
 import 'package:expense_tracker/view/login/widgets/social.media.sign.in/google.sign.in.dart';
@@ -12,7 +12,6 @@ import 'package:expense_tracker/view/login/widgets/text.field.container.dart';
 import 'package:expense_tracker/view/login/widgets/text.field.title.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginScreenDesktop extends StatefulWidget {
@@ -147,15 +146,15 @@ class _LoginScreenDesktopState extends State<LoginScreenDesktop>
       key: _formKey,
       child: Scaffold(
         extendBody: true,
-        bottomNavigationBar: const Text(
-          kCopyRightText,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Color.fromRGBO(0, 24, 88, 1),
-          ),
-        ),
+        // bottomNavigationBar: const Text(
+        //   kCopyRightText,
+        //   textAlign: TextAlign.center,
+        //   style: TextStyle(
+        //     fontSize: 20,
+        //     fontWeight: FontWeight.bold,
+        //     color: Color.fromRGBO(0, 24, 88, 1),
+        //   ),
+        // ),
         body: Container(
           height: screenSize.height,
           decoration: const BoxDecoration(
@@ -171,8 +170,7 @@ class _LoginScreenDesktopState extends State<LoginScreenDesktop>
                 const SizedBox(
                   height: 30,
                 ),
-                              const AppNameText(),
-
+                const AppNameText(),
                 const SizedBox(height: 30),
                 const AuthTitleText(title: 'Login'),
                 AnimatedBuilder(
@@ -334,6 +332,15 @@ class _LoginScreenDesktopState extends State<LoginScreenDesktop>
                   height: 20,
                 ),
                 const DontHaveAccoutContainerDesktop(),
+                // const Spacer(),
+                const SizedBox(
+                  height: 50,
+                ),
+
+                const FooterText(),
+                const SizedBox(
+                  height: 20,
+                ),
               ],
             ),
           ),
@@ -346,7 +353,6 @@ class _LoginScreenDesktopState extends State<LoginScreenDesktop>
     _formKey.currentState!.save();
     AuthController.login(context, email.trim(), password.trim());
   }
-
 }
 
 

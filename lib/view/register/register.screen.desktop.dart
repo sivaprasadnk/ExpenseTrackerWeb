@@ -4,6 +4,7 @@ import 'package:expense_tracker/cursor.widget.dart';
 import 'package:expense_tracker/view/login/widgets/auth.title.text.dart';
 import 'package:expense_tracker/view/login/widgets/desktop/have.an.account.container.desktop.dart';
 import 'package:expense_tracker/view/login/widgets/divider.dart';
+import 'package:expense_tracker/view/login/widgets/footer.text.dart';
 import 'package:expense_tracker/view/login/widgets/login.submit.button.dart';
 import 'package:expense_tracker/view/login/widgets/social.media.sign.in/fb.sign.in.dart';
 import 'package:expense_tracker/view/login/widgets/social.media.sign.in/google.sign.in.dart';
@@ -143,15 +144,7 @@ class _RegisterScreenDesktopState extends State<RegisterScreenDesktop>
 
     return Scaffold(
       extendBody: true,
-      bottomNavigationBar: const Text(
-        kCopyRightText,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-          color: Color.fromRGBO(0, 24, 88, 1),
-        ),
-      ),
+      
       body: Form(
         key: _formKey,
         child: Container(
@@ -319,6 +312,14 @@ class _RegisterScreenDesktopState extends State<RegisterScreenDesktop>
                 ),
                 const SizedBox(height: 20),
                 const HaveAccoutContainerDesktop(),
+                 const SizedBox(
+                  height: 50,
+                ),
+
+                const FooterText(),
+                const SizedBox(
+                  height: 20,
+                ),
               ],
             ),
           ),
