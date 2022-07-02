@@ -122,8 +122,6 @@ class UserController {
       required Expense newExpense,
       required BuildContext context}) async {
     try {
-      debugPrint('.. @editExpense @controller here 1');
-
       if (existingExpense.expenseDocId.isEmpty) {
         throw CustomException(' expenseDocId empty !');
       }
@@ -131,15 +129,15 @@ class UserController {
       if (existingExpense.recentDocId.isEmpty) {
         throw CustomException(' recentDocId empty !');
       }
+      if (existingExpense.createdDateTimeString.isEmpty) {
+        throw CustomException(' createdDateTimeString empty !');
+      }
+      Loading.showLoading(context);
 
       String userId = FirebaseAuth.instance.currentUser!.uid;
-      debugPrint('.. @editExpense @controller here 12 ');
-      debugPrint('.. @categoryName ${existingExpense.categoryName}');
-      debugPrint('.. @expenseDate ${existingExpense.expenseDate}');
 
       int currentDatewiseTotal = await userRepo.getDatewiseTotalAmount(
           userId: userId, expense: existingExpense);
-      debugPrint('.. @editExpense @controller here 13');
 
       var amtToAdd = newExpense.amount - existingExpense.amount;
       amtToAdd = newExpense.amount - existingExpense.amount;
@@ -149,6 +147,13 @@ class UserController {
 
       var newDateWiseTotal = currentDatewiseTotal + amtToAdd;
       var newCategoryWiseTotal = currentCategorywiseTotal + amtToAdd;
+
+
+      debugPrint('.. @@currentCategorywiseTotal : $currentCategorywiseTotal ');
+      debugPrint('.. @@currentDatewiseTotal : $currentDatewiseTotal ');
+
+      debugPrint('.. @@newCategoryWiseTotal : $newCategoryWiseTotal ');
+      debugPrint('.. @@newDateWiseTotal : $newDateWiseTotal ');
 
       final DateTime now = DateTime.now();
 
@@ -165,7 +170,22 @@ class UserController {
         updateDateTime: updateDateTime,
         updateDateTimeString: updateDateTimeString,
       );
-      userRepo.editExpense(model);
+      ResponseModel response = await userRepo.editExpense(model);
+      if (response.status == ResponseStatus.error) {
+        Dialogs.showAlertDialog(
+            context: context, description: response.message);
+      } else {
+        var total = int.parse(response.data);
+        var provider = Provider.of<HomeProvider>(context, listen: false);
+        provider.updateDailyTotalExpense(total);
+        userRepo.getRecentExpense().then((recentExpList) {
+          provider.updateRecentList(recentExpList);
+          Future.delayed(const Duration(seconds: 2)).then((value) {
+            Dialogs.showAlertDialogAndNavigateToHome(
+                context: context, description: 'Expense updated !');
+          });
+        });
+      }
     } on CustomException catch (exc) {
       Dialogs.showAlertDialog(context: context, description: exc.message);
     } catch (err) {

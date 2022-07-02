@@ -1,5 +1,5 @@
 const String kUsersCollection = 'users';
-const String kExpenseDatesCollection = 'expense-dates';
+// const String kExpenseDatesCollection = 'expense-dates';
 const String kExpenseCollection = 'expense';
 const String k = 'expense-dates';
 const String kRegisterScreen = 'Register';

@@ -8,7 +8,6 @@ import 'package:expense_tracker/view/add_expense/widgets/submit.button.dart';
 import 'package:expense_tracker/view/add_expense/widgets/textfield.container.dart';
 import 'package:expense_tracker/view/add_expense/widgets/textfield.title.dart';
 import 'package:expense_tracker/view/desktop.view.dart';
-import 'package:expense_tracker/view/select.category/select.category.screen.desktop2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -197,25 +196,27 @@ class _AddExpenseScreenStateDesktop extends State<EditExpenseScreenDesktop> {
                         const SizedBox(
                           width: 50,
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push<CategoryDoc>(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) =>
-                                            const SelectCategoryScreenDesktop2()))
-                                .then((category) {
-                              if (category != null) {
-                                setState(() {
-                                  selectedCategory = category;
-                                });
-                              }
-                            });
-                          },
-                          child: const Icon(
-                            Icons.edit,
-                          ),
-                        )
+                        // const TextFieldTitle(title: 'Details'),
+
+                        // GestureDetector(
+                        //   onTap: () {
+                        //     Navigator.push<CategoryDoc>(
+                        //             context,
+                        //             MaterialPageRoute(
+                        //                 builder: (_) =>
+                        //                     const SelectCategoryScreenDesktop2()))
+                        //         .then((category) {
+                        //       if (category != null) {
+                        //         setState(() {
+                        //           selectedCategory = category;
+                        //         });
+                        //       }
+                        //     });
+                        //   },
+                        //   child: const Icon(
+                        //     Icons.edit,
+                        //   ),
+                        // )
                       ],
                     ),
                   ),

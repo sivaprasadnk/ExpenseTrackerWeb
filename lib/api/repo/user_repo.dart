@@ -18,9 +18,7 @@ class UserRepo {
   final fireStoreInstance = FirebaseFirestore.instance;
 
   Future<ResponseModel> addExpense(AddExpenseModel request) async {
-    String expenseDocId = "",
-        recentDocId = "",
-        categoryDocId = request.expense.categoryName;
+    String expenseDocId = "", recentDocId = "";
 
     Expense expense = request.expense;
 
@@ -89,25 +87,13 @@ class UserRepo {
       'updatedDateTime': request.createdDateTimeString,
     });
 
-    /// setting  expense category
-
-    // await fireStoreInstance
-    //     .collection(kUsersCollection)
-    //     .doc(request.userId)
-    //     .collection(kExpenseCategoriesCollection)
-    //     .doc(expense.categoryName)
-    //     .set({
-    //   'lastUpdateTime': request.createdDateTimeString,
-    //   'categoryName': expense.categoryName,
-    //   'categoryId': expense.categoryId,
-    // });
-
     DocumentSnapshot<Map<String, dynamic>> categoryDoc = await fireStoreInstance
         .collection(kUsersCollection)
         .doc(request.userId)
         .collection(kExpenseCategoriesCollection)
         .doc(expense.categoryName)
         .get();
+
     int totAmt = 0;
     if (categoryDoc.data() != null) {
       totAmt = categoryDoc.data()!['totalAmount'] ?? 0;
@@ -175,7 +161,10 @@ class UserRepo {
     });
 
     return ResponseModel(
-        status: ResponseStatus.success, message: 'Success', data: '');
+      status: ResponseStatus.success,
+      message: 'Success',
+      data: '',
+    );
   }
 
   Future<ResponseModel> deleteExpense(String recentDocId, String expenseMonth,
@@ -365,8 +354,7 @@ class UserRepo {
     return model;
   }
 
-  Future editExpense(EditExpenseModel model) async {
-    debugPrint('.. @editExpense @repo here 2');
+  Future<ResponseModel> editExpense(EditExpenseModel model) async {
     var userId = model.userId;
     var expense = model.expense;
 
@@ -389,7 +377,7 @@ class UserRepo {
         .update(
           Expense.toJson(expense),
         );
-
+    debugPrint('.. model.newDateWiseTotal : ${model.newDateWiseTotal}');
     fireStoreInstance
         .collection(kUsersCollection)
         .doc(userId)
@@ -409,6 +397,35 @@ class UserRepo {
       'totalAmount': model.newCategoryWiseTotal,
       'lastUpdateTime': model.updateDateTimeString,
     });
+
+    fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(userId)
+        .collection(kExpenseCategoriesCollection)
+        .doc(expense.categoryName)
+        .collection(kExpenseCollection)
+        .doc(expense.createdDateTimeString)
+        .update(Expense.toJson(expense));
+
+    final DateTime now = DateTime.now();
+
+    var date = DateFormat('dd-MM-yyyy').format(now);
+    int dailyTotal = 0;
+    var value1 = await fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(userId)
+        .collection(kExpenseDatesNewCollection)
+        .doc(date)
+        .get();
+
+    if (value1.data() != null) {
+      dailyTotal = value1.data()!['totalExpense'] as int;
+    }
+
+    return ResponseModel(
+        status: ResponseStatus.success,
+        message: 'Success',
+        data: dailyTotal.toString());
   }
 
   Future<int> getDatewiseTotalAmount(
@@ -417,15 +434,12 @@ class UserRepo {
     DocumentSnapshot<Map<String, dynamic>> docSnapshot = await fireStoreInstance
         .collection(kUsersCollection)
         .doc(userId)
-        .collection(kExpenseDatesCollection)
+        .collection(kExpenseDatesNewCollection)
         .doc(expense.expenseDate)
         .get();
-    debugPrint(
-        '.. @getDatewiseTotalAmount @repo $userId ${expense.expenseDate} ');
 
     if (docSnapshot.data() != null) {
       Map doc = docSnapshot.data()!;
-      debugPrint('.. @getDatewiseTotalAmount @repo here 1234 ');
 
       totExpAmt = doc['totalExpense'];
     }
@@ -440,10 +454,8 @@ class UserRepo {
         .collection(kExpenseCategoriesCollection)
         .doc(expense.categoryName)
         .get();
-    debugPrint('.. @getCategorywiseTotalAmount @repo here 14');
 
     var doc = docSnapshot.data();
-    debugPrint('.. @getCategorywiseTotalAmount @repo here 15');
 
     int totExpAmt = doc!['totalAmount'];
     return totExpAmt;
