@@ -18,6 +18,8 @@ class HomeScreenMobile extends StatefulWidget {
 
 class _HomeScreenMobileState extends State<HomeScreenMobile>
     with TickerProviderStateMixin {
+  DateTime now = DateTime.now();
+
   late AnimationController _controller;
   late Animation<double> _todaysTextContainerOpacity;
   late Animation<double> _expenseByDateOpacity;
@@ -131,6 +133,13 @@ class _HomeScreenMobileState extends State<HomeScreenMobile>
     const slideDuration = Duration(milliseconds: 100);
     final size = MediaQuery.of(context).size;
     final width = size.width;
+    var time = now.hour;
+
+    var wishText = time < 12
+        ? "Good morning !"
+        : time == 12
+            ? "Good noon !"
+            : 'Good evening !';
     return MobileView(
       isHome: true,
       appBarTitle: '',
@@ -139,11 +148,21 @@ class _HomeScreenMobileState extends State<HomeScreenMobile>
         animation: _controller,
         builder: (_, child) {
           return Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
+                Text(
+                  wishText,
+                  style: const TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
                 AnimatedOpacity(
                   duration: opacityDuration,
                   opacity: _todaysTextContainerOpacity.value,

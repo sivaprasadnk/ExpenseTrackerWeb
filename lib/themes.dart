@@ -8,6 +8,9 @@ enum AppTheme {
   green,
 
   brown,
+  neonBlue,
+  neonGreen,
+  neonPink,
 }
 final appThemeData = {
   /// first
@@ -140,6 +143,95 @@ final appThemeData = {
     secondaryHeaderColor: const Color.fromARGB(255, 150, 101, 73),
 
     scaffoldBackgroundColor: const Color.fromRGBO(212, 236, 221, 1),
+  ),
+  AppTheme.neonBlue: ThemeData(
+    pageTransitionsTheme: PageTransitionsTheme(
+      builders: kIsWeb
+          ? {
+              // No animations for every OS if the app running on the web
+              for (final platform in TargetPlatform.values)
+                platform: const NoTransitionsBuilder(),
+            }
+          : const {
+              // handel other platforms you are targeting
+            },
+    ),
+    drawerTheme: const DrawerThemeData(
+      backgroundColor: Color.fromRGBO(8, 42, 58, 1),
+    ),
+    brightness: Brightness.light,
+    cardColor: const Color.fromARGB(211, 0, 107, 246),
+    primaryColor: const Color.fromRGBO(0, 230, 246, 1),
+    // hoverColor: ,
+    splashColor: const Color.fromARGB(255, 55, 149, 168),
+    textTheme: const TextTheme(
+      bodyMedium: TextStyle(
+        color: Color.fromRGBO(0, 230, 246, 1),
+        fontFamily: 'Rajdhani',
+      ),
+    ),
+    secondaryHeaderColor: const Color.fromARGB(0, 230, 246, 1),
+
+    scaffoldBackgroundColor: const Color.fromRGBO(8, 42, 58, 1),
+  ),
+  AppTheme.neonGreen: ThemeData(
+    pageTransitionsTheme: PageTransitionsTheme(
+      builders: kIsWeb
+          ? {
+              // No animations for every OS if the app running on the web
+              for (final platform in TargetPlatform.values)
+                platform: const NoTransitionsBuilder(),
+            }
+          : const {
+              // handel other platforms you are targeting
+            },
+    ),
+    drawerTheme: const DrawerThemeData(
+      backgroundColor: Color.fromRGBO(25, 41, 32, 1),
+    ),
+    brightness: Brightness.light,
+    cardColor: const Color.fromARGB(211, 0, 107, 246),
+    primaryColor: const Color.fromRGBO(117, 253, 146, 1),
+    // hoverColor: ,
+    splashColor: const Color.fromARGB(255, 55, 149, 168),
+    textTheme: const TextTheme(
+      bodyMedium: TextStyle(
+        color: Color.fromRGBO(0, 230, 246, 1),
+        fontFamily: 'Rajdhani',
+      ),
+    ),
+    secondaryHeaderColor: const Color.fromARGB(0, 230, 246, 1),
+
+    scaffoldBackgroundColor: const Color.fromRGBO(25, 41, 32, 1),
+  ),
+  AppTheme.neonPink: ThemeData(
+    pageTransitionsTheme: PageTransitionsTheme(
+      builders: kIsWeb
+          ? {
+              // No animations for every OS if the app running on the web
+              for (final platform in TargetPlatform.values)
+                platform: const NoTransitionsBuilder(),
+            }
+          : const {
+              // handel other platforms you are targeting
+            },
+    ),
+    drawerTheme: const DrawerThemeData(
+      backgroundColor: Color.fromRGBO(105, 38, 92, 1),
+    ),
+    brightness: Brightness.light,
+    cardColor: const Color.fromARGB(211, 0, 107, 246),
+    primaryColor: const Color.fromRGBO(238, 49, 144, 1),
+    splashColor: const Color.fromARGB(255, 55, 149, 168),
+    textTheme: const TextTheme(
+      bodyMedium: TextStyle(
+        color: Color.fromRGBO(238, 49, 144, 1),
+        fontFamily: 'Rajdhani',
+      ),
+    ),
+    secondaryHeaderColor: const Color.fromARGB(0, 230, 246, 1),
+
+    scaffoldBackgroundColor: const Color.fromRGBO(105, 38, 92, 1),
   ),
 };
 

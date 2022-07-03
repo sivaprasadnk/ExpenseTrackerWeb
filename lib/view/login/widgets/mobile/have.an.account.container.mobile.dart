@@ -12,7 +12,7 @@ class HaveAccoutContainerMobile extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 50,
-      margin: const EdgeInsets.symmetric(horizontal: 50),
+      margin: const EdgeInsets.symmetric(horizontal: 30),
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.black,

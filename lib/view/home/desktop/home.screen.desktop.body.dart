@@ -17,6 +17,7 @@ class HomeScreenDesktopBody extends StatefulWidget {
 
 class _HomeScreenDesktopBodyState extends State<HomeScreenDesktopBody>
     with TickerProviderStateMixin {
+  DateTime now = DateTime.now();
   late AnimationController _controller;
   late Animation<double> _todaysTextContainerOpacity;
   late Animation<double> _expenseByDateOpacity;
@@ -128,88 +129,110 @@ class _HomeScreenDesktopBodyState extends State<HomeScreenDesktopBody>
   Widget build(BuildContext context) {
     const opacityDuration = Duration(milliseconds: 900);
     const slideDuration = Duration(milliseconds: 100);
+    var time = now.hour;
+    var wishText = time < 12
+        ? "Good morning !"
+        : time == 12
+            ? "Good noon !"
+            : 'Good evening !';
     return AnimatedBuilder(
       animation: _controller,
       builder: (_, child) {
         return Container(
           height: widget.constraints.maxHeight,
-          decoration: const BoxDecoration(),
+          alignment: Alignment.center,
+          // color: Colors.green,
+          // decoration: const BoxDecoration(),
           child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Center(
-              child: SizedBox(
-                width: 430,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    AnimatedOpacity(
-                      duration: opacityDuration,
-                      opacity: _todaysTextContainerOpacity.value,
-                      child: AnimatedSlide(
-                        duration: slideDuration,
-                        offset: _todaysTextContainerSlide.value,
-                        child: const TodaysTotalExpenseContainer(),
+            padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+            child: SizedBox(
+              width: 430,
+              child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+
+                children: [
+                  Text(
+                        wishText,
+                        style: const TextStyle(
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    SizedBox(
-                      height: 100,
-                      width: double.infinity,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          // const SizedBox(
-                          //   width: 20,
-                          // ),
-                          AnimatedOpacity(
-                            duration: opacityDuration,
-                            opacity: _expenseByDateOpacity.value,
-                            child: AnimatedSlide(
-                              duration: slideDuration,
-                              offset: _expenseByDateSlide.value,
-                              child: ViewExpensesByDateContainer(
-                                width: widget.constraints.maxWidth,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      
+                      const SizedBox(height: 10),
+                      AnimatedOpacity(
+                        duration: opacityDuration,
+                        opacity: _todaysTextContainerOpacity.value,
+                        child: AnimatedSlide(
+                          duration: slideDuration,
+                          offset: _todaysTextContainerSlide.value,
+                          child: const TodaysTotalExpenseContainer(),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      SizedBox(
+                        height: 100,
+                        width: double.infinity,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            // const SizedBox(
+                            //   width: 20,
+                            // ),
+                            AnimatedOpacity(
+                              duration: opacityDuration,
+                              opacity: _expenseByDateOpacity.value,
+                              child: AnimatedSlide(
+                                duration: slideDuration,
+                                offset: _expenseByDateSlide.value,
+                                child: ViewExpensesByDateContainer(
+                                  width: widget.constraints.maxWidth,
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          AnimatedOpacity(
-                            duration: opacityDuration,
-                            opacity: _expenseByCategoryOpacity.value,
-                            child: AnimatedSlide(
-                              duration: slideDuration,
-                              offset: _expenseByCategorySlide.value,
-                              child: const ViewExpenseByCategoryContainer(),
+                            const SizedBox(
+                              width: 20,
                             ),
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          AnimatedOpacity(
-                            duration: opacityDuration,
-                            opacity: _addExpenseOpacity.value,
-                            child: AnimatedSlide(
-                              duration: slideDuration,
-                              offset: _addExpenseSlide.value,
-                              child: const AddExpenseButtonDesktop(),
+                            AnimatedOpacity(
+                              duration: opacityDuration,
+                              opacity: _expenseByCategoryOpacity.value,
+                              child: AnimatedSlide(
+                                duration: slideDuration,
+                                offset: _expenseByCategorySlide.value,
+                                child: const ViewExpenseByCategoryContainer(),
+                              ),
                             ),
-                          ),
-                        ],
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            AnimatedOpacity(
+                              duration: opacityDuration,
+                              opacity: _addExpenseOpacity.value,
+                              child: AnimatedSlide(
+                                duration: slideDuration,
+                                offset: _addExpenseSlide.value,
+                                child: const AddExpenseButtonDesktop(),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const RecentExpensesText(),
-                    const RecentExpensesListContainerDesktop(),
-                  ],
-                ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                     
+                    ],
+                  ),
+                   const RecentExpensesText(),
+                      const RecentExpensesListContainerDesktop(),
+                ],
               ),
             ),
           ),

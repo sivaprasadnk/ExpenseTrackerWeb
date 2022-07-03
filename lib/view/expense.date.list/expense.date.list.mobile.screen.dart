@@ -183,7 +183,8 @@ class _ExpenseByDateMobileScreenState extends State<ExpenseByDateMobileScreen> {
                     : Center(
                         child: NeumorphicLoader(
                           size: 75,
-                          borderColor: Theme.of(context).primaryColor,
+                          loaderColor: primaryColor,
+                          borderColor: primaryColor,
                         ),
                       );
               },

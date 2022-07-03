@@ -1,3 +1,4 @@
+import 'package:expense_tracker/utils/translate.extension.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/daily.total.text.dart';
 import 'package:expense_tracker/view/todays.expense.list/todays.expense.list.desktop.screen.dart';
 import 'package:flutter/material.dart';
@@ -74,6 +75,6 @@ class _TodaysTotalExpenseContainerState
           ),
         )
       ],
-    );
+    ).translateOnHover;
   }
 }

@@ -12,6 +12,7 @@ import 'package:expense_tracker/view/login/widgets/text.field.container.dart';
 import 'package:expense_tracker/view/login/widgets/text.field.title.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../login/widgets/app.name.text.dart';
 
@@ -39,10 +40,16 @@ class _RegisterScreenDesktopState extends State<RegisterScreenDesktop>
   bool showPassword = false;
 
   FirebaseAuth auth = FirebaseAuth.instance;
+   final GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: ['email', 'https://www.googleapis.com/auth/userinfo.profile'],
+  );
 
   @override
   void initState() {
     super.initState();
+    // _googleSignIn = GoogleSignIn(
+    //   scopes: ['email', 'https://www.googleapis.com/auth/userinfo.profile'],
+    // );
     _controller = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
@@ -300,8 +307,8 @@ class _RegisterScreenDesktopState extends State<RegisterScreenDesktop>
                           const SizedBox(height: 10),
                           const DividerText(),
                           const SizedBox(height: 10),
-                          const GoogleSignInButton(
-                              title: 'Sign Up with Google'),
+                           GoogleSignInButton(
+                              title: 'Sign Up with Google', googleSignIn: _googleSignIn,),
                           const SizedBox(height: 10),
                           const FbSignInButton(title: 'Sign Up with facebook'),
                           const SizedBox(height: 10),

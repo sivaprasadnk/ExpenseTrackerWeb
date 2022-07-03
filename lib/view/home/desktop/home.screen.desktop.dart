@@ -24,33 +24,34 @@ class _HomeScreenDesktopState extends State<HomeScreenDesktop> {
       backgroundColor: theme.scaffoldBackgroundColor,
       drawerEnableOpenDragGesture: false,
       key: _key,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        title: const AppBarTitleDesktop(),
-        centerTitle: false,
-        actions: [
-          CursorWidget(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => const SearchScreenDesktop()));
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child: Icon(
-                Icons.search,
-                color: theme.brightness == Brightness.dark
-                    ? Colors.white
-                    : Colors.black,
+      appBar: PreferredSize(
+        preferredSize: Size(MediaQuery.of(context).size.width, 40),
+        child: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          title: const AppBarTitleDesktop(),
+          centerTitle: false,
+          actions: [
+            CursorWidget(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => const SearchScreenDesktop()));
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: Icon(
+                  Icons.search,
+                  color: theme.primaryColor,
+                ),
               ),
             ),
-          ),
-          DrawerIcon(onTap: () {
-            _key.currentState!.openEndDrawer();
-          }),
-        ],
+            DrawerIcon(onTap: () {
+              _key.currentState!.openEndDrawer();
+            }),
+          ],
+        ),
       ),
       endDrawer: const DrawerScreen(),
       body: LayoutBuilder(

@@ -38,66 +38,66 @@ class _MobileViewState extends State<MobileView> {
       backgroundColor: theme.scaffoldBackgroundColor,
       drawerEnableOpenDragGesture: false,
       key: _key,
-      appBar: AppBar(
-        leadingWidth: 0,
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        titleSpacing: 0,
-        centerTitle: false,
-        title: Padding(
-            padding: const EdgeInsets.only(top: 5),
-            child: widget.isHome
-                ? GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, HomeScreenMobile.routeName, (r) => false);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 13),
-                      child: Text(
-                        'EXPENSE TRACKER',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'Rajdhani',
-                          fontWeight: FontWeight.bold,
-                          color: theme.textTheme.bodyMedium!.color,
+      appBar: PreferredSize(
+        preferredSize: widget.isHome
+            ? Size(MediaQuery.of(context).size.width, 50)
+            : Size(MediaQuery.of(context).size.width, 55),
+        child: AppBar(
+          leadingWidth: 0,
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          titleSpacing: 0,
+          centerTitle: false,
+          title: Padding(
+              padding: const EdgeInsets.only(top: 5),
+              child: widget.isHome
+                  ? GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, HomeScreenMobile.routeName, (r) => false);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 13),
+                        child: Text(
+                          'EXPENSE TRACKER',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: 'Rajdhani',
+                            fontWeight: FontWeight.bold,
+                            color: theme.textTheme.bodyMedium!.color,
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                : const BackArrowTitleWidget(isHome: false)
-            ),
-        actions: [
-          if (widget.showSearchIcon)
-            CursorWidget(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => const SearchScreenMobile()));
-              },
-              child: Icon(
-                Icons.search,
-                color: theme.brightness == Brightness.dark
-                    ? Colors.white
-                    : Colors.black,
+                    )
+                  : const BackArrowTitleWidget(isHome: false)),
+          actions: [
+            if (widget.showSearchIcon)
+              CursorWidget(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const SearchScreenMobile()));
+                },
+                child: Icon(
+                  Icons.search,
+                  color: theme.primaryColor,
+                ),
+              ),
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: GestureDetector(
+                onTap: () {
+                  _key.currentState!.openEndDrawer();
+                },
+                child: Icon(
+                  Icons.menu,
+                  color: theme.primaryColor,
+                ),
               ),
             ),
-          Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: GestureDetector(
-              onTap: () {
-                _key.currentState!.openEndDrawer();
-              },
-              child: Icon(
-                Icons.menu,
-                color: theme.brightness == Brightness.dark
-                    ? Colors.white
-                    : Colors.black,
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
       endDrawer: const Drawer(
         child: DrawerScreen(),
@@ -112,9 +112,14 @@ class _MobileViewState extends State<MobileView> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    if (widget.appBarTitle.trim().isNotEmpty)
+                      const SizedBox(
+                        height: 10,
+                      )
+                    else
+                      const SizedBox(
+                        height: 8,
+                      ),
                     if (widget.appBarTitle.trim().isNotEmpty)
                       TitleWidget(
                         title: widget.appBarTitle,

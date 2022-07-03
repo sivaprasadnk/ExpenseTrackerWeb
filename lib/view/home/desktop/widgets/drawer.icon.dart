@@ -17,9 +17,7 @@ class DrawerIcon extends StatelessWidget {
         },
         child: Icon(
           Icons.menu,
-          color: Theme.of(context).brightness == Brightness.dark
-              ? Colors.white
-              : Colors.black,
+          color:Theme.of(context).primaryColor,
         ),
       ),
     );

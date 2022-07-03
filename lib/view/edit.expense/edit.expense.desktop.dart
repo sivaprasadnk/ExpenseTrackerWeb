@@ -76,7 +76,7 @@ class _AddExpenseScreenStateDesktop extends State<EditExpenseScreenDesktop> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        date,
+                        widget.expense.expenseDate,
                         style: const TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
@@ -186,37 +186,17 @@ class _AddExpenseScreenStateDesktop extends State<EditExpenseScreenDesktop> {
                         const SizedBox(
                           width: 30,
                         ),
-                        Icon(CategoryDoc.getIcon(selectedCategory.name)),
+                        Icon(CategoryDoc.getIcon(widget.expense.categoryName)),
                         const SizedBox(
                           width: 20,
                         ),
                         TextFieldTitle(
-                          title: selectedCategory.name,
+                          title: widget.expense.categoryName,
                         ),
                         const SizedBox(
                           width: 50,
                         ),
-                        // const TextFieldTitle(title: 'Details'),
-
-                        // GestureDetector(
-                        //   onTap: () {
-                        //     Navigator.push<CategoryDoc>(
-                        //             context,
-                        //             MaterialPageRoute(
-                        //                 builder: (_) =>
-                        //                     const SelectCategoryScreenDesktop2()))
-                        //         .then((category) {
-                        //       if (category != null) {
-                        //         setState(() {
-                        //           selectedCategory = category;
-                        //         });
-                        //       }
-                        //     });
-                        //   },
-                        //   child: const Icon(
-                        //     Icons.edit,
-                        //   ),
-                        // )
+                        
                       ],
                     ),
                   ),
@@ -265,7 +245,6 @@ class _AddExpenseScreenStateDesktop extends State<EditExpenseScreenDesktop> {
 
   validateAndProceed() async {
     try {
-      debugPrint('.. @editExpense @ui here 1');
 
       _formKey.currentState!.save();
       if (expenseAmount == 0) {
@@ -280,7 +259,6 @@ class _AddExpenseScreenStateDesktop extends State<EditExpenseScreenDesktop> {
       }
 
       var exp = widget.expense;
-      // var existingExpense = widget.expense;
       var newExpens = Expense(
         expenseTitle: expenseTitle,
         categoryId: exp.categoryId,

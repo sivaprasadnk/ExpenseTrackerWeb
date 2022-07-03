@@ -95,27 +95,28 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                   ),
                   Container(
                     height: 40,
-                    width: 200,
+                    width: 300,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
                         color: primaryColor,
                       ),
                     ),
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10, right: 10),
-                        child: TextFormField(
-                          keyboardType: TextInputType.number,
-                          onSaved: (val) {
-                            if (val != null && val.trim().isNotEmpty) {
-                              expenseAmount = int.parse(val.toString());
-                            }
-                          },
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            isDense: true,
-                          ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      child: TextFormField(
+                        style: TextStyle(
+                          color: primaryColor
+                        ),
+                        keyboardType: TextInputType.number,
+                        onSaved: (val) {
+                          if (val != null && val.trim().isNotEmpty) {
+                            expenseAmount = int.parse(val.toString());
+                          }
+                        },
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          isDense: true,
                         ),
                       ),
                     ),
@@ -124,12 +125,12 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
               ),
               const SizedBox(height: 20),
               Padding(
-                padding: const EdgeInsets.only(left: 50),
+                padding: const EdgeInsets.only(left: 10),
                 child: Row(
                   children: [
                     const TextFieldTitle(title: 'Mode'),
                     const SizedBox(
-                      width: 23,
+                      width: 13,
                     ),
                     Row(
                       children: [
@@ -177,7 +178,7 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                   ),
                   Container(
                     height: 40,
-                    width: 200,
+                    width: 300,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
@@ -188,6 +189,9 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10, right: 10),
                         child: TextFormField(
+                          style: TextStyle(
+                            color: primaryColor
+                          ),
                           inputFormatters: [
                             LengthLimitingTextInputFormatter(20),
                           ],
@@ -206,7 +210,7 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
               ),
               const SizedBox(height: 20),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   const Text(
                     'Category :',
@@ -271,7 +275,7 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                   ),
                   Container(
                     height: 150,
-                    width: 200,
+                    width: 300,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
@@ -281,6 +285,9 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 10, right: 10),
                       child: TextFormField(
+                        style: TextStyle(
+                            color: primaryColor
+                          ),
                         onSaved: (val) {
                           expenseDetails = val.toString();
                         },

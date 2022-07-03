@@ -90,6 +90,9 @@ class _ExpenseListByDateMobileScreenState
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            const SizedBox(
+              height: 5,
+            ),
             TotalExpenseContainerMobile(
               totalExpense: widget.expenseDateItem.totalExpense,
               title: widget.expenseDateItem.date,

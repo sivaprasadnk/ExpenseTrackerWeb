@@ -1,4 +1,3 @@
-import 'package:expense_tracker/view/sample.text.dart';
 import 'package:flutter/material.dart';
 
 class SettingsTextContainer extends StatelessWidget {
@@ -25,12 +24,13 @@ class SettingsTextContainer extends StatelessWidget {
         child: Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: const [
+            children: [
               Icon(
                 Icons.settings,
                 size: 45,
+                color: color,
               ),
-              Text(
+              const Text(
                 'Settings',
                 style: TextStyle(
                   fontSize: 40,

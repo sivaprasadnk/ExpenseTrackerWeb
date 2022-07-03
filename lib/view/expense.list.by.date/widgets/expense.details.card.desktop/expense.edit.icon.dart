@@ -1,6 +1,8 @@
 import 'package:expense_tracker/model/expense.model.dart';
 import 'package:expense_tracker/utils/dialog.dart';
 import 'package:expense_tracker/view/edit.expense/edit.expense.desktop.dart';
+import 'package:expense_tracker/view/edit.expense/edit.expense.mobile.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class ExpenseEditIcon extends StatelessWidget {
@@ -29,13 +31,21 @@ class ExpenseEditIcon extends StatelessWidget {
                   context: context,
                   description: 'recent doc id is empty !. Cannot edit');
             } else {
-              Navigator.push(context, MaterialPageRoute(builder: ((context) {
-                return EditExpenseScreenDesktop(
-                  expense: expense,
-                );
-              })));
-              // Dialogs.showAlertDialog(
-              //     context: context, description: 'Editing possible');
+              if ((defaultTargetPlatform == TargetPlatform.android ||
+                  defaultTargetPlatform == TargetPlatform.iOS)) {
+                Navigator.push(context, MaterialPageRoute(builder: ((context) {
+                  return EditExpenseScreenMobile(
+                    expense: expense,
+                  );
+                })));
+              } else {
+                Navigator.push(context, MaterialPageRoute(builder: ((context) {
+                  return EditExpenseScreenDesktop(
+                    expense: expense,
+                  );
+                })));
+              }
+
             }
           },
           child: Container(

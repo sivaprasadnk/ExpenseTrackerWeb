@@ -45,7 +45,7 @@ class ExpenseDetailsCardMobile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   const SizedBox(
-                    height: 8,
+                    height: 12,
                   ),
                   ExpenseDetailsText(
                     details: expense.details,

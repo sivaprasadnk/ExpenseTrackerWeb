@@ -1,4 +1,3 @@
-import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/controller/auth.controller.dart';
 import 'package:expense_tracker/cursor.widget.dart';
 import 'package:expense_tracker/view/login/widgets/app.name.text.dart';
@@ -12,7 +11,6 @@ import 'package:expense_tracker/view/login/widgets/text.field.container.dart';
 import 'package:expense_tracker/view/login/widgets/text.field.title.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'widgets/footer.text.dart';
@@ -40,13 +38,13 @@ class _LoginScreenMobileState extends State<LoginScreenMobile>
   String password = "";
   bool showPassword = false;
   FirebaseAuth auth = FirebaseAuth.instance;
-  GoogleSignIn? _googleSignIn;
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: ['email', 'https://www.googleapis.com/auth/userinfo.profile'],
+  );
   @override
   void initState() {
     super.initState();
-    _googleSignIn = GoogleSignIn(
-      scopes: ['email', 'https://www.googleapis.com/auth/userinfo.profile'],
-    );
+    // _googleSignIn =
     _controller = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
@@ -148,6 +146,7 @@ class _LoginScreenMobileState extends State<LoginScreenMobile>
       key: _formKey,
       child: Scaffold(
         extendBody: true,
+        resizeToAvoidBottomInset: true,
         body: Container(
           height: screenSize.height,
           decoration: const BoxDecoration(
@@ -161,7 +160,7 @@ class _LoginScreenMobileState extends State<LoginScreenMobile>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(
-                  height: 30,
+                  height: 10,
                 ),
                 const AppNameText(),
                 const SizedBox(height: 30),
@@ -171,7 +170,7 @@ class _LoginScreenMobileState extends State<LoginScreenMobile>
                   builder: (_, child) {
                     return Container(
                       width: double.infinity,
-                      margin: const EdgeInsets.symmetric(horizontal: 50),
+                      margin: const EdgeInsets.symmetric(horizontal: 30),
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: Colors.black,
@@ -225,7 +224,7 @@ class _LoginScreenMobileState extends State<LoginScreenMobile>
                                     border: InputBorder.none,
                                     isDense: true,
                                     contentPadding: EdgeInsets.symmetric(
-                                        horizontal: 8, vertical: 20),
+                                        horizontal: 8, vertical: 18),
                                   ),
                                 ),
                               ),
@@ -266,7 +265,7 @@ class _LoginScreenMobileState extends State<LoginScreenMobile>
                                           border: InputBorder.none,
                                           isDense: true,
                                           contentPadding: EdgeInsets.symmetric(
-                                              horizontal: 8, vertical: 20),
+                                              horizontal: 8, vertical: 18),
                                         ),
                                       ),
                                     ),
@@ -301,6 +300,7 @@ class _LoginScreenMobileState extends State<LoginScreenMobile>
                           const SizedBox(height: 30),
                           Center(
                             child: CursorWidget(
+                              buttonHeight: 45,
                               onTap: validateAndProceed,
                               isButton: true,
                               bgColor: const Color.fromRGBO(0, 24, 88, 1),
@@ -312,7 +312,9 @@ class _LoginScreenMobileState extends State<LoginScreenMobile>
                           const SizedBox(height: 10),
                           const DividerText(),
                           const SizedBox(height: 10),
-                          const GoogleSignInButton(),
+                          GoogleSignInButton(
+                            googleSignIn: _googleSignIn,
+                          ),
                           const SizedBox(height: 10),
                           const FbSignInButton(),
                           const SizedBox(height: 10),
@@ -338,7 +340,6 @@ class _LoginScreenMobileState extends State<LoginScreenMobile>
     _formKey.currentState!.save();
     AuthController.login(context, email.trim(), password.trim());
   }
-
 }
 
 /*

@@ -81,9 +81,10 @@ class _ExpenseListItemContainerState extends State<ExpenseListItemContainer> {
               ),
             ),
             const SizedBox(width: 20),
-            const Icon(
+             Icon(
               Icons.arrow_forward_ios,
               size: 15,
+              color: primaryColor,
             ),
             const SizedBox(width: 10),
           ],

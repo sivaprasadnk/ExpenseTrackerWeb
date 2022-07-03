@@ -37,13 +37,13 @@ class _LoginScreenDesktopState extends State<LoginScreenDesktop>
   String password = "";
   bool showPassword = false;
   FirebaseAuth auth = FirebaseAuth.instance;
-  GoogleSignIn? _googleSignIn;
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: ['email', 'https://www.googleapis.com/auth/userinfo.profile'],
+  );
   @override
   void initState() {
     super.initState();
-    _googleSignIn = GoogleSignIn(
-      scopes: ['email', 'https://www.googleapis.com/auth/userinfo.profile'],
-    );
+
     _controller = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
@@ -145,6 +145,7 @@ class _LoginScreenDesktopState extends State<LoginScreenDesktop>
     return Form(
       key: _formKey,
       child: Scaffold(
+        backgroundColor: const Color.fromRGBO(251, 84, 96, 1),
         extendBody: true,
         // bottomNavigationBar: const Text(
         //   kCopyRightText,
@@ -158,6 +159,24 @@ class _LoginScreenDesktopState extends State<LoginScreenDesktop>
         body: Container(
           height: screenSize.height,
           decoration: const BoxDecoration(
+             gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              // transform: Grad,
+              stops: [
+                0.1,
+                0.4,
+                0.6,
+                0.9,
+              ],
+              colors: [
+               Color.fromRGBO(105, 214, 245,1),
+               Color.fromRGBO(253, 160, 242,1),
+               Color.fromRGBO(249, 84, 102,1),
+               Color.fromRGBO(255, 106, 85,1),
+             
+              ],
+            ),
             image: DecorationImage(
               fit: BoxFit.cover,
               image: AssetImage('assets/images/mesh1.jpg'),
@@ -319,7 +338,9 @@ class _LoginScreenDesktopState extends State<LoginScreenDesktop>
                           const SizedBox(height: 10),
                           const DividerText(),
                           const SizedBox(height: 10),
-                          const GoogleSignInButton(),
+                          GoogleSignInButton(
+                            googleSignIn: _googleSignIn,
+                          ),
                           const SizedBox(height: 10),
                           const FbSignInButton(),
                           const SizedBox(height: 10),

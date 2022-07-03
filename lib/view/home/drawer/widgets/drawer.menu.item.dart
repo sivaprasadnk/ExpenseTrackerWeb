@@ -46,9 +46,7 @@ class _DrawerMenuItemState extends State<DrawerMenuItem> {
           Icon(
             widget.icon,
             color: !isHovered
-                ? theme.brightness == Brightness.dark
-                    ? Colors.white
-                    : Colors.black
+                ?  theme.primaryColor
                 : theme.cardColor,
           ),
           const SizedBox(
@@ -59,9 +57,7 @@ class _DrawerMenuItemState extends State<DrawerMenuItem> {
             style: TextStyle(
               fontSize: 20,
               color: !isHovered
-                  ? theme.brightness == Brightness.dark
-                      ? Colors.white
-                      : Colors.black
+                  ? theme.primaryColor
                   : theme.cardColor,
             ),
           ),

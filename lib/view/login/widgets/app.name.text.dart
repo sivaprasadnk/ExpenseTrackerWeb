@@ -1,5 +1,5 @@
 import 'package:expense_tracker/common_strings.dart';
-import 'package:expense_tracker/view/sample.text.dart';
+import 'package:expense_tracker/utils/translate.extension.dart';
 import 'package:flutter/material.dart';
 
 class AppNameText extends StatelessWidget {
@@ -17,7 +17,7 @@ class AppNameText extends StatelessWidget {
       child: const Padding(
         padding: EdgeInsets.all(10.0),
         child: Text(
-          kExpenseTrackerText + ' v2',
+          kExpenseTrackerText + 'v1 ',
           style: TextStyle(
             color: Colors.black,
             fontSize: 30,
@@ -25,6 +25,6 @@ class AppNameText extends StatelessWidget {
           ),
         ),
       ),
-    );
+    ).translateOnHover;
   }
 }

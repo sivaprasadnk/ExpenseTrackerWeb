@@ -25,7 +25,7 @@ class TextFieldContainer extends StatelessWidget {
         padding: const EdgeInsets.only(
           left: 10,
           right: 10,
-          top: 5,
+          top: 10,
         ),
         child: child,
       ),

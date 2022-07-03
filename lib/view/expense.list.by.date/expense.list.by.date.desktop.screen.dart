@@ -92,6 +92,9 @@ class _ExpenseListByDateDesktopScreenState
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            const SizedBox(
+              height: 5,
+            ),
             TotalExpenseContainerDesktop(
               totalExpense: widget.expenseDateItem.totalExpense,
               title: widget.expenseDateItem.date,

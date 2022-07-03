@@ -48,7 +48,7 @@ class _SelectCategoryScreenDesktop2State
                       child: Center(
                         child: Wrap(
                           spacing: 15,
-                          runSpacing: 15,
+                          runSpacing: 15, 
                           children: (snapshot.data! as QuerySnapshot).docs.map(
                             (doc) {
                               CategoryDoc model = CategoryDoc.fromJson(doc);

@@ -1,15 +1,14 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
 class CategoryIcon extends StatelessWidget {
   const CategoryIcon({Key? key, required this.icon}) : super(key: key);
   final IconData icon;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Icon(
-        icon,
-        size: 30,
-      ),
+    return Icon(
+      icon,
+      size: 30,
+      color: Theme.of(context).primaryColor,
     );
   }
 }

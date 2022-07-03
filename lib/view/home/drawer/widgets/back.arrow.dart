@@ -15,8 +15,9 @@ class BackArrow extends StatelessWidget {
             onTap: () {
               Navigator.pop(context);
             },
-            child: const Icon(
+            child:  Icon(
               Icons.arrow_forward_ios,
+              color: Theme.of(context).primaryColor,
             ),
           ),
         ),

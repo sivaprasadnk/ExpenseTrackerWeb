@@ -9,9 +9,11 @@ class GoogleSignInButton extends StatelessWidget {
   const GoogleSignInButton({
     Key? key,
     this.title = "Sign In with Google",
+    required this.googleSignIn,
   }) : super(key: key);
 
   final String title;
+  final GoogleSignIn googleSignIn;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class GoogleSignInButton extends StatelessWidget {
         },
         isButton: true,
         bgColor: Colors.white,
-        child:  SocialMediaSignInButton(
+        child: SocialMediaSignInButton(
           textColor: Colors.black,
           icon: FontAwesomeIcons.google,
           title: title,
@@ -33,10 +35,8 @@ class GoogleSignInButton extends StatelessWidget {
 
   googleLogin(BuildContext context) async {
     try {
-      GoogleSignIn? _googleSignIn = GoogleSignIn(
-        scopes: ['email', 'https://www.googleapis.com/auth/userinfo.profile'],
-      );
-      GoogleSignInAccount? account = await _googleSignIn.signIn();
+     
+      GoogleSignInAccount? account = await googleSignIn.signIn();
       if (account != null) {
         AuthController.googleLogin(context: context, account: account);
       }
