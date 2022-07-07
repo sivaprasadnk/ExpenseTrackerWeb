@@ -159,7 +159,7 @@ class _LoginScreenDesktopState extends State<LoginScreenDesktop>
         body: Container(
           height: screenSize.height,
           decoration: const BoxDecoration(
-             gradient: LinearGradient(
+            gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               // transform: Grad,
@@ -170,11 +170,10 @@ class _LoginScreenDesktopState extends State<LoginScreenDesktop>
                 0.9,
               ],
               colors: [
-               Color.fromRGBO(105, 214, 245,1),
-               Color.fromRGBO(253, 160, 242,1),
-               Color.fromRGBO(249, 84, 102,1),
-               Color.fromRGBO(255, 106, 85,1),
-             
+                Color.fromRGBO(105, 214, 245, 1),
+                Color.fromRGBO(253, 160, 242, 1),
+                Color.fromRGBO(249, 84, 102, 1),
+                Color.fromRGBO(255, 106, 85, 1),
               ],
             ),
             image: DecorationImage(
@@ -186,11 +185,9 @@ class _LoginScreenDesktopState extends State<LoginScreenDesktop>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(
-                  height: 30,
-                ),
+                const SizedBox(height: 10),
                 const AppNameText(),
-                const SizedBox(height: 30),
+                const SizedBox(height: 10),
                 const AuthTitleText(title: 'Login'),
                 AnimatedBuilder(
                   animation: _controller,

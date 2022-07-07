@@ -164,11 +164,9 @@ class _RegisterScreenMobileState extends State<RegisterScreenMobile>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(
-                  height: 10,
-                ),
+                const SizedBox(height: 10),
                 const AppNameText(),
-                const SizedBox(height: 30),
+                const SizedBox(height: 10),
                 const AuthTitleText(title: 'Register'),
                 AnimatedBuilder(
                   animation: _controller,
@@ -305,9 +303,10 @@ class _RegisterScreenMobileState extends State<RegisterScreenMobile>
                           const SizedBox(height: 10),
                           const DividerText(),
                           const SizedBox(height: 10),
-                                                     GoogleSignInButton(
-                              title: 'Sign Up with Google', googleSignIn: _googleSignIn,),
-
+                          GoogleSignInButton(
+                            title: 'Sign Up with Google',
+                            googleSignIn: _googleSignIn,
+                          ),
                           const SizedBox(height: 10),
                           const FbSignInButton(title: 'Sign Up with facebook'),
                           const SizedBox(height: 10),

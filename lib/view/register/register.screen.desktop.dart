@@ -1,18 +1,18 @@
-import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/controller/auth.controller.dart';
 import 'package:expense_tracker/cursor.widget.dart';
 import 'package:expense_tracker/view/login/widgets/auth.title.text.dart';
 import 'package:expense_tracker/view/login/widgets/desktop/have.an.account.container.desktop.dart';
 import 'package:expense_tracker/view/login/widgets/divider.dart';
-import 'package:expense_tracker/view/login/widgets/footer.text.dart';
 import 'package:expense_tracker/view/login/widgets/login.submit.button.dart';
 import 'package:expense_tracker/view/login/widgets/social.media.sign.in/fb.sign.in.dart';
 import 'package:expense_tracker/view/login/widgets/social.media.sign.in/google.sign.in.dart';
 import 'package:expense_tracker/view/login/widgets/text.field.container.dart';
 import 'package:expense_tracker/view/login/widgets/text.field.title.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../login/widgets/app.name.text.dart';
 
@@ -40,7 +40,7 @@ class _RegisterScreenDesktopState extends State<RegisterScreenDesktop>
   bool showPassword = false;
 
   FirebaseAuth auth = FirebaseAuth.instance;
-   final GoogleSignIn _googleSignIn = GoogleSignIn(
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: ['email', 'https://www.googleapis.com/auth/userinfo.profile'],
   );
 
@@ -151,7 +151,6 @@ class _RegisterScreenDesktopState extends State<RegisterScreenDesktop>
 
     return Scaffold(
       extendBody: true,
-      
       body: Form(
         key: _formKey,
         child: Container(
@@ -166,11 +165,9 @@ class _RegisterScreenDesktopState extends State<RegisterScreenDesktop>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(
-                  height: 30,
-                ),
+                const SizedBox(height: 10),
                 const AppNameText(),
-                const SizedBox(height: 30),
+                const SizedBox(height: 10),
                 const AuthTitleText(title: 'Register'),
                 AnimatedBuilder(
                   animation: _controller,
@@ -307,8 +304,10 @@ class _RegisterScreenDesktopState extends State<RegisterScreenDesktop>
                           const SizedBox(height: 10),
                           const DividerText(),
                           const SizedBox(height: 10),
-                           GoogleSignInButton(
-                              title: 'Sign Up with Google', googleSignIn: _googleSignIn,),
+                          GoogleSignInButton(
+                            title: 'Sign Up with Google',
+                            googleSignIn: _googleSignIn,
+                          ),
                           const SizedBox(height: 10),
                           const FbSignInButton(title: 'Sign Up with facebook'),
                           const SizedBox(height: 10),
@@ -319,11 +318,53 @@ class _RegisterScreenDesktopState extends State<RegisterScreenDesktop>
                 ),
                 const SizedBox(height: 20),
                 const HaveAccoutContainerDesktop(),
-                 const SizedBox(
-                  height: 50,
+                const SizedBox(
+                  height: 20,
                 ),
-
-                const FooterText(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 120),
+                  child: SizedBox(
+                    width: 300,
+                    height: 50,
+                    child: RichText(
+                      text: TextSpan(
+                        text:
+                            'By registering to our website/app, you agree to our',
+                        style: const TextStyle(
+                          color: Colors.black,
+                          // height: 10,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: '  Terms and conditions ',
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () async {
+                                await launchUrl(Uri.parse(
+                                    'https://sivaprasadnk.github.io/privacy-policy/'));
+                              },
+                            style: const TextStyle(
+                              color: Color.fromRGBO(0, 24, 88, 1),
+                            ),
+                          ),
+                          const TextSpan(text: 'and '),
+                          TextSpan(
+                            text: ' Privacy Policy ',
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () async {
+                                await launchUrl(Uri.parse(
+                                    'https://sivaprasadnk.github.io/privacy-policy/'));
+                              },
+                            style: const TextStyle(
+                              color: Color.fromRGBO(0, 24, 88, 1),
+                            ),
+                          ),
+                          const TextSpan(text: '.'),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                // const FooterText(),
                 const SizedBox(
                   height: 20,
                 ),

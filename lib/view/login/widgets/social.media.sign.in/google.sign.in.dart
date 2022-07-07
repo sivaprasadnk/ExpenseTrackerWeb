@@ -19,8 +19,8 @@ class GoogleSignInButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: CursorWidget(
-        onTap: () {
-          googleLogin(context);
+        onTap: () async{
+        await  googleLogin(context);
         },
         isButton: true,
         bgColor: Colors.white,
@@ -33,7 +33,7 @@ class GoogleSignInButton extends StatelessWidget {
     );
   }
 
-  googleLogin(BuildContext context) async {
+Future  googleLogin(BuildContext context) async {
     try {
      
       GoogleSignInAccount? account = await googleSignIn.signIn();

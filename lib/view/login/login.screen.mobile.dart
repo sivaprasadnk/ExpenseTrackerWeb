@@ -159,11 +159,9 @@ class _LoginScreenMobileState extends State<LoginScreenMobile>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(
-                  height: 10,
-                ),
+                const SizedBox(height: 10),
                 const AppNameText(),
-                const SizedBox(height: 30),
+                const SizedBox(height: 10),
                 const AuthTitleText(title: 'Login'),
                 AnimatedBuilder(
                   animation: _controller,
