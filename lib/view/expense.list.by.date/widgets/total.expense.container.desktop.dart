@@ -1,4 +1,8 @@
 import 'package:expense_tracker/view/expense.list.by.date/widgets/total.expense.title.text.dart';
+import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/cash.title.title.dart';
+import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/cash.total.container.dart';
+import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/online.title.text.dart';
+import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/online.total.container.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -40,7 +44,7 @@ class TotalExpenseContainerDesktop extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Total Expense :',
+                'Total Expense ',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -58,7 +62,11 @@ class TotalExpenseContainerDesktop extends StatelessWidget {
             ],
           ),
         ),
-        TotalExpenseTitleText( title: title)
+        TotalExpenseTitleText(title: title),
+        CashTitleText(theme: theme),
+        OnlineTitleText(theme: theme),
+        CashTotalContainer(theme: theme),
+        OnlineTotalContainer(theme: theme)
       ],
     );
   }

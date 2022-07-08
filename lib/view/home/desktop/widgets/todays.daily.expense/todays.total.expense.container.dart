@@ -1,8 +1,11 @@
-import 'package:expense_tracker/utils/translate.extension.dart';
-import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/daily.cash.total.text.dart';
+import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/cash.title.title.dart';
+import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/cash.total.container.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/daily.total.text.dart';
+import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/online.title.text.dart';
 import 'package:expense_tracker/view/todays.expense.list/todays.expense.list.desktop.screen.dart';
 import 'package:flutter/material.dart';
+
+import 'online.total.container.dart';
 
 class TodaysTotalExpenseContainer extends StatefulWidget {
   const TodaysTotalExpenseContainer({
@@ -65,40 +68,11 @@ class _TodaysTotalExpenseContainerState
             ),
           ),
         ),
-        Positioned.fill(
-          right: 10,
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: Icon(
-              Icons.arrow_forward_ios,
-              color: theme.scaffoldBackgroundColor,
-            ),
-          ),
-        ),
-        Positioned.fill(
-          bottom: 65,
-          left: 10,
-          child: Align(
-            alignment: Alignment.bottomLeft,
-            child: Text(
-              'Cash :',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: theme.scaffoldBackgroundColor,
-              ),
-            ),
-          ),
-        ),
-        const Positioned.fill(
-          bottom: 20,
-          left: 10,
-          child: Align(
-            alignment: Alignment.bottomLeft,
-            child: DailyCashTotalText(),
-          ),
-        )
+        CashTitleText(theme: theme),
+        OnlineTitleText(theme: theme),
+        CashTotalContainer(theme: theme),
+        OnlineTotalContainer(theme: theme)
       ],
-    ).translateOnHover;
+    );
   }
 }
