@@ -21,14 +21,7 @@ class TextFieldContainer extends StatelessWidget {
           color: primaryColor,
         ),
       ),
-      child: Padding(
-        padding: const EdgeInsets.only(
-          left: 10,
-          right: 10,
-          top: 10,
-        ),
-        child: child,
-      ),
+      child: child,
     );
   }
 }

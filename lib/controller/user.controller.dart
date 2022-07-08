@@ -44,8 +44,12 @@ class UserController {
         DateFormat('dd-MM-yyyy  kk:mm:ss').format(now);
 
     final year = int.parse(DateFormat('yyyy').format(now));
-    int dailyTotal =
-        Provider.of<HomeProvider>(context, listen: false).dailyTotalExpense;
+
+    var provider = Provider.of<HomeProvider>(context, listen: false);
+
+    int dailyTotal = provider.dailyTotalExpense;
+    int dailyCashTotal = provider.dailyCashTotal;
+    int dailyOnlineTotal = provider.dailyOnlineTotal;
 
     ///
     Expense exp = Expense(
@@ -73,24 +77,35 @@ class UserController {
     var request = AddExpenseModel(
       expense: exp,
       dailyTotal: dailyTotal,
+      dailyCashTotal: dailyCashTotal,
+      dailyOnlineTotal: dailyOnlineTotal,
       userId: userId,
       createdDateTimeString: createdDateTimeString,
       expenseMonth: expMonth,
       createdDateTime: createdDateTime,
     );
 
+    debugPrint('.. @@ dailyTotal :$dailyTotal ');
+    debugPrint('.. @@ dailyCashTotal :$dailyCashTotal ');
+    debugPrint('.. @@ dailyOnlineTotal :$dailyOnlineTotal ');
+
     ResponseModel response = await userRepo.addExpense(request);
 
     if (response.status == ResponseStatus.error) {
       Dialogs.showAlertDialog(context: context, description: response.message);
     } else {
-      Provider.of<HomeProvider>(context, listen: false)
-          .addToDailyExpense(expenseAmount);
+      var provider = Provider.of<HomeProvider>(context, listen: false);
+
+      provider.addToDailyExpense(expenseAmount);
+      if (selectedMode == Mode.cash) {
+        provider.addToDailyCashExpense(expenseAmount);
+      } else {
+        provider.addToDailyOnlineExpense(expenseAmount);
+      }
 
       userRepo.getRecentExpense().then((recentExpList) {
         if (recentExpList.isNotEmpty) {
-          Provider.of<HomeProvider>(context, listen: false)
-              .updateRecentList(recentExpList);
+          provider.updateRecentList(recentExpList);
 
           Future.delayed(const Duration(seconds: 2)).then((value) {
             Dialogs.showAlertDialogAndNavigateToHome(
@@ -108,11 +123,10 @@ class UserController {
     String responseData = response.data;
     String dailyExpString = responseData.split('.').first;
     int dailyExp = int.parse(dailyExpString);
-    Provider.of<HomeProvider>(context, listen: false)
-        .updateDailyTotalExpense(dailyExp);
+    var provider = Provider.of<HomeProvider>(context, listen: false);
+    provider.updateDailyTotalExpense(dailyExp);
     userRepo.getRecentExpense().then((recentExpList) {
-      Provider.of<HomeProvider>(context, listen: false)
-          .updateRecentList(recentExpList);
+      provider.updateRecentList(recentExpList);
       Navigation.checkPlatformAndNavigateToHome(context, true);
     });
   }
@@ -147,7 +161,6 @@ class UserController {
 
       var newDateWiseTotal = currentDatewiseTotal + amtToAdd;
       var newCategoryWiseTotal = currentCategorywiseTotal + amtToAdd;
-
 
       debugPrint('.. @@currentCategorywiseTotal : $currentCategorywiseTotal ');
       debugPrint('.. @@currentDatewiseTotal : $currentDatewiseTotal ');

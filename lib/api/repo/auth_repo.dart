@@ -101,11 +101,11 @@ class AuthRepo {
             .collection('location')
             .add(json);
 
-        var res = await fireStoreInstance
-            .collection(kExpenseCategoriesCollection)
-            .get();
-        var docsList = res.docs;
-        for (var i = 0; i < docsList.length; i++) {}
+        // var res = await fireStoreInstance
+        //     .collection(kExpenseCategoriesCollection)
+        //     .get();
+        // var docsList = res.docs;
+        // for (var i = 0; i < docsList.length; i++) {}
       }
     } catch (e) {
       debugPrint('Exception @loginAccount: $e');
@@ -114,6 +114,8 @@ class AuthRepo {
         data: '',
         userId: '',
         dailyTotal: 0,
+        dailyCashTotal: 0,
+        dailyOnlineTotal: 0,
         message: AuthExceptionHandler.handleException(e).toString(),
       );
     }
@@ -121,6 +123,8 @@ class AuthRepo {
 
     var date = DateFormat('dd-MM-yyyy').format(now);
     int dailyTotal = 0;
+    int dailyCashTotal = 0;
+    int dailyOnlineTotal = 0;
     var value1 = await fireStoreInstance
         .collection(kUsersCollection)
         .doc(userId)
@@ -130,12 +134,16 @@ class AuthRepo {
 
     if (value1.data() != null) {
       dailyTotal = value1.data()!['totalExpense'];
+      dailyCashTotal = value1.data()!['totalCashExpense'];
+      dailyOnlineTotal = value1.data()!['totalOnlineExpense'];
     }
     return LoginResponse(
       status: ResponseStatus.success,
       message: 'Success',
       userId: userId,
       dailyTotal: dailyTotal,
+      dailyCashTotal: dailyCashTotal,
+      dailyOnlineTotal: dailyOnlineTotal,
       data: model.currency.toString(),
     );
   }
@@ -205,6 +213,8 @@ class AuthRepo {
         data: '',
         userId: '',
         dailyTotal: 0,
+        dailyCashTotal: 0,
+        dailyOnlineTotal: 0,
         message: AuthExceptionHandler.handleException(e).toString(),
       );
     }
@@ -213,6 +223,8 @@ class AuthRepo {
 
     var date = DateFormat('dd-MM-yyyy').format(now);
     int dailyTotal = 0;
+    int dailyCashTotal = 0;
+    int dailyOnlineTotal = 0;
     var value1 = await fireStoreInstance
         .collection(kUsersCollection)
         .doc(userId)
@@ -222,12 +234,16 @@ class AuthRepo {
 
     if (value1.data() != null) {
       dailyTotal = value1.data()!['totalExpense'];
+      dailyCashTotal = value1.data()!['totalCashExpense'];
+      dailyOnlineTotal = value1.data()!['totalOnlineExpense'];
     }
     return LoginResponse(
         status: ResponseStatus.success,
         message: 'Success',
         userId: userId,
         dailyTotal: dailyTotal,
+        dailyCashTotal: dailyCashTotal,
+        dailyOnlineTotal: dailyOnlineTotal,
         data: '');
   }
 
@@ -258,7 +274,6 @@ class AuthRepo {
           await FirebaseAuth.instance.signInWithCredential(facebookCredential);
 
       if (userCredential.user != null) {
-
         fireStoreInstance
             .collection(kUsersCollection)
             .doc(userCredential.user!.uid)
@@ -303,6 +318,8 @@ class AuthRepo {
         data: e,
         userId: '',
         dailyTotal: 0,
+        dailyCashTotal: 0,
+        dailyOnlineTotal: 0,
         message: AuthExceptionHandler.handleException(e).toString(),
       );
     } catch (err) {
@@ -312,14 +329,18 @@ class AuthRepo {
         data: '',
         userId: '',
         dailyTotal: 0,
+        dailyCashTotal: 0,
+        dailyOnlineTotal: 0,
         message: AuthExceptionHandler.handleException(err).toString(),
       );
     }
 
-   String userId = FirebaseAuth.instance.currentUser!.uid;
+    String userId = FirebaseAuth.instance.currentUser!.uid;
 
     var date = DateFormat('dd-MM-yyyy').format(now);
     int dailyTotal = 0;
+    int dailyCashTotal = 0;
+    int dailyOnlineTotal = 0;
     var value1 = await fireStoreInstance
         .collection(kUsersCollection)
         .doc(userId)
@@ -329,18 +350,21 @@ class AuthRepo {
 
     if (value1.data() != null) {
       dailyTotal = value1.data()!['totalExpense'];
+      dailyCashTotal = value1.data()!['totalCashExpense'];
+      dailyOnlineTotal = value1.data()!['totalOnlineExpense'];
     }
     return LoginResponse(
       status: ResponseStatus.success,
       message: 'Success',
       userId: userId,
       dailyTotal: dailyTotal,
+      dailyCashTotal: dailyCashTotal,
+      dailyOnlineTotal: dailyOnlineTotal,
       data: '',
     );
   }
 
   Future<LoginResponse> linkWithGoogle({AuthCredential? authCredential}) async {
-
     final DateTime now = DateTime.now();
     final PackageInfo packageInfo = await PackageInfo.fromPlatform();
     var version = packageInfo.version;
@@ -400,6 +424,8 @@ class AuthRepo {
         data: '',
         userId: '',
         dailyTotal: 0,
+        dailyCashTotal: 0,
+        dailyOnlineTotal: 0,
         message: AuthExceptionHandler.handleException(err).toString(),
       );
     } on PlatformException catch (err) {
@@ -408,7 +434,9 @@ class AuthRepo {
         status: ResponseStatus.error,
         data: '',
         userId: '',
-        dailyTotal: 0,
+        dailyTotal: 0,        dailyCashTotal: 0,
+        dailyOnlineTotal: 0,
+
         message: AuthExceptionHandler.handleException(err).toString(),
       );
     } catch (err) {
@@ -417,6 +445,9 @@ class AuthRepo {
         status: ResponseStatus.error,
         data: '',
         userId: '',
+                dailyCashTotal: 0,
+        dailyOnlineTotal: 0,
+
         dailyTotal: 0,
         message: AuthExceptionHandler.handleException(err).toString(),
       );
@@ -425,6 +456,8 @@ class AuthRepo {
 
     var date = DateFormat('dd-MM-yyyy').format(now);
     int dailyTotal = 0;
+    int dailyCashTotal = 0;
+    int dailyOnlineTotal = 0;
     var value1 = await fireStoreInstance
         .collection(kUsersCollection)
         .doc(userId)
@@ -434,6 +467,8 @@ class AuthRepo {
 
     if (value1.data() != null) {
       dailyTotal = value1.data()!['totalExpense'];
+      dailyCashTotal = value1.data()!['totalCashExpense'];
+      dailyOnlineTotal = value1.data()!['totalOnlineExpense'];
     }
 
     return LoginResponse(
@@ -441,6 +476,8 @@ class AuthRepo {
       message: 'Success',
       userId: userId,
       dailyTotal: dailyTotal,
+      dailyCashTotal: dailyCashTotal,
+      dailyOnlineTotal: dailyOnlineTotal,
       data: '',
     );
   }

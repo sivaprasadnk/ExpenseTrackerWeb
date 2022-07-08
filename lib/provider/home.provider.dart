@@ -60,11 +60,25 @@ class HomeProvider extends ChangeNotifier {
 
   ///
   int dailyTotal_ = 0;
+  int dailyCashTotal_ = 0;
+  int dailyOnlineTotal_ = 0;
 
   int get dailyTotalExpense => dailyTotal_;
+  int get dailyCashTotal => dailyCashTotal_;
+  int get dailyOnlineTotal => dailyOnlineTotal_;
 
   void updateDailyTotalExpense(int total) {
     dailyTotal_ = total;
+    notifyListeners();
+  }
+
+  void updateDailyCashTotalExpense(int total) {
+    dailyCashTotal_ = total;
+    notifyListeners();
+  }
+  
+  void updateDailyOnlineTotalExpense(int total) {
+    dailyOnlineTotal_ = total;
     notifyListeners();
   }
 
@@ -72,6 +86,18 @@ class HomeProvider extends ChangeNotifier {
     dailyTotal_ += amt;
     notifyListeners();
   }
+
+    void addToDailyCashExpense(int amt) {
+    dailyCashTotal_ += amt;
+    notifyListeners();
+  }
+
+
+    void addToDailyOnlineExpense(int amt) {
+    dailyOnlineTotal_ += amt;
+    notifyListeners();
+  }
+
 
   void deductFromdailyExpense(int amt) {
     dailyTotal_ -= amt;

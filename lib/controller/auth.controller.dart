@@ -44,13 +44,11 @@ class AuthController {
           });
         } else {
           int dailyExp = response.dailyTotal;
-          Provider.of<HomeProvider>(context, listen: false)
-              .updateDailyTotalExpense(dailyExp);
+          var provider = Provider.of<HomeProvider>(context, listen: false);
+          provider.updateDailyTotalExpense(dailyExp);
           userRepo.getRecentExpense().then((recentExpList) {
-            Provider.of<HomeProvider>(context, listen: false)
-                .updateRecentList(recentExpList);
-            Provider.of<HomeProvider>(context, listen: false)
-                .updateCurrency(response.data);
+            provider.updateRecentList(recentExpList);
+            provider.updateCurrency(response.data);
             // userRepo.updateDbValue(response.userId).then((value) {
             //   Navigation.checkPlatformAndNavigateToHome(context);
             // });
@@ -85,10 +83,12 @@ class AuthController {
             Navigator.pop(context);
           });
         } else {
-          Provider.of<HomeProvider>(context, listen: false)
-              .updateDailyTotalExpense(0);
-          Provider.of<HomeProvider>(context, listen: false)
-              .updateRecentList([]);
+          var provider = Provider.of<HomeProvider>(context, listen: false);
+          provider.updateDailyTotalExpense(0);
+          provider.updateDailyCashTotalExpense(0);
+          provider.updateDailyOnlineTotalExpense(0);
+
+          provider.updateRecentList([]);
 
           Navigation.checkPlatformAndNavigateToHome(context);
         }
@@ -117,12 +117,13 @@ class AuthController {
             Navigator.pop(context);
           });
         } else {
+          var provider = Provider.of<HomeProvider>(context, listen: false);
           int dailyExp = response.dailyTotal;
-          Provider.of<HomeProvider>(context, listen: false)
-              .updateDailyTotalExpense(dailyExp);
+          provider.updateDailyTotalExpense(dailyExp);
+          provider.updateDailyCashTotalExpense(response.dailyCashTotal);
+          provider.updateDailyOnlineTotalExpense(response.dailyOnlineTotal);
           userRepo.getRecentExpense().then((recentExpList) {
-            Provider.of<HomeProvider>(context, listen: false)
-                .updateRecentList(recentExpList);
+            provider.updateRecentList(recentExpList);
             // userRepo.updateDbValue(response.userId).then((value) {
             //   Navigation.checkPlatformAndNavigateToHome(context);
             // });
@@ -167,9 +168,12 @@ class AuthController {
               });
             }
           } else {
+            var provider = Provider.of<HomeProvider>(context, listen: false);
             int dailyExp = response.dailyTotal;
-            Provider.of<HomeProvider>(context, listen: false)
-                .updateDailyTotalExpense(dailyExp);
+            provider.updateDailyTotalExpense(dailyExp);
+            provider.updateDailyCashTotalExpense(response.dailyCashTotal);
+            provider.updateDailyOnlineTotalExpense(response.dailyOnlineTotal);
+
             userRepo.getRecentExpense().then((recentExpList) {
               Provider.of<HomeProvider>(context, listen: false)
                   .updateRecentList(recentExpList);

@@ -80,12 +80,20 @@ class _AddExpenseScreenStateDesktop extends State<AddExpenseScreenDesktop> {
                         ),
                         TextFieldContainer(
                           child: TextFormField(
+                            style: const TextStyle(
+                              fontSize: 20,
+                            ),
                             onSaved: (val) {
                               if (val != null && val.trim().isNotEmpty) {
                                 expenseAmount = int.parse(val.toString());
                               }
                             },
                             decoration: const InputDecoration(
+                              contentPadding: EdgeInsets.only(
+                                left: 10,
+                                right: 10,
+                                top: 10,
+                              ),
                               border: InputBorder.none,
                               isDense: true,
                             ),
@@ -151,6 +159,11 @@ class _AddExpenseScreenStateDesktop extends State<AddExpenseScreenDesktop> {
                               expenseTitle = val.toString();
                             },
                             decoration: const InputDecoration(
+                              contentPadding: EdgeInsets.only(
+                                left: 10,
+                                right: 10,
+                                top: 10,
+                              ),
                               border: InputBorder.none,
                               isDense: true,
                             ),
@@ -255,6 +268,8 @@ class _AddExpenseScreenStateDesktop extends State<AddExpenseScreenDesktop> {
       if (expenseDetails.trim().isEmpty) {
         throw CustomException(' Enter details');
       }
+      debugPrint('.. @@ _selectedMode :${_selectedMode.name} ');
+
       UserController.addExpense(
         selectedCategory.id,
         selectedCategory.name,

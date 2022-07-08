@@ -80,6 +80,12 @@ class UserRepo {
         .doc(expense.expenseDate)
         .set({
       'totalExpense': request.dailyTotal + expense.amount,
+      'totalCashExpense': expense.mode == "Cash"
+          ? request.dailyCashTotal + expense.amount
+          : request.dailyCashTotal,
+      'totalOnlineExpense': expense.mode == "Online"
+          ? request.dailyOnlineTotal + expense.amount
+          : request.dailyOnlineTotal,
       'date': expense.expenseDate,
       'month': expense.expenseMonth,
       'day': expense.expenseDay,
@@ -95,8 +101,12 @@ class UserRepo {
         .get();
 
     int totAmt = 0;
+    int totCashAmt = 0;
+    int totOnlineAmt = 0;
     if (categoryDoc.data() != null) {
       totAmt = categoryDoc.data()!['totalAmount'] ?? 0;
+      totCashAmt = categoryDoc.data()!['totalCashAmount'] ?? 0;
+      totOnlineAmt = categoryDoc.data()!['totalOnlineAmount'] ?? 0;
     } else {}
 
     fireStoreInstance
@@ -106,6 +116,11 @@ class UserRepo {
         .doc(expense.categoryName)
         .set({
       'totalAmount': totAmt + expense.amount,
+      'totalCashAmount':
+          expense.mode == "Cash" ? totCashAmt + expense.amount : totCashAmt,
+      'totalOnlineAmount': expense.mode == "Online"
+          ? totOnlineAmt + expense.amount
+          : totOnlineAmt,
       'lastUpdateTime': request.createdDateTimeString,
       'categoryName': expense.categoryName,
       'categoryId': expense.categoryId,
