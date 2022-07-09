@@ -8,6 +8,7 @@ import 'package:expense_tracker/view/login/widgets/social.media.sign.in/fb.sign.
 import 'package:expense_tracker/view/login/widgets/social.media.sign.in/google.sign.in.dart';
 import 'package:expense_tracker/view/login/widgets/text.field.container.dart';
 import 'package:expense_tracker/view/login/widgets/text.field.title.dart';
+import 'package:expense_tracker/view/register/terms.and.privacy.text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -248,17 +249,19 @@ class _RegisterScreenDesktopState extends State<RegisterScreenDesktop>
                                         obscureText: !showPassword,
                                         style: const TextStyle(
                                           color: Colors.black,
-                                          // fontWeight: FontWeight.bold,
                                           fontSize: 20,
                                         ),
                                         onSaved: (val) {
                                           password = val.toString();
                                         },
-                                        decoration: const InputDecoration(
+                                        decoration: InputDecoration(
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                      horizontal: 8,
+                                                      vertical: 10) +
+                                                  const EdgeInsets.only(top: 2),
                                           border: InputBorder.none,
                                           isDense: true,
-                                          contentPadding: EdgeInsets.symmetric(
-                                              horizontal: 8, vertical: 15),
                                         ),
                                       ),
                                     ),
@@ -293,7 +296,9 @@ class _RegisterScreenDesktopState extends State<RegisterScreenDesktop>
                           const SizedBox(height: 30),
                           Center(
                             child: CursorWidget(
-                              onTap: validateAndProceed,
+                              onTap: () {
+                                validateAndProceed();
+                              },
                               isButton: true,
                               bgColor: const Color.fromRGBO(0, 24, 88, 1),
                               child: const LoginButton(
@@ -318,56 +323,9 @@ class _RegisterScreenDesktopState extends State<RegisterScreenDesktop>
                 ),
                 const SizedBox(height: 20),
                 const HaveAccoutContainerDesktop(),
-                const SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 120),
-                  child: SizedBox(
-                    width: 300,
-                    height: 50,
-                    child: RichText(
-                      text: TextSpan(
-                        text:
-                            'By registering to our website/app, you agree to our',
-                        style: const TextStyle(
-                          color: Colors.black,
-                          // height: 10,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: '  Terms and conditions ',
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () async {
-                                await launchUrl(Uri.parse(
-                                    'https://sivaprasadnk.github.io/privacy-policy/'));
-                              },
-                            style: const TextStyle(
-                              color: Color.fromRGBO(0, 24, 88, 1),
-                            ),
-                          ),
-                          const TextSpan(text: 'and '),
-                          TextSpan(
-                            text: ' Privacy Policy ',
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () async {
-                                await launchUrl(Uri.parse(
-                                    'https://sivaprasadnk.github.io/privacy-policy/'));
-                              },
-                            style: const TextStyle(
-                              color: Color.fromRGBO(0, 24, 88, 1),
-                            ),
-                          ),
-                          const TextSpan(text: '.'),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                // const FooterText(),
-                const SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 20),
+                const TermsAndPrivacyPolicyText(),
+                const SizedBox(height: 20),
               ],
             ),
           ),
@@ -378,6 +336,6 @@ class _RegisterScreenDesktopState extends State<RegisterScreenDesktop>
 
   Future<void> validateAndProceed() async {
     _formKey.currentState!.save();
-    AuthController.register(context, email.trim(), password.trim());
+    AuthController.register(context, email.trim(), password.trim(),false);
   }
 }

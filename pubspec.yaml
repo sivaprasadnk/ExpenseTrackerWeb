@@ -54,6 +54,7 @@ dependencies:
   shared_preferences: null
   simple_animations: null
   simple_month_year_picker: ^0.0.2
+  sizer: ^2.0.15
   url_launcher: ^6.1.2
   validators: ^3.0.0
 

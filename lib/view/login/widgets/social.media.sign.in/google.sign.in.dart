@@ -19,8 +19,8 @@ class GoogleSignInButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: CursorWidget(
-        onTap: () async{
-        await  googleLogin(context);
+        onTap: () async {
+          await googleLogin(context);
         },
         isButton: true,
         bgColor: Colors.white,
@@ -33,12 +33,12 @@ class GoogleSignInButton extends StatelessWidget {
     );
   }
 
-Future  googleLogin(BuildContext context) async {
+  Future googleLogin(BuildContext context) async {
     try {
-     
       GoogleSignInAccount? account = await googleSignIn.signIn();
       if (account != null) {
-        AuthController.googleLogin(context: context, account: account);
+        var width = MediaQuery.of(context).size.width;
+        AuthController.googleLogin(context: context, account: account, isSmallScreen: width<480);
       }
     } catch (error) {
       debugPrint(error.toString());

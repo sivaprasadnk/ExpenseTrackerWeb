@@ -129,8 +129,6 @@ class _ExpenseDateListDesktopSmallState
                                             builder: (_) =>
                                                 ExpenseListByDateDesktopScreen(
                                                   expenseDateItem: expDate,
-                                                  cashTotal: expDate.cashTotal,
-                                                  onlineTotal: expDate.onlineTotal,
                                                 )));
                                   },
                                   child: Stack(

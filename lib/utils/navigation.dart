@@ -6,11 +6,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
 class Navigation {
-  static checkPlatformAndNavigateToHome(BuildContext context,
+  static checkPlatformAndNavigateToHome(
+      BuildContext context, bool isSmallScreen,
       [bool isReplacement = false]) {
     if (!isReplacement) {
-      if ((defaultTargetPlatform == TargetPlatform.android ||
-          defaultTargetPlatform == TargetPlatform.iOS)) {
+      if (isSmallScreen) {
         Navigator.pushNamedAndRemoveUntil(
             context, HomeScreenMobile.routeName, (r) => false);
       } else {
@@ -18,26 +18,33 @@ class Navigation {
             context, HomeScreenDesktop.routeName, (r) => false);
       }
     } else {
-      if ((defaultTargetPlatform == TargetPlatform.android ||
-          defaultTargetPlatform == TargetPlatform.iOS)) {
+      if (isSmallScreen) {
         Navigator.pushReplacementNamed(context, HomeScreenMobile.routeName);
       } else {
         Navigator.pushReplacementNamed(context, HomeScreenDesktop.routeName);
       }
     }
-
   }
-   static checkPlatformAndNavigateToLogin({required BuildContext context})async{
-    if ((defaultTargetPlatform == TargetPlatform.android ||
-          defaultTargetPlatform == TargetPlatform.iOS)) {
-        Navigator.pushNamedAndRemoveUntil(
-            context, LoginScreenMobile.routeName, (r) => false);
-      } else {
-        Navigator.pushNamedAndRemoveUntil(
-            context, LoginScreenDesktop.routeName, (r) => false);
-      }
 
-   }
+  static checkPlatformAndNavigateToLogin(
+      {required BuildContext context, required bool isSmallScreen}) async {
+    // if ((defaultTargetPlatform == TargetPlatform.android ||
+    //       defaultTargetPlatform == TargetPlatform.iOS)) {
+    //     Navigator.pushNamedAndRemoveUntil(
+    //         context, LoginScreenMobile.routeName, (r) => false);
+    //   } else {
+    //     Navigator.pushNamedAndRemoveUntil(
+    //         context, LoginScreenDesktop.routeName, (r) => false);
+    //   }
+
+    if (isSmallScreen) {
+      Navigator.pushNamedAndRemoveUntil(
+          context, LoginScreenMobile.routeName, (r) => false);
+    } else {
+      Navigator.pushNamedAndRemoveUntil(
+          context, LoginScreenDesktop.routeName, (r) => false);
+    }
+  }
 
   // static checkPlatformAndNavigateToScreen(
   //     BuildContext context, String routeName,

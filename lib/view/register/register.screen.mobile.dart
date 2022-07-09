@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../login/widgets/social.media.sign.in/google.sign.in.dart';
+import 'terms.and.privacy.text.dart';
 
 class RegisterScreenMobile extends StatefulWidget {
   const RegisterScreenMobile({Key? key}) : super(key: key);
@@ -212,11 +213,12 @@ class _RegisterScreenMobileState extends State<RegisterScreenMobile>
                                   onSaved: (val) {
                                     email = val.toString();
                                   },
-                                  decoration: const InputDecoration(
+                                  decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.symmetric(
+                                            horizontal: 8, vertical: 10) +
+                                        const EdgeInsets.only(top: 2),
                                     border: InputBorder.none,
                                     isDense: true,
-                                    contentPadding: EdgeInsets.symmetric(
-                                        horizontal: 8, vertical: 15),
                                   ),
                                 ),
                               ),
@@ -252,11 +254,14 @@ class _RegisterScreenMobileState extends State<RegisterScreenMobile>
                                         onSaved: (val) {
                                           password = val.toString();
                                         },
-                                        decoration: const InputDecoration(
+                                        decoration: InputDecoration(
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                      horizontal: 8,
+                                                      vertical: 10) +
+                                                  const EdgeInsets.only(top: 2),
                                           border: InputBorder.none,
                                           isDense: true,
-                                          contentPadding: EdgeInsets.symmetric(
-                                              horizontal: 8, vertical: 15),
                                         ),
                                       ),
                                     ),
@@ -318,7 +323,7 @@ class _RegisterScreenMobileState extends State<RegisterScreenMobile>
                 const SizedBox(height: 20),
                 const HaveAccoutContainerMobile(),
                 const SizedBox(height: 20),
-                const FooterText(),
+                const TermsAndPrivacyPolicyText(width: double.infinity,horizontalPadding: 38,),
                 const SizedBox(height: 50),
               ],
             ),
@@ -330,6 +335,6 @@ class _RegisterScreenMobileState extends State<RegisterScreenMobile>
 
   Future<void> validateAndProceed() async {
     _formKey.currentState!.save();
-    AuthController.register(context, email.trim(), password.trim());
+    AuthController.register(context, email.trim(), password.trim(), true);
   }
 }

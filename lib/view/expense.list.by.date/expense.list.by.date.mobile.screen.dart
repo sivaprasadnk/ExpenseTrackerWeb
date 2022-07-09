@@ -89,13 +89,15 @@ class _ExpenseListByDateMobileScreenState
         height: MediaQuery.of(context).size.height * 0.9,
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: [
+          children: [ 
             const SizedBox(
               height: 5,
             ),
             TotalExpenseContainerMobile(
               totalExpense: widget.expenseDateItem.totalExpense,
               title: widget.expenseDateItem.date,
+              cashTotal: widget.expenseDateItem.cashTotal,
+              onlineTotal: widget.expenseDateItem.onlineTotal,
             ),
             const SizedBox(
               height: 5,

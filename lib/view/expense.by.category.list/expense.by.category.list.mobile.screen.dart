@@ -89,6 +89,8 @@ class _ExpenseByCategoryListMobileScreenState
            TotalExpenseContainerMobile(
               totalExpense: widget.totalAmount,
               title: widget.categoryName,
+              cashTotal: "0",
+              onlineTotal: "0",
             ),
           const SizedBox(
             height: 5,

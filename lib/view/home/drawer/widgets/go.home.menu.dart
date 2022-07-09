@@ -11,8 +11,8 @@ class GoHomeMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return DrawerMenuItem(
       onTap: () {
-        if ((defaultTargetPlatform == TargetPlatform.android ||
-            defaultTargetPlatform == TargetPlatform.iOS)) {
+            double width = MediaQuery.of(context).size.width;
+        if (width<480) {
           Navigator.pushNamedAndRemoveUntil(
               context, HomeScreenMobile.routeName, (r) => false);
         } else {

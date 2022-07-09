@@ -13,7 +13,7 @@ class TextFieldContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 45,
+      height: 41,
       width: width,
       margin: margin,
       decoration: BoxDecoration(

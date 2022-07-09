@@ -18,8 +18,9 @@ class ExpenseListItem extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Expense exp = Expense.fromRecentExpense(expense);
-        if ((defaultTargetPlatform == TargetPlatform.android ||
-            defaultTargetPlatform == TargetPlatform.iOS)) {
+            double width = MediaQuery.of(context).size.width;
+
+        if (width<480) {
           showDialog(
             barrierDismissible: false,
             context: context,

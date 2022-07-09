@@ -17,8 +17,9 @@ class _ChangeThemeMenuState extends State<ChangeThemeMenu> {
     return DrawerMenuItem(
       onTap: () {
         Navigator.pop(context);
-        if (defaultTargetPlatform == TargetPlatform.android ||
-            defaultTargetPlatform == TargetPlatform.iOS) {
+            double width = MediaQuery.of(context).size.width;
+
+        if (width<480) {
           Navigator.pushNamed(context, SelectThemeMobileScreen.routeName);
         } else {
           Navigator.pushNamed(context, SelectThemeDesktopScreen.routeName);

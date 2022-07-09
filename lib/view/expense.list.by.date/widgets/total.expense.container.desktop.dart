@@ -20,7 +20,6 @@ class TotalExpenseContainerDesktop extends StatelessWidget {
   final int totalExpense;
   final String cashTotal;
   final String onlineTotal;
-
   final String title;
   @override
   Widget build(BuildContext context) {

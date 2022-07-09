@@ -9,10 +9,15 @@ class Dialogs {
       {required BuildContext context,
       required String title,
       required VoidCallback positiveCallBack}) {
-    double width = (defaultTargetPlatform == TargetPlatform.android ||
-            defaultTargetPlatform == TargetPlatform.iOS)
-        ? double.infinity
-        : 360;
+    // double width = (defaultTargetPlatform == TargetPlatform.android ||
+    //         defaultTargetPlatform == TargetPlatform.iOS)
+    //     ? double.infinity
+    //     : 360;
+    double width = MediaQuery.of(context).size.width;
+    if (width > 480) {
+      width = 360;
+    }
+
     return showDialog(
       barrierDismissible: false,
       context: context,
@@ -104,10 +109,15 @@ class Dialogs {
     String title = 'Alert',
     required String description,
   }) {
-    double width = (defaultTargetPlatform == TargetPlatform.android ||
-            defaultTargetPlatform == TargetPlatform.iOS)
-        ? double.infinity
-        : 360;
+    // double width = (defaultTargetPlatform == TargetPlatform.android ||
+    //         defaultTargetPlatform == TargetPlatform.iOS)
+    //     ? double.infinity
+    //     : 360;
+    double width = MediaQuery.of(context).size.width;
+    if (width > 480) {
+      width = 360;
+    }
+
     return showDialog(
       barrierDismissible: false,
       context: context,
@@ -179,10 +189,16 @@ class Dialogs {
     String title = 'Alert',
     required String description,
   }) {
-    double width = (defaultTargetPlatform == TargetPlatform.android ||
-            defaultTargetPlatform == TargetPlatform.iOS)
-        ? double.infinity
-        : 360;
+    // double width = (defaultTargetPlatform == TargetPlatform.android ||
+    //         defaultTargetPlatform == TargetPlatform.iOS)
+    //     ? double.infinity
+    //     : 360;
+    // double width = MediaQuery.of(context).size.width;
+    double width = MediaQuery.of(context).size.width;
+    if (width > 480) {
+      width = 360;
+    }
+
     return showDialog(
       barrierDismissible: false,
       context: context,
@@ -223,7 +239,8 @@ class Dialogs {
                     CursorWidget(
                       onTap: () {
                         Navigator.pop(ctx);
-                        Navigation.checkPlatformAndNavigateToHome(context);
+                        Navigation.checkPlatformAndNavigateToHome(
+                            context, width < 480);
                       },
                       isButton: true,
                       borderColor: Theme.of(context).primaryColor,
@@ -256,10 +273,15 @@ class Dialogs {
     required String description,
     required VoidCallback callback,
   }) async {
-    double width = (defaultTargetPlatform == TargetPlatform.android ||
-            defaultTargetPlatform == TargetPlatform.iOS)
-        ? double.infinity
-        : 360;
+    // double width = (defaultTargetPlatform == TargetPlatform.android ||
+    //         defaultTargetPlatform == TargetPlatform.iOS)
+    //     ? double.infinity
+    //     : 360;
+    double width = MediaQuery.of(context).size.width;
+    if (width > 480) {
+      width = 360;
+    }
+
     return showDialog(
       barrierDismissible: false,
       context: context,
@@ -314,7 +336,7 @@ class Dialogs {
                         ),
                       ),
                     ),
-                     const SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                   ],

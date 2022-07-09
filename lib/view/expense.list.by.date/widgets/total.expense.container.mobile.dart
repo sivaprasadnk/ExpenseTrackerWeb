@@ -1,20 +1,27 @@
 import 'package:expense_tracker/view/expense.list.by.date/widgets/total.expense.title.text.dart';
+import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/cash.total.container.dart';
+import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/online.title.text.dart';
+import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/online.total.container.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common_strings.dart';
 import '../../../provider/home.provider.dart';
+import '../../home/desktop/widgets/todays.daily.expense/cash.title.title.dart';
 
 class TotalExpenseContainerMobile extends StatelessWidget {
   const TotalExpenseContainerMobile({
     Key? key,
     required this.totalExpense,
     required this.title,
+    required this.cashTotal,
+    required this.onlineTotal,
   }) : super(key: key);
-
   final int totalExpense;
-
+  final String cashTotal;
+  final String onlineTotal;
   final String title;
+
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
@@ -58,7 +65,12 @@ class TotalExpenseContainerMobile extends StatelessWidget {
             ],
           ),
         ),
-        TotalExpenseTitleText(title: title)
+        TotalExpenseTitleText(title: title),
+                CashTitleText(theme: theme),
+        OnlineTitleText(theme: theme),
+        CashTotalContainer(theme: theme, amount: cashTotal,),
+        OnlineTotalContainer(theme: theme, amount: onlineTotal,)
+
       ],
     );
   }

@@ -238,15 +238,16 @@ class _LoginScreenDesktopState extends State<LoginScreenDesktop>
                                   autocorrect: false,
                                   style: const TextStyle(
                                     color: Colors.black,
-                                    fontSize: 20,
+                                    fontSize: 18,
                                   ),
                                   keyboardType: TextInputType.emailAddress,
                                   onSaved: (val) {
                                     email = val.toString();
                                   },
-                                  decoration: const InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(
-                                        horizontal: 8, vertical: 15),
+                                  decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.symmetric(
+                                            horizontal: 8, vertical: 10) +
+                                        const EdgeInsets.only(top: 2),
                                     border: InputBorder.none,
                                     isDense: true,
                                   ),
@@ -285,10 +286,13 @@ class _LoginScreenDesktopState extends State<LoginScreenDesktop>
                                         onSaved: (val) {
                                           password = val.toString();
                                         },
-                                        decoration: const InputDecoration(
+                                        decoration: InputDecoration(
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                      horizontal: 8,
+                                                      vertical: 10) +
+                                                  const EdgeInsets.only(top: 2),
                                           border: InputBorder.none,
-                                          contentPadding: EdgeInsets.symmetric(
-                                              horizontal: 8, vertical: 15),
                                           isDense: true,
                                         ),
                                       ),
@@ -369,7 +373,7 @@ class _LoginScreenDesktopState extends State<LoginScreenDesktop>
 
   void validateAndProceed() {
     _formKey.currentState!.save();
-    AuthController.login(context, email.trim(), password.trim());
+    AuthController.login(context, email.trim(), password.trim(), false);
   }
 }
 

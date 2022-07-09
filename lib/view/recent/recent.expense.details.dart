@@ -56,8 +56,9 @@ class _RecentExpenseDetailsState extends State<RecentExpenseDetails> {
                 Provider.of<HomeProvider>(context, listen: false)
                     .deductFromMonthlyTotal(widget.expense.amount);
                 Future.delayed(const Duration(seconds: 1)).then((value) {
-                  if ((defaultTargetPlatform == TargetPlatform.android ||
-                      defaultTargetPlatform == TargetPlatform.iOS)) {
+                  double width = MediaQuery.of(context).size.width;
+
+                  if (width < 480) {
                     Navigator.pushNamedAndRemoveUntil(
                         context, HomeScreenMobile.routeName, (r) => false);
                   } else {
@@ -88,8 +89,7 @@ class _RecentExpenseDetailsState extends State<RecentExpenseDetails> {
                     // .orderBy('updatedTime', descending: false)
                     .snapshots(),
                 builder: (ct, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
-                  }
+                  if (snapshot.hasData) {}
                   return snapshot.connectionState != ConnectionState.done
                       ? snapshot.hasData
                           ? Center(
