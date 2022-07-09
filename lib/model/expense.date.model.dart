@@ -5,6 +5,8 @@ class ExpenseDate {
   String day;
   String month;
   String updatedDateTime;
+  String cashTotal;
+  String onlineTotal;
   int totalExpense;
   // String expenseDate;
   ExpenseDate({
@@ -13,6 +15,8 @@ class ExpenseDate {
     required this.month,
     required this.updatedDateTime,
     required this.totalExpense,
+    required this.cashTotal,
+    required this.onlineTotal,
   });
 
   static ExpenseDate fromJson(QueryDocumentSnapshot<Object?> doc) {
@@ -22,6 +26,8 @@ class ExpenseDate {
       month: doc['month'],
       totalExpense: doc['totalExpense'],
       updatedDateTime: '',
+      cashTotal: doc['totalCashExpense'].toString(),
+      onlineTotal: doc['totalOnlineExpense'].toString(),
     );
   }
 }

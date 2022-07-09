@@ -12,10 +12,14 @@ class TotalExpenseContainerDesktop extends StatelessWidget {
   const TotalExpenseContainerDesktop({
     Key? key,
     required this.totalExpense,
+    required this.cashTotal,
+    required this.onlineTotal,
     required this.title,
   }) : super(key: key);
 
   final int totalExpense;
+  final String cashTotal;
+  final String onlineTotal;
 
   final String title;
   @override
@@ -65,8 +69,8 @@ class TotalExpenseContainerDesktop extends StatelessWidget {
         TotalExpenseTitleText(title: title),
         CashTitleText(theme: theme),
         OnlineTitleText(theme: theme),
-        CashTotalContainer(theme: theme),
-        OnlineTotalContainer(theme: theme)
+        CashTotalContainer(theme: theme, amount: cashTotal,),
+        OnlineTotalContainer(theme: theme, amount: onlineTotal,)
       ],
     );
   }

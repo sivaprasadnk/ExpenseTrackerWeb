@@ -93,6 +93,8 @@ class _ExpenseByCategoryListDesktopScreenState
             TotalExpenseContainerDesktop(
               totalExpense: widget.totalAmount,
               title: widget.categoryName,
+              cashTotal: "0",
+              onlineTotal: "0",
             ),
             const SizedBox(
               height: 10,

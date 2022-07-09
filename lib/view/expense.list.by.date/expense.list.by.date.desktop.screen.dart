@@ -15,8 +15,12 @@ class ExpenseListByDateDesktopScreen extends StatefulWidget {
   const ExpenseListByDateDesktopScreen({
     Key? key,
     required this.expenseDateItem,
+    required this.cashTotal,
+    required this.onlineTotal,
   }) : super(key: key);
   final ExpenseDate expenseDateItem;
+  final String cashTotal;
+  final String onlineTotal;
 
   @override
   State<ExpenseListByDateDesktopScreen> createState() =>
@@ -98,6 +102,8 @@ class _ExpenseListByDateDesktopScreenState
             TotalExpenseContainerDesktop(
               totalExpense: widget.expenseDateItem.totalExpense,
               title: widget.expenseDateItem.date,
+              cashTotal: widget.cashTotal,
+              onlineTotal: widget.onlineTotal,
             ),
             const SizedBox(
               height: 10,

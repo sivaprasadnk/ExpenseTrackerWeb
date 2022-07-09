@@ -1,9 +1,11 @@
+import 'package:expense_tracker/provider/home.provider.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/cash.title.title.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/cash.total.container.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/daily.total.text.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/online.title.text.dart';
 import 'package:expense_tracker/view/todays.expense.list/todays.expense.list.desktop.screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'online.total.container.dart';
 
@@ -25,54 +27,58 @@ class _TodaysTotalExpenseContainerState
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     var primaryColor = theme.primaryColor;
-    return Stack(
-      children: [
-        InkWell(
-          borderRadius: BorderRadius.circular(12),
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => const TodaysExpenseListDesktopScreen()));
-          },
-          onHover: (val) {
-            setState(() {
-              isHovered = val;
-            });
-          },
-          child: Container(
-            height: 150,
-            width: 430,
-            decoration: BoxDecoration(
-              color: primaryColor,
-              border: Border.all(
-                width: isHovered ? 2 : 1,
-                color: !isHovered ? primaryColor : theme.cardColor,
-              ),
+    return Consumer<HomeProvider>(
+      builder: (_,provider,__) {
+        return Stack(
+          children: [
+            InkWell(
               borderRadius: BorderRadius.circular(12),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Todays Total Expense',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: theme.scaffoldBackgroundColor,
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => const TodaysExpenseListDesktopScreen()));
+              },
+              onHover: (val) {
+                setState(() {
+                  isHovered = val;
+                });
+              },
+              child: Container(
+                height: 150,
+                width: 430,
+                decoration: BoxDecoration(
+                  color: primaryColor,
+                  border: Border.all(
+                    width: isHovered ? 2 : 1,
+                    color: !isHovered ? primaryColor : theme.cardColor,
                   ),
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                const DailyTotalText(),
-              ],
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Todays Total Expense',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: theme.scaffoldBackgroundColor,
+                      ),
+                    ),
+                    const DailyTotalText(),
+                  ],
+                ),
+              ),
             ),
-          ),
-        ),
-        CashTitleText(theme: theme),
-        OnlineTitleText(theme: theme),
-        CashTotalContainer(theme: theme),
-        OnlineTotalContainer(theme: theme)
-      ],
+            CashTitleText(theme: theme),
+            OnlineTitleText(theme: theme),
+            CashTotalContainer(theme: theme,amount: provider.dailyCashTotal.toString(),),
+            OnlineTotalContainer(theme: theme, amount: provider.dailyOnlineTotal.toString(),)
+          ],
+        );
+      }
     );
   }
 }
