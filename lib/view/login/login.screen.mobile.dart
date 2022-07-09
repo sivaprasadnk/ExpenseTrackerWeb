@@ -7,11 +7,11 @@ import 'package:expense_tracker/view/login/widgets/login.submit.button.dart';
 import 'package:expense_tracker/view/login/widgets/mobile/dont.have.account.container.mobile.dart';
 import 'package:expense_tracker/view/login/widgets/social.media.sign.in/fb.sign.in.dart';
 import 'package:expense_tracker/view/login/widgets/social.media.sign.in/google.sign.in.dart';
-import 'package:expense_tracker/view/login/widgets/text.field.container.dart';
 import 'package:expense_tracker/view/login/widgets/text.field.title.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sizer/sizer.dart';
 
 import 'widgets/footer.text.dart';
 
@@ -142,6 +142,32 @@ class _LoginScreenMobileState extends State<LoginScreenMobile>
     final screenSize = MediaQuery.of(context).size;
     const opacityDuration = Duration(milliseconds: 900);
     const slideDuration = Duration(milliseconds: 400);
+
+    InputDecoration decoration = InputDecoration(
+      focusedBorder: OutlineInputBorder(
+        borderSide: const BorderSide(
+          color: Colors.black,
+        ),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: const BorderSide(
+          color: Colors.black,
+        ),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      border: OutlineInputBorder(
+        borderSide: const BorderSide(
+          color: Colors.black,
+        ),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      isDense: true,
+      contentPadding: EdgeInsets.symmetric(
+        horizontal: 8,
+        vertical: 4.h,
+      ),
+    );
     return Form(
       key: _formKey,
       child: Scaffold(
@@ -159,7 +185,7 @@ class _LoginScreenMobileState extends State<LoginScreenMobile>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 const AppNameText(),
                 const SizedBox(height: 10),
                 const AuthTitleText(title: 'Login'),
@@ -197,32 +223,31 @@ class _LoginScreenMobileState extends State<LoginScreenMobile>
                             child: AnimatedSlide(
                               duration: slideDuration,
                               offset: _emailFieldSlide.value,
-                              child: TextFieldContainer(
-                                width: double.infinity,
-                                child: TextFormField(
-                                  textInputAction: TextInputAction.next,
-                                  onFieldSubmitted: (_) {
-                                    FocusScope.of(context)
-                                        .requestFocus(textSecondFocusNode);
-                                  },
-                                  onEditingComplete: () {
-                                    FocusScope.of(context)
-                                        .requestFocus(textSecondFocusNode);
-                                  },
-                                  autocorrect: false,
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 20,
-                                  ),
-                                  keyboardType: TextInputType.emailAddress,
-                                  onSaved: (val) {
-                                    email = val.toString();
-                                  },
-                                  decoration: const InputDecoration(
-                                    border: InputBorder.none,
-                                    isDense: true,
-                                    contentPadding: EdgeInsets.symmetric(
-                                        horizontal: 8, vertical: 18),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: SizedBox(
+                                  height: 5.h,
+                                  child: TextFormField(
+                                    textInputAction: TextInputAction.next,
+                                    onFieldSubmitted: (_) {
+                                      FocusScope.of(context)
+                                          .requestFocus(textSecondFocusNode);
+                                    },
+                                    onEditingComplete: () {
+                                      FocusScope.of(context)
+                                          .requestFocus(textSecondFocusNode);
+                                    },
+                                    autocorrect: false,
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20,
+                                    ),
+                                    keyboardType: TextInputType.emailAddress,
+                                    onSaved: (val) {
+                                      email = val.toString();
+                                    },
+                                    decoration: decoration,
                                   ),
                                 ),
                               ),
@@ -248,29 +273,28 @@ class _LoginScreenMobileState extends State<LoginScreenMobile>
                               child: Row(
                                 children: [
                                   Expanded(
-                                    child: TextFieldContainer(
-                                      child: TextFormField(
-                                        focusNode: textSecondFocusNode,
-                                        obscureText: !showPassword,
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 20,
-                                        ),
-                                        onSaved: (val) {
-                                          password = val.toString();
-                                        },
-                                        decoration: const InputDecoration(
-                                          border: InputBorder.none,
-                                          isDense: true,
-                                          contentPadding: EdgeInsets.symmetric(
-                                              horizontal: 8, vertical: 18),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10),
+                                      child: SizedBox(
+                                        height: 5.h,
+                                        child: TextFormField(
+                                          focusNode: textSecondFocusNode,
+                                          obscureText: !showPassword,
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 20,
+                                          ),
+                                          onSaved: (val) {
+                                            password = val.toString();
+                                          },
+                                          decoration: decoration,
                                         ),
                                       ),
                                     ),
                                   ),
-                                  TextFieldContainer(
-                                    width: 43,
-                                    margin: const EdgeInsets.only(
+                                  Padding(
+                                    padding: const EdgeInsets.only(
                                         left: 3, right: 13),
                                     child: GestureDetector(
                                       onTap: () {
@@ -278,16 +302,20 @@ class _LoginScreenMobileState extends State<LoginScreenMobile>
                                           showPassword = !showPassword;
                                         });
                                       },
-                                      child: Center(
-                                        child: showPassword
-                                            ? const Icon(
-                                                Icons.visibility,
-                                                color: Colors.black,
-                                              )
-                                            : const Icon(
-                                                Icons.visibility_off,
-                                                color: Colors.black,
-                                              ),
+                                      child: SizedBox(
+                                        height: 5.h,
+                                        width: 43,
+                                        child: Center(
+                                          child: showPassword
+                                              ? const Icon(
+                                                  Icons.visibility,
+                                                  color: Colors.black,
+                                                )
+                                              : const Icon(
+                                                  Icons.visibility_off,
+                                                  color: Colors.black,
+                                                ),
+                                        ),
                                       ),
                                     ),
                                   )

@@ -8,7 +8,7 @@ import 'package:expense_tracker/utils/loading.dialog.dart';
 import 'package:expense_tracker/utils/navigation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+// import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:validators/validators.dart';
@@ -20,7 +20,8 @@ class AuthController {
     scopes: ['email', 'https://www.googleapis.com/auth/userinfo.profile'],
   );
 
-  static void login(BuildContext context, String email, String password, bool isSmallScreen) async {
+  static void login(BuildContext context, String email, String password,
+      bool isSmallScreen) async {
     try {
       if (email.isEmpty) {
         throw CustomException('Enter email !');
@@ -63,7 +64,8 @@ class AuthController {
     }
   }
 
-  static void register(BuildContext context, String email, String password, bool isSmallScreen) {
+  static void register(
+      BuildContext context, String email, String password, bool isSmallScreen) {
     try {
       if (email.isEmpty) {
         throw CustomException('Enter email !');
@@ -103,7 +105,7 @@ class AuthController {
   static void googleLogin({
     required BuildContext context,
     required GoogleSignInAccount account,
-   required bool isSmallScreen,
+    required bool isSmallScreen,
     bool link = false,
     AuthCredential? authCredential,
   }) {
@@ -139,50 +141,51 @@ class AuthController {
     }
   }
 
-  static void fbLogin({required BuildContext context, required bool isSmallScreen}) async {
+  static void fbLogin(
+      {required BuildContext context, required bool isSmallScreen}) async {
     try {
-      final LoginResult result = await FacebookAuth.instance.login(
-        permissions: [
-          "public_profile",
-          "email",
-        ],
-      );
-      if (result.status == LoginStatus.success) {
-        Loading.showLoading(context);
+      // final LoginResult result = await FacebookAuth.instance.login(
+      //   permissions: [
+      //     "public_profile",
+      //     "email",
+      //   ],
+      // );
+      // if (result.status == LoginStatus.success) {
+      //   Loading.showLoading(context);
 
-        authRepo.fbLogin(result: result).then((response) async {
-          if (response.status == ResponseStatus.error) {
-            FirebaseAuthException exc = response.data;
-            if (exc.code == 'account-exists-with-different-credential') {
-              List<String> emailList = await FirebaseAuth.instance
-                  .fetchSignInMethodsForEmail(exc.email!);
-              if (emailList.first == "google.com") {
-                String message =
-                    "You have used 'Google sign in' option  for this account to use this app. Please select 'Sign In using Google' to login to app";
-                Dialogs.showAlertDialog(context: context, description: message);
-              }
-            } else {
-              Dialogs.showAlertDialog(
-                      context: context, description: response.message)
-                  .then((value) {
-                Navigator.pop(context);
-              });
-            }
-          } else {
-            var provider = Provider.of<HomeProvider>(context, listen: false);
-            int dailyExp = response.dailyTotal;
-            provider.updateDailyTotalExpense(dailyExp);
-            provider.updateDailyCashTotalExpense(response.dailyCashTotal);
-            provider.updateDailyOnlineTotalExpense(response.dailyOnlineTotal);
+      //   authRepo.fbLogin(result: result).then((response) async {
+      //     if (response.status == ResponseStatus.error) {
+      //       FirebaseAuthException exc = response.data;
+      //       if (exc.code == 'account-exists-with-different-credential') {
+      //         List<String> emailList = await FirebaseAuth.instance
+      //             .fetchSignInMethodsForEmail(exc.email!);
+      //         if (emailList.first == "google.com") {
+      //           String message =
+      //               "You have used 'Google sign in' option  for this account to use this app. Please select 'Sign In using Google' to login to app";
+      //           Dialogs.showAlertDialog(context: context, description: message);
+      //         }
+      //       } else {
+      //         Dialogs.showAlertDialog(
+      //                 context: context, description: response.message)
+      //             .then((value) {
+      //           Navigator.pop(context);
+      //         });
+      //       }
+      //     } else {
+      //       var provider = Provider.of<HomeProvider>(context, listen: false);
+      //       int dailyExp = response.dailyTotal;
+      //       provider.updateDailyTotalExpense(dailyExp);
+      //       provider.updateDailyCashTotalExpense(response.dailyCashTotal);
+      //       provider.updateDailyOnlineTotalExpense(response.dailyOnlineTotal);
 
-            userRepo.getRecentExpense().then((recentExpList) {
-              Provider.of<HomeProvider>(context, listen: false)
-                  .updateRecentList(recentExpList);
-              Navigation.checkPlatformAndNavigateToHome(context, isSmallScreen);
-            });
-          }
-        });
-      } else {}
+      //       userRepo.getRecentExpense().then((recentExpList) {
+      //         Provider.of<HomeProvider>(context, listen: false)
+      //             .updateRecentList(recentExpList);
+      //         Navigation.checkPlatformAndNavigateToHome(context, isSmallScreen);
+      //       });
+      //     }
+      //   });
+      // } else {}
     } on CustomException catch (exc) {
       Dialogs.showAlertDialog(context: context, description: exc.message);
     } catch (err) {

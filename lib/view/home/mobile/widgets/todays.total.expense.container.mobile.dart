@@ -7,6 +7,7 @@ import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/o
 import 'package:expense_tracker/view/todays.expense.list/todays.expense.list.mobile.screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 
 class TodaysTotalExpenseContainerMobile extends StatelessWidget {
   const TodaysTotalExpenseContainerMobile({
@@ -26,7 +27,7 @@ class TodaysTotalExpenseContainerMobile extends StatelessWidget {
                   context, TodaysExpenseListMobileScreen.routeName);
             },
             child: Container(
-              height: 150,
+              height: 20.h,
               width: double.infinity,
               decoration: BoxDecoration(
                 color: primaryColor,

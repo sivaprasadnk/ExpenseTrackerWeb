@@ -27,23 +27,22 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  animate_do: null
+  # animate_do: null
   auth_buttons: ^2.0.4
   auto_animated: ^3.0.1
   blur: ^3.1.0
-  blurhash_dart: ^1.1.0
-  cloud_firestore: null
+  cloud_firestore: 
   connectivity_plus: ^2.3.1
   cupertino_icons: ^1.0.2
   dio: ^4.0.6
   easy_localization:
   firebase_auth: ^3.3.5
   firebase_core: ^1.11.0
-  flip_card: ^0.6.0
+  # flip_card: ^0.6.0
   flutter:
     sdk: flutter
-  flutter_blurhash: ^0.6.0
-  flutter_facebook_auth: ^4.3.4+2
+  # flutter_blurhash: ^0.6.0
+  # flutter_facebook_auth: ^4.3.4+2
   font_awesome_flutter: ^10.1.0
   google_sign_in: ^5.3.2
   google_sign_in_web: ^0.10.1+2
@@ -52,7 +51,7 @@ dependencies:
   package_info_plus: ^1.4.2
   provider: ^6.0.2
   shared_preferences: null
-  simple_animations: null
+  # simple_animations: null
   simple_month_year_picker: ^0.0.2
   sizer: ^2.0.15
   url_launcher: ^6.1.2

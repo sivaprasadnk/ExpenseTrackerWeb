@@ -8,7 +8,7 @@ import 'package:expense_tracker/model/registration.response.model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+// import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -247,122 +247,122 @@ class AuthRepo {
         data: '');
   }
 
-  Future<LoginResponse> fbLogin({required LoginResult result}) async {
-    final DateTime now = DateTime.now();
-    final PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    var version = packageInfo.version;
-    var build = packageInfo.buildNumber;
-    final String formattedTime = DateFormat('dd-MM-yyyy  kk:mm').format(now);
+  // Future<LoginResponse> fbLogin({required LoginResult result}) async {
+  //   final DateTime now = DateTime.now();
+  //   final PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  //   var version = packageInfo.version;
+  //   var build = packageInfo.buildNumber;
+  //   final String formattedTime = DateFormat('dd-MM-yyyy  kk:mm').format(now);
 
-    try {
-      final AccessToken accessToken = result.accessToken!;
-      debugPrint(accessToken.token);
+  //   try {
+  //     final AccessToken accessToken = result.accessToken!;
+  //     debugPrint(accessToken.token);
 
-      final AuthCredential facebookCredential =
-          FacebookAuthProvider.credential(result.accessToken!.token);
+  //     final AuthCredential facebookCredential =
+  //         FacebookAuthProvider.credential(result.accessToken!.token);
 
-      Map<String, dynamic> userDetails =
-          await FacebookAuth.instance.getUserData();
+  //     Map<String, dynamic> userDetails =
+  //         await FacebookAuth.instance.getUserData();
 
-      String email = userDetails['email'];
-      String name = userDetails['name'];
-      String url = userDetails['picture']['url'];
-      // String id = userDetails['id'];
-      // you are logged
+  //     String email = userDetails['email'];
+  //     String name = userDetails['name'];
+  //     String url = userDetails['picture']['url'];
+  //     // String id = userDetails['id'];
+  //     // you are logged
 
-      final UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithCredential(facebookCredential);
+  //     final UserCredential userCredential =
+  //         await FirebaseAuth.instance.signInWithCredential(facebookCredential);
 
-      if (userCredential.user != null) {
-        fireStoreInstance
-            .collection(kUsersCollection)
-            .doc(userCredential.user!.uid)
-            .set({
-          'email': email,
-          'username': name,
-          "photoUrl": url,
-          'password': 'fbSignIN',
-          'registeredTime': formattedTime,
-          'isWeb': kIsWeb,
-          'userId': userCredential.user!.uid,
-        });
-        fireStoreInstance
-            .collection(kUsersCollection)
-            .doc(userCredential.user!.uid)
-            .update({
-          'lastLoginTime': formattedTime,
-          'lastLoginIsWeb': kIsWeb,
-          'lastLoginVersion': version,
-          'lastLoginVersionCode': build,
-        });
-        fireStoreInstance
-            .collection(kUsersCollection)
-            .doc(userCredential.user!.uid)
-            .collection(kLoginTimeCollection)
-            .add({
-          'loginVersion': version,
-          'loginVersionCode': build,
-          'loginTime': formattedTime,
-          'isWeb': kIsWeb,
-        });
-      }
-    } on FirebaseAuthException catch (e) {
-      // List<String> emailList =
-      //     await FirebaseAuth.instance.fetchSignInMethodsForEmail(e.email!);
-      // if (emailList.first == "google.com") {
-      //   linkWithGoogle(authCredential: e.credential);
-      // }
+  //     if (userCredential.user != null) {
+  //       fireStoreInstance
+  //           .collection(kUsersCollection)
+  //           .doc(userCredential.user!.uid)
+  //           .set({
+  //         'email': email,
+  //         'username': name,
+  //         "photoUrl": url,
+  //         'password': 'fbSignIN',
+  //         'registeredTime': formattedTime,
+  //         'isWeb': kIsWeb,
+  //         'userId': userCredential.user!.uid,
+  //       });
+  //       fireStoreInstance
+  //           .collection(kUsersCollection)
+  //           .doc(userCredential.user!.uid)
+  //           .update({
+  //         'lastLoginTime': formattedTime,
+  //         'lastLoginIsWeb': kIsWeb,
+  //         'lastLoginVersion': version,
+  //         'lastLoginVersionCode': build,
+  //       });
+  //       fireStoreInstance
+  //           .collection(kUsersCollection)
+  //           .doc(userCredential.user!.uid)
+  //           .collection(kLoginTimeCollection)
+  //           .add({
+  //         'loginVersion': version,
+  //         'loginVersionCode': build,
+  //         'loginTime': formattedTime,
+  //         'isWeb': kIsWeb,
+  //       });
+  //     }
+  //   } on FirebaseAuthException catch (e) {
+  //     // List<String> emailList =
+  //     //     await FirebaseAuth.instance.fetchSignInMethodsForEmail(e.email!);
+  //     // if (emailList.first == "google.com") {
+  //     //   linkWithGoogle(authCredential: e.credential);
+  //     // }
 
-      return LoginResponse(
-        status: ResponseStatus.error,
-        data: e,
-        userId: '',
-        dailyTotal: 0,
-        dailyCashTotal: 0,
-        dailyOnlineTotal: 0,
-        message: AuthExceptionHandler.handleException(e).toString(),
-      );
-    } catch (err) {
-      debugPrint('error @fbLogin: $err');
-      return LoginResponse(
-        status: ResponseStatus.error,
-        data: '',
-        userId: '',
-        dailyTotal: 0,
-        dailyCashTotal: 0,
-        dailyOnlineTotal: 0,
-        message: AuthExceptionHandler.handleException(err).toString(),
-      );
-    }
+  //     return LoginResponse(
+  //       status: ResponseStatus.error,
+  //       data: e,
+  //       userId: '',
+  //       dailyTotal: 0,
+  //       dailyCashTotal: 0,
+  //       dailyOnlineTotal: 0,
+  //       message: AuthExceptionHandler.handleException(e).toString(),
+  //     );
+  //   } catch (err) {
+  //     debugPrint('error @fbLogin: $err');
+  //     return LoginResponse(
+  //       status: ResponseStatus.error,
+  //       data: '',
+  //       userId: '',
+  //       dailyTotal: 0,
+  //       dailyCashTotal: 0,
+  //       dailyOnlineTotal: 0,
+  //       message: AuthExceptionHandler.handleException(err).toString(),
+  //     );
+  //   }
 
-    String userId = FirebaseAuth.instance.currentUser!.uid;
+  //   String userId = FirebaseAuth.instance.currentUser!.uid;
 
-    var date = DateFormat('dd-MM-yyyy').format(now);
-    int dailyTotal = 0;
-    int dailyCashTotal = 0;
-    int dailyOnlineTotal = 0;
-    var value1 = await fireStoreInstance
-        .collection(kUsersCollection)
-        .doc(userId)
-        .collection(kExpenseDatesNewCollection)
-        .doc(date)
-        .get();
+  //   var date = DateFormat('dd-MM-yyyy').format(now);
+  //   int dailyTotal = 0;
+  //   int dailyCashTotal = 0;
+  //   int dailyOnlineTotal = 0;
+  //   var value1 = await fireStoreInstance
+  //       .collection(kUsersCollection)
+  //       .doc(userId)
+  //       .collection(kExpenseDatesNewCollection)
+  //       .doc(date)
+  //       .get();
 
-    if (value1.data() != null) {
-      dailyTotal = value1.data()!['totalExpense'];
-      dailyCashTotal = value1.data()!['totalCashExpense'];
-      dailyOnlineTotal = value1.data()!['totalOnlineExpense'];
-    }
-    return LoginResponse(
-      status: ResponseStatus.success,
-      message: 'Success',
-      userId: userId,
-      dailyTotal: dailyTotal,
-      dailyCashTotal: dailyCashTotal,
-      dailyOnlineTotal: dailyOnlineTotal,
-      data: '',
-    );
-  }
+  //   if (value1.data() != null) {
+  //     dailyTotal = value1.data()!['totalExpense'];
+  //     dailyCashTotal = value1.data()!['totalCashExpense'];
+  //     dailyOnlineTotal = value1.data()!['totalOnlineExpense'];
+  //   }
+  //   return LoginResponse(
+  //     status: ResponseStatus.success,
+  //     message: 'Success',
+  //     userId: userId,
+  //     dailyTotal: dailyTotal,
+  //     dailyCashTotal: dailyCashTotal,
+  //     dailyOnlineTotal: dailyOnlineTotal,
+  //     data: '',
+  //   );
+  // }
 
   Future<LoginResponse> linkWithGoogle({AuthCredential? authCredential}) async {
     final DateTime now = DateTime.now();
@@ -434,9 +434,9 @@ class AuthRepo {
         status: ResponseStatus.error,
         data: '',
         userId: '',
-        dailyTotal: 0,        dailyCashTotal: 0,
+        dailyTotal: 0,
+        dailyCashTotal: 0,
         dailyOnlineTotal: 0,
-
         message: AuthExceptionHandler.handleException(err).toString(),
       );
     } catch (err) {
@@ -445,9 +445,8 @@ class AuthRepo {
         status: ResponseStatus.error,
         data: '',
         userId: '',
-                dailyCashTotal: 0,
+        dailyCashTotal: 0,
         dailyOnlineTotal: 0,
-
         dailyTotal: 0,
         message: AuthExceptionHandler.handleException(err).toString(),
       );

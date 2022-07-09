@@ -2,7 +2,7 @@ import 'package:expense_tracker/controller/auth.controller.dart';
 import 'package:expense_tracker/cursor.widget.dart';
 import 'package:expense_tracker/view/login/widgets/social.media.sign.in/social.media.sign.in.button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+// import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FbSignInButton extends StatelessWidget {
@@ -33,9 +33,9 @@ class FbSignInButton extends StatelessWidget {
 
   facebookLogin(BuildContext context) async {
     try {
-        var width = MediaQuery.of(context).size.width;
+      var width = MediaQuery.of(context).size.width;
 
-       AuthController.fbLogin(context: context, isSmallScreen: width<480);
+      AuthController.fbLogin(context: context, isSmallScreen: width < 480);
 //       final LoginResult result = await FacebookAuth.instance
 //           .login(); // by default we request the email and the public profile
 // // or FacebookAuth.i.login()

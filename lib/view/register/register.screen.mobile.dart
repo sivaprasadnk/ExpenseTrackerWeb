@@ -3,15 +3,14 @@ import 'package:expense_tracker/cursor.widget.dart';
 import 'package:expense_tracker/view/login/widgets/app.name.text.dart';
 import 'package:expense_tracker/view/login/widgets/auth.title.text.dart';
 import 'package:expense_tracker/view/login/widgets/divider.dart';
-import 'package:expense_tracker/view/login/widgets/footer.text.dart';
 import 'package:expense_tracker/view/login/widgets/login.submit.button.dart';
 import 'package:expense_tracker/view/login/widgets/mobile/have.an.account.container.mobile.dart';
 import 'package:expense_tracker/view/login/widgets/social.media.sign.in/fb.sign.in.dart';
-import 'package:expense_tracker/view/login/widgets/text.field.container.dart';
 import 'package:expense_tracker/view/login/widgets/text.field.title.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sizer/sizer.dart';
 
 import '../login/widgets/social.media.sign.in/google.sign.in.dart';
 import 'terms.and.privacy.text.dart';
@@ -149,6 +148,32 @@ class _RegisterScreenMobileState extends State<RegisterScreenMobile>
     const opacityDuration = Duration(milliseconds: 900);
     const slideDuration = Duration(milliseconds: 400);
 
+    InputDecoration decoration = InputDecoration(
+      focusedBorder: OutlineInputBorder(
+        borderSide: const BorderSide(
+          color: Colors.black,
+        ),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: const BorderSide(
+          color: Colors.black,
+        ),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      border: OutlineInputBorder(
+        borderSide: const BorderSide(
+          color: Colors.black,
+        ),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      isDense: true,
+      contentPadding: EdgeInsets.symmetric(
+        horizontal: 8,
+        vertical: 4.h,
+      ),
+    );
+
     return Scaffold(
       extendBody: true,
       body: Form(
@@ -203,22 +228,20 @@ class _RegisterScreenMobileState extends State<RegisterScreenMobile>
                             child: AnimatedSlide(
                               duration: slideDuration,
                               offset: _emailFieldSlide.value,
-                              child: TextFieldContainer(
-                                width: double.infinity,
-                                child: TextFormField(
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                  ),
-                                  keyboardType: TextInputType.emailAddress,
-                                  onSaved: (val) {
-                                    email = val.toString();
-                                  },
-                                  decoration: InputDecoration(
-                                    contentPadding: const EdgeInsets.symmetric(
-                                            horizontal: 8, vertical: 10) +
-                                        const EdgeInsets.only(top: 2),
-                                    border: InputBorder.none,
-                                    isDense: true,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: SizedBox(
+                                  height: 5.h,
+                                  child: TextFormField(
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                    ),
+                                    keyboardType: TextInputType.emailAddress,
+                                    onSaved: (val) {
+                                      email = val.toString();
+                                    },
+                                    decoration: decoration,
                                   ),
                                 ),
                               ),
@@ -244,31 +267,26 @@ class _RegisterScreenMobileState extends State<RegisterScreenMobile>
                               child: Row(
                                 children: [
                                   Expanded(
-                                    child: TextFieldContainer(
-                                      child: TextFormField(
-                                        obscureText: !showPassword,
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        onSaved: (val) {
-                                          password = val.toString();
-                                        },
-                                        decoration: InputDecoration(
-                                          contentPadding:
-                                              const EdgeInsets.symmetric(
-                                                      horizontal: 8,
-                                                      vertical: 10) +
-                                                  const EdgeInsets.only(top: 2),
-                                          border: InputBorder.none,
-                                          isDense: true,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 10),
+                                      child: SizedBox(
+                                        height: 5.h,
+                                        child: TextFormField(
+                                          obscureText: !showPassword,
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          onSaved: (val) {
+                                            password = val.toString();
+                                          },
+                                          decoration: decoration,
                                         ),
                                       ),
                                     ),
                                   ),
-                                  TextFieldContainer(
-                                    width: 43,
-                                    margin: const EdgeInsets.only(
+                                  Padding(
+                                    padding: const EdgeInsets.only(
                                         left: 3, right: 13),
                                     child: GestureDetector(
                                       onTap: () {
@@ -276,16 +294,20 @@ class _RegisterScreenMobileState extends State<RegisterScreenMobile>
                                           showPassword = !showPassword;
                                         });
                                       },
-                                      child: Center(
-                                        child: showPassword
-                                            ? const Icon(
-                                                Icons.visibility,
-                                                color: Colors.black,
-                                              )
-                                            : const Icon(
-                                                Icons.visibility_off,
-                                                color: Colors.black,
-                                              ),
+                                      child: SizedBox(
+                                        height: 5.h,
+                                        width: 43,
+                                        child: Center(
+                                          child: showPassword
+                                              ? const Icon(
+                                                  Icons.visibility,
+                                                  color: Colors.black,
+                                                )
+                                              : const Icon(
+                                                  Icons.visibility_off,
+                                                  color: Colors.black,
+                                                ),
+                                        ),
                                       ),
                                     ),
                                   )
@@ -323,7 +345,10 @@ class _RegisterScreenMobileState extends State<RegisterScreenMobile>
                 const SizedBox(height: 20),
                 const HaveAccoutContainerMobile(),
                 const SizedBox(height: 20),
-                const TermsAndPrivacyPolicyText(width: double.infinity,horizontalPadding: 38,),
+                const TermsAndPrivacyPolicyText(
+                  width: double.infinity,
+                  horizontalPadding: 38,
+                ),
                 const SizedBox(height: 50),
               ],
             ),

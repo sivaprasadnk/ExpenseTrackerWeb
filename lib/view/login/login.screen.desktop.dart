@@ -13,6 +13,7 @@ import 'package:expense_tracker/view/login/widgets/text.field.title.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sizer/sizer.dart';
 
 class LoginScreenDesktop extends StatefulWidget {
   const LoginScreenDesktop({Key? key}) : super(key: key);
@@ -185,7 +186,7 @@ class _LoginScreenDesktopState extends State<LoginScreenDesktop>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 const AppNameText(),
                 const SizedBox(height: 10),
                 const AuthTitleText(title: 'Login'),
