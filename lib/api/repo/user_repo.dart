@@ -125,8 +125,6 @@ class UserRepo {
       'categoryName': expense.categoryName,
       'categoryId': expense.categoryId,
     });
-    debugPrint(
-        ' ${expense.categoryName} totalMount after :: ${(totAmt + expense.amount)}');
 
     /// setting  expense category item in category list
 
@@ -392,7 +390,6 @@ class UserRepo {
         .update(
           Expense.toJson(expense),
         );
-    debugPrint('.. model.newDateWiseTotal : ${model.newDateWiseTotal}');
     fireStoreInstance
         .collection(kUsersCollection)
         .doc(userId)

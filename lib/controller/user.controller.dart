@@ -85,9 +85,6 @@ class UserController {
       createdDateTime: createdDateTime,
     );
 
-    debugPrint('.. @@ dailyTotal :$dailyTotal ');
-    debugPrint('.. @@ dailyCashTotal :$dailyCashTotal ');
-    debugPrint('.. @@ dailyOnlineTotal :$dailyOnlineTotal ');
 
     ResponseModel response = await userRepo.addExpense(request);
 
@@ -162,11 +159,6 @@ class UserController {
       var newDateWiseTotal = currentDatewiseTotal + amtToAdd;
       var newCategoryWiseTotal = currentCategorywiseTotal + amtToAdd;
 
-      debugPrint('.. @@currentCategorywiseTotal : $currentCategorywiseTotal ');
-      debugPrint('.. @@currentDatewiseTotal : $currentDatewiseTotal ');
-
-      debugPrint('.. @@newCategoryWiseTotal : $newCategoryWiseTotal ');
-      debugPrint('.. @@newDateWiseTotal : $newDateWiseTotal ');
 
       final DateTime now = DateTime.now();
 
