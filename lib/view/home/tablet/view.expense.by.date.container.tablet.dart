@@ -1,8 +1,9 @@
 import 'package:expense_tracker/view/expense.date.list/expense.date.list.mobile.screen.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
-class ViewExpensesByDateContainerMobile extends StatelessWidget {
-  const ViewExpensesByDateContainerMobile(
+class ViewExpensesByDateContainerTablet extends StatelessWidget {
+  const ViewExpensesByDateContainerTablet(
       {Key? key, required this.width, required this.height})
       : super(key: key);
   final double width;
@@ -31,23 +32,22 @@ class ViewExpensesByDateContainerMobile extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             Text(
-              ' View Expenses \n by Date',
-              textAlign: TextAlign.center,
+              "View Expenses",
               style: TextStyle(
-                fontSize: 17,
+                fontSize: 11.sp,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            // Text(
-            //   ' by Date',
-            //   style: TextStyle(
-            //     fontWeight: FontWeight.bold,
-            //     fontSize: 15,
-            //     color: Colors.red,
-            //   ),
-            // ),
+            Text(
+              'by Date',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 11.sp,
+                // color: Colors.red,
+              ),
+            ),
           ],
         ),
       ),

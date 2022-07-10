@@ -1,12 +1,16 @@
 import 'package:expense_tracker/model/expense.model.dart';
 import 'package:expense_tracker/utils/dialog.dart';
-import 'package:expense_tracker/view/edit.expense/edit.expense.desktop.dart';
-import 'package:expense_tracker/view/edit.expense/edit.expense.mobile.dart';
+import 'package:expense_tracker/view/edit.expense/edit.expense.screen.dart';
 import 'package:flutter/material.dart';
 
 class ExpenseEditIcon extends StatelessWidget {
-  const ExpenseEditIcon({Key? key, required this.expense}) : super(key: key);
+  const ExpenseEditIcon({
+    Key? key,
+    required this.expense,
+    this.size = 10,
+  }) : super(key: key);
   final Expense expense;
+  final double size;
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
@@ -30,26 +34,16 @@ class ExpenseEditIcon extends StatelessWidget {
                   context: context,
                   description: 'recent doc id is empty !. Cannot edit');
             } else {
-              double width = MediaQuery.of(context).size.width;
-
-              if (width < 480) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: ((context) {
-                      return EditExpenseScreenMobile(
-                        expense: expense,
-                      );
-                    }),
-                  ),
-                );
-              } else {
-                Navigator.push(context, MaterialPageRoute(builder: ((context) {
-                  return EditExpenseScreenDesktop(
-                    expense: expense,
-                  );
-                })));
-              }
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: ((context) {
+                    return EditExpenseScreen(
+                      expense: expense,
+                    );
+                  }),
+                ),
+              );
             }
           },
           child: Container(
@@ -63,7 +57,7 @@ class ExpenseEditIcon extends StatelessWidget {
               padding: const EdgeInsets.all(5.0),
               child: Icon(
                 Icons.edit,
-                size: 10,
+                size: size,
                 color: bgColor,
               ),
             ),

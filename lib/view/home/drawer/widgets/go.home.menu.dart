@@ -3,8 +3,11 @@ import 'package:expense_tracker/view/home/home.screen.dart';
 import 'package:flutter/material.dart';
 
 class GoHomeMenu extends StatelessWidget {
-  const GoHomeMenu({Key? key}) : super(key: key);
-
+  const GoHomeMenu({
+    Key? key,
+    this.fontSize = 20,
+  }) : super(key: key);
+  final double fontSize;
   @override
   Widget build(BuildContext context) {
     return DrawerMenuItem(
@@ -23,6 +26,7 @@ class GoHomeMenu extends StatelessWidget {
       },
       icon: Icons.home,
       title: 'Go Home',
+      fontSize: fontSize,
     );
   }
 }

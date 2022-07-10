@@ -285,7 +285,7 @@ class UserRepo {
         .doc(userId)
         .collection(kRecentExpensesCollection)
         .orderBy('createdDateTime', descending: true)
-        .limit(4)
+        .limit(5)
         .get();
     var recentExpList1 = querySnapshot.docs.map((doc) => doc.data()).toList();
     for (var element in recentExpList1) {

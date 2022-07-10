@@ -6,6 +6,7 @@ class DrawerMenuItem extends StatefulWidget {
     required this.onTap,
     required this.icon,
     required this.title,
+    this.fontSize = 20,
     this.removeContext = false,
   }) : super(key: key);
 
@@ -13,6 +14,7 @@ class DrawerMenuItem extends StatefulWidget {
   final IconData icon;
   final String title;
   final bool removeContext;
+  final double fontSize;
   @override
   State<DrawerMenuItem> createState() => _DrawerMenuItemState();
 }
@@ -45,9 +47,7 @@ class _DrawerMenuItemState extends State<DrawerMenuItem> {
           ),
           Icon(
             widget.icon,
-            color: !isHovered
-                ?  theme.primaryColor
-                : theme.cardColor,
+            color: !isHovered ? theme.primaryColor : theme.cardColor,
           ),
           const SizedBox(
             width: 20,
@@ -55,10 +55,8 @@ class _DrawerMenuItemState extends State<DrawerMenuItem> {
           Text(
             widget.title,
             style: TextStyle(
-              fontSize: 20,
-              color: !isHovered
-                  ? theme.primaryColor
-                  : theme.cardColor,
+              fontSize: widget.fontSize,
+              color: !isHovered ? theme.primaryColor : theme.cardColor,
             ),
           ),
         ],

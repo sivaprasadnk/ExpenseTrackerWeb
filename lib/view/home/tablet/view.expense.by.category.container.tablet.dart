@@ -1,22 +1,28 @@
-import 'package:expense_tracker/view/expense.date.list/expense.date.list.mobile.screen.dart';
+import 'package:expense_tracker/view/expense.category.list/expense.category.list.mobile.screen.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
-class ViewExpensesByDateContainerMobile extends StatelessWidget {
-  const ViewExpensesByDateContainerMobile(
-      {Key? key, required this.width, required this.height})
-      : super(key: key);
+class ViewExpenseByCategoryContainerTablet extends StatelessWidget {
+  const ViewExpenseByCategoryContainerTablet({
+    Key? key,
+    required this.width,
+    required this.height,
+  }) : super(key: key);
+
   final double width;
   final double height;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     var primaryColor = theme.primaryColor;
-    var bgColor = theme.scaffoldBackgroundColor;
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (_) => const ExpenseByDateMobileScreen()),
+          MaterialPageRoute(
+              builder: (_) => const ExpenseCategoryListMobileScreen()),
         );
       },
       child: Container(
@@ -31,23 +37,22 @@ class ViewExpensesByDateContainerMobile extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             Text(
-              ' View Expenses \n by Date',
-              textAlign: TextAlign.center,
+              'View Expenses',
               style: TextStyle(
-                fontSize: 17,
+                fontSize: 12.sp,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            // Text(
-            //   ' by Date',
-            //   style: TextStyle(
-            //     fontWeight: FontWeight.bold,
-            //     fontSize: 15,
-            //     color: Colors.red,
-            //   ),
-            // ),
+            Text(
+              'by Category',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 12.sp,
+                // color: Colors.red,
+              ),
+            ),
           ],
         ),
       ),

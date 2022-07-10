@@ -1,11 +1,13 @@
 import 'package:expense_tracker/view/add_expense/add.expense.mobile.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
-class AddExpenseButtonMobile extends StatelessWidget {
-  const AddExpenseButtonMobile({Key? key, required this.height})
+class AddExpenseButtonTablet extends StatelessWidget {
+  const AddExpenseButtonTablet({Key? key, required this.height})
       : super(key: key);
 
   final double height;
+  // final double width;
 
   @override
   Widget build(BuildContext context) {
@@ -20,19 +22,19 @@ class AddExpenseButtonMobile extends StatelessWidget {
       },
       child: Container(
         height: height,
-        width: screenWidth / 3 - 20,
+        width: screenWidth / 3 - 5.w,
         decoration: BoxDecoration(
           border: Border.all(
             color: primaryColor,
           ),
           borderRadius: BorderRadius.circular(12),
         ),
-        child: const Center(
+        child: Center(
           child: Text(
-            'Add \n Expense',
+            "Add \n Expense",
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 25,
+              fontSize: 12.sp,
               fontWeight: FontWeight.bold,
             ),
           ),

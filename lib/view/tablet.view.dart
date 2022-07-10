@@ -1,14 +1,14 @@
 import 'package:expense_tracker/cursor.widget.dart';
 import 'package:expense_tracker/view/back.arrow.title.widget.dart';
-import 'package:expense_tracker/view/home/drawer/drawer.screen.dart';
+import 'package:expense_tracker/view/home/drawer/drawer.tablet.dart';
 import 'package:expense_tracker/view/network_aware_widget.dart';
 import 'package:expense_tracker/view/offline.widget.dart';
 import 'package:expense_tracker/view/search.screen/search.screen.mobile.dart';
 import 'package:expense_tracker/view/title.widget.dart';
 import 'package:flutter/material.dart';
 
-class MobileView extends StatefulWidget {
-  const MobileView({
+class TabletView extends StatefulWidget {
+  const TabletView({
     Key? key,
     required this.child,
     required this.appBarTitle,
@@ -26,10 +26,10 @@ class MobileView extends StatefulWidget {
   // final Widgt
 
   @override
-  State<MobileView> createState() => _MobileViewState();
+  State<TabletView> createState() => _TabletViewState();
 }
 
-class _MobileViewState extends State<MobileView> {
+class _TabletViewState extends State<TabletView> {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
 
   @override
@@ -110,7 +110,7 @@ class _MobileViewState extends State<MobileView> {
         ),
       ),
       endDrawer: const Drawer(
-        child: DrawerScreen(),
+        child: DrawerTablet(),
       ),
       body: widget.showNetworkStatus
           ? NetworkAwareWidget(

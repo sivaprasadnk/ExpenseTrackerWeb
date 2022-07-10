@@ -6,15 +6,21 @@ class OnlineTotalContainer extends StatelessWidget {
     Key? key,
     required this.theme,
     required this.amount,
+    this.fontSize = 25,
+    this.padding = 10,
+    this.bottonPadding = 20,
   }) : super(key: key);
 
   final ThemeData theme;
   final String amount;
+  final double fontSize;
+  final double padding;
+  final double bottonPadding;
 
   @override
   Widget build(BuildContext context) {
     return Positioned.fill(
-      bottom: 20,
+      bottom: bottonPadding,
       right: -1,
       child: Align(
         alignment: Alignment.bottomRight,
@@ -30,6 +36,8 @@ class OnlineTotalContainer extends StatelessWidget {
           ),
           child: OnlineTotalText(
             amount: amount,
+            fontSize: fontSize,
+            padding: padding,
           ),
         ),
       ),

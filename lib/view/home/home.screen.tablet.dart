@@ -1,11 +1,13 @@
 import 'package:expense_tracker/view/home/desktop/widgets/recent.expense.list/recent.expenses.text.dart';
-import 'package:expense_tracker/view/home/mobile/widgets/add.expense.button.mobile.dart';
-import 'package:expense_tracker/view/home/mobile/widgets/recent.expenses.list.container.mobile.dart';
-import 'package:expense_tracker/view/home/mobile/widgets/todays.total.expense.container.mobile.dart';
-import 'package:expense_tracker/view/home/mobile/widgets/view.expense.by.category.container.mobile.dart';
-import 'package:expense_tracker/view/home/mobile/widgets/view.expenses.by.date.container.mobile.dart';
-import 'package:expense_tracker/view/mobile.view.dart';
+import 'package:expense_tracker/view/tablet.view.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
+
+import 'tablet/add.expense.button.tablet.dart';
+import 'tablet/recent.expense.list.tablet.dart';
+import 'tablet/total.expense.container.tablet.dart';
+import 'tablet/view.expense.by.category.container.tablet.dart';
+import 'tablet/view.expense.by.date.container.tablet.dart';
 
 class HomeScreenTablet extends StatefulWidget {
   const HomeScreenTablet({
@@ -132,14 +134,8 @@ class _HomeScreenTabletState extends State<HomeScreenTablet>
     const slideDuration = Duration(milliseconds: 100);
     final size = MediaQuery.of(context).size;
     final width = size.width;
-    var time = now.hour;
 
-    var wishText = time < 12
-        ? "Good morning !"
-        : time == 12
-            ? "Good noon !"
-            : 'Good evening !';
-    return MobileView(
+    return TabletView(
       isHome: true,
       appBarTitle: '',
       showSearchIcon: true,
@@ -152,18 +148,12 @@ class _HomeScreenTabletState extends State<HomeScreenTablet>
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Spacer(),
-                Text(
-                  wishText,
-                  style: const TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                // const Spacer(),
+
                 // const SizedBox(
                 //   height: 5,
                 // ),
-                const Spacer(),
+                // const Spacer(),
 
                 AnimatedOpacity(
                   duration: opacityDuration,
@@ -171,32 +161,38 @@ class _HomeScreenTabletState extends State<HomeScreenTablet>
                   child: AnimatedSlide(
                     duration: slideDuration,
                     offset: _todaysTextContainerSlide.value,
-                    child: const TodaysTotalExpenseContainerMobile(),
+                    child: TodaysTotalExpenseContainerTablet(
+                      height: 20.h,
+                    ),
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
+                SizedBox(
+                  height: 2.h,
                 ),
                 SizedBox(
-                  height: 100,
+                  // height: 100,
                   // width: 430,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      SizedBox(
+                        width: 3.w,
+                      ),
                       AnimatedOpacity(
                         duration: opacityDuration,
                         opacity: _expenseByDateOpacity.value,
                         child: AnimatedSlide(
                           duration: slideDuration,
                           offset: _expenseByDateSlide.value,
-                          child: ViewExpensesByDateContainerMobile(
-                            width: width / 3 - 20,
+                          child: ViewExpensesByDateContainerTablet(
+                            width: width / 3 - 5.w,
+                            height: 15.h,
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        width: 10,
+                      SizedBox(
+                        width: 2.w,
                       ),
                       AnimatedOpacity(
                         duration: opacityDuration,
@@ -204,13 +200,14 @@ class _HomeScreenTabletState extends State<HomeScreenTablet>
                         child: AnimatedSlide(
                           duration: slideDuration,
                           offset: _expenseByCategorySlide.value,
-                          child: ViewExpenseByCategoryContainerMobile(
-                            width: width / 3 - 20,
+                          child: ViewExpenseByCategoryContainerTablet(
+                            width: width / 3 - 5.w,
+                            height: 15.h,
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        width: 10,
+                      SizedBox(
+                        width: 2.w,
                       ),
                       AnimatedOpacity(
                         duration: opacityDuration,
@@ -218,19 +215,21 @@ class _HomeScreenTabletState extends State<HomeScreenTablet>
                         child: AnimatedSlide(
                           duration: slideDuration,
                           offset: _addExpenseSlide.value,
-                          child: const AddExpenseButtonMobile(),
+                          child: AddExpenseButtonTablet(
+                            height: 15.h,
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
-                // const SizedBox(
-                //   height: 10,
-                // ),
-                const Spacer(),
+                SizedBox(
+                  height: 2.h,
+                ),
+                // const Spacer(),
 
-                const RecentExpensesText(),
-                const RecentExpensesListContainerMobile(),
+                RecentExpensesText(fontSize: 12.sp),
+                const RecentExpensesListTablet(),
                 // const Spacer()
               ],
             ),

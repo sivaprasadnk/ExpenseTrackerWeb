@@ -1,15 +1,15 @@
 import 'package:expense_tracker/provider/home.provider.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/cash.title.title.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/cash.total.container.dart';
-import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/daily.total.text.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/online.title.text.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/online.total.container.dart';
 import 'package:expense_tracker/view/todays.expense.list/todays.expense.list.screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 
-class TodaysTotalExpenseContainerMobile extends StatelessWidget {
-  const TodaysTotalExpenseContainerMobile({
+class TodaysTotalExpenseContainerTablet extends StatelessWidget {
+  const TodaysTotalExpenseContainerTablet({
     Key? key,
     required this.height,
   }) : super(key: key);
@@ -46,24 +46,49 @@ class TodaysTotalExpenseContainerMobile extends StatelessWidget {
                   Text(
                     'Todays Total Expense :',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.bold,
                       color: bgColor,
                     ),
                   ),
-                  const DailyTotalText(),
+                  Consumer<HomeProvider>(
+                    builder: (_, provider, __) {
+                      return Text(
+                        "${provider.currencySymbol} ${provider.dailyTotalExpense}",
+                        style: TextStyle(
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.bold,
+                          color: theme.scaffoldBackgroundColor,
+                        ),
+                      );
+                    },
+                  )
                 ],
               ),
             ),
           ),
-          CashTitleText(theme: theme),
-          OnlineTitleText(theme: theme),
+          CashTitleText(
+            theme: theme,
+            fontSize: 12.sp,
+            bottomPadding: 7.h,
+          ),
+          OnlineTitleText(
+            theme: theme,
+            fontSize: 12.sp,
+            bottomPadding: 7.h,
+          ),
           CashTotalContainer(
             theme: theme,
+            fontSize: 12.sp,
+            padding: 3.w,
+            bottonPadding: 3.h,
             amount: provider.dailyCashTotal.toString(),
           ),
           OnlineTotalContainer(
             theme: theme,
+            fontSize: 12.sp,
+            padding: 3.w,
+            bottonPadding: 3.h,
             amount: provider.dailyOnlineTotal.toString(),
           )
         ],

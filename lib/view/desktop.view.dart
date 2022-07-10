@@ -39,13 +39,15 @@ class _DesktopViewState extends State<DesktopView> {
       backgroundColor: theme.scaffoldBackgroundColor,
       drawerEnableOpenDragGesture: false,
       key: _key,
-      
       appBar: AppBar(
         leadingWidth: 0,
         elevation: 0,
         backgroundColor: Colors.transparent,
         titleSpacing: 0,
-        title: BackArrowTitleWidget(isHome: widget.isHome),
+        title: BackArrowTitleWidget(
+          isHome: widget.isHome,
+          titleWidget: const SizedBox.shrink(),
+        ),
         centerTitle: false,
         actions: [
           CursorWidget(
@@ -95,11 +97,11 @@ class _DesktopViewState extends State<DesktopView> {
                     Row(
                       children: [
                         SizedBox(width: leftPadding),
-                        if(widget.appBarTitle.trim().isNotEmpty)
-                        TitleWidget(
-                          title: widget.appBarTitle,
-                          isHome: widget.isHome,
-                        ),
+                        if (widget.appBarTitle.trim().isNotEmpty)
+                          TitleWidget(
+                            title: widget.appBarTitle,
+                            isHome: widget.isHome,
+                          ),
                       ],
                     ),
                     SizedBox(

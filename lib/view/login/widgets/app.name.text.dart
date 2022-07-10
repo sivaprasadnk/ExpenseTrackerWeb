@@ -17,7 +17,7 @@ class AppNameText extends StatelessWidget {
       child: const Padding(
         padding: EdgeInsets.all(10.0),
         child: Text(
-          kExpenseTrackerText + ' ',
+          kExpenseTrackerText + ' v1',
           style: TextStyle(
             color: Colors.black,
             fontSize: 30,

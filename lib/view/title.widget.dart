@@ -32,7 +32,8 @@ class TitleWidget extends StatelessWidget {
               title,
               style: TextStyle(
                 color: theme.primaryColor,
-                fontSize: 25,
+                fontSize: 22,
+                fontFamily: 'Rajdhani',
                 fontWeight: FontWeight.bold,
               ),
             ),

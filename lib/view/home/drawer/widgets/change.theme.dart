@@ -1,25 +1,23 @@
 import 'package:expense_tracker/view/home/drawer/widgets/drawer.menu.item.dart';
 import 'package:expense_tracker/view/select.theme/select.theme.desktop.screen.dart';
 import 'package:expense_tracker/view/select.theme/select.theme.mobile.screen.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class ChangeThemeMenu extends StatefulWidget {
-  const ChangeThemeMenu({Key? key}) : super(key: key);
+class ChangeThemeMenu extends StatelessWidget {
+  const ChangeThemeMenu({
+    Key? key,
+    this.fontSize = 20,
+  }) : super(key: key);
 
-  @override
-  State<ChangeThemeMenu> createState() => _ChangeThemeMenuState();
-}
-
-class _ChangeThemeMenuState extends State<ChangeThemeMenu> {
+  final double fontSize;
   @override
   Widget build(BuildContext context) {
     return DrawerMenuItem(
       onTap: () {
         Navigator.pop(context);
-            double width = MediaQuery.of(context).size.width;
+        double width = MediaQuery.of(context).size.width;
 
-        if (width<480) {
+        if (width < 480) {
           Navigator.pushNamed(context, SelectThemeMobileScreen.routeName);
         } else {
           Navigator.pushNamed(context, SelectThemeDesktopScreen.routeName);
@@ -27,6 +25,7 @@ class _ChangeThemeMenuState extends State<ChangeThemeMenu> {
       },
       title: 'Change Theme',
       icon: Icons.format_paint_outlined,
+      fontSize: fontSize,
     );
   }
 }

@@ -1,25 +1,24 @@
 import 'package:auto_animated/auto_animated.dart';
 import 'package:expense_tracker/model/recent.expense.model.dart';
 import 'package:expense_tracker/provider/home.provider.dart';
-import 'package:expense_tracker/view/home/desktop/widgets/recent.expense.list/expense.list.item.dart';
 import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.container.mobile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 
-class RecentExpensesListContainerMobile extends StatefulWidget {
-  const RecentExpensesListContainerMobile({Key? key}) : super(key: key);
+import 'recent.expense.list.item.tablet.dart';
+
+class RecentExpensesListTablet extends StatefulWidget {
+  const RecentExpensesListTablet({Key? key}) : super(key: key);
 
   @override
-  _RecentExpensesListContainerMobileState createState() =>
-      _RecentExpensesListContainerMobileState();
+  _RecentExpensesListTabletState createState() =>
+      _RecentExpensesListTabletState();
 }
 
-class _RecentExpensesListContainerMobileState
-    extends State<RecentExpensesListContainerMobile> {
+class _RecentExpensesListTabletState extends State<RecentExpensesListTablet> {
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    final screenHeight = screenSize.height;
     return Expanded(
       // height: screenHeight * 0.4,
       child: Consumer<HomeProvider>(
@@ -37,8 +36,8 @@ class _RecentExpensesListContainerMobileState
                       RecentExpense doc = provider.recentExpensesList[index];
 
                       return Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: ExpenseListItem(
+                        padding: EdgeInsets.only(bottom: 2.h),
+                        child: RecentExpenseListItemTablet(
                           expense: doc,
                         ),
                       );

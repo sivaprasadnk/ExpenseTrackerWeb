@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
 class ExpenseTitleText extends StatelessWidget {
-  const ExpenseTitleText({Key? key, required this.title}) : super(key: key);
+  const ExpenseTitleText({
+    Key? key,
+    required this.title,
+    this.fontSize = 20,
+  }) : super(key: key);
   final String title;
+  final double fontSize;
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
@@ -20,10 +25,9 @@ class ExpenseTitleText extends StatelessWidget {
           ),
           child: Text(
             title,
-            style: const TextStyle(
-              // fontFamily: 'Rajdhani',
+            style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 20,
+              fontSize: fontSize,
             ),
           ),
         ),

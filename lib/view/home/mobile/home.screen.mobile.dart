@@ -141,7 +141,7 @@ class _HomeScreenMobileState extends State<HomeScreenMobile>
             : 'Good evening !';
     return MobileView(
       isHome: true,
-      appBarTitle: '',
+      appBarTitle: wishText,
       showSearchIcon: true,
       child: AnimatedBuilder(
         animation: _controller,
@@ -152,18 +152,12 @@ class _HomeScreenMobileState extends State<HomeScreenMobile>
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Spacer(),
-                Text(
-                  wishText,
-                  style: const TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
-                  ),
+                // const Spacer(),
+
+                const SizedBox(
+                  height: 5,
                 ),
-                // const SizedBox(
-                //   height: 5,
-                // ),
-                const Spacer(),
+                // const Spacer(),
 
                 AnimatedOpacity(
                   duration: opacityDuration,
@@ -171,9 +165,12 @@ class _HomeScreenMobileState extends State<HomeScreenMobile>
                   child: AnimatedSlide(
                     duration: slideDuration,
                     offset: _todaysTextContainerSlide.value,
-                    child: const TodaysTotalExpenseContainerMobile(),
+                    child: const TodaysTotalExpenseContainerMobile(
+                      height: 155,
+                    ),
                   ),
                 ),
+                // const Spacer(),
                 const SizedBox(
                   height: 10,
                 ),
@@ -192,6 +189,7 @@ class _HomeScreenMobileState extends State<HomeScreenMobile>
                           offset: _expenseByDateSlide.value,
                           child: ViewExpensesByDateContainerMobile(
                             width: width / 3 - 20,
+                            height: 150,
                           ),
                         ),
                       ),
@@ -206,6 +204,7 @@ class _HomeScreenMobileState extends State<HomeScreenMobile>
                           offset: _expenseByCategorySlide.value,
                           child: ViewExpenseByCategoryContainerMobile(
                             width: width / 3 - 20,
+                            height: 150,
                           ),
                         ),
                       ),
@@ -218,18 +217,21 @@ class _HomeScreenMobileState extends State<HomeScreenMobile>
                         child: AnimatedSlide(
                           duration: slideDuration,
                           offset: _addExpenseSlide.value,
-                          child: const AddExpenseButtonMobile(),
+                          child: const AddExpenseButtonMobile(
+                            height: 150,
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
-                // const SizedBox(
-                //   height: 10,
-                // ),
-                const Spacer(),
+                const SizedBox(
+                  height: 10,
+                ),
+                // const Spacer(),
 
                 const RecentExpensesText(),
+                // const Spacer(),
                 const RecentExpensesListContainerMobile(),
                 // const Spacer()
               ],
