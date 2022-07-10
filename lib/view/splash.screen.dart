@@ -1,7 +1,5 @@
 import 'package:expense_tracker/controller/user.controller.dart';
 import 'package:expense_tracker/utils/navigation.dart';
-import 'package:expense_tracker/view/login/login.screen.dart';
-import 'package:expense_tracker/view/login/login.screen.desktop.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:neumorphic_loader/neumorphic_loader.dart';
@@ -24,11 +22,10 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(const Duration(seconds: 1)).then((value) async {
       if (FirebaseAuth.instance.currentUser != null) {
         String userId = FirebaseAuth.instance.currentUser!.uid;
-        UserController.getExpenseDetails(context, userId);
-      } else {
         var width = MediaQuery.of(context).size.width;
-        Navigation.checkPlatformAndNavigateToLogin(
-            context: context, isSmallScreen: width < 480);
+        UserController.getExpenseDetails(context, userId, width);
+      } else {
+        Navigation.checkPlatformAndNavigateToLogin(context: context);
       }
     });
   }

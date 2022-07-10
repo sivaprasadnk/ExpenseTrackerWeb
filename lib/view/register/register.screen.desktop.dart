@@ -10,10 +10,8 @@ import 'package:expense_tracker/view/login/widgets/text.field.container.dart';
 import 'package:expense_tracker/view/login/widgets/text.field.title.dart';
 import 'package:expense_tracker/view/register/terms.and.privacy.text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../login/widgets/app.name.text.dart';
 
@@ -336,6 +334,6 @@ class _RegisterScreenDesktopState extends State<RegisterScreenDesktop>
 
   Future<void> validateAndProceed() async {
     _formKey.currentState!.save();
-    AuthController.register(context, email.trim(), password.trim(),false);
+    AuthController.register(context, email.trim(), password.trim());
   }
 }

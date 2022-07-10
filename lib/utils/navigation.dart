@@ -1,33 +1,32 @@
-import 'package:expense_tracker/view/home/desktop/home.screen.desktop.dart';
-import 'package:expense_tracker/view/home/mobile/home.screen.mobile.dart';
-import 'package:expense_tracker/view/login/login.screen.desktop.dart';
-import 'package:expense_tracker/view/login/login.screen.mobile.dart';
+import 'package:expense_tracker/view/home/home.screen.dart';
+import 'package:expense_tracker/view/login/login.screen.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 
 class Navigation {
-  static checkPlatformAndNavigateToHome(
-      BuildContext context, bool isSmallScreen,
+  static checkPlatformAndNavigateToHome(BuildContext context,
       [bool isReplacement = false]) {
     if (!isReplacement) {
-      if (isSmallScreen) {
-        Navigator.pushNamedAndRemoveUntil(
-            context, HomeScreenMobile.routeName, (r) => false);
-      } else {
-        Navigator.pushNamedAndRemoveUntil(
-            context, HomeScreenDesktop.routeName, (r) => false);
-      }
+      // if (width < 480) {
+      //   Navigator.pushNamedAndRemoveUntil(
+      //       context, HomeScreen.routeName, (r) => false);
+      // } else {
+      //   Navigator.pushNamedAndRemoveUntil(
+      //       context, HomeScreenDesktop.routeName, (r) => false);
+      // }
+      Navigator.pushNamedAndRemoveUntil(
+          context, HomeScreen.routeName, (r) => false);
     } else {
-      if (isSmallScreen) {
-        Navigator.pushReplacementNamed(context, HomeScreenMobile.routeName);
-      } else {
-        Navigator.pushReplacementNamed(context, HomeScreenDesktop.routeName);
-      }
+      // if (isMobileScreen) {
+      //   Navigator.pushReplacementNamed(context, HomeScreenMobile.routeName);
+      // } else {
+      //   Navigator.pushReplacementNamed(context, HomeScreenDesktop.routeName);
+      // }
+      Navigator.pushReplacementNamed(context, HomeScreen.routeName);
     }
   }
 
   static checkPlatformAndNavigateToLogin(
-      {required BuildContext context, required bool isSmallScreen}) async {
+      {required BuildContext context}) async {
     // if ((defaultTargetPlatform == TargetPlatform.android ||
     //       defaultTargetPlatform == TargetPlatform.iOS)) {
     //     Navigator.pushNamedAndRemoveUntil(
@@ -37,13 +36,15 @@ class Navigation {
     //         context, LoginScreenDesktop.routeName, (r) => false);
     //   }
 
-    if (isSmallScreen) {
-      Navigator.pushNamedAndRemoveUntil(
-          context, LoginScreenMobile.routeName, (r) => false);
-    } else {
-      Navigator.pushNamedAndRemoveUntil(
-          context, LoginScreenDesktop.routeName, (r) => false);
-    }
+    // if (width < 480) {
+    //   Navigator.pushNamedAndRemoveUntil(
+    //       context, LoginScreenMobile.routeName, (r) => false);
+    // } else {
+    //   Navigator.pushNamedAndRemoveUntil(
+    //       context, LoginScreenDesktop.routeName, (r) => false);
+    // }
+    Navigator.pushNamedAndRemoveUntil(
+        context, LoginScreen.routeName, (r) => false);
   }
 
   // static checkPlatformAndNavigateToScreen(

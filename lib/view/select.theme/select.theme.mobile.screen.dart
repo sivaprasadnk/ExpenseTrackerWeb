@@ -12,19 +12,26 @@ class SelectThemeMobileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MobileView(
       showNetworkStatus: false,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const DarkThemeCheckBox(),
-          const SizedBox(
-            height: 20,
-          ),
-          const ThemeGrid(),
-          Expanded(
-            child: Container(),
-          ),
-          const ApplyButton(),
-        ],
+      bottomButton: const Padding(
+        padding: EdgeInsets.only(bottom: 20, left: 10, right: 10),
+        child: ApplyButton(),
+      ),
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height * 1.5,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            DarkThemeCheckBox(),
+            SizedBox(
+              height: 10,
+            ),
+            ThemeGrid(),
+            // Expanded(
+            //   child: Container(),
+            // ),
+            // ApplyButton(),
+          ],
+        ),
       ),
       appBarTitle: 'Select Theme',
     );

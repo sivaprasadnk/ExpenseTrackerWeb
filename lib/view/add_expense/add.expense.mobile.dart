@@ -54,6 +54,8 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
     var date = formattedTime.isEmpty
         ? DateFormat('dd-MM-yyyy').format(now)
         : formattedTime;
+    var width = MediaQuery.of(context).size.width;
+    var textFieldWidth = width - 100;
     return MobileView(
       appBarTitle: 'Add expense',
       child: SingleChildScrollView(
@@ -95,7 +97,7 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                   ),
                   Container(
                     height: 40,
-                    width: 300,
+                    width: textFieldWidth,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
@@ -105,9 +107,7 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 10, right: 10),
                       child: TextFormField(
-                        style: TextStyle(
-                          color: primaryColor
-                        ),
+                        style: TextStyle(color: primaryColor),
                         keyboardType: TextInputType.number,
                         onSaved: (val) {
                           if (val != null && val.trim().isNotEmpty) {
@@ -178,7 +178,7 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                   ),
                   Container(
                     height: 40,
-                    width: 300,
+                    width: textFieldWidth,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
@@ -189,9 +189,7 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10, right: 10),
                         child: TextFormField(
-                          style: TextStyle(
-                            color: primaryColor
-                          ),
+                          style: TextStyle(color: primaryColor),
                           inputFormatters: [
                             LengthLimitingTextInputFormatter(20),
                           ],
@@ -275,7 +273,7 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                   ),
                   Container(
                     height: 150,
-                    width: 300,
+                    width: textFieldWidth,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
@@ -285,9 +283,7 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 10, right: 10),
                       child: TextFormField(
-                        style: TextStyle(
-                            color: primaryColor
-                          ),
+                        style: TextStyle(color: primaryColor),
                         onSaved: (val) {
                           expenseDetails = val.toString();
                         },

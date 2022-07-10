@@ -8,7 +8,6 @@ import 'package:expense_tracker/view/login/widgets/footer.text.dart';
 import 'package:expense_tracker/view/login/widgets/login.submit.button.dart';
 import 'package:expense_tracker/view/login/widgets/social.media.sign.in/fb.sign.in.dart';
 import 'package:expense_tracker/view/login/widgets/social.media.sign.in/google.sign.in.dart';
-import 'package:expense_tracker/view/login/widgets/text.field.container.dart';
 import 'package:expense_tracker/view/login/widgets/text.field.title.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -143,6 +142,32 @@ class _LoginScreenDesktopState extends State<LoginScreenDesktop>
     const opacityDuration = Duration(milliseconds: 900);
     const slideDuration = Duration(milliseconds: 400);
     const double width = 350;
+    InputDecoration decoration = InputDecoration(
+      focusedBorder: OutlineInputBorder(
+        borderSide: const BorderSide(
+          color: Colors.black,
+        ),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: const BorderSide(
+          color: Colors.black,
+        ),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      border: OutlineInputBorder(
+        borderSide: const BorderSide(
+          color: Colors.black,
+        ),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      isDense: true,
+      contentPadding: const EdgeInsets.fromLTRB(10, 12, 10, 12),
+      // contentPadding: const EdgeInsets.symmetric(
+      //   horizontal: 8,
+      //   // vertical: 4.h,
+      // ),
+    );
     return Form(
       key: _formKey,
       child: Scaffold(
@@ -224,8 +249,9 @@ class _LoginScreenDesktopState extends State<LoginScreenDesktop>
                             child: AnimatedSlide(
                               duration: slideDuration,
                               offset: _emailFieldSlide.value,
-                              child: TextFieldContainer(
-                                width: width,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
                                 child: TextFormField(
                                   textInputAction: TextInputAction.next,
                                   onFieldSubmitted: (_) {
@@ -243,15 +269,9 @@ class _LoginScreenDesktopState extends State<LoginScreenDesktop>
                                   ),
                                   keyboardType: TextInputType.emailAddress,
                                   onSaved: (val) {
-                                    email = val.toString();
+                                    email = val.toString().trim();
                                   },
-                                  decoration: InputDecoration(
-                                    contentPadding: const EdgeInsets.symmetric(
-                                            horizontal: 8, vertical: 10) +
-                                        const EdgeInsets.only(top: 2),
-                                    border: InputBorder.none,
-                                    isDense: true,
-                                  ),
+                                  decoration: decoration,
                                 ),
                               ),
                             ),
@@ -276,7 +296,9 @@ class _LoginScreenDesktopState extends State<LoginScreenDesktop>
                               child: Row(
                                 children: [
                                   Expanded(
-                                    child: TextFieldContainer(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
                                       child: TextFormField(
                                         focusNode: textSecondFocusNode,
                                         obscureText: !showPassword,
@@ -285,23 +307,14 @@ class _LoginScreenDesktopState extends State<LoginScreenDesktop>
                                           fontSize: 20,
                                         ),
                                         onSaved: (val) {
-                                          password = val.toString();
+                                          password = val.toString().trim();
                                         },
-                                        decoration: InputDecoration(
-                                          contentPadding:
-                                              const EdgeInsets.symmetric(
-                                                      horizontal: 8,
-                                                      vertical: 10) +
-                                                  const EdgeInsets.only(top: 2),
-                                          border: InputBorder.none,
-                                          isDense: true,
-                                        ),
+                                        decoration: decoration,
                                       ),
                                     ),
                                   ),
-                                  TextFieldContainer(
-                                    width: 43,
-                                    margin: const EdgeInsets.only(
+                                  Padding(
+                                    padding: const EdgeInsets.only(
                                         left: 3, right: 13),
                                     child: GestureDetector(
                                       onTap: () {
@@ -309,16 +322,27 @@ class _LoginScreenDesktopState extends State<LoginScreenDesktop>
                                           showPassword = !showPassword;
                                         });
                                       },
-                                      child: Center(
-                                        child: showPassword
-                                            ? const Icon(
-                                                Icons.visibility,
-                                                color: Colors.black,
-                                              )
-                                            : const Icon(
-                                                Icons.visibility_off,
-                                                color: Colors.black,
-                                              ),
+                                      child: Container(
+                                        height: 45,
+                                        width: 43,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          border: Border.all(
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: showPassword
+                                              ? const Icon(
+                                                  Icons.visibility,
+                                                  color: Colors.black,
+                                                )
+                                              : const Icon(
+                                                  Icons.visibility_off,
+                                                  color: Colors.black,
+                                                ),
+                                        ),
                                       ),
                                     ),
                                   )
@@ -374,7 +398,7 @@ class _LoginScreenDesktopState extends State<LoginScreenDesktop>
 
   void validateAndProceed() {
     _formKey.currentState!.save();
-    AuthController.login(context, email.trim(), password.trim(), false);
+    AuthController.login(context, email.trim(), password.trim());
   }
 }
 

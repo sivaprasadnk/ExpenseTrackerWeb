@@ -14,14 +14,14 @@ import 'package:google_sign_in/google_sign_in.dart';
 import '../login/widgets/social.media.sign.in/google.sign.in.dart';
 import 'terms.and.privacy.text.dart';
 
-class RegisterScreenMobile extends StatefulWidget {
-  const RegisterScreenMobile({Key? key}) : super(key: key);
+class RegisterScreenTablet extends StatefulWidget {
+  const RegisterScreenTablet({Key? key}) : super(key: key);
 
   @override
-  _RegisterScreenMobileState createState() => _RegisterScreenMobileState();
+  _RegisterScreenTabletState createState() => _RegisterScreenTabletState();
 }
 
-class _RegisterScreenMobileState extends State<RegisterScreenMobile>
+class _RegisterScreenTabletState extends State<RegisterScreenTablet>
     with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _emailTextOpacity;

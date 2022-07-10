@@ -35,7 +35,7 @@ class FbSignInButton extends StatelessWidget {
     try {
       var width = MediaQuery.of(context).size.width;
 
-      AuthController.fbLogin(context: context, isSmallScreen: width < 480);
+      AuthController.fbLogin(context: context, isMobileScreen: width < 480);
 //       final LoginResult result = await FacebookAuth.instance
 //           .login(); // by default we request the email and the public profile
 // // or FacebookAuth.i.login()

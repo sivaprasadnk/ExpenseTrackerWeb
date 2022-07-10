@@ -89,7 +89,7 @@ class _ExpenseListByDateMobileScreenState
         height: MediaQuery.of(context).size.height * 0.9,
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: [ 
+          children: [
             const SizedBox(
               height: 5,
             ),
@@ -131,7 +131,6 @@ class _ExpenseListByDateMobileScreenState
                         'All',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-
                           color:
                               selectedMode == Mode.all ? bgColor : primaryColor,
                         ),
@@ -159,7 +158,6 @@ class _ExpenseListByDateMobileScreenState
                         'Cash',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-
                           color: selectedMode == Mode.cash
                               ? bgColor
                               : primaryColor,
@@ -189,7 +187,6 @@ class _ExpenseListByDateMobileScreenState
                         'Online',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-
                           color: selectedMode == Mode.online
                               ? bgColor
                               : primaryColor,
@@ -201,7 +198,7 @@ class _ExpenseListByDateMobileScreenState
               ],
             ),
             const SizedBox(
-              height: 10,
+              height: 20,
             ),
             Expanded(
               child: StreamBuilder(

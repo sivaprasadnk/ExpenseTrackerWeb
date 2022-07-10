@@ -14,7 +14,7 @@ class ThemeGrid extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.only(left: 0, top: 0),
           child: GridView.builder(
-            physics: const NeverScrollableScrollPhysics(),
+            // physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: AppTheme.values.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

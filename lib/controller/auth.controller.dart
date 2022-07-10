@@ -20,8 +20,7 @@ class AuthController {
     scopes: ['email', 'https://www.googleapis.com/auth/userinfo.profile'],
   );
 
-  static void login(BuildContext context, String email, String password,
-      bool isSmallScreen) async {
+  static void login(BuildContext context, String email, String password) async {
     try {
       if (email.isEmpty) {
         throw CustomException('Enter email !');
@@ -53,7 +52,7 @@ class AuthController {
             // userRepo.updateDbValue(response.userId).then((value) {
             //   Navigation.checkPlatformAndNavigateToHome(context);
             // });
-            Navigation.checkPlatformAndNavigateToHome(context, isSmallScreen);
+            Navigation.checkPlatformAndNavigateToHome(context);
           });
         }
       });
@@ -65,7 +64,10 @@ class AuthController {
   }
 
   static void register(
-      BuildContext context, String email, String password, bool isSmallScreen) {
+    BuildContext context,
+    String email,
+    String password,
+  ) {
     try {
       if (email.isEmpty) {
         throw CustomException('Enter email !');
@@ -92,7 +94,7 @@ class AuthController {
 
           provider.updateRecentList([]);
 
-          Navigation.checkPlatformAndNavigateToHome(context, isSmallScreen);
+          Navigation.checkPlatformAndNavigateToHome(context);
         }
       });
     } on CustomException catch (exc) {
@@ -105,7 +107,6 @@ class AuthController {
   static void googleLogin({
     required BuildContext context,
     required GoogleSignInAccount account,
-    required bool isSmallScreen,
     bool link = false,
     AuthCredential? authCredential,
   }) {
@@ -130,7 +131,7 @@ class AuthController {
             // userRepo.updateDbValue(response.userId).then((value) {
             //   Navigation.checkPlatformAndNavigateToHome(context);
             // });
-            Navigation.checkPlatformAndNavigateToHome(context, isSmallScreen);
+            Navigation.checkPlatformAndNavigateToHome(context);
           });
         }
       });
@@ -142,7 +143,7 @@ class AuthController {
   }
 
   static void fbLogin(
-      {required BuildContext context, required bool isSmallScreen}) async {
+      {required BuildContext context, required bool isMobileScreen}) async {
     try {
       // final LoginResult result = await FacebookAuth.instance.login(
       //   permissions: [
@@ -181,7 +182,7 @@ class AuthController {
       //       userRepo.getRecentExpense().then((recentExpList) {
       //         Provider.of<HomeProvider>(context, listen: false)
       //             .updateRecentList(recentExpList);
-      //         Navigation.checkPlatformAndNavigateToHome(context, isSmallScreen);
+      //         Navigation.checkPlatformAndNavigateToHome(context, isMobileScreen);
       //       });
       //     }
       //   });

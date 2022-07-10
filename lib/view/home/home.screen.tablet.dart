@@ -7,16 +7,16 @@ import 'package:expense_tracker/view/home/mobile/widgets/view.expenses.by.date.c
 import 'package:expense_tracker/view/mobile.view.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreenMobile extends StatefulWidget {
-  const HomeScreenMobile({
+class HomeScreenTablet extends StatefulWidget {
+  const HomeScreenTablet({
     Key? key,
   }) : super(key: key);
   static const routeName = 'Home';
   @override
-  _HomeScreenMobileState createState() => _HomeScreenMobileState();
+  _HomeScreenTabletState createState() => _HomeScreenTabletState();
 }
 
-class _HomeScreenMobileState extends State<HomeScreenMobile>
+class _HomeScreenTabletState extends State<HomeScreenTablet>
     with TickerProviderStateMixin {
   DateTime now = DateTime.now();
 

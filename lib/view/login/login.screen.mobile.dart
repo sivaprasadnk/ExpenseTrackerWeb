@@ -163,10 +163,11 @@ class _LoginScreenMobileState extends State<LoginScreenMobile>
         borderRadius: BorderRadius.circular(8),
       ),
       isDense: true,
-      contentPadding: EdgeInsets.symmetric(
-        horizontal: 8,
-        vertical: 4.h,
-      ),
+      contentPadding: const EdgeInsets.fromLTRB(10, 12, 10, 12),
+      // contentPadding: const EdgeInsets.symmetric(
+      //   horizontal: 8,
+      //   // vertical: 4.h,
+      // ),
     );
     return Form(
       key: _formKey,
@@ -226,29 +227,26 @@ class _LoginScreenMobileState extends State<LoginScreenMobile>
                               child: Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 10),
-                                child: SizedBox(
-                                  height: 5.h,
-                                  child: TextFormField(
-                                    textInputAction: TextInputAction.next,
-                                    onFieldSubmitted: (_) {
-                                      FocusScope.of(context)
-                                          .requestFocus(textSecondFocusNode);
-                                    },
-                                    onEditingComplete: () {
-                                      FocusScope.of(context)
-                                          .requestFocus(textSecondFocusNode);
-                                    },
-                                    autocorrect: false,
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 20,
-                                    ),
-                                    keyboardType: TextInputType.emailAddress,
-                                    onSaved: (val) {
-                                      email = val.toString();
-                                    },
-                                    decoration: decoration,
+                                child: TextFormField(
+                                  textInputAction: TextInputAction.next,
+                                  onFieldSubmitted: (_) {
+                                    FocusScope.of(context)
+                                        .requestFocus(textSecondFocusNode);
+                                  },
+                                  onEditingComplete: () {
+                                    FocusScope.of(context)
+                                        .requestFocus(textSecondFocusNode);
+                                  },
+                                  autocorrect: false,
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20,
                                   ),
+                                  keyboardType: TextInputType.emailAddress,
+                                  onSaved: (val) {
+                                    email = val.toString();
+                                  },
+                                  decoration: decoration,
                                 ),
                               ),
                             ),
@@ -277,7 +275,7 @@ class _LoginScreenMobileState extends State<LoginScreenMobile>
                                       padding: const EdgeInsets.only(
                                           left: 10, right: 10),
                                       child: SizedBox(
-                                        height: 5.h,
+                                        height: 45,
                                         child: TextFormField(
                                           focusNode: textSecondFocusNode,
                                           obscureText: !showPassword,
@@ -302,9 +300,16 @@ class _LoginScreenMobileState extends State<LoginScreenMobile>
                                           showPassword = !showPassword;
                                         });
                                       },
-                                      child: SizedBox(
-                                        height: 5.h,
+                                      child: Container(
+                                        height: 45,
                                         width: 43,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          border: Border.all(
+                                            color: Colors.black,
+                                          ),
+                                        ),
                                         child: Center(
                                           child: showPassword
                                               ? const Icon(
@@ -364,7 +369,7 @@ class _LoginScreenMobileState extends State<LoginScreenMobile>
 
   void validateAndProceed() {
     _formKey.currentState!.save();
-    AuthController.login(context, email.trim(), password.trim(), true);
+    AuthController.login(context, email.trim(), password.trim());
   }
 }
 

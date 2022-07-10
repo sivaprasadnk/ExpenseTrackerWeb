@@ -15,6 +15,7 @@ class MobileView extends StatefulWidget {
     required this.appBarTitle,
     this.isHome = false,
     this.showNetworkStatus = true,
+    this.bottomButton = const SizedBox.shrink(),
     this.showSearchIcon = true,
   }) : super(key: key);
   final Widget child;
@@ -22,6 +23,7 @@ class MobileView extends StatefulWidget {
   final bool isHome;
   final bool showNetworkStatus;
   final bool showSearchIcon;
+  final Widget bottomButton;
 
   @override
   State<MobileView> createState() => _MobileViewState();
@@ -37,6 +39,7 @@ class _MobileViewState extends State<MobileView> {
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       drawerEnableOpenDragGesture: false,
+      bottomNavigationBar: widget.bottomButton,
       key: _key,
       appBar: PreferredSize(
         preferredSize: widget.isHome
@@ -125,6 +128,7 @@ class _MobileViewState extends State<MobileView> {
                         title: widget.appBarTitle,
                         isHome: widget.isHome,
                       ),
+                    // const Spacer(),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -134,6 +138,7 @@ class _MobileViewState extends State<MobileView> {
                         ),
                       ),
                     ),
+                    // const Spacer(),
                     const SizedBox(
                       height: 10,
                     ),

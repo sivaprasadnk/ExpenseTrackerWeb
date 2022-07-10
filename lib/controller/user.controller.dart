@@ -85,7 +85,6 @@ class UserController {
       createdDateTime: createdDateTime,
     );
 
-
     ResponseModel response = await userRepo.addExpense(request);
 
     if (response.status == ResponseStatus.error) {
@@ -113,7 +112,8 @@ class UserController {
     }
   }
 
-  static void getExpenseDetails(BuildContext context, String userId) async {
+  static void getExpenseDetails(
+      BuildContext context, String userId, double width) async {
     Loading.showLoading(context);
 
     ResponseModel response = await userRepo.getExpenseDetails(userId);
@@ -158,7 +158,6 @@ class UserController {
 
       var newDateWiseTotal = currentDatewiseTotal + amtToAdd;
       var newCategoryWiseTotal = currentCategorywiseTotal + amtToAdd;
-
 
       final DateTime now = DateTime.now();
 

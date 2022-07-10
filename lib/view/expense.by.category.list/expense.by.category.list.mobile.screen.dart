@@ -86,12 +86,12 @@ class _ExpenseByCategoryListMobileScreenState
       appBarTitle: '',
       child: Column(
         children: [
-           TotalExpenseContainerMobile(
-              totalExpense: widget.totalAmount,
-              title: widget.categoryName,
-              cashTotal: "0",
-              onlineTotal: "0",
-            ),
+          TotalExpenseContainerMobile(
+            totalExpense: widget.totalAmount,
+            title: widget.categoryName,
+            cashTotal: "0",
+            onlineTotal: "0",
+          ),
           const SizedBox(
             height: 5,
           ),
@@ -99,14 +99,14 @@ class _ExpenseByCategoryListMobileScreenState
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
-                  'Mode :',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
+                'Mode :',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
                 ),
-                const SizedBox(
-                  width: 15,
-                ),
+              ),
+              const SizedBox(
+                width: 15,
+              ),
               GestureDetector(
                 onTap: () {
                   setStream(Mode.all);
@@ -123,8 +123,7 @@ class _ExpenseByCategoryListMobileScreenState
                     child: Text(
                       'All',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-
+                        fontWeight: FontWeight.bold,
                         color:
                             selectedMode == Mode.all ? bgColor : primaryColor,
                       ),
@@ -151,8 +150,7 @@ class _ExpenseByCategoryListMobileScreenState
                     child: Text(
                       'Cash',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-
+                        fontWeight: FontWeight.bold,
                         color:
                             selectedMode == Mode.cash ? bgColor : primaryColor,
                       ),
@@ -179,8 +177,7 @@ class _ExpenseByCategoryListMobileScreenState
                     child: Text(
                       'Online',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-
+                        fontWeight: FontWeight.bold,
                         color: selectedMode == Mode.online
                             ? bgColor
                             : primaryColor,
@@ -192,7 +189,7 @@ class _ExpenseByCategoryListMobileScreenState
             ],
           ),
           const SizedBox(
-            height: 10,
+            height: 20,
           ),
           Expanded(
             child: StreamBuilder(

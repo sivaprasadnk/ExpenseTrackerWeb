@@ -4,24 +4,25 @@ import 'package:expense_tracker/view/login/widgets/app.name.text.dart';
 import 'package:expense_tracker/view/login/widgets/auth.title.text.dart';
 import 'package:expense_tracker/view/login/widgets/divider.dart';
 import 'package:expense_tracker/view/login/widgets/login.submit.button.dart';
-import 'package:expense_tracker/view/login/widgets/mobile/have.an.account.container.mobile.dart';
+import 'package:expense_tracker/view/login/widgets/mobile/dont.have.account.container.mobile.dart';
 import 'package:expense_tracker/view/login/widgets/social.media.sign.in/fb.sign.in.dart';
+import 'package:expense_tracker/view/login/widgets/social.media.sign.in/google.sign.in.dart';
 import 'package:expense_tracker/view/login/widgets/text.field.title.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sizer/sizer.dart';
 
-import '../login/widgets/social.media.sign.in/google.sign.in.dart';
-import 'terms.and.privacy.text.dart';
+import 'widgets/footer.text.dart';
 
-class RegisterScreenMobile extends StatefulWidget {
-  const RegisterScreenMobile({Key? key}) : super(key: key);
-
+class LoginScreenTablet extends StatefulWidget {
+  const LoginScreenTablet({Key? key}) : super(key: key);
+  static const routeName = 'LoginMedium';
   @override
-  _RegisterScreenMobileState createState() => _RegisterScreenMobileState();
+  _LoginScreenMobileState createState() => _LoginScreenMobileState();
 }
 
-class _RegisterScreenMobileState extends State<RegisterScreenMobile>
+class _LoginScreenMobileState extends State<LoginScreenTablet>
     with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _emailTextOpacity;
@@ -36,19 +37,14 @@ class _RegisterScreenMobileState extends State<RegisterScreenMobile>
   String email = "";
   String password = "";
   bool showPassword = false;
-
   FirebaseAuth auth = FirebaseAuth.instance;
-
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: ['email', 'https://www.googleapis.com/auth/userinfo.profile'],
   );
-
   @override
   void initState() {
     super.initState();
-    // _googleSignIn = GoogleSignIn(
-    //   scopes: ['email', 'https://www.googleapis.com/auth/userinfo.profile'],
-    // );
+    // _googleSignIn =
     _controller = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
@@ -138,8 +134,8 @@ class _RegisterScreenMobileState extends State<RegisterScreenMobile>
     super.dispose();
   }
 
-  final _formKey = GlobalKey<FormState>();
   FocusNode textSecondFocusNode = FocusNode();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -168,13 +164,17 @@ class _RegisterScreenMobileState extends State<RegisterScreenMobile>
       ),
       isDense: true,
       contentPadding: const EdgeInsets.fromLTRB(10, 12, 10, 12),
+      // contentPadding: const EdgeInsets.symmetric(
+      //   horizontal: 8,
+      //   // vertical: 4.h,
+      // ),
     );
-
-    return Scaffold(
-      extendBody: true,
-      body: Form(
-        key: _formKey,
-        child: Container(
+    return Form(
+      key: _formKey,
+      child: Scaffold(
+        extendBody: true,
+        resizeToAvoidBottomInset: true,
+        body: Container(
           height: screenSize.height,
           decoration: const BoxDecoration(
             image: DecorationImage(
@@ -186,10 +186,10 @@ class _RegisterScreenMobileState extends State<RegisterScreenMobile>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 const AppNameText(),
                 const SizedBox(height: 10),
-                const AuthTitleText(title: 'Register'),
+                const AuthTitleText(title: 'Login'),
                 AnimatedBuilder(
                   animation: _controller,
                   builder: (_, child) {
@@ -228,8 +228,19 @@ class _RegisterScreenMobileState extends State<RegisterScreenMobile>
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 10),
                                 child: TextFormField(
+                                  textInputAction: TextInputAction.next,
+                                  onFieldSubmitted: (_) {
+                                    FocusScope.of(context)
+                                        .requestFocus(textSecondFocusNode);
+                                  },
+                                  onEditingComplete: () {
+                                    FocusScope.of(context)
+                                        .requestFocus(textSecondFocusNode);
+                                  },
+                                  autocorrect: false,
                                   style: const TextStyle(
                                     color: Colors.black,
+                                    fontSize: 20,
                                   ),
                                   keyboardType: TextInputType.emailAddress,
                                   onSaved: (val) {
@@ -261,17 +272,22 @@ class _RegisterScreenMobileState extends State<RegisterScreenMobile>
                                 children: [
                                   Expanded(
                                     child: Padding(
-                                      padding: const EdgeInsets.only(left: 10),
-                                      child: TextFormField(
-                                        obscureText: !showPassword,
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10),
+                                      child: SizedBox(
+                                        height: 45,
+                                        child: TextFormField(
+                                          focusNode: textSecondFocusNode,
+                                          obscureText: !showPassword,
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 20,
+                                          ),
+                                          onSaved: (val) {
+                                            password = val.toString();
+                                          },
+                                          decoration: decoration,
                                         ),
-                                        onSaved: (val) {
-                                          password = val.toString();
-                                        },
-                                        decoration: decoration,
                                       ),
                                     ),
                                   ),
@@ -284,9 +300,16 @@ class _RegisterScreenMobileState extends State<RegisterScreenMobile>
                                           showPassword = !showPassword;
                                         });
                                       },
-                                      child: SizedBox(
+                                      child: Container(
                                         height: 45,
                                         width: 43,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          border: Border.all(
+                                            color: Colors.black,
+                                          ),
+                                        ),
                                         child: Center(
                                           child: showPassword
                                               ? const Icon(
@@ -308,24 +331,23 @@ class _RegisterScreenMobileState extends State<RegisterScreenMobile>
                           const SizedBox(height: 30),
                           Center(
                             child: CursorWidget(
+                              buttonHeight: 45,
                               onTap: validateAndProceed,
                               isButton: true,
                               bgColor: const Color.fromRGBO(0, 24, 88, 1),
                               child: const LoginButton(
-                                title: 'Register',
+                                title: 'Login',
                               ),
                             ),
                           ),
                           const SizedBox(height: 10),
-                          const SizedBox(height: 10),
                           const DividerText(),
                           const SizedBox(height: 10),
                           GoogleSignInButton(
-                            title: 'Sign Up with Google',
                             googleSignIn: _googleSignIn,
                           ),
                           const SizedBox(height: 10),
-                          const FbSignInButton(title: 'Sign Up with facebook'),
+                          const FbSignInButton(),
                           const SizedBox(height: 10),
                         ],
                       ),
@@ -333,12 +355,9 @@ class _RegisterScreenMobileState extends State<RegisterScreenMobile>
                   },
                 ),
                 const SizedBox(height: 20),
-                const HaveAccoutContainerMobile(),
+                const DontHaveAccoutContainerMobile(),
                 const SizedBox(height: 20),
-                const TermsAndPrivacyPolicyText(
-                  width: double.infinity,
-                  horizontalPadding: 38,
-                ),
+                const FooterText(),
                 const SizedBox(height: 50),
               ],
             ),
@@ -348,8 +367,24 @@ class _RegisterScreenMobileState extends State<RegisterScreenMobile>
     );
   }
 
-  Future<void> validateAndProceed() async {
+  void validateAndProceed() {
     _formKey.currentState!.save();
-    AuthController.register(context, email.trim(), password.trim());
+    AuthController.login(context, email.trim(), password.trim());
   }
 }
+
+/*
+
+
+IconButton(
+    icon: showPassword
+        ? const Icon(Icons.visibility)
+        : const Icon(Icons.visibility_off),
+    onPressed: () {
+      setState(() {
+        showPassword = !showPassword;
+      });
+    },
+  ),
+
+*/
