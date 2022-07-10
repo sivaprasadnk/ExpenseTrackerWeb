@@ -6,7 +6,7 @@ class DontHaveAccoutContainerMobile extends StatelessWidget {
   const DontHaveAccoutContainerMobile({
     Key? key,
     this.height = 50,
-    this.fontSize = 18,
+    this.fontSize = 15,
   }) : super(key: key);
   final double height;
   final double fontSize;

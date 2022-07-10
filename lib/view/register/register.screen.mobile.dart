@@ -278,16 +278,23 @@ class _RegisterScreenMobileState extends State<RegisterScreenMobile>
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                        left: 3, right: 13),
+                                        left: 13, right: 13),
                                     child: GestureDetector(
                                       onTap: () {
                                         setState(() {
                                           showPassword = !showPassword;
                                         });
                                       },
-                                      child: SizedBox(
+                                      child: Container(
                                         height: 45,
                                         width: 43,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          border: Border.all(
+                                            color: Colors.black,
+                                          ),
+                                        ),
                                         child: Center(
                                           child: showPassword
                                               ? const Icon(

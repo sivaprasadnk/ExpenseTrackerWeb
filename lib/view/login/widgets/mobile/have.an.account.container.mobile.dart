@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class HaveAccoutContainerMobile extends StatelessWidget {
   const HaveAccoutContainerMobile({
     Key? key,
-    this.fontSize = 18,
+    this.fontSize = 15,
     this.height = 50,
   }) : super(key: key);
 

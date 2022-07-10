@@ -6,7 +6,7 @@ class TermsAndPrivacyPolicyText extends StatelessWidget {
   const TermsAndPrivacyPolicyText({
     Key? key,
     this.width = 300,
-    this.fontSize = 18,
+    this.fontSize = 15,
     this.height = 50,
     this.horizontalPadding = 120,
   }) : super(key: key);
