@@ -17,7 +17,7 @@ import 'widgets/footer.text.dart';
 
 class LoginScreenMobile extends StatefulWidget {
   const LoginScreenMobile({Key? key}) : super(key: key);
-  static const routeName = 'LoginMobile';
+  // static const routeName = 'LoginMobile';
   @override
   _LoginScreenMobileState createState() => _LoginScreenMobileState();
 }

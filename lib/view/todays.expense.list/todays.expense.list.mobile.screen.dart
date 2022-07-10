@@ -10,7 +10,6 @@ import 'package:intl/intl.dart';
 
 class TodaysExpenseListMobileScreen extends StatelessWidget {
   const TodaysExpenseListMobileScreen({Key? key}) : super(key: key);
-  static const routeName = '/TodaysExpenseList';
 
   @override
   Widget build(BuildContext context) {

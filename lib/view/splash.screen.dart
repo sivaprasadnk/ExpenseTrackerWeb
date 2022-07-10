@@ -23,7 +23,8 @@ class _SplashScreenState extends State<SplashScreen> {
       if (FirebaseAuth.instance.currentUser != null) {
         String userId = FirebaseAuth.instance.currentUser!.uid;
         var width = MediaQuery.of(context).size.width;
-        UserController.getExpenseDetails(context, userId, width);
+        UserController.getExpenseDetailsAndNavigateToHome(
+            context, userId, width);
       } else {
         Navigation.checkPlatformAndNavigateToLogin(context: context);
       }

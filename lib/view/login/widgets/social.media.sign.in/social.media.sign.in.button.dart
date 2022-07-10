@@ -6,11 +6,13 @@ class SocialMediaSignInButton extends StatelessWidget {
     required this.icon,
     required this.textColor,
     required this.title,
+    this.fontSize = 18,
   }) : super(key: key);
 
   final String title;
   final Color textColor;
   final IconData icon;
+  final double fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class SocialMediaSignInButton extends StatelessWidget {
         Text(
           title,
           style: TextStyle(
-            fontSize: 18,
+            fontSize: fontSize,
             color: textColor,
             fontWeight: FontWeight.bold,
           ),

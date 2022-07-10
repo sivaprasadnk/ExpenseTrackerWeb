@@ -1,5 +1,4 @@
-import 'package:expense_tracker/view/login/login.screen.desktop.dart';
-import 'package:expense_tracker/view/register/register.screen.desktop.dart';
+import 'package:expense_tracker/view/login/login.screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -35,10 +34,8 @@ class HaveAccoutContainerDesktop extends StatelessWidget {
                 ),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => const LoginScreenDesktop()));
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (_) => const LoginScreen()));
                   },
               )
             ],

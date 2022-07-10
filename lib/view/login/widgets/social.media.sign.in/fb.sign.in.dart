@@ -8,15 +8,20 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class FbSignInButton extends StatelessWidget {
   const FbSignInButton({
     Key? key,
+    this.height,
+    this.fontSize = 18,
     this.title = "Sign In with facebook",
   }) : super(key: key);
 
   final String title;
+  final double? height;
+  final double fontSize;
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: CursorWidget(
+        buttonHeight: height,
         onTap: () {
           facebookLogin(context);
         },
@@ -26,6 +31,7 @@ class FbSignInButton extends StatelessWidget {
           textColor: Colors.white,
           icon: FontAwesomeIcons.facebook,
           title: title,
+          fontSize: fontSize,
         ),
       ),
     );

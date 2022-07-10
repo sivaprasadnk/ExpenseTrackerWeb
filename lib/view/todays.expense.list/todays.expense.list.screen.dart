@@ -6,7 +6,7 @@ import 'todays.expense.list.mobile.screen.dart';
 
 class TodaysExpenseListScreen extends StatefulWidget {
   const TodaysExpenseListScreen({Key? key}) : super(key: key);
-  static const routeName = 'Login';
+  static const routeName = 'TodaysExpenseList';
   @override
   _TodaysExpenseListScreenState createState() =>
       _TodaysExpenseListScreenState();

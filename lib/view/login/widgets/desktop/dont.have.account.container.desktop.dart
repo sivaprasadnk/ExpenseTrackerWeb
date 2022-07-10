@@ -1,4 +1,4 @@
-import 'package:expense_tracker/view/register/register.screen.desktop.dart';
+import 'package:expense_tracker/view/register/register.screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -37,7 +37,7 @@ class DontHaveAccoutContainerDesktop extends StatelessWidget {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (_) => const RegisterScreenDesktop()));
+                            builder: (_) => const RegisterScreen()));
                   },
               )
             ],

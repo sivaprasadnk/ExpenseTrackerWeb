@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 class DividerText extends StatelessWidget {
   const DividerText({
     Key? key,
+    this.fontSize = 20,
   }) : super(key: key);
+  final double fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +24,12 @@ class DividerText extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 10),
-          const Text(
+          Text(
             "OR",
             style: TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.w700,
-              fontSize: 20,
+              fontSize: fontSize,
             ),
           ),
           const SizedBox(width: 10),

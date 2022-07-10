@@ -3,6 +3,7 @@ import 'package:expense_tracker/cursor.widget.dart';
 import 'package:expense_tracker/view/login/widgets/app.name.text.dart';
 import 'package:expense_tracker/view/login/widgets/auth.title.text.dart';
 import 'package:expense_tracker/view/login/widgets/divider.dart';
+import 'package:expense_tracker/view/login/widgets/footer.text.dart';
 import 'package:expense_tracker/view/login/widgets/login.submit.button.dart';
 import 'package:expense_tracker/view/login/widgets/mobile/have.an.account.container.mobile.dart';
 import 'package:expense_tracker/view/login/widgets/social.media.sign.in/fb.sign.in.dart';
@@ -10,6 +11,7 @@ import 'package:expense_tracker/view/login/widgets/text.field.title.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sizer/sizer.dart';
 
 import '../login/widgets/social.media.sign.in/google.sign.in.dart';
 import 'terms.and.privacy.text.dart';
@@ -167,7 +169,7 @@ class _RegisterScreenTabletState extends State<RegisterScreenTablet>
         borderRadius: BorderRadius.circular(8),
       ),
       isDense: true,
-      contentPadding: const EdgeInsets.fromLTRB(10, 12, 10, 12),
+      contentPadding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
     );
 
     return Scaffold(
@@ -186,10 +188,13 @@ class _RegisterScreenTabletState extends State<RegisterScreenTablet>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 const AppNameText(),
                 const SizedBox(height: 10),
-                const AuthTitleText(title: 'Register'),
+                const AuthTitleText(
+                  title: 'Register',
+                  fontSize: 23,
+                ),
                 AnimatedBuilder(
                   animation: _controller,
                   builder: (_, child) {
@@ -214,7 +219,10 @@ class _RegisterScreenTabletState extends State<RegisterScreenTablet>
                             child: AnimatedSlide(
                               duration: slideDuration,
                               offset: _emailTextSlide.value,
-                              child: const TextFieldTitle(title: 'Email'),
+                              child: const TextFieldTitle(
+                                title: 'Email',
+                                fontSize: 24,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 10),
@@ -230,6 +238,7 @@ class _RegisterScreenTabletState extends State<RegisterScreenTablet>
                                 child: TextFormField(
                                   style: const TextStyle(
                                     color: Colors.black,
+                                    fontSize: 24,
                                   ),
                                   keyboardType: TextInputType.emailAddress,
                                   onSaved: (val) {
@@ -247,7 +256,10 @@ class _RegisterScreenTabletState extends State<RegisterScreenTablet>
                             child: AnimatedSlide(
                               duration: slideDuration,
                               offset: _passwordTextSlide.value,
-                              child: const TextFieldTitle(title: 'Password'),
+                              child: const TextFieldTitle(
+                                title: 'Password',
+                                fontSize: 24,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 10),
@@ -277,25 +289,34 @@ class _RegisterScreenTabletState extends State<RegisterScreenTablet>
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                        left: 3, right: 13),
+                                        left: 13, right: 13),
                                     child: GestureDetector(
                                       onTap: () {
                                         setState(() {
                                           showPassword = !showPassword;
                                         });
                                       },
-                                      child: SizedBox(
-                                        height: 45,
-                                        width: 43,
+                                      child: Container(
+                                        height: 63,
+                                        width: 63,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          border: Border.all(
+                                            color: Colors.black,
+                                          ),
+                                        ),
                                         child: Center(
                                           child: showPassword
                                               ? const Icon(
                                                   Icons.visibility,
                                                   color: Colors.black,
+                                                  size: 23,
                                                 )
                                               : const Icon(
                                                   Icons.visibility_off,
                                                   color: Colors.black,
+                                                  size: 23,
                                                 ),
                                         ),
                                       ),
@@ -308,24 +329,31 @@ class _RegisterScreenTabletState extends State<RegisterScreenTablet>
                           const SizedBox(height: 30),
                           Center(
                             child: CursorWidget(
+                              buttonHeight: 60,
                               onTap: validateAndProceed,
                               isButton: true,
                               bgColor: const Color.fromRGBO(0, 24, 88, 1),
                               child: const LoginButton(
                                 title: 'Register',
+                                fontSize: 22,
                               ),
                             ),
                           ),
-                          const SizedBox(height: 10),
-                          const SizedBox(height: 10),
-                          const DividerText(),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 20),
+                          const DividerText(fontSize: 24),
+                          const SizedBox(height: 20),
                           GoogleSignInButton(
                             title: 'Sign Up with Google',
                             googleSignIn: _googleSignIn,
+                            height: 60,
+                            fontSize: 21,
                           ),
                           const SizedBox(height: 10),
-                          const FbSignInButton(title: 'Sign Up with facebook'),
+                          const FbSignInButton(
+                            title: 'Sign Up with facebook',
+                            height: 60,
+                            fontSize: 21,
+                          ),
                           const SizedBox(height: 10),
                         ],
                       ),
@@ -333,13 +361,20 @@ class _RegisterScreenTabletState extends State<RegisterScreenTablet>
                   },
                 ),
                 const SizedBox(height: 20),
-                const HaveAccoutContainerMobile(),
+                const HaveAccoutContainerMobile(
+                  fontSize: 21,
+                  height: 60,
+                ),
                 const SizedBox(height: 20),
                 const TermsAndPrivacyPolicyText(
                   width: double.infinity,
                   horizontalPadding: 38,
+                  fontSize: 21,
                 ),
                 const SizedBox(height: 50),
+                const FooterText(fontSize: 25),
+                const SizedBox(height: 50),
+                // const Spacer(),
               ],
             ),
           ),

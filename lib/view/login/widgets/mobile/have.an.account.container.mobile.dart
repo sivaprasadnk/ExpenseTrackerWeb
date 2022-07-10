@@ -1,17 +1,22 @@
-import 'package:expense_tracker/view/login/login.screen.mobile.dart';
+import 'package:expense_tracker/view/login/login.screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class HaveAccoutContainerMobile extends StatelessWidget {
   const HaveAccoutContainerMobile({
     Key? key,
+    this.fontSize = 18,
+    this.height = 50,
   }) : super(key: key);
+
+  final double fontSize;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 50,
+      height: height,
       margin: const EdgeInsets.symmetric(horizontal: 30),
       decoration: BoxDecoration(
         border: Border.all(
@@ -23,21 +28,21 @@ class HaveAccoutContainerMobile extends StatelessWidget {
         child: RichText(
           text: TextSpan(
             text: "Have an account ? ",
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.black,
+              fontSize: fontSize,
             ),
             children: [
               TextSpan(
                 text: 'Login',
-                style: const TextStyle(
-                  color: Color.fromRGBO(0, 24, 88, 1),
+                style: TextStyle(
+                  color: const Color.fromRGBO(0, 24, 88, 1),
+                  fontSize: fontSize,
                 ),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => const LoginScreenMobile()));
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (_) => const LoginScreen()));
                   },
               )
             ],

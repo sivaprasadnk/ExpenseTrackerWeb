@@ -3,10 +3,8 @@ import 'package:expense_tracker/api/repo/user_repo.dart';
 import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/model/recent.expense.model.dart';
 import 'package:expense_tracker/provider/home.provider.dart';
-import 'package:expense_tracker/view/home/desktop/home.screen.desktop.dart';
-import 'package:expense_tracker/view/home/mobile/home.screen.mobile.dart';
+import 'package:expense_tracker/view/home/home.screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -56,15 +54,15 @@ class _RecentExpenseDetailsState extends State<RecentExpenseDetails> {
                 Provider.of<HomeProvider>(context, listen: false)
                     .deductFromMonthlyTotal(widget.expense.amount);
                 Future.delayed(const Duration(seconds: 1)).then((value) {
-                  double width = MediaQuery.of(context).size.width;
+                  // double width = MediaQuery.of(context).size.width;
 
-                  if (width < 480) {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, HomeScreenMobile.routeName, (r) => false);
-                  } else {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, HomeScreenDesktop.routeName, (r) => false);
-                  }
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, HomeScreen.routeName, (r) => false);
+                  // if (width < 480) {
+                  // } else {
+                  //   Navigator.pushNamedAndRemoveUntil(
+                  //       context, HomeScreenDesktop.routeName, (r) => false);
+                  // }
                 });
               });
             },

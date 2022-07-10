@@ -1,7 +1,7 @@
 import 'package:expense_tracker/cursor.widget.dart';
 import 'package:expense_tracker/view/back.arrow.title.widget.dart';
 import 'package:expense_tracker/view/home/drawer/drawer.screen.dart';
-import 'package:expense_tracker/view/home/mobile/home.screen.mobile.dart';
+import 'package:expense_tracker/view/home/home.screen.dart';
 import 'package:expense_tracker/view/network_aware_widget.dart';
 import 'package:expense_tracker/view/offline.widget.dart';
 import 'package:expense_tracker/view/search.screen/search.screen.mobile.dart';
@@ -57,7 +57,7 @@ class _MobileViewState extends State<MobileView> {
                   ? GestureDetector(
                       onTap: () {
                         Navigator.pushNamedAndRemoveUntil(
-                            context, HomeScreenMobile.routeName, (r) => false);
+                            context, HomeScreen.routeName, (r) => false);
                       },
                       child: Padding(
                         padding: const EdgeInsets.only(left: 13),

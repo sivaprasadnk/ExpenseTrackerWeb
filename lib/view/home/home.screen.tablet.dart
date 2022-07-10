@@ -11,7 +11,6 @@ class HomeScreenTablet extends StatefulWidget {
   const HomeScreenTablet({
     Key? key,
   }) : super(key: key);
-  static const routeName = 'Home';
   @override
   _HomeScreenTabletState createState() => _HomeScreenTabletState();
 }

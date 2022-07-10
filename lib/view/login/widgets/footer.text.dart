@@ -2,19 +2,18 @@ import 'package:expense_tracker/common_strings.dart';
 import 'package:flutter/material.dart';
 
 class FooterText extends StatelessWidget {
-  const FooterText({
-    Key? key,
-  }) : super(key: key);
+  const FooterText({Key? key, this.fontSize = 20}) : super(key: key);
+  final double fontSize;
 
   @override
   Widget build(BuildContext context) {
-    return const Text(
+    return Text(
       kCopyRightText,
       textAlign: TextAlign.center,
       style: TextStyle(
-        fontSize: 20,
+        fontSize: fontSize,
         fontWeight: FontWeight.bold,
-        color: Color.fromRGBO(0, 24, 88, 1),
+        color: const Color.fromRGBO(0, 24, 88, 1),
       ),
     );
   }

@@ -16,7 +16,6 @@ import 'package:sizer/sizer.dart';
 
 class LoginScreenDesktop extends StatefulWidget {
   const LoginScreenDesktop({Key? key}) : super(key: key);
-  static const routeName = 'Login2';
   @override
   _LoginScreenDesktopState createState() => _LoginScreenDesktopState();
 }

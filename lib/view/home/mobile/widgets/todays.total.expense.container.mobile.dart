@@ -4,7 +4,7 @@ import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/c
 import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/daily.total.text.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/online.title.text.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/online.total.container.dart';
-import 'package:expense_tracker/view/todays.expense.list/todays.expense.list.mobile.screen.dart';
+import 'package:expense_tracker/view/todays.expense.list/todays.expense.list.screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,8 +22,7 @@ class TodaysTotalExpenseContainerMobile extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              Navigator.pushNamed(
-                  context, TodaysExpenseListMobileScreen.routeName);
+              Navigator.pushNamed(context, TodaysExpenseListScreen.routeName);
             },
             child: Container(
               height: 155,

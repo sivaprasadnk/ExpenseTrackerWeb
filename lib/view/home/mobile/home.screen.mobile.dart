@@ -11,7 +11,6 @@ class HomeScreenMobile extends StatefulWidget {
   const HomeScreenMobile({
     Key? key,
   }) : super(key: key);
-  static const routeName = 'Home';
   @override
   _HomeScreenMobileState createState() => _HomeScreenMobileState();
 }

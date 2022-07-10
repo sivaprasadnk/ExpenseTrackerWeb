@@ -79,6 +79,7 @@ class _MyAppState extends State<MyApp> {
                 ],
                 debugShowCheckedModeBanner: false,
                 routes: routes,
+                // onGenerateRoute: ,
                 theme: provider.themeData,
                 // home: Consumer<AuthProvider>(
                 //   builder: (_, auth, __) {

@@ -112,7 +112,7 @@ class UserController {
     }
   }
 
-  static void getExpenseDetails(
+  static void getExpenseDetailsAndNavigateToHome(
       BuildContext context, String userId, double width) async {
     Loading.showLoading(context);
 

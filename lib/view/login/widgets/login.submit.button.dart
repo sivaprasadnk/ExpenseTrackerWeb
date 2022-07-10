@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
 class LoginButton extends StatelessWidget {
-  const LoginButton({Key? key, required this.title}) : super(key: key);
+  const LoginButton({
+    Key? key,
+    required this.title,
+    this.fontSize = 20,
+  }) : super(key: key);
   final String title;
+  final double fontSize;
   @override
   Widget build(BuildContext context) {
     // final ThemeNotifier theme =
@@ -10,8 +15,8 @@ class LoginButton extends StatelessWidget {
     return Center(
       child: Text(
         title,
-        style: const TextStyle(
-          fontSize: 20,
+        style: TextStyle(
+          fontSize: fontSize,
           color: Colors.white,
           fontWeight: FontWeight.bold,
         ),

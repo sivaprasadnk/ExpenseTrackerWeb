@@ -17,7 +17,7 @@ import 'widgets/footer.text.dart';
 
 class LoginScreenTablet extends StatefulWidget {
   const LoginScreenTablet({Key? key}) : super(key: key);
-  static const routeName = 'LoginMedium';
+  // static const routeName = 'LoginMedium';
   @override
   _LoginScreenMobileState createState() => _LoginScreenMobileState();
 }
@@ -142,7 +142,8 @@ class _LoginScreenMobileState extends State<LoginScreenTablet>
     final screenSize = MediaQuery.of(context).size;
     const opacityDuration = Duration(milliseconds: 900);
     const slideDuration = Duration(milliseconds: 400);
-
+    final width = MediaQuery.of(context).size.width;
+    debugPrint('.. @@ width @tablet :$width');
     InputDecoration decoration = InputDecoration(
       focusedBorder: OutlineInputBorder(
         borderSide: const BorderSide(
@@ -163,7 +164,7 @@ class _LoginScreenMobileState extends State<LoginScreenTablet>
         borderRadius: BorderRadius.circular(8),
       ),
       isDense: true,
-      contentPadding: const EdgeInsets.fromLTRB(10, 12, 10, 12),
+      contentPadding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
       // contentPadding: const EdgeInsets.symmetric(
       //   horizontal: 8,
       //   // vertical: 4.h,
@@ -189,7 +190,10 @@ class _LoginScreenMobileState extends State<LoginScreenTablet>
                 SizedBox(height: 10.h),
                 const AppNameText(),
                 const SizedBox(height: 10),
-                const AuthTitleText(title: 'Login'),
+                const AuthTitleText(
+                  title: 'Login',
+                  fontSize: 23,
+                ),
                 AnimatedBuilder(
                   animation: _controller,
                   builder: (_, child) {
@@ -214,7 +218,10 @@ class _LoginScreenMobileState extends State<LoginScreenTablet>
                             child: AnimatedSlide(
                               duration: slideDuration,
                               offset: _emailTextSlide.value,
-                              child: const TextFieldTitle(title: 'Email'),
+                              child: const TextFieldTitle(
+                                title: 'Email',
+                                fontSize: 24,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 10),
@@ -240,7 +247,7 @@ class _LoginScreenMobileState extends State<LoginScreenTablet>
                                   autocorrect: false,
                                   style: const TextStyle(
                                     color: Colors.black,
-                                    fontSize: 20,
+                                    fontSize: 24,
                                   ),
                                   keyboardType: TextInputType.emailAddress,
                                   onSaved: (val) {
@@ -258,7 +265,10 @@ class _LoginScreenMobileState extends State<LoginScreenTablet>
                             child: AnimatedSlide(
                               duration: slideDuration,
                               offset: _passwordTextSlide.value,
-                              child: const TextFieldTitle(title: 'Password'),
+                              child: const TextFieldTitle(
+                                title: 'Password',
+                                fontSize: 24,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 10),
@@ -274,20 +284,17 @@ class _LoginScreenMobileState extends State<LoginScreenTablet>
                                     child: Padding(
                                       padding: const EdgeInsets.only(
                                           left: 10, right: 10),
-                                      child: SizedBox(
-                                        height: 45,
-                                        child: TextFormField(
-                                          focusNode: textSecondFocusNode,
-                                          obscureText: !showPassword,
-                                          style: const TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 20,
-                                          ),
-                                          onSaved: (val) {
-                                            password = val.toString();
-                                          },
-                                          decoration: decoration,
+                                      child: TextFormField(
+                                        focusNode: textSecondFocusNode,
+                                        obscureText: !showPassword,
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 24,
                                         ),
+                                        onSaved: (val) {
+                                          password = val.toString();
+                                        },
+                                        decoration: decoration,
                                       ),
                                     ),
                                   ),
@@ -301,8 +308,8 @@ class _LoginScreenMobileState extends State<LoginScreenTablet>
                                         });
                                       },
                                       child: Container(
-                                        height: 45,
-                                        width: 43,
+                                        height: 63,
+                                        width: 63,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(8),
@@ -315,10 +322,12 @@ class _LoginScreenMobileState extends State<LoginScreenTablet>
                                               ? const Icon(
                                                   Icons.visibility,
                                                   color: Colors.black,
+                                                  size: 23,
                                                 )
                                               : const Icon(
                                                   Icons.visibility_off,
                                                   color: Colors.black,
+                                                  size: 23,
                                                 ),
                                         ),
                                       ),
@@ -331,23 +340,29 @@ class _LoginScreenMobileState extends State<LoginScreenTablet>
                           const SizedBox(height: 30),
                           Center(
                             child: CursorWidget(
-                              buttonHeight: 45,
+                              buttonHeight: 60,
                               onTap: validateAndProceed,
                               isButton: true,
                               bgColor: const Color.fromRGBO(0, 24, 88, 1),
                               child: const LoginButton(
                                 title: 'Login',
+                                fontSize: 22,
                               ),
                             ),
                           ),
-                          const SizedBox(height: 10),
-                          const DividerText(),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 15),
+                          const DividerText(fontSize: 24),
+                          const SizedBox(height: 15),
                           GoogleSignInButton(
                             googleSignIn: _googleSignIn,
+                            height: 60,
+                            fontSize: 21,
                           ),
                           const SizedBox(height: 10),
-                          const FbSignInButton(),
+                          const FbSignInButton(
+                            height: 60,
+                            fontSize: 21,
+                          ),
                           const SizedBox(height: 10),
                         ],
                       ),
@@ -355,9 +370,9 @@ class _LoginScreenMobileState extends State<LoginScreenTablet>
                   },
                 ),
                 const SizedBox(height: 20),
-                const DontHaveAccoutContainerMobile(),
-                const SizedBox(height: 20),
-                const FooterText(),
+                const DontHaveAccoutContainerMobile(height: 60, fontSize: 21),
+                const SizedBox(height: 50),
+                const FooterText(fontSize: 25),
                 const SizedBox(height: 50),
               ],
             ),
