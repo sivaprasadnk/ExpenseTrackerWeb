@@ -10,7 +10,7 @@ enum AppTheme {
   brown,
   neonBlue,
   neonGreen,
-  neonPink,
+  // neonPink,
 }
 final appThemeData = {
   /// first
@@ -204,35 +204,35 @@ final appThemeData = {
 
     scaffoldBackgroundColor: const Color.fromRGBO(25, 41, 32, 1),
   ),
-  AppTheme.neonPink: ThemeData(
-    pageTransitionsTheme: PageTransitionsTheme(
-      builders: kIsWeb
-          ? {
-              // No animations for every OS if the app running on the web
-              for (final platform in TargetPlatform.values)
-                platform: const NoTransitionsBuilder(),
-            }
-          : const {
-              // handel other platforms you are targeting
-            },
-    ),
-    drawerTheme: const DrawerThemeData(
-      backgroundColor: Color.fromRGBO(105, 38, 92, 1),
-    ),
-    brightness: Brightness.light,
-    cardColor: const Color.fromARGB(211, 0, 107, 246),
-    primaryColor: const Color.fromRGBO(238, 49, 144, 1),
-    splashColor: const Color.fromARGB(255, 55, 149, 168),
-    textTheme: const TextTheme(
-      bodyMedium: TextStyle(
-        color: Color.fromRGBO(238, 49, 144, 1),
-        fontFamily: 'Rajdhani',
-      ),
-    ),
-    secondaryHeaderColor: const Color.fromARGB(0, 230, 246, 1),
+  // AppTheme.neonPink: ThemeData(
+  //   pageTransitionsTheme: PageTransitionsTheme(
+  //     builders: kIsWeb
+  //         ? {
+  //             // No animations for every OS if the app running on the web
+  //             for (final platform in TargetPlatform.values)
+  //               platform: const NoTransitionsBuilder(),
+  //           }
+  //         : const {
+  //             // handel other platforms you are targeting
+  //           },
+  //   ),
+  //   drawerTheme: const DrawerThemeData(
+  //     backgroundColor: Color.fromRGBO(105, 38, 92, 1),
+  //   ),
+  //   brightness: Brightness.light,
+  //   cardColor: const Color.fromARGB(211, 0, 107, 246),
+  //   primaryColor: const Color.fromRGBO(238, 49, 144, 1),
+  //   splashColor: const Color.fromARGB(255, 55, 149, 168),
+  //   textTheme: const TextTheme(
+  //     bodyMedium: TextStyle(
+  //       color: Color.fromRGBO(238, 49, 144, 1),
+  //       fontFamily: 'Rajdhani',
+  //     ),
+  //   ),
+  //   secondaryHeaderColor: const Color.fromARGB(0, 230, 246, 1),
 
-    scaffoldBackgroundColor: const Color.fromRGBO(105, 38, 92, 1),
-  ),
+  //   scaffoldBackgroundColor: const Color.fromRGBO(105, 38, 92, 1),
+  // ),
 };
 
 //   https://assets8.lottiefiles.com/packages/lf20_zGHcl0.json

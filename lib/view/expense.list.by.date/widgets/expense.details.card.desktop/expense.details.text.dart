@@ -4,7 +4,7 @@ class ExpenseDetailsText extends StatelessWidget {
   const ExpenseDetailsText({
     Key? key,
     required this.details,
-    this.fontSize = 12,
+    this.fontSize = 15,
   }) : super(key: key);
   final String details;
   final double fontSize;

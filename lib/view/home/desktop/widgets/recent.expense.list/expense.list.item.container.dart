@@ -1,4 +1,3 @@
-import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/provider/home.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -41,13 +40,17 @@ class _ExpenseListItemContainerState extends State<ExpenseListItemContainer> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(width: 8),
+            // const SizedBox(width: 8),
             Container(
               decoration: BoxDecoration(
                 color: primaryColor,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(7),
+                  bottomLeft: Radius.circular(7),
+                ),
               ),
-              width: 3,
-              height: 40,
+              width: 4,
+              height: 50,
             ),
             const SizedBox(width: 8),
             Column(
@@ -80,8 +83,8 @@ class _ExpenseListItemContainerState extends State<ExpenseListItemContainer> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(width: 20),
-             Icon(
+            const SizedBox(width: 6),
+            Icon(
               Icons.arrow_forward_ios,
               size: 15,
               color: primaryColor,

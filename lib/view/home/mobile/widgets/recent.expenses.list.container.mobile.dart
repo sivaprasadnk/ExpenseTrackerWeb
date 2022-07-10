@@ -18,8 +18,6 @@ class _RecentExpensesListContainerMobileState
     extends State<RecentExpensesListContainerMobile> {
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    final screenHeight = screenSize.height;
     return Expanded(
       // height: screenHeight * 0.4,
       child: Consumer<HomeProvider>(

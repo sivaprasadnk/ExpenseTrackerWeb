@@ -63,8 +63,7 @@ class ExpenseDetailsCardMobile extends StatelessWidget {
                   const SizedBox(height: 10),
                   ExpenseCategoryNameContainer(
                       categoryName: expense.categoryName),
-                  const SizedBox(height: 10),
-
+                  // const SizedBox(height: 8),
                 ],
               ),
               const Spacer(),
@@ -74,7 +73,6 @@ class ExpenseDetailsCardMobile extends StatelessWidget {
         ExpenseAmountText(amount: expense.amount.toString()),
         ExpenseModeText(mode: expense.mode),
         ExpenseEditIcon(expense: expense),
-
         ExpenseTitleText(title: expense.expenseTitle),
       ],
     );
