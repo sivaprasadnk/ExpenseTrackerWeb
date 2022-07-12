@@ -1,5 +1,5 @@
 import 'package:expense_tracker/common_strings.dart';
-import 'package:expense_tracker/model/recent.expense.model.dart';
+import 'package:expense_tracker/model/transaction.model.dart';
 import 'package:flutter/cupertino.dart';
 
 class HomeProvider extends ChangeNotifier {
@@ -24,17 +24,18 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<RecentExpense> recentExpensesList_ = [];
-  List<RecentExpense> get recentExpensesList => recentExpensesList_;
+  List<TransactionModel> recentTransactionsList_ = [];
+  List<TransactionModel> get recentTransactionsList => recentTransactionsList_;
 
-  void updateRecentList(List<RecentExpense> list) {
-    recentExpensesList_ = list;
+  void updateRecentList(List<TransactionModel> list) {
+    recentTransactionsList_ = list;
     notifyListeners();
   }
 
-  void addToRecentList(RecentExpense expense) {
-    recentExpensesList_.add(expense);
-    recentExpensesList_.sort((a, b) => b.createdDate.compareTo(a.createdDate));
+  void addToRecentList(TransactionModel expense) {
+    recentTransactionsList_.add(expense);
+    recentTransactionsList_
+        .sort((a, b) => b.createdDateTime.compareTo(a.createdDateTime));
     notifyListeners();
   }
 
@@ -60,6 +61,24 @@ class HomeProvider extends ChangeNotifier {
 
   ///
 
+  int monthlyBalance_ = 0;
+  int get monthlyBalance => monthlyBalance_;
+
+  void updateMonthlyBalance() {
+    monthlyBalance_ = monthlyTotalIncome - monthlyTotalExpense;
+    notifyListeners();
+  }
+
+  ///
+  int dailyBalance_ = 0;
+  int get dailyBalance => dailyBalance_;
+
+  void updateDailyBalance() {
+    dailyBalance_ = dailyTotalIncome - dailyTotalExpense;
+    notifyListeners();
+  }
+
+  ///
   int monthlyTotalIncome_ = 0;
   int get monthlyTotalIncome => monthlyTotalIncome_;
 

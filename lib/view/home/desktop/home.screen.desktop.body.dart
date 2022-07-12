@@ -1,6 +1,6 @@
 import 'package:expense_tracker/view/home/desktop/widgets/add.expense.button/add.expense.button.desktop.dart';
-import 'package:expense_tracker/view/home/desktop/widgets/recent.expense.list/recent.expenses.list.container.desktop.dart';
-import 'package:expense_tracker/view/home/desktop/widgets/recent.expense.list/recent.expenses.text.dart';
+import 'package:expense_tracker/view/home/desktop/widgets/recent.expense.list/todays.expenses.title.text.dart';
+import 'package:expense_tracker/view/home/desktop/widgets/recent.expense.list/todays.transactions.list.container.desktop.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/todays.total.expense.container.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/view.by.category/view.expense.by.category.container.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/view.by.date/view.expenses.by.date.container.dart';
@@ -18,7 +18,9 @@ class HomeScreenDesktopBody extends StatefulWidget {
 class _HomeScreenDesktopBodyState extends State<HomeScreenDesktopBody>
     with TickerProviderStateMixin {
   DateTime now = DateTime.now();
+
   late AnimationController _controller;
+
   late Animation<double> _todaysTextContainerOpacity;
   late Animation<double> _expenseByDateOpacity;
   late Animation<double> _expenseByCategoryOpacity;
@@ -141,28 +143,24 @@ class _HomeScreenDesktopBodyState extends State<HomeScreenDesktopBody>
         return Container(
           height: widget.constraints.maxHeight,
           alignment: Alignment.center,
-          // color: Colors.green,
-          // decoration: const BoxDecoration(),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
             child: SizedBox(
               width: 430,
               child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                        wishText,
-                        style: const TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                    wishText,
+                    style: const TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      
                       const SizedBox(height: 10),
                       AnimatedOpacity(
                         duration: opacityDuration,
@@ -227,11 +225,10 @@ class _HomeScreenDesktopBodyState extends State<HomeScreenDesktopBody>
                       const SizedBox(
                         height: 10,
                       ),
-                     
                     ],
                   ),
-                   const RecentExpensesText(),
-                      const RecentExpensesListContainerDesktop(),
+                  const TodaysTransactionsTitleText(),
+                  const TodaysTransactionsListContainerDesktop(),
                 ],
               ),
             ),

@@ -1,44 +1,51 @@
 // enum Mode { Cash, Online, All }
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Transaction {
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expense_tracker/common_strings.dart';
+
+class TransactionModel {
   String title;
   String details;
+  int amount;
   int categoryId;
   String categoryName;
-  int amount;
   String transactionDate;
   String transactionDay;
   String transactionMonth;
   String transactionMonthDocId;
+  String transactionType;
   String transactionDocId;
   String recentDocId;
+  DateTime createdDateTime;
+
   String createdDateTimeString;
-  String transactionType;
-  Transaction({
+  TransactionModel({
     required this.title,
-    required this.categoryId,
     required this.details,
     required this.amount,
+    required this.categoryId,
     required this.categoryName,
     required this.transactionDate,
     required this.transactionDay,
     required this.transactionMonth,
     required this.transactionMonthDocId,
     required this.createdDateTimeString,
+    required this.createdDateTime,
+    required this.transactionType,
     required this.transactionDocId,
     required this.recentDocId,
-    required this.transactionType,
   });
 
-  static Transaction fromJson(QueryDocumentSnapshot<Object?> doc) {
-    String expDate = doc['expenseDate'];
-    var id = doc['expenseDocId'];
-    var recentDocId = doc['recentDocId'];
-    String expDay = expDate.split('-').first;
-    return Transaction(
+  static TransactionModel fromJson(QueryDocumentSnapshot<Object?> doc) {
+    String transDate = doc['transactionDate'];
+    var id = doc[kTransactionDocIdField];
+    var recentDocId = doc[kRecentDocIdField];
+    String expDay = transDate.split('-').first;
+    return TransactionModel(
       amount: doc['amount'],
+      createdDateTime: doc[kCreatedDateTimeField],
       transactionType: doc['transactionType'],
       categoryId: doc['categoryId'],
       categoryName: doc['categoryName'],
@@ -49,7 +56,31 @@ class Transaction {
       transactionMonthDocId: "",
       title: doc['title'],
       details: doc['details'],
-      transactionDate: doc['transactionDate'] ?? "",
+      transactionDate: transDate,
+      transactionMonth: doc['transactionMonth'],
+    );
+  }
+
+  static TransactionModel fromMap(Map doc) {
+    String transDate = doc['transactionDate'];
+    var id = doc['transactionDocId'];
+    var recentDocId = doc['recentDocId'];
+    String expDay = transDate.split('-').first;
+    return TransactionModel(
+      amount: doc['amount'],
+      createdDateTime: doc[kCreatedDateTimeField],
+
+      transactionType: doc['transactionType'],
+      categoryId: doc['categoryId'],
+      categoryName: doc['categoryName'],
+      createdDateTimeString: doc['createdDateTimeString'],
+      transactionDay: expDay,
+      transactionDocId: id,
+      recentDocId: recentDocId,
+      transactionMonthDocId: "",
+      title: doc['title'],
+      details: doc['details'],
+      transactionDate: transDate,
       transactionMonth: doc['transactionMonth'],
     );
   }
@@ -73,7 +104,7 @@ class Transaction {
   //   );
   // }
 
-  static Map<String, dynamic> toJson(Transaction trans) {
+  static Map<String, dynamic> toJson(TransactionModel trans) {
     return {
       'active': true,
       'amount': trans.amount,
@@ -81,12 +112,12 @@ class Transaction {
       'details': trans.details,
       'details_i': trans.details.toLowerCase(),
       'transactionType': trans.transactionType,
-      'expenseTitle': trans.title,
-      'expenseTitle_i': trans.title.toLowerCase(),
-      'expenseMonth': trans.transactionMonth,
-      'expenseMonthDocId': trans.transactionMonthDocId,
-      'expenseDate': trans.transactionDate,
-      'expenseDay': trans.transactionDay,
+      'title': trans.title,
+      'title_i': trans.title.toLowerCase(),
+      'transactionMonth': trans.transactionMonth,
+      'transactionMonthDocId': trans.transactionMonthDocId,
+      'transactionDate': trans.transactionDate,
+      'transactionDay': trans.transactionDay,
       'categoryId': trans.categoryId,
       'categoryName': trans.categoryName,
     };

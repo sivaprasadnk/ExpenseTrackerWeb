@@ -1,4 +1,5 @@
 import 'package:expense_tracker/model/expense.model.dart';
+import 'package:expense_tracker/model/transaction.model.dart';
 import 'package:expense_tracker/view/expense.list.by.date/widgets/expense.details.card.desktop/expense.edit.icon.dart';
 import 'package:flutter/material.dart';
 
@@ -10,13 +11,17 @@ import '../expense.details.card.desktop/expense.mode.text.dart';
 import '../expense.details.card.desktop/expense.title.text.dart';
 
 class ExpenseDetailsCardMobile extends StatelessWidget {
+  
   const ExpenseDetailsCardMobile({
     Key? key,
-    required this.expense,
+    required this.transaction,
     this.width = double.infinity,
   }) : super(key: key);
-  final Expense expense;
+
+  final TransactionModel transaction;
+  
   final double width;
+
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);

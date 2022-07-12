@@ -1,4 +1,4 @@
-import 'package:expense_tracker/view/home/desktop/widgets/recent.expense.list/recent.expenses.text.dart';
+import 'package:expense_tracker/view/home/desktop/widgets/recent.expense.list/todays.expenses.title.text.dart';
 import 'package:expense_tracker/view/tablet.view.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -228,7 +228,7 @@ class _HomeScreenTabletState extends State<HomeScreenTablet>
                 ),
                 // const Spacer(),
 
-                RecentExpensesText(fontSize: 12.sp),
+                TodaysExpensesTitleText(fontSize: 12.sp),
                 const RecentExpensesListTablet(),
                 // const Spacer()
               ],

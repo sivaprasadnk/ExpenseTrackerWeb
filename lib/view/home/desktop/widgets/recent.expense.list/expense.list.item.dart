@@ -1,23 +1,21 @@
-import 'package:expense_tracker/model/expense.model.dart';
-import 'package:expense_tracker/model/recent.expense.model.dart';
+import 'package:expense_tracker/model/transaction.model.dart';
 import 'package:expense_tracker/view/expense.list.by.date/widgets/expense.details.card.desktop/expense.details.card.desktop.dart';
 import 'package:expense_tracker/view/expense.list.by.date/widgets/expense.details.card.mobile/expense.details.card.mobile.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/recent.expense.list/expense.list.item.container.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class ExpenseListItem extends StatelessWidget {
-  const ExpenseListItem({
+class TransactionListItem extends StatelessWidget {
+  const TransactionListItem({
     Key? key,
-    required this.expense,
+    required this.transaction,
   }) : super(key: key);
-  final RecentExpense expense;
+  final TransactionModel transaction;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Expense exp = Expense.fromRecentExpense(expense);
+        // Expense exp = Expense.fromRecentExpense(expense);
             double width = MediaQuery.of(context).size.width;
 
         if (width<480) {
@@ -35,7 +33,7 @@ class ExpenseListItem extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     ExpenseDetailsCardMobile(
-                      expense: exp,
+                      transaction: transaction,
                       width: MediaQuery.of(context).size.width,
                     ),
                     const SizedBox(
@@ -76,7 +74,7 @@ class ExpenseListItem extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         ExpenseDetailsCardDesktop(
-                          expense: exp,
+                          transaction: transaction,
                           width: 450,
                         ),
                         const SizedBox(
@@ -103,10 +101,11 @@ class ExpenseListItem extends StatelessWidget {
           );
         }
       },
-      child: ExpenseListItemContainer(
-        title: expense.expenseTitle,
-        amount: expense.amount.toString(),
-        subTitle: expense.categoryName,
+      child: TransactionListItemContainer(
+        title: transaction.title,
+        type: transaction.transactionType,
+        amount: transaction.amount.toString(),
+        subTitle: transaction.categoryName,
       ),
     );
   }

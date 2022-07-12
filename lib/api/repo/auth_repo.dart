@@ -48,7 +48,8 @@ class AuthRepo {
       return RegistrationResponse(
         status: ResponseStatus.error,
         data: '',
-        dailyTotal: 0,
+        monthlyExpenseTotal: 0,
+        monthlyIncomeTotal: 0,
         userId: '',
         message: AuthExceptionHandler.handleException(e).toString(),
       );
@@ -56,7 +57,50 @@ class AuthRepo {
     return RegistrationResponse(
       userId: credential.user!.uid,
       status: ResponseStatus.success,
-      dailyTotal: 0,
+      monthlyExpenseTotal: 0,
+      monthlyIncomeTotal: 0,
+      message: 'Success',
+      data: "",
+    );
+  }
+
+  Future<RegistrationResponse> createAccountV2(
+      String email, String password) async {
+    final DateTime now = DateTime.now();
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    var version = packageInfo.version;
+    var build = packageInfo.buildNumber;
+    UserCredential credential;
+    final String formattedTime = DateFormat('dd-MM-yyyy  kk:mm').format(now);
+    try {
+      credential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+      if (credential.user != null) {
+        fireStoreInstance
+            .collection(kUsersCollection)
+            .doc(credential.user!.uid)
+            .set({
+          'email': email,
+          'password': password,
+          'registeredTime': formattedTime,
+          'isWeb': kIsWeb,
+          'userId': credential.user!.uid,
+          'registrationAppVersion': version,
+          'registrationAppVersionCode': build,
+        });
+      }
+    } catch (e) {
+      debugPrint('Exception @createAccount: $e');
+      return RegistrationResponse(
+        status: ResponseStatus.error,
+        data: '',
+        userId: '',
+        message: AuthExceptionHandler.handleException(e).toString(),
+      );
+    }
+    return RegistrationResponse(
+      userId: credential.user!.uid,
+      status: ResponseStatus.success,
       message: 'Success',
       data: "",
     );

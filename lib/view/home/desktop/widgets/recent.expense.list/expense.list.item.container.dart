@@ -2,23 +2,27 @@ import 'package:expense_tracker/provider/home.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ExpenseListItemContainer extends StatefulWidget {
-  const ExpenseListItemContainer({
+class TransactionListItemContainer extends StatefulWidget {
+  const TransactionListItemContainer({
     Key? key,
     required this.amount,
     required this.subTitle,
     required this.title,
+    required this.type,
   }) : super(key: key);
+
   final String title;
   final String subTitle;
   final String amount;
+  final String type;
 
   @override
-  State<ExpenseListItemContainer> createState() =>
-      _ExpenseListItemContainerState();
+  State<TransactionListItemContainer> createState() =>
+      _TransactionListItemContainerState();
 }
 
-class _ExpenseListItemContainerState extends State<ExpenseListItemContainer> {
+class _TransactionListItemContainerState
+    extends State<TransactionListItemContainer> {
   bool isHovered = false;
 
   @override
@@ -28,6 +32,10 @@ class _ExpenseListItemContainerState extends State<ExpenseListItemContainer> {
     var primaryColor = theme.primaryColor;
     var currency =
         Provider.of<HomeProvider>(context, listen: false).currencySymbol;
+    var drOrCr = "+";
+    if (widget.type == "Expense") {
+      drOrCr = "-";
+    }
     return Container(
       height: 50,
       decoration: BoxDecoration(
@@ -77,7 +85,7 @@ class _ExpenseListItemContainerState extends State<ExpenseListItemContainer> {
             ),
             const Spacer(),
             Text(
-              "$currency ${widget.amount}",
+              "$drOrCr $currency ${widget.amount}",
               style: const TextStyle(
                 fontSize: 35,
                 fontWeight: FontWeight.bold,

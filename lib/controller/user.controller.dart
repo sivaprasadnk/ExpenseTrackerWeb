@@ -1,10 +1,10 @@
 import 'package:expense_tracker/api/repo/user_repo.dart';
 import 'package:expense_tracker/api/response.status.dart';
-import 'package:expense_tracker/model/add.expense.model.dart';
+import 'package:expense_tracker/model/add.transaction.model.dart';
 import 'package:expense_tracker/model/edit.expense.model.dart';
 import 'package:expense_tracker/model/expense.model.dart';
-import 'package:expense_tracker/model/expense.month.model.dart';
 import 'package:expense_tracker/model/response.model.dart';
+import 'package:expense_tracker/model/transaction.month.model.dart';
 import 'package:expense_tracker/provider/home.provider.dart';
 import 'package:expense_tracker/utils/custom.exception.dart';
 import 'package:expense_tracker/utils/dialog.dart';
@@ -16,6 +16,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+
+import '../model/transaction.model.dart';
 
 class UserController {
   static UserRepo userRepo = UserRepo();
@@ -200,14 +202,15 @@ class UserController {
   ///
 
   static void addTransaction(
-      int categoryId,
-      String categoryName,
-      int expenseAmount,
-      String expenseTitle,
-      String expenseDetails,
-      TransactionType selectedType,
-      DateTime selectedDate,
-      BuildContext context) async {
+    int categoryId,
+    String categoryName,
+    int amount,
+    String title,
+    String details,
+    TransactionType selectedType,
+    DateTime selectedDate,
+    BuildContext context,
+  ) async {
     Loading.showLoading(context);
     String userId = FirebaseAuth.instance.currentUser!.uid;
 
@@ -228,62 +231,65 @@ class UserController {
 
     int monthlyTotalIncome = provider.monthlyTotalIncome;
     int monthlyTotalExpense = provider.monthlyTotalExpense;
-    // int dailyOnlineTotal = provider.dailyOnlineTotal;
 
-    ///
-    Expense exp = Expense(
-      expenseTitle: expenseTitle,
-      createdDateTimeString: "",
-      expenseDocId: "",
+
+    TransactionModel trans = TransactionModel(
+      title: title,
+      createdDateTime: createdDateTime,
+      createdDateTimeString: createdDateTimeString,
+      transactionDocId: "",
       recentDocId: "",
       categoryId: categoryId,
-      details: expenseDetails,
-      expenseMonthDocId: monthDocId,
-      amount: expenseAmount,
+      details: details,
+      transactionMonthDocId: monthDocId,
+      amount: amount,
       categoryName: categoryName,
-      expenseMonth: month,
-      expenseDate: date,
-      expenseDay: date.split('-').first,
+      transactionMonth: month,
+      transactionDate: date,
+      transactionDay: date.split('-').first,
       transactionType: selectedType.toString().split('.').last.initCap(),
     );
 
-    ExpenseMonth expMonth = ExpenseMonth(
+    TransactionMonth transactionMonth = TransactionMonth(
       year: year,
       month: month,
       monthOnly: monthOnly,
       monthDocId: monthDocId,
     );
-    var request = AddExpenseModelV2(
-      expense: exp,
+
+
+    var request = AddTransactionModel(
+      transaction: trans,
       userId: userId,
-      expenseMonth: expMonth,
+      transactionMonth: transactionMonth,
       monthlyTotalIncome: monthlyTotalIncome,
       monthlyTotalExpense: monthlyTotalExpense,
       createdDateTimeString: createdDateTimeString,
       createdDateTime: createdDateTime,
     );
 
-    ResponseModel response = await userRepo.addExpense(request);
+    ResponseModel response = await userRepo.addTransaction(request);
 
     if (response.status == ResponseStatus.error) {
       Dialogs.showAlertDialog(context: context, description: response.message);
     } else {
       var provider = Provider.of<HomeProvider>(context, listen: false);
 
-      provider.addToDailyExpense(expenseAmount);
       if (selectedType == TransactionType.income) {
-        provider.addToDailyCashExpense(expenseAmount);
+        provider.addToDailyTotalIncome(amount);
+        provider.addToMonthlyTotalIncome(amount);
       } else {
-        provider.addToDailyOnlineExpense(expenseAmount);
+        provider.addToDailyTotalExpense(amount);
+        provider.addToMonthlyTotalExpense(amount);
       }
 
-      userRepo.getRecentExpense().then((recentExpList) {
-        if (recentExpList.isNotEmpty) {
-          provider.updateRecentList(recentExpList);
+      userRepo.getRecentTransaction().then((recentList) {
+        if (recentList.isNotEmpty) {
+          provider.updateRecentList(recentList);
 
           Future.delayed(const Duration(seconds: 2)).then((value) {
             Dialogs.showAlertDialogAndNavigateToHome(
-                context: context, description: 'Expense Added !');
+                context: context, description: 'Transaction Added !');
           });
         }
       });

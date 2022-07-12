@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class RecentExpensesText extends StatelessWidget {
-  const RecentExpensesText({
+class TodaysTransactionsTitleText extends StatelessWidget {
+  const TodaysTransactionsTitleText({
     Key? key,
     this.leftPadding = 10,
     this.fontSize = 20,
@@ -13,7 +13,7 @@ class RecentExpensesText extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0) + EdgeInsets.only(left: leftPadding),
       child: Text(
-        'Recent Expenses',
+        'Todays Transactions',
         style: TextStyle(
           fontSize: fontSize,
           fontWeight: FontWeight.bold,

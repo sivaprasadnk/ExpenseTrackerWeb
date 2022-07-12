@@ -3,11 +3,12 @@ import 'package:dio/dio.dart';
 import 'package:expense_tracker/api/response.status.dart';
 import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/model/add.expense.model.dart';
+import 'package:expense_tracker/model/add.transaction.model.dart';
 import 'package:expense_tracker/model/edit.expense.model.dart';
 import 'package:expense_tracker/model/expense.model.dart';
 import 'package:expense_tracker/model/location.response.model.dart';
-import 'package:expense_tracker/model/recent.expense.model.dart';
 import 'package:expense_tracker/model/response.model.dart';
+import 'package:expense_tracker/model/transaction.model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
@@ -276,9 +277,9 @@ class UserRepo {
     return e;
   }
 
-  Future<List<RecentExpense>> getRecentExpense() async {
+  Future<List<TransactionModel>> getRecentTransaction() async {
     String userId = FirebaseAuth.instance.currentUser!.uid;
-    List<RecentExpense> recentExpList = [];
+    List<TransactionModel> recentExpList = [];
 
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await fireStoreInstance
         .collection(kUsersCollection)
@@ -287,9 +288,10 @@ class UserRepo {
         .orderBy('createdDateTime', descending: true)
         .limit(5)
         .get();
-    var recentExpList1 = querySnapshot.docs.map((doc) => doc.data()).toList();
-    for (var element in recentExpList1) {
-      RecentExpense recentExpense = RecentExpense.fromMap(element);
+    var recentTransactionList1 =
+        querySnapshot.docs.map((doc) => doc.data()).toList();
+    for (var element in recentTransactionList1) {
+      TransactionModel recentExpense = TransactionModel.fromMap(element);
       recentExpList.add(recentExpense);
     }
     return recentExpList;
@@ -471,5 +473,168 @@ class UserRepo {
 
     int totExpAmt = doc!['totalAmount'];
     return totExpAmt;
+  }
+
+  Future<ResponseModel> addTransaction(AddTransactionModel request) async {
+    String transactionDocId = "", recentDocId = "";
+
+    TransactionModel transaction = request.transaction;
+
+    /// adding recent expenses
+    DocumentReference<Map<String, dynamic>> recentDoc = await fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(request.userId)
+        .collection(kRecentTransactionCollection)
+        .add(TransactionModel.toJson(transaction));
+    recentDocId = recentDoc.id;
+
+    /// adding expense for the date
+
+    DocumentReference<Map<String, dynamic>> doc = await fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(request.userId)
+        .collection(kTransactionDatesCollection)
+        .doc(transaction.transactionDate)
+        .collection(kTransactionCollection)
+        .add(TransactionModel.toJson(transaction));
+
+    /// updating  expense docid &  recent docid
+
+    transactionDocId = doc.id;
+    fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(request.userId)
+        .collection(kTransactionDatesCollection)
+        .doc(transaction.transactionDate)
+        .collection(kTransactionCollection)
+        .doc(doc.id)
+        .update({
+      kTransactionDocIdField: transactionDocId,
+      kRecentDocIdField: recentDocId,
+      kCreatedDateTimeField: request.createdDateTime,
+      'createdDateTimeString': request.createdDateTimeString,
+    });
+
+    /// updating  expense docid in recent expense item
+
+    fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(request.userId)
+        .collection(kRecentTransactionCollection)
+        .doc(recentDocId)
+        .update({
+      kTransactionDocIdField: transactionDocId,
+      kRecentDocIdField: recentDocId,
+      kCreatedDateTimeField: request.createdDateTime,
+      'createdDateTimeString': request.createdDateTimeString,
+    });
+
+    /// updating  total expense amount for the date
+
+    fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(request.userId)
+        .collection(kTransactionDatesCollection)
+        .doc(transaction.transactionDate)
+        .set({
+      // 'totalExpense': request.dailyTotal + expense.amount,
+      // 'totalCashExpense': expense.mode == "Cash"
+      //     ? request.dailyCashTotal + expense.amount
+      //     : request.dailyCashTotal,
+      // 'totalOnlineExpense': expense.mode == "Online"
+      //     ? request.dailyOnlineTotal + expense.amount
+      //     : request.dailyOnlineTotal,
+      // 'date': expense.expenseDate,
+      // 'month': expense.expenseMonth,
+      // 'day': expense.expenseDay,
+      // 'monthDocId': expense.expenseMonthDocId,
+      // 'updatedDateTime': request.createdDateTimeString,
+    });
+
+    // DocumentSnapshot<Map<String, dynamic>> categoryDoc = await fireStoreInstance
+    //     .collection(kUsersCollection)
+    //     .doc(request.userId)
+    //     .collection(kExpenseCategoriesCollection)
+    //     .doc(expense.categoryName)
+    //     .get();
+
+    // int totAmt = 0;
+    // int totCashAmt = 0;
+    // int totOnlineAmt = 0;
+    // if (categoryDoc.data() != null) {
+    //   totAmt = categoryDoc.data()!['totalAmount'] ?? 0;
+    //   totCashAmt = categoryDoc.data()!['totalCashAmount'] ?? 0;
+    //   totOnlineAmt = categoryDoc.data()!['totalOnlineAmount'] ?? 0;
+    // } else {}
+
+    // fireStoreInstance
+    //     .collection(kUsersCollection)
+    //     .doc(request.userId)
+    //     .collection(kExpenseCategoriesCollection)
+    //     .doc(expense.categoryName)
+    //     .set({
+    //   'totalAmount': totAmt + expense.amount,
+    //   'totalCashAmount':
+    //       expense.mode == "Cash" ? totCashAmt + expense.amount : totCashAmt,
+    //   'totalOnlineAmount': expense.mode == "Online"
+    //       ? totOnlineAmt + expense.amount
+    //       : totOnlineAmt,
+    //   'lastUpdateTime': request.createdDateTimeString,
+    //   'categoryName': expense.categoryName,
+    //   'categoryId': expense.categoryId,
+    // });
+
+    // /// setting  expense category item in category list
+
+    // await fireStoreInstance
+    //     .collection(kUsersCollection)
+    //     .doc(request.userId)
+    //     .collection(kExpenseCategoriesCollection)
+    //     .doc(expense.categoryName)
+    //     .collection(kExpenseCollection)
+    //     .doc(request.createdDateTimeString)
+    //     .set({
+    //   'active': true,
+    //   'amount': expense.amount,
+    //   'amount_i': expense.amount.toString().toLowerCase(),
+    //   'details': expense.details,
+    //   'details_i': expense.details.toLowerCase(),
+    //   'mode': expense.mode,
+    //   'expenseDocId': expenseDocId,
+    //   'recentDocId': recentDocId,
+    //   'expenseTitle': expense.expenseTitle,
+    //   'expenseTitle_i': expense.expenseTitle.toLowerCase(),
+    //   'expenseMonth': expense.expenseMonth,
+    //   'expenseMonthDocId': expense.expenseMonthDocId,
+    //   'expenseDate': expense.expenseDate,
+    //   'expenseDay': expense.expenseDay,
+    //   'createdDateTime': request.createdDateTime,
+    //   'createdDateTimeString': request.createdDateTimeString,
+    //   'categoryId': expense.categoryId,
+    //   'categoryName': expense.categoryName,
+    // });
+
+    // /// add expense month details
+
+    // fireStoreInstance
+    //     .collection(kUsersCollection)
+    //     .doc(request.userId)
+    //     .collection(kExpenseMonthsCollection)
+    //     .doc(expense.expenseMonthDocId)
+    //     .set({
+    //   'totalExpense': request.dailyTotal + expense.amount,
+    //   'lastUpdatedTime': request.createdDateTimeString,
+    //   'lastUpdatedExpenseDocId': expenseDocId,
+    //   'month': request.expenseMonth.month,
+    //   'monthDocId': request.expenseMonth.monthDocId,
+    //   'monthOnly': request.expenseMonth.monthOnly,
+    //   'year': request.expenseMonth.year,
+    // });
+
+    return ResponseModel(
+      status: ResponseStatus.success,
+      message: 'Success',
+      data: '',
+    );
   }
 }

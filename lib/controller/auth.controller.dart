@@ -20,7 +20,51 @@ class AuthController {
     scopes: ['email', 'https://www.googleapis.com/auth/userinfo.profile'],
   );
 
-  static void login(BuildContext context, String email, String password) async {
+  // static void login(BuildContext context, String email, String password) async {
+  //   try {
+  //     if (email.isEmpty) {
+  //       throw CustomException('Enter email !');
+  //     }
+  //     if (!isEmail(email)) {
+  //       throw CustomException('Enter proper email !');
+  //     }
+  //     if (password.isEmpty) {
+  //       throw CustomException('Enter password !');
+  //     }
+
+  //     Loading.showLoading(context);
+  //     var model = await userRepo.getLocationDetails();
+
+  //     authRepo.loginNew(email, password, model).then((response) async {
+  //       if (response.status == ResponseStatus.error) {
+  //         Dialogs.showAlertDialog(
+  //                 context: context, description: response.message)
+  //             .then((value) {
+  //           Navigator.pop(context);
+  //         });
+  //       } else {
+  //         int dailyExp = response.dailyTotal;
+  //         var provider = Provider.of<HomeProvider>(context, listen: false);
+  //         provider.updateDailyTotalExpense(dailyExp);
+  //         userRepo.getRecentExpense().then((recentExpList) {
+  //           provider.updateRecentList(recentExpList);
+  //           provider.updateCurrency(response.data);
+  //           // userRepo.updateDbValue(response.userId).then((value) {
+  //           //   Navigation.checkPlatformAndNavigateToHome(context);
+  //           // });
+  //           Navigation.checkPlatformAndNavigateToHome(context);
+  //         });
+  //       }
+  //     });
+  //   } on CustomException catch (exc) {
+  //     Dialogs.showAlertDialog(context: context, description: exc.message);
+  //   } catch (err) {
+  //     Dialogs.showAlertDialog(context: context, description: err.toString());
+  //   }
+  // }
+
+  static void loginV2(
+      BuildContext context, String email, String password) async {
     try {
       if (email.isEmpty) {
         throw CustomException('Enter email !');
@@ -91,6 +135,50 @@ class AuthController {
           provider.updateDailyTotalExpense(0);
           provider.updateDailyCashTotalExpense(0);
           provider.updateDailyOnlineTotalExpense(0);
+
+          provider.updateRecentList([]);
+
+          Navigation.checkPlatformAndNavigateToHome(context);
+        }
+      });
+    } on CustomException catch (exc) {
+      Dialogs.showAlertDialog(context: context, description: exc.message);
+    } catch (err) {
+      Dialogs.showAlertDialog(context: context, description: err.toString());
+    }
+  }
+
+  static void registerV2(
+    BuildContext context,
+    String email,
+    String password,
+  ) {
+    try {
+      if (email.isEmpty) {
+        throw CustomException('Enter email !');
+      }
+      if (!isEmail(email)) {
+        throw CustomException('Enter proper email !');
+      }
+      if (password.isEmpty) {
+        throw CustomException('Enter password !');
+      }
+      Loading.showLoading(context);
+      authRepo.createAccount(email, password).then((response) async {
+        if (response.status == ResponseStatus.error) {
+          Dialogs.showAlertDialog(
+                  context: context, description: response.message)
+              .then((value) {
+            Navigator.pop(context);
+          });
+        } else {
+          var provider = Provider.of<HomeProvider>(context, listen: false);
+          provider.updateDailyTotalIncome(0);
+          provider.updateDailyTotalExpense(0);
+          provider.updateDailyBalance();
+          provider.updateMonthlyTotalIncome(0);
+          provider.updateMonthlyTotalExpense(0);
+          provider.updateMonthlyBalance();
 
           provider.updateRecentList([]);
 

@@ -1,21 +1,21 @@
 import 'package:auto_animated/auto_animated.dart';
-import 'package:expense_tracker/model/recent.expense.model.dart';
+import 'package:expense_tracker/model/transaction.model.dart';
 import 'package:expense_tracker/provider/home.provider.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/recent.expense.list/expense.list.item.dart';
 import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.container.desktop.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class RecentExpensesListContainerDesktop extends StatefulWidget {
-  const RecentExpensesListContainerDesktop({Key? key}) : super(key: key);
+class TodaysTransactionsListContainerDesktop extends StatefulWidget {
+  const TodaysTransactionsListContainerDesktop({Key? key}) : super(key: key);
 
   @override
-  _RecentExpensesListContainerDesktopState createState() =>
-      _RecentExpensesListContainerDesktopState();
+  _TodaysTransactionsListContainerDesktopState createState() =>
+      _TodaysTransactionsListContainerDesktopState();
 }
 
-class _RecentExpensesListContainerDesktopState
-    extends State<RecentExpensesListContainerDesktop> {
+class _TodaysTransactionsListContainerDesktopState
+    extends State<TodaysTransactionsListContainerDesktop> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -24,21 +24,22 @@ class _RecentExpensesListContainerDesktopState
       height: screenHeight * 0.4,
       child: Consumer<HomeProvider>(
         builder: (_, provider, __) {
-          return provider.recentExpensesList.isNotEmpty
+          return provider.recentTransactionsList.isNotEmpty
               ? LiveList(
                   visibleFraction: 0.8,
                   showItemDuration: const Duration(milliseconds: 900),
                   padding: const EdgeInsets.only(left: 1, top: 10),
                   showItemInterval: const Duration(milliseconds: 50),
-                  itemCount: provider.recentExpensesList.length,
+                  itemCount: provider.recentTransactionsList.length,
                   itemBuilder: animationItemBuilder(
                     (index) {
-                      RecentExpense doc = provider.recentExpensesList[index];
+                      TransactionModel doc =
+                          provider.recentTransactionsList[index];
 
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 10),
-                        child: ExpenseListItem(
-                          expense: doc,
+                        child: TransactionListItem(
+                          transaction: doc,
                         ),
                       );
                     },
