@@ -21,3 +21,24 @@ class AddExpenseModel {
     required this.dailyOnlineTotal,
   });
 }
+
+class AddExpenseModelV2 {
+  Expense expense;
+  int monthlyTotalExpense;
+  int monthlyTotalIncome;
+  // int dailyOnlineTotal;
+  String userId;
+  String createdDateTimeString;
+  DateTime createdDateTime;
+  ExpenseMonth expenseMonth;
+  AddExpenseModelV2({
+    required this.expense,
+    required this.monthlyTotalExpense,
+    required this.userId,
+    required this.createdDateTimeString,
+    required this.expenseMonth,
+    required this.createdDateTime,
+    required this.monthlyTotalIncome,
+    // required this.dailyOnlineTotal,
+  });
+}

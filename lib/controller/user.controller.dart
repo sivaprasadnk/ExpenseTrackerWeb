@@ -32,84 +32,84 @@ class UserController {
     Loading.showLoading(context);
     String userId = FirebaseAuth.instance.currentUser!.uid;
 
-    var date = DateFormat('dd-MM-yyyy').format(selectedDate);
-    var month = DateFormat('MMM, yyyy').format(selectedDate);
-    var monthOnly = DateFormat('MMM').format(selectedDate);
-    var monthDocId = DateFormat('MMM_yyyy').format(selectedDate);
-    final DateTime now = DateTime.now();
-    var a = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
-    var createdDateTime = DateTime.parse(a);
+    // var date = DateFormat('dd-MM-yyyy').format(selectedDate);
+    // var month = DateFormat('MMM, yyyy').format(selectedDate);
+    // var monthOnly = DateFormat('MMM').format(selectedDate);
+    // var monthDocId = DateFormat('MMM_yyyy').format(selectedDate);
+    // final DateTime now = DateTime.now();
+    // var a = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
+    // var createdDateTime = DateTime.parse(a);
 
-    final String createdDateTimeString =
-        DateFormat('dd-MM-yyyy  kk:mm:ss').format(now);
+    // final String createdDateTimeString =
+    //     DateFormat('dd-MM-yyyy  kk:mm:ss').format(now);
 
-    final year = int.parse(DateFormat('yyyy').format(now));
+    // final year = int.parse(DateFormat('yyyy').format(now));
 
-    var provider = Provider.of<HomeProvider>(context, listen: false);
+    // var provider = Provider.of<HomeProvider>(context, listen: false);
 
-    int dailyTotal = provider.dailyTotalExpense;
-    int dailyCashTotal = provider.dailyCashTotal;
-    int dailyOnlineTotal = provider.dailyOnlineTotal;
+    // int dailyTotal = provider.dailyTotalExpense;
+    // int dailyCashTotal = provider.dailyCashTotal;
+    // int dailyOnlineTotal = provider.dailyOnlineTotal;
 
-    ///
-    Expense exp = Expense(
-      expenseTitle: expenseTitle,
-      createdDateTimeString: "",
-      expenseDocId: "",
-      recentDocId: "",
-      categoryId: categoryId,
-      details: expenseDetails,
-      expenseMonthDocId: monthDocId,
-      amount: expenseAmount,
-      categoryName: categoryName,
-      expenseMonth: month,
-      expenseDate: date,
-      expenseDay: date.split('-').first,
-      mode: selectedMode.toString().split('.').last.initCap(),
-    );
+    // ///
+    // Expense exp = Expense(
+    //   expenseTitle: expenseTitle,
+    //   createdDateTimeString: "",
+    //   expenseDocId: "",
+    //   recentDocId: "",
+    //   categoryId: categoryId,
+    //   details: expenseDetails,
+    //   expenseMonthDocId: monthDocId,
+    //   amount: expenseAmount,
+    //   categoryName: categoryName,
+    //   expenseMonth: month,
+    //   expenseDate: date,
+    //   expenseDay: date.split('-').first,
+    //   mode: selectedMode.toString().split('.').last.initCap(),
+    // );
 
-    ExpenseMonth expMonth = ExpenseMonth(
-      year: year,
-      month: month,
-      monthOnly: monthOnly,
-      monthDocId: monthDocId,
-    );
-    var request = AddExpenseModel(
-      expense: exp,
-      dailyTotal: dailyTotal,
-      dailyCashTotal: dailyCashTotal,
-      dailyOnlineTotal: dailyOnlineTotal,
-      userId: userId,
-      createdDateTimeString: createdDateTimeString,
-      expenseMonth: expMonth,
-      createdDateTime: createdDateTime,
-    );
+    // ExpenseMonth expMonth = ExpenseMonth(
+    //   year: year,
+    //   month: month,
+    //   monthOnly: monthOnly,
+    //   monthDocId: monthDocId,
+    // );
+    // var request = AddExpenseModel(
+    //   expense: exp,
+    //   dailyTotal: dailyTotal,
+    //   dailyCashTotal: dailyCashTotal,
+    //   dailyOnlineTotal: dailyOnlineTotal,
+    //   userId: userId,
+    //   createdDateTimeString: createdDateTimeString,
+    //   expenseMonth: expMonth,
+    //   createdDateTime: createdDateTime,
+    // );
 
-    ResponseModel response = await userRepo.addExpense(request);
+    // ResponseModel response = await userRepo.addExpense(request);
 
-    if (response.status == ResponseStatus.error) {
-      Dialogs.showAlertDialog(context: context, description: response.message);
-    } else {
-      var provider = Provider.of<HomeProvider>(context, listen: false);
+    // if (response.status == ResponseStatus.error) {
+    //   Dialogs.showAlertDialog(context: context, description: response.message);
+    // } else {
+    //   var provider = Provider.of<HomeProvider>(context, listen: false);
 
-      provider.addToDailyExpense(expenseAmount);
-      if (selectedMode == Mode.cash) {
-        provider.addToDailyCashExpense(expenseAmount);
-      } else {
-        provider.addToDailyOnlineExpense(expenseAmount);
-      }
+    //   provider.addToDailyExpense(expenseAmount);
+    //   if (selectedMode == Mode.cash) {
+    //     provider.addToDailyCashExpense(expenseAmount);
+    //   } else {
+    //     provider.addToDailyOnlineExpense(expenseAmount);
+    //   }
 
-      userRepo.getRecentExpense().then((recentExpList) {
-        if (recentExpList.isNotEmpty) {
-          provider.updateRecentList(recentExpList);
+    //   userRepo.getRecentExpense().then((recentExpList) {
+    //     if (recentExpList.isNotEmpty) {
+    //       provider.updateRecentList(recentExpList);
 
-          Future.delayed(const Duration(seconds: 2)).then((value) {
-            Dialogs.showAlertDialogAndNavigateToHome(
-                context: context, description: 'Expense Added !');
-          });
-        }
-      });
-    }
+    //       Future.delayed(const Duration(seconds: 2)).then((value) {
+    //         Dialogs.showAlertDialogAndNavigateToHome(
+    //             context: context, description: 'Expense Added !');
+    //       });
+    //     }
+    //   });
+    // }
   }
 
   static void getExpenseDetailsAndNavigateToHome(
@@ -194,6 +194,99 @@ class UserController {
       Dialogs.showAlertDialog(context: context, description: exc.message);
     } catch (err) {
       Dialogs.showAlertDialog(context: context, description: err.toString());
+    }
+  }
+
+  ///
+
+  static void addTransaction(
+      int categoryId,
+      String categoryName,
+      int expenseAmount,
+      String expenseTitle,
+      String expenseDetails,
+      TransactionType selectedType,
+      DateTime selectedDate,
+      BuildContext context) async {
+    Loading.showLoading(context);
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+
+    var date = DateFormat('dd-MM-yyyy').format(selectedDate);
+    var month = DateFormat('MMM, yyyy').format(selectedDate);
+    var monthOnly = DateFormat('MMM').format(selectedDate);
+    var monthDocId = DateFormat('MMM_yyyy').format(selectedDate);
+    final DateTime now = DateTime.now();
+    var a = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
+    var createdDateTime = DateTime.parse(a);
+
+    final String createdDateTimeString =
+        DateFormat('dd-MM-yyyy  kk:mm:ss').format(now);
+
+    final year = int.parse(DateFormat('yyyy').format(now));
+
+    var provider = Provider.of<HomeProvider>(context, listen: false);
+
+    int monthlyTotalIncome = provider.monthlyTotalIncome;
+    int monthlyTotalExpense = provider.monthlyTotalExpense;
+    // int dailyOnlineTotal = provider.dailyOnlineTotal;
+
+    ///
+    Expense exp = Expense(
+      expenseTitle: expenseTitle,
+      createdDateTimeString: "",
+      expenseDocId: "",
+      recentDocId: "",
+      categoryId: categoryId,
+      details: expenseDetails,
+      expenseMonthDocId: monthDocId,
+      amount: expenseAmount,
+      categoryName: categoryName,
+      expenseMonth: month,
+      expenseDate: date,
+      expenseDay: date.split('-').first,
+      transactionType: selectedType.toString().split('.').last.initCap(),
+    );
+
+    ExpenseMonth expMonth = ExpenseMonth(
+      year: year,
+      month: month,
+      monthOnly: monthOnly,
+      monthDocId: monthDocId,
+    );
+    var request = AddExpenseModelV2(
+      expense: exp,
+      userId: userId,
+      expenseMonth: expMonth,
+      monthlyTotalIncome: monthlyTotalIncome,
+      monthlyTotalExpense: monthlyTotalExpense,
+      createdDateTimeString: createdDateTimeString,
+      createdDateTime: createdDateTime,
+    );
+
+    ResponseModel response = await userRepo.addExpense(request);
+
+    if (response.status == ResponseStatus.error) {
+      Dialogs.showAlertDialog(context: context, description: response.message);
+    } else {
+      var provider = Provider.of<HomeProvider>(context, listen: false);
+
+      provider.addToDailyExpense(expenseAmount);
+      if (selectedType == TransactionType.income) {
+        provider.addToDailyCashExpense(expenseAmount);
+      } else {
+        provider.addToDailyOnlineExpense(expenseAmount);
+      }
+
+      userRepo.getRecentExpense().then((recentExpList) {
+        if (recentExpList.isNotEmpty) {
+          provider.updateRecentList(recentExpList);
+
+          Future.delayed(const Duration(seconds: 2)).then((value) {
+            Dialogs.showAlertDialogAndNavigateToHome(
+                context: context, description: 'Expense Added !');
+          });
+        }
+      });
     }
   }
 }

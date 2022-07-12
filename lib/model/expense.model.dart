@@ -2,7 +2,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/model/recent.expense.model.dart';
-import 'package:flutter/foundation.dart';
 
 class Expense {
   String expenseTitle;
@@ -18,7 +17,7 @@ class Expense {
   String recentDocId;
   // String createdDate;
   String createdDateTimeString;
-  String mode;
+  String transactionType;
   Expense({
     required this.expenseTitle,
     required this.categoryId,
@@ -33,7 +32,7 @@ class Expense {
     required this.createdDateTimeString,
     required this.expenseDocId,
     required this.recentDocId,
-    required this.mode,
+    required this.transactionType,
   });
 
   static Expense fromJson(QueryDocumentSnapshot<Object?> doc) {
@@ -43,7 +42,7 @@ class Expense {
     String expDay = expDate.split('-').first;
     return Expense(
       amount: doc['amount'],
-      mode: doc['mode'],
+      transactionType: doc['transactionType'],
       categoryId: doc['categoryId'],
       categoryName: doc['categoryName'],
       // createdDate: doc['createdDateTimeString'],
@@ -76,7 +75,7 @@ class Expense {
       expenseDocId: expense.expenseDocId,
       // expenseMonthDocId: expense.expenseMonthDocId,
       expenseMonthDocId: '',
-      mode: expense.mode,
+      transactionType: expense.transactionType,
     );
   }
 
@@ -87,7 +86,7 @@ class Expense {
       'amount_i': expense.amount.toString().toLowerCase(),
       'details': expense.details,
       'details_i': expense.details.toLowerCase(),
-      'mode': expense.mode,
+      'transactionType': expense.transactionType,
       'expenseTitle': expense.expenseTitle,
       'expenseTitle_i': expense.expenseTitle.toLowerCase(),
       'expenseMonth': expense.expenseMonth,

@@ -40,67 +40,122 @@ class HomeProvider extends ChangeNotifier {
 
   ///
 
-  int monthlyTotal = 0;
-  int get monthlyTotalExpense => monthlyTotal;
+  // int monthlyTotal = 0;
+  // int get monthlyTotalExpense => monthlyTotal;
 
-  void updateMonthlyTotal(int amt) {
-    monthlyTotal = amt;
+  // void updateMonthlyTotal(int amt) {
+  //   monthlyTotal = amt;
+  //   notifyListeners();
+  // }
+
+  // void addToMonthlyTotal(int amt) {
+  //   monthlyTotal += amt;
+  //   notifyListeners();
+  // }
+
+  // void deductFromMonthlyTotal(int amt) {
+  //   monthlyTotal -= amt;
+  //   notifyListeners();
+  // }
+
+  ///
+
+  int monthlyTotalIncome_ = 0;
+  int get monthlyTotalIncome => monthlyTotalIncome_;
+
+  void updateMonthlyTotalIncome(int amt) {
+    monthlyTotalIncome_ = amt;
     notifyListeners();
   }
 
-  void addToMonthlyTotal(int amt) {
-    monthlyTotal += amt;
-    notifyListeners();
-  }
-
-  void deductFromMonthlyTotal(int amt) {
-    monthlyTotal -= amt;
+  void addToMonthlyTotalIncome(int amt) {
+    monthlyTotalIncome_ += amt;
     notifyListeners();
   }
 
   ///
-  int dailyTotal_ = 0;
-  int dailyCashTotal_ = 0;
-  int dailyOnlineTotal_ = 0;
+  int monthlyTotalExpense_ = 0;
+  int get monthlyTotalExpense => monthlyTotalExpense_;
 
-  int get dailyTotalExpense => dailyTotal_;
-  int get dailyCashTotal => dailyCashTotal_;
-  int get dailyOnlineTotal => dailyOnlineTotal_;
-
-  void updateDailyTotalExpense(int total) {
-    dailyTotal_ = total;
+  void updateMonthlyTotalExpense(int amt) {
+    monthlyTotalExpense_ = amt;
     notifyListeners();
   }
 
-  void updateDailyCashTotalExpense(int total) {
-    dailyCashTotal_ = total;
-    notifyListeners();
-  }
-  
-  void updateDailyOnlineTotalExpense(int total) {
-    dailyOnlineTotal_ = total;
+  void addToMonthlyTotalExpense(int amt) {
+    monthlyTotalExpense_ += amt;
     notifyListeners();
   }
 
-  void addToDailyExpense(int amt) {
-    dailyTotal_ += amt;
+  ///
+  int dailyTotalIncome_ = 0;
+  int get dailyTotalIncome => dailyTotalIncome_;
+
+  void updateDailyTotalIncome(int amt) {
+    dailyTotalIncome_ = amt;
     notifyListeners();
   }
 
-    void addToDailyCashExpense(int amt) {
-    dailyCashTotal_ += amt;
+  void addToDailyTotalIncome(int amt) {
+    dailyTotalIncome_ += amt;
     notifyListeners();
   }
 
+  ///
+  int dailyTotalExpense_ = 0;
+  int get dailyTotalExpense => dailyTotalExpense_;
 
-    void addToDailyOnlineExpense(int amt) {
-    dailyOnlineTotal_ += amt;
+  void updateDailyTotalExpense(int amt) {
+    monthlyTotalExpense_ = amt;
     notifyListeners();
   }
 
-
-  void deductFromdailyExpense(int amt) {
-    dailyTotal_ -= amt;
+  void addToDailyTotalExpense(int amt) {
+    monthlyTotalExpense_ += amt;
     notifyListeners();
   }
+
+  ///
+  // int dailyTotal_ = 0;
+  // int dailyCashTotal_ = 0;
+  // int dailyOnlineTotal_ = 0;
+
+  // int get dailyTotalExpense => dailyTotal_;
+  // int get dailyCashTotal => dailyCashTotal_;
+  // int get dailyOnlineTotal => dailyOnlineTotal_;
+
+  // void updateDailyTotalExpense(int total) {
+  //   dailyTotal_ = total;
+  //   notifyListeners();
+  // }
+
+  // void updateDailyCashTotalExpense(int total) {
+  //   dailyCashTotal_ = total;
+  //   notifyListeners();
+  // }
+
+  // void updateDailyOnlineTotalExpense(int total) {
+  //   dailyOnlineTotal_ = total;
+  //   notifyListeners();
+  // }
+
+  // void addToDailyExpense(int amt) {
+  //   dailyTotal_ += amt;
+  //   notifyListeners();
+  // }
+
+  // void addToDailyCashExpense(int amt) {
+  //   dailyCashTotal_ += amt;
+  //   notifyListeners();
+  // }
+
+  // void addToDailyOnlineExpense(int amt) {
+  //   dailyOnlineTotal_ += amt;
+  //   notifyListeners();
+  // }
+
+  // void deductFromdailyExpense(int amt) {
+  //   dailyTotal_ -= amt;
+  //   notifyListeners();
+  // }
 }

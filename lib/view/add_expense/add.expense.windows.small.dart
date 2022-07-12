@@ -35,7 +35,9 @@ class _AddExpenseScreenStateDesktop extends State<AddExpenseScreenDesktop> {
 
   CategoryDoc selectedCategory =
       CategoryDoc(name: 'Google Pay', id: 1, active: true, index: 1);
-  Mode _selectedMode = Mode.cash;
+
+  // Mode _selectedMode = Mode.cash;
+  TransactionType _selectedType = TransactionType.income;
 
   @override
   Widget build(BuildContext context) {
@@ -113,29 +115,29 @@ class _AddExpenseScreenStateDesktop extends State<AddExpenseScreenDesktop> {
                         ),
                         Row(
                           children: [
-                            Radio<Mode>(
-                              value: Mode.cash,
-                              groupValue: _selectedMode,
+                            Radio<TransactionType>(
+                              value: TransactionType.income,
+                              groupValue: _selectedType,
                               onChanged: (value) {
                                 setState(() {
-                                  _selectedMode = value!;
+                                  _selectedType = value!;
                                 });
                               },
                             ),
-                            const TextFieldTitle(title: 'Cash'),
+                            const TextFieldTitle(title: 'Income'),
                             const SizedBox(
                               width: 30,
                             ),
-                            Radio<Mode>(
-                              value: Mode.online,
-                              groupValue: _selectedMode,
+                            Radio<TransactionType>(
+                              value: TransactionType.expense,
+                              groupValue: _selectedType,
                               onChanged: (value) {
                                 setState(() {
-                                  _selectedMode = value!;
+                                  _selectedType = value!;
                                 });
                               },
                             ),
-                            const TextFieldTitle(title: 'Online'),
+                            const TextFieldTitle(title: 'Expense'),
                           ],
                         )
                       ],
@@ -268,7 +270,7 @@ class _AddExpenseScreenStateDesktop extends State<AddExpenseScreenDesktop> {
       if (expenseDetails.trim().isEmpty) {
         throw CustomException(' Enter details');
       }
-      debugPrint('.. @@ _selectedMode :${_selectedMode.name} ');
+      debugPrint('.. @@ _selectedType :${_selectedType.name} ');
 
       UserController.addExpense(
         selectedCategory.id,

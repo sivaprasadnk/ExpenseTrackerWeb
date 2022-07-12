@@ -13,7 +13,7 @@ class RecentExpense {
   String createdDate;
   String recentDocId;
   String expenseDocId;
-  String mode;
+  String transactionType;
   Timestamp createdDateTime;
   String createdDateTimeString;
   RecentExpense({
@@ -31,7 +31,7 @@ class RecentExpense {
     required this.expenseDay,
     required this.createdDateTime,
     required this.createdDateTimeString,
-    required this.mode,
+    required this.transactionType,
   });
 
   // factory RecentExpense.fromFirestore(DocumentSnapshot doc) {
@@ -67,7 +67,7 @@ class RecentExpense {
       createdDate: '',
       recentDocId: element['recentDocId'],
       expenseDay: element['expenseDay'],
-      mode: element['mode'],
+      transactionType: element['transactionType'],
       expenseDocId: element['expenseDocId'],
       createdDateTime: element['createdDateTime'],
       createdDateTimeString: element['createdDateTimeString'],
@@ -88,7 +88,7 @@ class RecentExpense {
       createdDate: '',
       recentDocId: element['recentDocId'],
       expenseDay: element['expenseDay'],
-      mode: element['mode'],
+      transactionType: element['transactionType'],
       createdDateTime: element['createdDateTime'],
       createdDateTimeString: element['createdDateTimeString'],
       expenseDocId: element['expenseDocId'],
