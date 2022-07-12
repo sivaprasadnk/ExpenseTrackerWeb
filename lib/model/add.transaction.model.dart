@@ -5,6 +5,8 @@ class AddTransactionModel {
   TransactionModel transaction;
   int monthlyTotalExpense;
   int monthlyTotalIncome;
+  int dailyTotalExpense;
+  int dailyTotalIncome;
   String userId;
   String createdDateTimeString;
   DateTime createdDateTime;
@@ -12,10 +14,12 @@ class AddTransactionModel {
   AddTransactionModel({
     required this.transaction,
     required this.monthlyTotalExpense,
+    required this.monthlyTotalIncome,
+    required this.dailyTotalIncome,
+    required this.dailyTotalExpense,
     required this.userId,
     required this.createdDateTimeString,
     required this.transactionMonth,
     required this.createdDateTime,
-    required this.monthlyTotalIncome,
   });
 }

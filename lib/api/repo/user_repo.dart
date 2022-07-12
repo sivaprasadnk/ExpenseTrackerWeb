@@ -277,7 +277,7 @@ class UserRepo {
     return e;
   }
 
-  Future<List<TransactionModel>> getRecentTransaction() async {
+  Future<List<TransactionModel>> getRecentTransactions() async {
     String userId = FirebaseAuth.instance.currentUser!.uid;
     List<TransactionModel> recentExpList = [];
 
@@ -507,7 +507,7 @@ class UserRepo {
         .collection(kTransactionDatesCollection)
         .doc(transaction.transactionDate)
         .collection(kTransactionCollection)
-        .doc(doc.id)
+        .doc(transactionDocId)
         .update({
       kTransactionDocIdField: transactionDocId,
       kRecentDocIdField: recentDocId,
@@ -537,6 +537,7 @@ class UserRepo {
         .collection(kTransactionDatesCollection)
         .doc(transaction.transactionDate)
         .set({
+          'dailyTotalIncome':request.
       // 'totalExpense': request.dailyTotal + expense.amount,
       // 'totalCashExpense': expense.mode == "Cash"
       //     ? request.dailyCashTotal + expense.amount

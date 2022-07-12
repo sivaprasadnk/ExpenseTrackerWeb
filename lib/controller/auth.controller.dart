@@ -164,7 +164,7 @@ class AuthController {
         throw CustomException('Enter password !');
       }
       Loading.showLoading(context);
-      authRepo.createAccount(email, password).then((response) async {
+      authRepo.createAccountV2(email, password).then((response) async {
         if (response.status == ResponseStatus.error) {
           Dialogs.showAlertDialog(
                   context: context, description: response.message)

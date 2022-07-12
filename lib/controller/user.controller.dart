@@ -231,7 +231,8 @@ class UserController {
 
     int monthlyTotalIncome = provider.monthlyTotalIncome;
     int monthlyTotalExpense = provider.monthlyTotalExpense;
-
+    int dailyTotalIncome = provider.dailyTotalIncome;
+    int dailyTotalExpense = provider.dailyTotalExpense;
 
     TransactionModel trans = TransactionModel(
       title: title,
@@ -257,13 +258,14 @@ class UserController {
       monthDocId: monthDocId,
     );
 
-
     var request = AddTransactionModel(
       transaction: trans,
       userId: userId,
       transactionMonth: transactionMonth,
       monthlyTotalIncome: monthlyTotalIncome,
       monthlyTotalExpense: monthlyTotalExpense,
+      dailyTotalExpense: dailyTotalExpense,
+      dailyTotalIncome: dailyTotalIncome,
       createdDateTimeString: createdDateTimeString,
       createdDateTime: createdDateTime,
     );
@@ -282,8 +284,10 @@ class UserController {
         provider.addToDailyTotalExpense(amount);
         provider.addToMonthlyTotalExpense(amount);
       }
+      provider.updateDailyBalance();
+      provider.updateMonthlyBalance();
 
-      userRepo.getRecentTransaction().then((recentList) {
+      userRepo.getRecentTransactions().then((recentList) {
         if (recentList.isNotEmpty) {
           provider.updateRecentList(recentList);
 

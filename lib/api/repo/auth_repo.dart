@@ -18,50 +18,50 @@ class AuthRepo {
   // GoogleSignIn? _googleSignIn = GoogleSignIn(
   //   scopes: ['email', 'https://www.googleapis.com/auth/userinfo.profile'],
   // );
-  Future<RegistrationResponse> createAccount(
+  Future<void> createAccount(
       String email, String password) async {
-    final DateTime now = DateTime.now();
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    var version = packageInfo.version;
-    var build = packageInfo.buildNumber;
-    UserCredential credential;
-    final String formattedTime = DateFormat('dd-MM-yyyy  kk:mm').format(now);
-    try {
-      credential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
-      if (credential.user != null) {
-        fireStoreInstance
-            .collection(kUsersCollection)
-            .doc(credential.user!.uid)
-            .set({
-          'email': email,
-          'password': password,
-          'registeredTime': formattedTime,
-          'isWeb': kIsWeb,
-          'userId': credential.user!.uid,
-          'registrationAppVersion': version,
-          'registrationAppVersionCode': build,
-        });
-      }
-    } catch (e) {
-      debugPrint('Exception @createAccount: $e');
-      return RegistrationResponse(
-        status: ResponseStatus.error,
-        data: '',
-        monthlyExpenseTotal: 0,
-        monthlyIncomeTotal: 0,
-        userId: '',
-        message: AuthExceptionHandler.handleException(e).toString(),
-      );
-    }
-    return RegistrationResponse(
-      userId: credential.user!.uid,
-      status: ResponseStatus.success,
-      monthlyExpenseTotal: 0,
-      monthlyIncomeTotal: 0,
-      message: 'Success',
-      data: "",
-    );
+    // final DateTime now = DateTime.now();
+    // PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    // var version = packageInfo.version;
+    // var build = packageInfo.buildNumber;
+    // UserCredential credential;
+    // final String formattedTime = DateFormat('dd-MM-yyyy  kk:mm').format(now);
+    // try {
+    //   credential = await FirebaseAuth.instance
+    //       .createUserWithEmailAndPassword(email: email, password: password);
+    //   if (credential.user != null) {
+    //     fireStoreInstance
+    //         .collection(kUsersCollection)
+    //         .doc(credential.user!.uid)
+    //         .set({
+    //       'email': email,
+    //       'password': password,
+    //       'registeredTime': formattedTime,
+    //       'isWeb': kIsWeb,
+    //       'userId': credential.user!.uid,
+    //       'registrationAppVersion': version,
+    //       'registrationAppVersionCode': build,
+    //     });
+    //   }
+    // } catch (e) {
+    //   debugPrint('Exception @createAccount: $e');
+    //   return RegistrationResponse(
+    //     status: ResponseStatus.error,
+    //     data: '',
+    //     monthlyExpenseTotal: 0,
+    //     monthlyIncomeTotal: 0,
+    //     userId: '',
+    //     message: AuthExceptionHandler.handleException(e).toString(),
+    //   );
+    // }
+    // return RegistrationResponse(
+    //   userId: credential.user!.uid,
+    //   status: ResponseStatus.success,
+    //   monthlyExpenseTotal: 0,
+    //   monthlyIncomeTotal: 0,
+    //   message: 'Success',
+    //   data: "",
+    // );
   }
 
   Future<RegistrationResponse> createAccountV2(
