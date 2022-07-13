@@ -1,11 +1,10 @@
 import 'package:expense_tracker/cursor.widget.dart';
 import 'package:expense_tracker/provider/theme_notifier.dart';
-import 'package:expense_tracker/view/add_expense/add.expense.mobile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class NoExpenseContainerMobile extends StatelessWidget {
-  const NoExpenseContainerMobile({
+class NoTransactionContainerMobile extends StatelessWidget {
+  const NoTransactionContainerMobile({
     Key? key,
     required this.title,
     this.showAddButton = false,
@@ -42,8 +41,8 @@ class NoExpenseContainerMobile extends StatelessWidget {
                     width: 135,
                     child: CursorWidget(
                       onTap: () {
-                        Navigator.pushNamed(
-                            context, AddExpenseMobile.routeName);
+                        // Navigator.pushNamed(
+                        //     context, AddExpenseMobile.routeName);
                       },
                       isButton: true,
                       bgColor: theme.primaryColor,

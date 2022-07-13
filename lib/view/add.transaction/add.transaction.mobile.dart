@@ -3,25 +3,25 @@ import 'package:expense_tracker/model/category.doc.model.dart';
 import 'package:expense_tracker/utils/custom.exception.dart';
 import 'package:expense_tracker/utils/dialog.dart';
 import 'package:expense_tracker/utils/enums.dart';
-import 'package:expense_tracker/view/add_expense/widgets/submit.button.dart';
-import 'package:expense_tracker/view/add_expense/widgets/textfield.title.dart';
+import 'package:expense_tracker/view/add.transaction/widgets/submit.button.dart';
+import 'package:expense_tracker/view/add.transaction/widgets/textfield.title.dart';
 import 'package:expense_tracker/view/mobile.view.dart';
 import 'package:expense_tracker/view/select.category/select.category.screen.mobile2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
-class AddExpenseMobile extends StatefulWidget {
-  const AddExpenseMobile({Key? key}) : super(key: key);
-  static const routeName = '/AddExpense';
+class AddTransactionMobile extends StatefulWidget {
+  const AddTransactionMobile({Key? key}) : super(key: key);
+  static const routeName = '/AddTransaction';
   @override
-  _AddExpenseMobileState createState() => _AddExpenseMobileState();
+  _AddTransactionMobileState createState() => _AddTransactionMobileState();
 }
 
-class _AddExpenseMobileState extends State<AddExpenseMobile> {
-  String expenseTitle = "";
-  String expenseDetails = "";
-  int expenseAmount = 0;
+class _AddTransactionMobileState extends State<AddTransactionMobile> {
+  String title = "";
+  String details = "";
+  int amount = 0;
 
   final DateTime now = DateTime.now();
   DateTime selectedDate = DateTime.now();
@@ -42,7 +42,9 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
 
   final _formKey = GlobalKey<FormState>();
 
-  Mode _selectedMode = Mode.cash;
+  // Mode _selectedMode = Mode.cash;
+
+  TransactionType _selectedType = TransactionType.income;
 
   CategoryDoc selectedCategory =
       CategoryDoc(name: 'Google Pay', id: 1, active: true, index: 1);
@@ -57,7 +59,7 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
     var width = MediaQuery.of(context).size.width;
     var textFieldWidth = width - 100;
     return MobileView(
-      appBarTitle: 'Add expense',
+      appBarTitle: 'Add Transaction',
       child: SingleChildScrollView(
         child: Form(
           key: _formKey,
@@ -111,7 +113,7 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                         keyboardType: TextInputType.number,
                         onSaved: (val) {
                           if (val != null && val.trim().isNotEmpty) {
-                            expenseAmount = int.parse(val.toString());
+                            amount = int.parse(val.toString().trim());
                           }
                         },
                         decoration: const InputDecoration(
@@ -134,29 +136,29 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                     ),
                     Row(
                       children: [
-                        Radio<Mode>(
-                          value: Mode.cash,
-                          groupValue: _selectedMode,
+                        Radio<TransactionType>(
+                          value: TransactionType.income,
+                          groupValue: _selectedType,
                           onChanged: (value) {
                             setState(() {
-                              _selectedMode = value!;
+                              _selectedType = value!;
                             });
                           },
                         ),
-                        const TextFieldTitle(title: 'Cash'),
+                        const TextFieldTitle(title: 'Income'),
                         const SizedBox(
                           width: 30,
                         ),
-                        Radio<Mode>(
-                          value: Mode.online,
-                          groupValue: _selectedMode,
+                        Radio<TransactionType>(
+                          value: TransactionType.expense,
+                          groupValue: _selectedType,
                           onChanged: (value) {
                             setState(() {
-                              _selectedMode = value!;
+                              _selectedType = value!;
                             });
                           },
                         ),
-                        const TextFieldTitle(title: 'Online'),
+                        const TextFieldTitle(title: 'Expense'),
                       ],
                     )
                   ],
@@ -194,7 +196,7 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                             LengthLimitingTextInputFormatter(20),
                           ],
                           onSaved: (val) {
-                            expenseTitle = val.toString();
+                            title = val.toString().trim();
                           },
                           decoration: const InputDecoration(
                             border: InputBorder.none,
@@ -285,7 +287,7 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
                       child: TextFormField(
                         style: TextStyle(color: primaryColor),
                         onSaved: (val) {
-                          expenseDetails = val.toString();
+                          details = val.toString().trim();
                         },
                         decoration: const InputDecoration(
                           border: InputBorder.none,
@@ -315,22 +317,22 @@ class _AddExpenseMobileState extends State<AddExpenseMobile> {
   validateAndProceed() async {
     try {
       _formKey.currentState!.save();
-      if (expenseTitle.trim().isEmpty) {
+      if (title.isEmpty) {
         throw CustomException(' Enter title');
       }
-      if (expenseAmount == 0) {
+      if (amount == 0) {
         throw CustomException(' Enter amount');
       }
-      if (expenseDetails.trim().isEmpty) {
+      if (details.isEmpty) {
         throw CustomException(' Enter details');
       }
-      UserController.addExpense(
+      UserController.addTransaction(
         selectedCategory.id,
         selectedCategory.name,
-        expenseAmount,
-        expenseTitle.trim(),
-        expenseDetails.trim(),
-        _selectedMode,
+        amount,
+        title,
+        details,
+        _selectedType,
         selectedDate,
         context,
       );

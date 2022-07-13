@@ -1,11 +1,11 @@
 import 'package:expense_tracker/cursor.widget.dart';
 import 'package:expense_tracker/provider/theme_notifier.dart';
-import 'package:expense_tracker/view/add_expense/add.expense.windows.small.dart';
+// import 'package:expense_tracker/view/add_expense/add.expense.windows.small.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class NoExpenseContainerDesktop extends StatelessWidget {
-  const NoExpenseContainerDesktop(
+class NoTransactionsContainerDesktop extends StatelessWidget {
+  const NoTransactionsContainerDesktop(
       {Key? key,
       this.height,
       this.title,
@@ -33,7 +33,7 @@ class NoExpenseContainerDesktop extends StatelessWidget {
                   height: initSpace ?? screenHeight * 0.12,
                 ),
                 Text(
-                  title ?? 'No Expenses added today!',
+                  title ?? 'No Transactions added today!',
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 15,
@@ -48,8 +48,8 @@ class NoExpenseContainerDesktop extends StatelessWidget {
                     width: 135,
                     child: CursorWidget(
                       onTap: () {
-                        Navigator.pushNamed(
-                            context, AddExpenseScreenDesktop.routeName);
+                        // Navigator.pushNamed(
+                        //     context, AddExpenseScreenDesktop.routeName);
                       },
                       isButton: true,
                       bgColor: theme.primaryColor,

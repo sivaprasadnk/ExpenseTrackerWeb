@@ -8,8 +8,8 @@ class ViewAllText extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (_) => const WindowsSmallRecentList()));
+        // Navigator.push(context,
+        //     MaterialPageRoute(builder: (_) => const WindowsSmallRecentList()));
       },
       child: const Text(
         'View All',

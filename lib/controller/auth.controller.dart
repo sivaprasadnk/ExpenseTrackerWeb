@@ -79,7 +79,7 @@ class AuthController {
       Loading.showLoading(context);
       var model = await userRepo.getLocationDetails();
 
-      authRepo.loginNew(email, password, model).then((response) async {
+      authRepo.loginV2(email, password, model).then((response) async {
         if (response.status == ResponseStatus.error) {
           Dialogs.showAlertDialog(
                   context: context, description: response.message)
@@ -87,15 +87,16 @@ class AuthController {
             Navigator.pop(context);
           });
         } else {
-          int dailyExp = response.dailyTotal;
           var provider = Provider.of<HomeProvider>(context, listen: false);
-          provider.updateDailyTotalExpense(dailyExp);
-          userRepo.getRecentTransactions().then((recentExpList) {
-            provider.updateRecentList(recentExpList);
+          userRepo.getCurrentBalances(userId: response.userId).then((value) {
+            provider.updateDailyTotalIncome(value.dailyTotalIncome);
+            provider.updateDailyTotalExpense(value.dailyTotalExpense);
+            provider.updateDailyBalance();
+            provider.updateMonthlyTotalIncome(value.monthlyTotalIncome);
+            provider.updateMonthlyTotalExpense(value.monthlyTotalExpense);
+            provider.updateMonthlyBalance();
+            provider.updateRecentList(value.recentExpList);
             provider.updateCurrency(response.data);
-            // userRepo.updateDbValue(response.userId).then((value) {
-            //   Navigation.checkPlatformAndNavigateToHome(context);
-            // });
             Navigation.checkPlatformAndNavigateToHome(context);
           });
         }
@@ -210,7 +211,7 @@ class AuthController {
           });
         } else {
           var provider = Provider.of<HomeProvider>(context, listen: false);
-          int dailyExp = response.dailyTotal;
+          int dailyExp = 0;
           provider.updateDailyTotalExpense(dailyExp);
           // provider.updateDailyCashTotalExpense(response.dailyCashTotal);
           // provider.updateDailyOnlineTotalExpense(response.dailyOnlineTotal);

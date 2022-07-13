@@ -1,4 +1,5 @@
 import 'package:expense_tracker/api/response.status.dart';
+import 'package:expense_tracker/model/transaction.model.dart';
 
 class GetBalancesResponse {
   ResponseStatus status;
@@ -13,6 +14,7 @@ class GetBalancesResponse {
   int dailyTotalExpense;
   int dailyBalance;
   String dailyDrOrCr;
+  List<TransactionModel> recentExpList;
   GetBalancesResponse({
     required this.status,
     required this.message,
@@ -26,6 +28,7 @@ class GetBalancesResponse {
     required this.dailyTotalIncome,
     required this.monthlyTotalExpense,
     required this.userId,
+    required this.recentExpList,
     // this.userId = "",
   });
 }

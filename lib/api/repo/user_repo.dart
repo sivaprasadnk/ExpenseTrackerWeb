@@ -687,7 +687,8 @@ class UserRepo {
     );
   }
 
-  Future getCurrentBalances({required String userId}) async {
+  Future<GetBalancesResponse> getCurrentBalances(
+      {required String userId}) async {
     final DateTime now = DateTime.now();
     int monthlyTotalIncome = 0;
     int monthlyTotalExpense = 0;
@@ -737,18 +738,36 @@ class UserRepo {
       dailyDrOrCr = dateDocData[kDailyDrOrCrField];
     }
 
+    List<TransactionModel> recentExpList = [];
+
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(userId)
+        .collection(kRecentExpensesCollection)
+        .orderBy('createdDateTime', descending: true)
+        .limit(5)
+        .get();
+    var recentTransactionList1 =
+        querySnapshot.docs.map((doc) => doc.data()).toList();
+    for (var element in recentTransactionList1) {
+      TransactionModel recentExpense = TransactionModel.fromMap(element);
+      recentExpList.add(recentExpense);
+    }
+
     return GetBalancesResponse(
-        status: ResponseStatus.success,
-        message: 'Success',
-        data: '',
-        monthlyBalance: monthlyBalance,
-        monthlyDrOrCr: monthlyDrOrCr,
-        monthlyTotalIncome: monthlyTotalIncome,
-        dailyBalance: dailyBalance,
-        dailyDrOrCr: dailyDrOrCr,
-        dailyTotalExpense: dailyTotalExpense,
-        dailyTotalIncome: dailyTotalIncome,
-        monthlyTotalExpense: monthlyTotalExpense,
-        userId: userId);
+      status: ResponseStatus.success,
+      message: 'Success',
+      data: '',
+      monthlyBalance: monthlyBalance,
+      monthlyDrOrCr: monthlyDrOrCr,
+      monthlyTotalIncome: monthlyTotalIncome,
+      dailyBalance: dailyBalance,
+      dailyDrOrCr: dailyDrOrCr,
+      dailyTotalExpense: dailyTotalExpense,
+      dailyTotalIncome: dailyTotalIncome,
+      monthlyTotalExpense: monthlyTotalExpense,
+      recentExpList: recentExpList,
+      userId: userId,
+    );
   }
 }

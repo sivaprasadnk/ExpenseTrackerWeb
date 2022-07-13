@@ -244,7 +244,7 @@ class _LoginScreenMobileState extends State<LoginScreenMobile>
                                   ),
                                   keyboardType: TextInputType.emailAddress,
                                   onSaved: (val) {
-                                    email = val.toString();
+                                    email = val.toString().trim();
                                   },
                                   decoration: decoration,
                                 ),
@@ -284,7 +284,7 @@ class _LoginScreenMobileState extends State<LoginScreenMobile>
                                             fontSize: 20,
                                           ),
                                           onSaved: (val) {
-                                            password = val.toString();
+                                            password = val.toString().trim();
                                           },
                                           decoration: decoration,
                                         ),
@@ -369,7 +369,7 @@ class _LoginScreenMobileState extends State<LoginScreenMobile>
 
   void validateAndProceed() {
     _formKey.currentState!.save();
-    AuthController.login(context, email.trim(), password.trim());
+    AuthController.loginV2(context, email, password);
   }
 }
 

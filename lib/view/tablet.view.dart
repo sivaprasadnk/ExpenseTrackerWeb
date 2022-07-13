@@ -3,7 +3,6 @@ import 'package:expense_tracker/view/back.arrow.title.widget.dart';
 import 'package:expense_tracker/view/home/drawer/drawer.tablet.dart';
 import 'package:expense_tracker/view/network_aware_widget.dart';
 import 'package:expense_tracker/view/offline.widget.dart';
-import 'package:expense_tracker/view/search.screen/search.screen.mobile.dart';
 import 'package:expense_tracker/view/title.widget.dart';
 import 'package:flutter/material.dart';
 
@@ -84,10 +83,10 @@ class _TabletViewState extends State<TabletView> {
             if (widget.showSearchIcon)
               CursorWidget(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const SearchScreenMobile()));
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (_) => const SearchScreenMobile()));
                 },
                 child: Icon(
                   Icons.search,

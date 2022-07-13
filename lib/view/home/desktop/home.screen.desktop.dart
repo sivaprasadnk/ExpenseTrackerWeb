@@ -3,7 +3,6 @@ import 'package:expense_tracker/view/home/desktop/home.screen.desktop.body.dart'
 import 'package:expense_tracker/view/home/desktop/widgets/app.bar.title.desktop.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/drawer.icon.dart';
 import 'package:expense_tracker/view/home/drawer/drawer.screen.dart';
-import 'package:expense_tracker/view/search.screen/search.screen.desktop.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreenDesktop extends StatefulWidget {
@@ -34,10 +33,10 @@ class _HomeScreenDesktopState extends State<HomeScreenDesktop> {
           actions: [
             CursorWidget(
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => const SearchScreenDesktop()));
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (_) => const SearchScreenDesktop()));
               },
               child: Padding(
                 padding: const EdgeInsets.only(right: 10),

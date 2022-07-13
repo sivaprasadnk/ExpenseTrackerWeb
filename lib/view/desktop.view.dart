@@ -3,7 +3,6 @@ import 'package:expense_tracker/view/back.arrow.title.widget.dart';
 import 'package:expense_tracker/view/home/drawer/drawer.screen.dart';
 import 'package:expense_tracker/view/network_aware_widget.dart';
 import 'package:expense_tracker/view/offline.widget.dart';
-import 'package:expense_tracker/view/search.screen/search.screen.desktop.dart';
 import 'package:expense_tracker/view/title.widget.dart';
 import 'package:flutter/material.dart';
 
@@ -52,10 +51,10 @@ class _DesktopViewState extends State<DesktopView> {
         actions: [
           CursorWidget(
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => const SearchScreenDesktop()));
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (_) => const SearchScreenDesktop()));
             },
             child: Padding(
               padding: const EdgeInsets.only(right: 10),

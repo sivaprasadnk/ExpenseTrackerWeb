@@ -3,29 +3,31 @@ import 'package:expense_tracker/model/category.doc.model.dart';
 import 'package:expense_tracker/utils/custom.exception.dart';
 import 'package:expense_tracker/utils/dialog.dart';
 import 'package:expense_tracker/utils/enums.dart';
-import 'package:expense_tracker/view/add_expense/widgets/submit.button.dart';
-import 'package:expense_tracker/view/add_expense/widgets/textfield.container.dart';
-import 'package:expense_tracker/view/add_expense/widgets/textfield.title.dart';
+import 'package:expense_tracker/view/add.transaction/widgets/submit.button.dart';
+import 'package:expense_tracker/view/add.transaction/widgets/textfield.container.dart';
+import 'package:expense_tracker/view/add.transaction/widgets/textfield.title.dart';
 import 'package:expense_tracker/view/desktop.view.dart';
 import 'package:expense_tracker/view/select.category/select.category.screen.desktop2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
-class AddExpenseScreenDesktop extends StatefulWidget {
-  const AddExpenseScreenDesktop({Key? key}) : super(key: key);
+class AddTransactionScreenDesktop extends StatefulWidget {
+  const AddTransactionScreenDesktop({Key? key}) : super(key: key);
 
-  static const routeName = 'AddExpense';
+  static const routeName = 'AddTransaction';
 
   @override
-  _AddExpenseScreenStateDesktop createState() =>
-      _AddExpenseScreenStateDesktop();
+  _AddTransactionScreenDesktopState createState() =>
+      _AddTransactionScreenDesktopState();
 }
 
-class _AddExpenseScreenStateDesktop extends State<AddExpenseScreenDesktop> {
-  String expenseTitle = "";
-  String expenseDetails = "";
-  int expenseAmount = 0;
+class _AddTransactionScreenDesktopState
+    extends State<AddTransactionScreenDesktop> {
+  String title = "";
+  String details = "";
+
+  int amount = 0;
 
   final DateTime now = DateTime.now();
   DateTime selectedDate = DateTime.now();
@@ -46,7 +48,7 @@ class _AddExpenseScreenStateDesktop extends State<AddExpenseScreenDesktop> {
         : formattedTime;
     return DesktopView(
       isHome: false,
-      appBarTitle: 'Add Expense',
+      appBarTitle: 'Add Transaction',
       child: Center(
         child: SizedBox(
           width: 430,
@@ -87,7 +89,7 @@ class _AddExpenseScreenStateDesktop extends State<AddExpenseScreenDesktop> {
                             ),
                             onSaved: (val) {
                               if (val != null && val.trim().isNotEmpty) {
-                                expenseAmount = int.parse(val.toString());
+                                amount = int.parse(val.toString().trim());
                               }
                             },
                             decoration: const InputDecoration(
@@ -109,7 +111,7 @@ class _AddExpenseScreenStateDesktop extends State<AddExpenseScreenDesktop> {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Row(
                       children: [
-                        const TextFieldTitle(title: 'Mode'),
+                        const TextFieldTitle(title: 'Transaction Type'),
                         const SizedBox(
                           width: 23,
                         ),
@@ -158,7 +160,7 @@ class _AddExpenseScreenStateDesktop extends State<AddExpenseScreenDesktop> {
                               LengthLimitingTextInputFormatter(20),
                             ],
                             onSaved: (val) {
-                              expenseTitle = val.toString();
+                              title = val.toString().trim();
                             },
                             decoration: const InputDecoration(
                               contentPadding: EdgeInsets.only(
@@ -230,7 +232,7 @@ class _AddExpenseScreenStateDesktop extends State<AddExpenseScreenDesktop> {
                           child: TextFormField(
                             maxLines: 7,
                             onSaved: (val) {
-                              expenseDetails = val.toString();
+                              details = val.toString().trim();
                             },
                             decoration: const InputDecoration(
                               border: InputBorder.none,
@@ -260,25 +262,25 @@ class _AddExpenseScreenStateDesktop extends State<AddExpenseScreenDesktop> {
   validateAndProceed() async {
     try {
       _formKey.currentState!.save();
-      if (expenseAmount == 0) {
+      if (amount == 0) {
         throw CustomException(' Enter amount');
       }
-      if (expenseTitle.trim().isEmpty) {
+      if (title.isEmpty) {
         throw CustomException(' Enter title');
       }
 
-      if (expenseDetails.trim().isEmpty) {
+      if (details.isEmpty) {
         throw CustomException(' Enter details');
       }
       debugPrint('.. @@ _selectedType :${_selectedType.name} ');
 
-      UserController.addExpense(
+      UserController.addTransaction(
         selectedCategory.id,
         selectedCategory.name,
-        expenseAmount,
-        expenseTitle.trim(),
-        expenseDetails.trim(),
-        _selectedMode,
+        amount,
+        title,
+        details,
+        _selectedType,
         selectedDate,
         context,
       );

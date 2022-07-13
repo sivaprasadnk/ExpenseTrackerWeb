@@ -119,7 +119,7 @@ class _SelectCategoryScreenMobile2State
                         ),
                       ),
                     )
-                  : const NoExpenseContainerDesktop(
+                  : const NoTransactionsContainerDesktop(
                       title: 'Categories of expenses added will list here.',
                     )
               : Center(

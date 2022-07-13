@@ -228,7 +228,7 @@ class _HomeScreenTabletState extends State<HomeScreenTablet>
                 ),
                 // const Spacer(),
 
-                TodaysExpensesTitleText(fontSize: 12.sp),
+                const TodaysTransactionsTitleText(),
                 const RecentExpensesListTablet(),
                 // const Spacer()
               ],

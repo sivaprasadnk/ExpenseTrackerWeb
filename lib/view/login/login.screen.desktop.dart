@@ -397,7 +397,7 @@ class _LoginScreenDesktopState extends State<LoginScreenDesktop>
 
   void validateAndProceed() {
     _formKey.currentState!.save();
-    AuthController.login(context, email.trim(), password.trim());
+    AuthController.loginV2(context, email, password);
   }
 }
 

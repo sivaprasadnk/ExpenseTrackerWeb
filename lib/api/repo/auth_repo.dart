@@ -18,8 +18,7 @@ class AuthRepo {
   // GoogleSignIn? _googleSignIn = GoogleSignIn(
   //   scopes: ['email', 'https://www.googleapis.com/auth/userinfo.profile'],
   // );
-  Future<void> createAccount(
-      String email, String password) async {
+  Future<void> createAccount(String email, String password) async {
     // final DateTime now = DateTime.now();
     // PackageInfo packageInfo = await PackageInfo.fromPlatform();
     // var version = packageInfo.version;
@@ -106,7 +105,93 @@ class AuthRepo {
     );
   }
 
-  Future<LoginResponse> loginNew(
+  Future<void> loginNew(
+      String email, String password, LocationResponseModel model) async {
+    // final DateTime now = DateTime.now();
+    // final PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    // var version = packageInfo.version;
+    // var build = packageInfo.buildNumber;
+    // final String formattedTime = DateFormat('dd-MM-yyyy  kk:mm').format(now);
+
+    // try {
+    //   var json = model.toJson();
+    //   UserCredential credential = await FirebaseAuth.instance
+    //       .signInWithEmailAndPassword(email: email, password: password);
+    //   if (credential.user != null) {
+    //     fireStoreInstance
+    //         .collection(kUsersCollection)
+    //         .doc(credential.user!.uid)
+    //         .update({
+    //       'lastLoginTime': formattedTime,
+    //       'lastLoginIsWeb': kIsWeb,
+    //       'lastLoginVersion': version,
+    //       'lastLoginVersionCode': build,
+    //     });
+    //     fireStoreInstance
+    //         .collection(kUsersCollection)
+    //         .doc(credential.user!.uid)
+    //         .collection(kLoginTimeCollection)
+    //         .add({
+    //       'loginVersion': version,
+    //       'loginVersionCode': build,
+    //       'loginTime': formattedTime,
+    //       'isWeb': kIsWeb,
+    //     });
+
+    //     fireStoreInstance
+    //         .collection(kUsersCollection)
+    //         .doc(credential.user!.uid)
+    //         .collection('location')
+    //         .add(json);
+
+    //     // var res = await fireStoreInstance
+    //     //     .collection(kExpenseCategoriesCollection)
+    //     //     .get();
+    //     // var docsList = res.docs;
+    //     // for (var i = 0; i < docsList.length; i++) {}
+    //   }
+    // } catch (e) {
+    //   debugPrint('Exception @loginAccount: $e');
+    //   return LoginResponse(
+    //     status: ResponseStatus.error,
+    //     data: '',
+    //     userId: '',
+    //     dailyTotal: 0,
+    //     dailyCashTotal: 0,
+    //     dailyOnlineTotal: 0,
+    //     message: AuthExceptionHandler.handleException(e).toString(),
+    //   );
+    // }
+    // String userId = FirebaseAuth.instance.currentUser!.uid;
+
+    // var date = DateFormat('dd-MM-yyyy').format(now);
+    // int dailyTotal = 0;
+    // int dailyCashTotal = 0;
+    // int dailyOnlineTotal = 0;
+    // var value1 = await fireStoreInstance
+    //     .collection(kUsersCollection)
+    //     .doc(userId)
+    //     .collection(kExpenseDatesNewCollection)
+    //     .doc(date)
+    //     .get();
+
+    // if (value1.data() != null) {
+    //   dailyTotal = value1.data()!['totalExpense'];
+    //   dailyCashTotal = value1.data()!['totalCashExpense'];
+    //   dailyOnlineTotal = value1.data()!['totalOnlineExpense'];
+    // }
+    // return LoginResponse(
+    //   status: ResponseStatus.success,
+    //   message: 'Success',
+    //   userId: userId,
+    //   dailyTotal: dailyTotal,
+    //   dailyCashTotal: dailyCashTotal,
+    //   dailyOnlineTotal: dailyOnlineTotal,
+    //   data: model.currency.toString(),
+    // );
+  }
+
+  Future<LoginResponse> loginV2(
       String email, String password, LocationResponseModel model) async {
     final DateTime now = DateTime.now();
     final PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -157,18 +242,21 @@ class AuthRepo {
         status: ResponseStatus.error,
         data: '',
         userId: '',
-        dailyTotal: 0,
-        dailyCashTotal: 0,
-        dailyOnlineTotal: 0,
+        // dailyBalance: 0,
+        // dailyTotalExpense: 0,
+        // dailyTotalIncome: 0,
+        // monthlyBalance: 0,
+        // monthlyTotalExpense: 0,
+        // monthlyTotalIncome: 0,
         message: AuthExceptionHandler.handleException(e).toString(),
       );
     }
     String userId = FirebaseAuth.instance.currentUser!.uid;
 
     var date = DateFormat('dd-MM-yyyy').format(now);
-    int dailyTotal = 0;
-    int dailyCashTotal = 0;
-    int dailyOnlineTotal = 0;
+    // int dailyTotal = 0;
+    // int dailyCashTotal = 0;
+    // int dailyOnlineTotal = 0;
     var value1 = await fireStoreInstance
         .collection(kUsersCollection)
         .doc(userId)
@@ -177,17 +265,17 @@ class AuthRepo {
         .get();
 
     if (value1.data() != null) {
-      dailyTotal = value1.data()!['totalExpense'];
-      dailyCashTotal = value1.data()!['totalCashExpense'];
-      dailyOnlineTotal = value1.data()!['totalOnlineExpense'];
+      // dailyTotal = value1.data()!['totalExpense'];
+      // dailyCashTotal = value1.data()!['totalCashExpense'];
+      // dailyOnlineTotal = value1.data()!['totalOnlineExpense'];
     }
     return LoginResponse(
       status: ResponseStatus.success,
       message: 'Success',
       userId: userId,
-      dailyTotal: dailyTotal,
-      dailyCashTotal: dailyCashTotal,
-      dailyOnlineTotal: dailyOnlineTotal,
+      // dailyTotal: dailyTotal,
+      // dailyCashTotal: dailyCashTotal,
+      // dailyOnlineTotal: dailyOnlineTotal,
       data: model.currency.toString(),
     );
   }
@@ -256,9 +344,6 @@ class AuthRepo {
         status: ResponseStatus.error,
         data: '',
         userId: '',
-        dailyTotal: 0,
-        dailyCashTotal: 0,
-        dailyOnlineTotal: 0,
         message: AuthExceptionHandler.handleException(e).toString(),
       );
     }
@@ -266,9 +351,9 @@ class AuthRepo {
     String userId = FirebaseAuth.instance.currentUser!.uid;
 
     var date = DateFormat('dd-MM-yyyy').format(now);
-    int dailyTotal = 0;
-    int dailyCashTotal = 0;
-    int dailyOnlineTotal = 0;
+    // int dailyTotal = 0;
+    // int dailyCashTotal = 0;
+    // int dailyOnlineTotal = 0;
     var value1 = await fireStoreInstance
         .collection(kUsersCollection)
         .doc(userId)
@@ -277,17 +362,14 @@ class AuthRepo {
         .get();
 
     if (value1.data() != null) {
-      dailyTotal = value1.data()!['totalExpense'];
-      dailyCashTotal = value1.data()!['totalCashExpense'];
-      dailyOnlineTotal = value1.data()!['totalOnlineExpense'];
+      // dailyTotal = value1.data()!['totalExpense'];
+      // dailyCashTotal = value1.data()!['totalCashExpense'];
+      // dailyOnlineTotal = value1.data()!['totalOnlineExpense'];
     }
     return LoginResponse(
         status: ResponseStatus.success,
         message: 'Success',
         userId: userId,
-        dailyTotal: dailyTotal,
-        dailyCashTotal: dailyCashTotal,
-        dailyOnlineTotal: dailyOnlineTotal,
         data: '');
   }
 
@@ -467,9 +549,9 @@ class AuthRepo {
         status: ResponseStatus.error,
         data: '',
         userId: '',
-        dailyTotal: 0,
-        dailyCashTotal: 0,
-        dailyOnlineTotal: 0,
+        // dailyTotal: 0,
+        // dailyCashTotal: 0,
+        // dailyOnlineTotal: 0,
         message: AuthExceptionHandler.handleException(err).toString(),
       );
     } on PlatformException catch (err) {
@@ -478,9 +560,9 @@ class AuthRepo {
         status: ResponseStatus.error,
         data: '',
         userId: '',
-        dailyTotal: 0,
-        dailyCashTotal: 0,
-        dailyOnlineTotal: 0,
+        // dailyTotal: 0,
+        // dailyCashTotal: 0,
+        // dailyOnlineTotal: 0,
         message: AuthExceptionHandler.handleException(err).toString(),
       );
     } catch (err) {
@@ -489,9 +571,9 @@ class AuthRepo {
         status: ResponseStatus.error,
         data: '',
         userId: '',
-        dailyCashTotal: 0,
-        dailyOnlineTotal: 0,
-        dailyTotal: 0,
+        // dailyCashTotal: 0,
+        // dailyOnlineTotal: 0,
+        // dailyTotal: 0,
         message: AuthExceptionHandler.handleException(err).toString(),
       );
     }
@@ -518,9 +600,9 @@ class AuthRepo {
       status: ResponseStatus.success,
       message: 'Success',
       userId: userId,
-      dailyTotal: dailyTotal,
-      dailyCashTotal: dailyCashTotal,
-      dailyOnlineTotal: dailyOnlineTotal,
+      // dailyTotal: dailyTotal,
+      // dailyCashTotal: dailyCashTotal,
+      // dailyOnlineTotal: dailyOnlineTotal,
       data: '',
     );
   }

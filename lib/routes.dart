@@ -1,5 +1,4 @@
-import 'package:expense_tracker/view/add_expense/add.expense.mobile.dart';
-import 'package:expense_tracker/view/add_expense/add.expense.windows.small.dart';
+
 import 'package:expense_tracker/view/expense.months/expense.months.desktop.dart';
 import 'package:expense_tracker/view/home/home.screen.dart';
 import 'package:expense_tracker/view/login/login.screen.dart';
@@ -15,8 +14,6 @@ var routes = <String, WidgetBuilder>{
   SelectThemeDesktopScreen.routeName: (_) => const SelectThemeDesktopScreen(),
   SelectThemeMobileScreen.routeName: (_) => const SelectThemeMobileScreen(),
   // LoginScreenDesktop.routeName: (_) => const LoginScreenDesktop(),
-  AddExpenseScreenDesktop.routeName: (_) => const AddExpenseScreenDesktop(),
-  AddExpenseMobile.routeName: (_) => const AddExpenseMobile(),
   SelectCategoryScreenMobile.routeName: (_) =>
       const SelectCategoryScreenMobile(),
   // TodaysExpenseListMobileScreen.routeName: (_) =>

@@ -384,7 +384,7 @@ class _LoginScreenMobileState extends State<LoginScreenTablet>
 
   void validateAndProceed() {
     _formKey.currentState!.save();
-    AuthController.login(context, email.trim(), password.trim());
+    AuthController.loginV2(context, email.trim(), password.trim());
   }
 }
 

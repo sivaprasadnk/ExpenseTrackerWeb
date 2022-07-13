@@ -1,4 +1,4 @@
-import 'package:expense_tracker/view/add_expense/add.expense.mobile.dart';
+import 'package:expense_tracker/view/add.transaction/add.transaction.mobile.dart';
 import 'package:flutter/material.dart';
 
 class AddExpenseButtonMobile extends StatelessWidget {
@@ -16,7 +16,7 @@ class AddExpenseButtonMobile extends StatelessWidget {
     final screenWidth = screenSize.width;
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, AddExpenseMobile.routeName);
+        Navigator.pushNamed(context, AddTransactionMobile.routeName);
       },
       child: Container(
         height: height,
