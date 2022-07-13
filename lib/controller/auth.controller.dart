@@ -90,7 +90,7 @@ class AuthController {
           int dailyExp = response.dailyTotal;
           var provider = Provider.of<HomeProvider>(context, listen: false);
           provider.updateDailyTotalExpense(dailyExp);
-          userRepo.getRecentExpense().then((recentExpList) {
+          userRepo.getRecentTransactions().then((recentExpList) {
             provider.updateRecentList(recentExpList);
             provider.updateCurrency(response.data);
             // userRepo.updateDbValue(response.userId).then((value) {
@@ -122,25 +122,25 @@ class AuthController {
       if (password.isEmpty) {
         throw CustomException('Enter password !');
       }
-      Loading.showLoading(context);
-      authRepo.createAccount(email, password).then((response) async {
-        if (response.status == ResponseStatus.error) {
-          Dialogs.showAlertDialog(
-                  context: context, description: response.message)
-              .then((value) {
-            Navigator.pop(context);
-          });
-        } else {
-          var provider = Provider.of<HomeProvider>(context, listen: false);
-          provider.updateDailyTotalExpense(0);
-          provider.updateDailyCashTotalExpense(0);
-          provider.updateDailyOnlineTotalExpense(0);
+      // Loading.showLoading(context);
+      // authRepo.createAccount(email, password).then((response) async {
+      //   if (response.status == ResponseStatus.error) {
+      //     Dialogs.showAlertDialog(
+      //             context: context, description: response.message)
+      //         .then((value) {
+      //       Navigator.pop(context);
+      //     });
+      //   } else {
+      //     var provider = Provider.of<HomeProvider>(context, listen: false);
+      //     provider.updateDailyTotalExpense(0);
+      //     provider.updateDailyCashTotalExpense(0);
+      //     provider.updateDailyOnlineTotalExpense(0);
 
-          provider.updateRecentList([]);
+      //     provider.updateRecentList([]);
 
-          Navigation.checkPlatformAndNavigateToHome(context);
-        }
-      });
+      //     Navigation.checkPlatformAndNavigateToHome(context);
+      //   }
+      // });
     } on CustomException catch (exc) {
       Dialogs.showAlertDialog(context: context, description: exc.message);
     } catch (err) {
@@ -212,15 +212,15 @@ class AuthController {
           var provider = Provider.of<HomeProvider>(context, listen: false);
           int dailyExp = response.dailyTotal;
           provider.updateDailyTotalExpense(dailyExp);
-          provider.updateDailyCashTotalExpense(response.dailyCashTotal);
-          provider.updateDailyOnlineTotalExpense(response.dailyOnlineTotal);
-          userRepo.getRecentExpense().then((recentExpList) {
-            provider.updateRecentList(recentExpList);
-            // userRepo.updateDbValue(response.userId).then((value) {
-            //   Navigation.checkPlatformAndNavigateToHome(context);
-            // });
-            Navigation.checkPlatformAndNavigateToHome(context);
-          });
+          // provider.updateDailyCashTotalExpense(response.dailyCashTotal);
+          // provider.updateDailyOnlineTotalExpense(response.dailyOnlineTotal);
+          // userRepo.getRecentExpense().then((recentExpList) {
+          //   provider.updateRecentList(recentExpList);
+          //   // userRepo.updateDbValue(response.userId).then((value) {
+          //   //   Navigation.checkPlatformAndNavigateToHome(context);
+          //   // });
+          //   Navigation.checkPlatformAndNavigateToHome(context);
+          // });
         }
       });
     } on CustomException catch (exc) {

@@ -3,6 +3,7 @@ import 'package:expense_tracker/api/response.status.dart';
 import 'package:expense_tracker/model/add.transaction.model.dart';
 import 'package:expense_tracker/model/edit.expense.model.dart';
 import 'package:expense_tracker/model/expense.model.dart';
+import 'package:expense_tracker/model/get.balances.response.dart';
 import 'package:expense_tracker/model/response.model.dart';
 import 'package:expense_tracker/model/transaction.month.model.dart';
 import 'package:expense_tracker/provider/home.provider.dart';
@@ -32,7 +33,7 @@ class UserController {
       DateTime selectedDate,
       BuildContext context) async {
     Loading.showLoading(context);
-    String userId = FirebaseAuth.instance.currentUser!.uid;
+    // String userId = FirebaseAuth.instance.currentUser!.uid;
 
     // var date = DateFormat('dd-MM-yyyy').format(selectedDate);
     // var month = DateFormat('MMM, yyyy').format(selectedDate);
@@ -124,7 +125,7 @@ class UserController {
     int dailyExp = int.parse(dailyExpString);
     var provider = Provider.of<HomeProvider>(context, listen: false);
     provider.updateDailyTotalExpense(dailyExp);
-    userRepo.getRecentExpense().then((recentExpList) {
+    userRepo.getRecentTransactions().then((recentExpList) {
       provider.updateRecentList(recentExpList);
       Navigation.checkPlatformAndNavigateToHome(context, true);
     });
@@ -184,7 +185,7 @@ class UserController {
         var total = int.parse(response.data);
         var provider = Provider.of<HomeProvider>(context, listen: false);
         provider.updateDailyTotalExpense(total);
-        userRepo.getRecentExpense().then((recentExpList) {
+        userRepo.getRecentTransactions().then((recentExpList) {
           provider.updateRecentList(recentExpList);
           Future.delayed(const Duration(seconds: 2)).then((value) {
             Dialogs.showAlertDialogAndNavigateToHome(
@@ -286,14 +287,16 @@ class UserController {
     if (response.status == ResponseStatus.error) {
       Dialogs.showAlertDialog(context: context, description: response.message);
     } else {
+      GetBalancesResponse response =
+          await userRepo.getCurrentBalances(userId: userId);
       var provider = Provider.of<HomeProvider>(context, listen: false);
 
       if (selectedType == TransactionType.income) {
-        provider.addToDailyTotalIncome(amount);
-        provider.addToMonthlyTotalIncome(amount);
+        provider.addToDailyTotalIncome(response.dailyTotalIncome);
+        provider.addToMonthlyTotalIncome(response.monthlyTotalIncome);
       } else {
-        provider.addToDailyTotalExpense(amount);
-        provider.addToMonthlyTotalExpense(amount);
+        provider.addToDailyTotalExpense(response.dailyTotalExpense);
+        provider.addToMonthlyTotalExpense(response.monthlyTotalExpense);
       }
       provider.updateDailyBalance();
       provider.updateMonthlyBalance();

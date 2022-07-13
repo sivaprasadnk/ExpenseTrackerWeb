@@ -6,6 +6,7 @@ import 'package:expense_tracker/model/add.expense.model.dart';
 import 'package:expense_tracker/model/add.transaction.model.dart';
 import 'package:expense_tracker/model/edit.expense.model.dart';
 import 'package:expense_tracker/model/expense.model.dart';
+import 'package:expense_tracker/model/get.balances.response.dart';
 import 'package:expense_tracker/model/location.response.model.dart';
 import 'package:expense_tracker/model/response.model.dart';
 import 'package:expense_tracker/model/transaction.model.dart';
@@ -81,12 +82,12 @@ class UserRepo {
         .doc(expense.expenseDate)
         .set({
       'totalExpense': request.dailyTotal + expense.amount,
-      'totalCashExpense': expense.mode == "Cash"
-          ? request.dailyCashTotal + expense.amount
-          : request.dailyCashTotal,
-      'totalOnlineExpense': expense.mode == "Online"
-          ? request.dailyOnlineTotal + expense.amount
-          : request.dailyOnlineTotal,
+      // 'totalCashExpense': expense.mode == "Cash"
+      //     ? request.dailyCashTotal + expense.amount
+      //     : request.dailyCashTotal,
+      // 'totalOnlineExpense': expense.mode == "Online"
+      //     ? request.dailyOnlineTotal + expense.amount
+      //     : request.dailyOnlineTotal,
       'date': expense.expenseDate,
       'month': expense.expenseMonth,
       'day': expense.expenseDay,
@@ -117,11 +118,11 @@ class UserRepo {
         .doc(expense.categoryName)
         .set({
       'totalAmount': totAmt + expense.amount,
-      'totalCashAmount':
-          expense.mode == "Cash" ? totCashAmt + expense.amount : totCashAmt,
-      'totalOnlineAmount': expense.mode == "Online"
-          ? totOnlineAmt + expense.amount
-          : totOnlineAmt,
+      // 'totalCashAmount':
+      //     expense.mode == "Cash" ? totCashAmt + expense.amount : totCashAmt,
+      // 'totalOnlineAmount': expense.mode == "Online"
+      //     ? totOnlineAmt + expense.amount
+      //     : totOnlineAmt,
       'lastUpdateTime': request.createdDateTimeString,
       'categoryName': expense.categoryName,
       'categoryId': expense.categoryId,
@@ -142,7 +143,7 @@ class UserRepo {
       'amount_i': expense.amount.toString().toLowerCase(),
       'details': expense.details,
       'details_i': expense.details.toLowerCase(),
-      'mode': expense.mode,
+      // 'mode': expense.mode,
       'expenseDocId': expenseDocId,
       'recentDocId': recentDocId,
       'expenseTitle': expense.expenseTitle,
@@ -538,15 +539,15 @@ class UserRepo {
         .collection(kTransactionDatesCollection)
         .doc(transaction.transactionDate)
         .set({
-      'dailyTotalIncome': request.dailyTotalIncome,
-      'dailyTotalExpense': request.dailyTotalExpense,
-      'dailyBalance': request.dailyTotalIncome - request.dailyTotalExpense,
+      kDailyTotalIncomeField: request.dailyTotalIncome,
+      kDailyTotalExpenseField: request.dailyTotalExpense,
+      kDailyBalanceField: request.dailyTotalIncome - request.dailyTotalExpense,
       "day": transaction.transactionDay,
       'date': transaction.transactionDate,
       'month': transaction.transactionMonth,
       'monthDocId': transaction.transactionMonthDocId,
       'updatedDateTime': request.createdDateTime,
-      'dailyDrOrCr': request.dailyDrOrCr,
+      kDailyDrOrCrField: request.dailyDrOrCr,
       'monthlyDrOrCr': request.monthlyDrOrCr,
       'updatedDateTimeString': request.createdDateTimeString,
     });
@@ -557,11 +558,15 @@ class UserRepo {
         .collection(kTransactionMonthsCollection)
         .doc(transaction.transactionMonthDocId)
         .set({
-      'monthlyTotalIncome': request.monthlyTotalIncome,
-      'monthlyTotalExpense': request.monthlyTotalExpense,
-      'monthlyBalance':
+      'year': request.transactionMonth.year,
+      'month': request.transactionMonth.month,
+      'monthDocId': request.transactionMonth.monthDocId,
+      'monthOnly': request.transactionMonth.monthOnly,
+      kMonthlyTotalIncomeField: request.monthlyTotalIncome,
+      kMonthlyTotalExpenseField: request.monthlyTotalExpense,
+      kMonthlyBalanceField:
           request.monthlyTotalIncome - request.monthlyTotalExpense,
-      'monthlyDrOrCr': request.monthlyDrOrCr,
+      kMonthlyDrOrCrField: request.monthlyDrOrCr,
       kCreatedDateTimeField: request.createdDateTime,
       'updatedDateTimeString': request.createdDateTimeString,
     });
@@ -575,8 +580,26 @@ class UserRepo {
         .doc(transaction.categoryName)
         .collection(kTransactionCollection)
         .doc(request.createdDateTimeString)
-        .set({});
-
+        .set({
+      'active': true,
+      'amount': transaction.amount,
+      'amount_i': transaction.amount.toString().toLowerCase(),
+      'details': transaction.details,
+      'details_i': transaction.details.toLowerCase(),
+      'transactionType': transaction.transactionType,
+      'transactionDocId': transactionDocId,
+      'recentDocId': recentDocId,
+      'title': transaction.title,
+      'title_i': transaction.title.toLowerCase(),
+      'transactionMonth': transaction.transactionMonth,
+      'transactionMonthDocId': transaction.transactionMonthDocId,
+      'transactionDate': transaction.transactionDate,
+      'transactionDay': transaction.transactionDay,
+      'createdDateTime': request.createdDateTime,
+      'createdDateTimeString': request.createdDateTimeString,
+      'categoryId': transaction.categoryId,
+      'categoryName': transaction.categoryName,
+    });
     // DocumentSnapshot<Map<String, dynamic>> categoryDoc = await fireStoreInstance
     //     .collection(kUsersCollection)
     //     .doc(request.userId)
@@ -662,5 +685,70 @@ class UserRepo {
       message: 'Success',
       data: '',
     );
+  }
+
+  Future getCurrentBalances({required String userId}) async {
+    final DateTime now = DateTime.now();
+    int monthlyTotalIncome = 0;
+    int monthlyTotalExpense = 0;
+    int monthlyBalance = 0;
+    String monthlyDrOrCr = "+";
+
+    int dailyTotalIncome = 0;
+    int dailyTotalExpense = 0;
+    int dailyBalance = 0;
+    String dailyDrOrCr = "+";
+
+    var date = DateFormat('dd_MM_yyyy').format(now);
+
+    // var month = DateFormat('MMM_yyyy').format(now);
+    var monthDocId = DateFormat('MMM_yyyy').format(now);
+
+    DocumentSnapshot<Map<String, dynamic>> monthDocSnapshot =
+        await fireStoreInstance
+            .collection(kUsersCollection)
+            .doc(userId)
+            .collection(kTransactionMonthsCollection)
+            .doc(monthDocId)
+            .get();
+
+    if (monthDocSnapshot.data() != null) {
+      var monthDocData = monthDocSnapshot.data()!;
+      monthlyTotalIncome = monthDocData[kMonthlyTotalIncomeField];
+      monthlyTotalExpense = monthDocData[kMonthlyTotalExpenseField];
+      monthlyBalance = monthDocData[kMonthlyBalanceField];
+      monthlyDrOrCr = monthDocData[kMonthlyDrOrCrField];
+
+      // var monthlyTotalIncome
+    }
+
+    DocumentSnapshot<Map<String, dynamic>> dateDocSnapshot =
+        await fireStoreInstance
+            .collection(kUsersCollection)
+            .doc(userId)
+            .collection(kTransactionDatesCollection)
+            .doc(date)
+            .get();
+    if (dateDocSnapshot.data() != null) {
+      var dateDocData = dateDocSnapshot.data()!;
+      dailyTotalIncome = dateDocData[kDailyTotalIncomeField];
+      dailyTotalExpense = dateDocData[kDailyTotalExpenseField];
+      dailyBalance = dateDocData[kDailyBalanceField];
+      dailyDrOrCr = dateDocData[kDailyDrOrCrField];
+    }
+
+    return GetBalancesResponse(
+        status: ResponseStatus.success,
+        message: 'Success',
+        data: '',
+        monthlyBalance: monthlyBalance,
+        monthlyDrOrCr: monthlyDrOrCr,
+        monthlyTotalIncome: monthlyTotalIncome,
+        dailyBalance: dailyBalance,
+        dailyDrOrCr: dailyDrOrCr,
+        dailyTotalExpense: dailyTotalExpense,
+        dailyTotalIncome: dailyTotalIncome,
+        monthlyTotalExpense: monthlyTotalExpense,
+        userId: userId);
   }
 }
