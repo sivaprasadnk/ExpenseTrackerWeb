@@ -525,6 +525,7 @@ class UserRepo {
         .update({
       kTransactionDocIdField: transactionDocId,
       kRecentDocIdField: recentDocId,
+      'dailyDrOrCr': request.dailyDrOrCr,
       kCreatedDateTimeField: request.createdDateTime,
       'createdDateTimeString': request.createdDateTimeString,
     });
@@ -537,20 +538,44 @@ class UserRepo {
         .collection(kTransactionDatesCollection)
         .doc(transaction.transactionDate)
         .set({
-          'dailyTotalIncome':request.
-      // 'totalExpense': request.dailyTotal + expense.amount,
-      // 'totalCashExpense': expense.mode == "Cash"
-      //     ? request.dailyCashTotal + expense.amount
-      //     : request.dailyCashTotal,
-      // 'totalOnlineExpense': expense.mode == "Online"
-      //     ? request.dailyOnlineTotal + expense.amount
-      //     : request.dailyOnlineTotal,
-      // 'date': expense.expenseDate,
-      // 'month': expense.expenseMonth,
-      // 'day': expense.expenseDay,
-      // 'monthDocId': expense.expenseMonthDocId,
-      // 'updatedDateTime': request.createdDateTimeString,
+      'dailyTotalIncome': request.dailyTotalIncome,
+      'dailyTotalExpense': request.dailyTotalExpense,
+      'dailyBalance': request.dailyTotalIncome - request.dailyTotalExpense,
+      "day": transaction.transactionDay,
+      'date': transaction.transactionDate,
+      'month': transaction.transactionMonth,
+      'monthDocId': transaction.transactionMonthDocId,
+      'updatedDateTime': request.createdDateTime,
+      'dailyDrOrCr': request.dailyDrOrCr,
+      'monthlyDrOrCr': request.monthlyDrOrCr,
+      'updatedDateTimeString': request.createdDateTimeString,
     });
+
+    fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(request.userId)
+        .collection(kTransactionMonthsCollection)
+        .doc(transaction.transactionMonthDocId)
+        .set({
+      'monthlyTotalIncome': request.monthlyTotalIncome,
+      'monthlyTotalExpense': request.monthlyTotalExpense,
+      'monthlyBalance':
+          request.monthlyTotalIncome - request.monthlyTotalExpense,
+      'monthlyDrOrCr': request.monthlyDrOrCr,
+      kCreatedDateTimeField: request.createdDateTime,
+      'updatedDateTimeString': request.createdDateTimeString,
+    });
+
+    fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(request.userId)
+        .collection(kTransactionDatesCollection)
+        .doc(transaction.transactionDate)
+        .collection(kTransactionCategoriesCollection)
+        .doc(transaction.categoryName)
+        .collection(kTransactionCollection)
+        .doc(request.createdDateTimeString)
+        .set({});
 
     // DocumentSnapshot<Map<String, dynamic>> categoryDoc = await fireStoreInstance
     //     .collection(kUsersCollection)

@@ -258,6 +258,15 @@ class UserController {
       monthDocId: monthDocId,
     );
 
+    var dailyDrOrCr = "+";
+    var monthlyDrOrCr = "+";
+    if (dailyTotalIncome < dailyTotalExpense) {
+      dailyDrOrCr = "-";
+    }
+    if (monthlyTotalIncome < monthlyTotalExpense) {
+      monthlyDrOrCr = "-";
+    }
+
     var request = AddTransactionModel(
       transaction: trans,
       userId: userId,
@@ -266,6 +275,8 @@ class UserController {
       monthlyTotalExpense: monthlyTotalExpense,
       dailyTotalExpense: dailyTotalExpense,
       dailyTotalIncome: dailyTotalIncome,
+      dailyDrOrCr: dailyDrOrCr,
+      monthlyDrOrCr: monthlyDrOrCr,
       createdDateTimeString: createdDateTimeString,
       createdDateTime: createdDateTime,
     );
