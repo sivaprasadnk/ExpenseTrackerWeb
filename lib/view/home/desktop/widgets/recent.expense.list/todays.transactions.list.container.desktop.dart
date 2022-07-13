@@ -45,7 +45,7 @@ class _TodaysTransactionsListContainerDesktopState
                     },
                   ),
                 )
-              : const NoExpenseContainerDesktop(
+              : const NoTransactionsContainerDesktop(
                   title: 'Recently added expenses will list here.',
                 );
         },

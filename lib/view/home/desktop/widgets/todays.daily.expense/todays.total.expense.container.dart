@@ -3,7 +3,6 @@ import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/c
 import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/cash.total.container.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/daily.total.text.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/online.title.text.dart';
-import 'package:expense_tracker/view/todays.expense.list/todays.expense.list.desktop.screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -34,10 +33,10 @@ class _TodaysTotalExpenseContainerState
             InkWell(
               borderRadius: BorderRadius.circular(12),
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => const TodaysExpenseListDesktopScreen()));
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (_) => const TodaysExpenseListDesktopScreen()));
               },
               onHover: (val) {
                 setState(() {
@@ -74,8 +73,14 @@ class _TodaysTotalExpenseContainerState
             ),
             CashTitleText(theme: theme),
             OnlineTitleText(theme: theme),
-            CashTotalContainer(theme: theme,amount: provider.dailyCashTotal.toString(),),
-            OnlineTotalContainer(theme: theme, amount: provider.dailyOnlineTotal.toString(),)
+          CashTotalContainer(
+            theme: theme,
+            amount: "0",
+          ),
+          OnlineTotalContainer(
+            theme: theme,
+            amount: "0",
+          )
           ],
         );
       }

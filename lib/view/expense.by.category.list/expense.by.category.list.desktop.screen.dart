@@ -1,13 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/common_strings.dart';
-import 'package:expense_tracker/model/expense.model.dart';
 import 'package:expense_tracker/view/desktop.view.dart';
 import 'package:expense_tracker/view/expense.list.by.date/widgets/expense.details.card.desktop/expense.details.card.desktop.dart';
 import 'package:expense_tracker/view/expense.list.by.date/widgets/total.expense.container.desktop.dart';
+import 'package:expense_tracker/view/todays.expense.list/widgets/no.expense.container.mobile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:neumorphic_loader/neumorphic_loader.dart';
 
+import '../../model/transaction.model.dart';
 import '../../utils/enums.dart';
 
 class ExpenseByCategoryListDesktopScreen extends StatefulWidget {
@@ -212,7 +213,8 @@ class _ExpenseByCategoryListDesktopScreenState
                               itemBuilder: (ctx, index) {
                                 var doc = (snapshot.data! as QuerySnapshot)
                                     .docs[index];
-                                Expense expense = Expense.fromJson(doc);
+                                TransactionModel expense =
+                                    TransactionModel.fromJson(doc);
                                 return Center(
                                   child: SizedBox(
                                     width: 450,
@@ -223,7 +225,7 @@ class _ExpenseByCategoryListDesktopScreenState
                                 );
                               },
                             )
-                          : const NoExpenseContainerDesktop(
+                          : const NoTransactionContainerMobile(
                               title: 'No expense added !',
                             )
                       : Center(

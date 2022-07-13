@@ -4,7 +4,6 @@ import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/c
 import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/daily.total.text.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/online.title.text.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/online.total.container.dart';
-import 'package:expense_tracker/view/todays.expense.list/todays.expense.list.screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,7 +25,6 @@ class TodaysTotalExpenseContainerMobile extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, TodaysExpenseListScreen.routeName);
             },
             child: Container(
               height: height,
@@ -60,11 +58,11 @@ class TodaysTotalExpenseContainerMobile extends StatelessWidget {
           OnlineTitleText(theme: theme),
           CashTotalContainer(
             theme: theme,
-            amount: provider.dailyCashTotal.toString(),
+            amount: "0",
           ),
           OnlineTotalContainer(
             theme: theme,
-            amount: provider.dailyOnlineTotal.toString(),
+            amount: "0",
           )
         ],
       );

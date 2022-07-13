@@ -1,6 +1,5 @@
 import 'package:expense_tracker/utils/responsive.screen.dart';
 import 'package:expense_tracker/view/home/desktop/home.screen.desktop.dart';
-import 'package:expense_tracker/view/home/home.screen.tablet.dart';
 import 'package:expense_tracker/view/home/mobile/home.screen.mobile.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return const ResponsiveScreen(
       desktopScreen: HomeScreenDesktop(),
-      tabletScreen: HomeScreenTablet(),
+      tabletScreen: HomeScreenMobile(),
       mobileScreen: HomeScreenMobile(),
     );
   }

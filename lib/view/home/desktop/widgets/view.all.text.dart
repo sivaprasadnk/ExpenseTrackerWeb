@@ -1,4 +1,3 @@
-import 'package:expense_tracker/view/recent/windows.small.recent.list.dart';
 import 'package:flutter/material.dart';
 
 class ViewAllText extends StatelessWidget {
