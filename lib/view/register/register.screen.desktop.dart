@@ -148,6 +148,33 @@ class _RegisterScreenDesktopState extends State<RegisterScreenDesktop>
     const slideDuration = Duration(milliseconds: 400);
     const double width = 350;
 
+    InputDecoration decoration = InputDecoration(
+      focusedBorder: OutlineInputBorder(
+        borderSide: const BorderSide(
+          color: Colors.black,
+        ),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: const BorderSide(
+          color: Colors.black,
+        ),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      border: OutlineInputBorder(
+        borderSide: const BorderSide(
+          color: Colors.black,
+        ),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      isDense: true,
+      contentPadding: const EdgeInsets.fromLTRB(10, 15, 10, 15),
+      // contentPadding: const EdgeInsets.symmetric(
+      //   horizontal: 8,
+      //   // vertical: 4.h,
+      // ),
+    );
+
     return Scaffold(
       extendBody: true,
       body: Form(
@@ -201,23 +228,19 @@ class _RegisterScreenDesktopState extends State<RegisterScreenDesktop>
                             child: AnimatedSlide(
                               duration: slideDuration,
                               offset: _emailFieldSlide.value,
-                              child: TextFieldContainer(
-                                width: width,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
                                 child: TextFormField(
                                   style: const TextStyle(
                                     color: Colors.black,
-                                    fontSize: 20,
+                                    fontSize: 18,
                                   ),
                                   keyboardType: TextInputType.emailAddress,
                                   onSaved: (val) {
-                                    email = val.toString();
+                                    email = val.toString().trim();
                                   },
-                                  decoration: const InputDecoration(
-                                    border: InputBorder.none,
-                                    isDense: true,
-                                    contentPadding: EdgeInsets.symmetric(
-                                        horizontal: 8, vertical: 15),
-                                  ),
+                                  decoration: decoration,
                                 ),
                               ),
                             ),
@@ -242,25 +265,19 @@ class _RegisterScreenDesktopState extends State<RegisterScreenDesktop>
                               child: Row(
                                 children: [
                                   Expanded(
-                                    child: TextFieldContainer(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
                                       child: TextFormField(
                                         obscureText: !showPassword,
                                         style: const TextStyle(
                                           color: Colors.black,
-                                          fontSize: 20,
+                                          fontSize: 18,
                                         ),
                                         onSaved: (val) {
-                                          password = val.toString();
+                                          password = val.toString().trim();
                                         },
-                                        decoration: InputDecoration(
-                                          contentPadding:
-                                              const EdgeInsets.symmetric(
-                                                      horizontal: 8,
-                                                      vertical: 10) +
-                                                  const EdgeInsets.only(top: 2),
-                                          border: InputBorder.none,
-                                          isDense: true,
-                                        ),
+                                        decoration: decoration,
                                       ),
                                     ),
                                   ),

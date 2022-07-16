@@ -57,7 +57,7 @@ class _MonthlyBalanceContainerState extends State<MonthlyBalanceContainer> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Monthly Balance',
+                    'Monthly Savings',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,

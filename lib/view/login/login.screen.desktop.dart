@@ -12,7 +12,6 @@ import 'package:expense_tracker/view/login/widgets/text.field.title.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:sizer/sizer.dart';
 
 class LoginScreenDesktop extends StatefulWidget {
   const LoginScreenDesktop({Key? key}) : super(key: key);
@@ -161,7 +160,7 @@ class _LoginScreenDesktopState extends State<LoginScreenDesktop>
         borderRadius: BorderRadius.circular(8),
       ),
       isDense: true,
-      contentPadding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+      contentPadding: const EdgeInsets.fromLTRB(10, 15, 10, 15),
       // contentPadding: const EdgeInsets.symmetric(
       //   horizontal: 8,
       //   // vertical: 4.h,
@@ -210,7 +209,7 @@ class _LoginScreenDesktopState extends State<LoginScreenDesktop>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: 10.h),
+                const SizedBox(height: 10),
                 const AppNameText(),
                 const SizedBox(height: 10),
                 const AuthTitleText(title: 'Login'),
@@ -303,7 +302,7 @@ class _LoginScreenDesktopState extends State<LoginScreenDesktop>
                                         obscureText: !showPassword,
                                         style: const TextStyle(
                                           color: Colors.black,
-                                          fontSize: 20,
+                                          fontSize: 18,
                                         ),
                                         onSaved: (val) {
                                           password = val.toString().trim();

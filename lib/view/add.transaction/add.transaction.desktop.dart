@@ -1,5 +1,6 @@
 import 'package:expense_tracker/controller/user.controller.dart';
 import 'package:expense_tracker/model/category.doc.model.dart';
+import 'package:expense_tracker/provider/home.provider.dart';
 import 'package:expense_tracker/utils/custom.exception.dart';
 import 'package:expense_tracker/utils/dialog.dart';
 import 'package:expense_tracker/utils/enums.dart';
@@ -11,6 +12,7 @@ import 'package:expense_tracker/view/select.category/select.category.screen.desk
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class AddTransactionScreenDesktop extends StatefulWidget {
   const AddTransactionScreenDesktop({Key? key}) : super(key: key);
@@ -46,6 +48,8 @@ class _AddTransactionScreenDesktopState
     var date = formattedTime.isEmpty
         ? DateFormat('dd-MM-yyyy').format(now)
         : formattedTime;
+    var currencySymbol =
+        Provider.of<HomeProvider>(context, listen: false).currencySymbol;
     return DesktopView(
       isHome: false,
       appBarTitle: 'Add Transaction',
@@ -92,8 +96,25 @@ class _AddTransactionScreenDesktopState
                                 amount = int.parse(val.toString().trim());
                               }
                             },
-                            decoration: const InputDecoration(
-                              contentPadding: EdgeInsets.only(
+                            decoration: InputDecoration(
+                              prefixIconConstraints: const BoxConstraints(
+                                  minWidth: 0, minHeight: 0),
+                              prefixIcon: Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 10,
+                                  right: 5,
+                                  top: 5,
+                                  bottom: 10,
+                                ),
+                                child: Text(
+                                  currencySymbol,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              contentPadding: const EdgeInsets.only(
                                 left: 10,
                                 right: 10,
                                 top: 10,
