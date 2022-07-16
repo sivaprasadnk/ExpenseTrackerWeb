@@ -13,7 +13,8 @@ class MonthlyBalanceText extends StatelessWidget {
         return Text(
           "${provider.monthlyDrOrCr} ${provider.currencySymbol} ${provider.monthlyBalance}",
           style: TextStyle(
-            fontSize: 60,
+            height: 0.8,
+            fontSize: 53,
             fontWeight: FontWeight.bold,
             color: theme.scaffoldBackgroundColor,
           ),

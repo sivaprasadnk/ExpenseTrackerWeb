@@ -756,7 +756,7 @@ class UserRepo {
         .collection(kRecentTransactionCollection)
         .where('transactionDate', isEqualTo: date)
         .orderBy('createdDateTime', descending: true)
-        .limit(5)
+        // .limit(5)
         .get();
     debugPrint(".. @14  date : $date");
     var recentTransactionList1 =
@@ -766,7 +766,7 @@ class UserRepo {
       recentExpList.add(recentExpense);
     }
 
-    debugPrint('.. @@  $recentExpList');
+    // debugPrint('.. @@  $recentExpList');
 
     return GetBalancesResponse(
       status: ResponseStatus.success,

@@ -1,10 +1,8 @@
-import 'package:expense_tracker/view/home/desktop/widgets/add.expense.button/add.expense.button.desktop.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/recent.expense.list/todays.expenses.title.text.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/recent.expense.list/todays.transactions.list.container.desktop.dart';
-import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/monthly.balance.container.dart';
-import 'package:expense_tracker/view/home/desktop/widgets/view.by.category/view.expense.by.category.container.dart';
-import 'package:expense_tracker/view/home/desktop/widgets/view.by.date/view.expenses.by.date.container.dart';
 import 'package:flutter/material.dart';
+
+import 'widgets/monthly.savings.card/monthly.balance.container.dart';
 
 class HomeScreenDesktopBody extends StatefulWidget {
   const HomeScreenDesktopBody({Key? key, required this.constraints})
@@ -174,54 +172,54 @@ class _HomeScreenDesktopBodyState extends State<HomeScreenDesktopBody>
                       const SizedBox(
                         height: 10,
                       ),
-                      SizedBox(
-                        height: 100,
-                        width: double.infinity,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            // const SizedBox(
-                            //   width: 20,
-                            // ),
-                            AnimatedOpacity(
-                              duration: opacityDuration,
-                              opacity: _expenseByDateOpacity.value,
-                              child: AnimatedSlide(
-                                duration: slideDuration,
-                                offset: _expenseByDateSlide.value,
-                                child: ViewExpensesByDateContainer(
-                                  width: widget.constraints.maxWidth,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            AnimatedOpacity(
-                              duration: opacityDuration,
-                              opacity: _expenseByCategoryOpacity.value,
-                              child: AnimatedSlide(
-                                duration: slideDuration,
-                                offset: _expenseByCategorySlide.value,
-                                child: const ViewExpenseByCategoryContainer(),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            AnimatedOpacity(
-                              duration: opacityDuration,
-                              opacity: _addExpenseOpacity.value,
-                              child: AnimatedSlide(
-                                duration: slideDuration,
-                                offset: _addExpenseSlide.value,
-                                child: const AddExpenseButtonDesktop(),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      // SizedBox(
+                      //   height: 100,
+                      //   width: double.infinity,
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.center,
+                      //     mainAxisSize: MainAxisSize.min,
+                      //     children: [
+                      //       // const SizedBox(
+                      //       //   width: 20,
+                      //       // ),
+                      //       AnimatedOpacity(
+                      //         duration: opacityDuration,
+                      //         opacity: _expenseByDateOpacity.value,
+                      //         child: AnimatedSlide(
+                      //           duration: slideDuration,
+                      //           offset: _expenseByDateSlide.value,
+                      //           child: ViewExpensesByDateContainer(
+                      //             width: widget.constraints.maxWidth,
+                      //           ),
+                      //         ),
+                      //       ),
+                      //       const SizedBox(
+                      //         width: 20,
+                      //       ),
+                      //       AnimatedOpacity(
+                      //         duration: opacityDuration,
+                      //         opacity: _expenseByCategoryOpacity.value,
+                      //         child: AnimatedSlide(
+                      //           duration: slideDuration,
+                      //           offset: _expenseByCategorySlide.value,
+                      //           child: const ViewExpenseByCategoryContainer(),
+                      //         ),
+                      //       ),
+                      //       const SizedBox(
+                      //         width: 20,
+                      //       ),
+                      //       AnimatedOpacity(
+                      //         duration: opacityDuration,
+                      //         opacity: _addExpenseOpacity.value,
+                      //         child: AnimatedSlide(
+                      //           duration: slideDuration,
+                      //           offset: _addExpenseSlide.value,
+                      //           child: const AddExpenseButtonDesktop(),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                       const SizedBox(
                         height: 10,
                       ),

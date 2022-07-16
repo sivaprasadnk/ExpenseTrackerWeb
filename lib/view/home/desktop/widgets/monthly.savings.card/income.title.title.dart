@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 class IncomeTitleText extends StatelessWidget {
   const IncomeTitleText({
     Key? key,
-    required this.theme,
+    required this.color,
     this.fontSize = 20,
     this.bottomPadding = 65,
   }) : super(key: key);
 
   final double fontSize;
   final double bottomPadding;
-  final ThemeData theme;
+  // final ThemeData theme;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class IncomeTitleText extends StatelessWidget {
           style: TextStyle(
             fontSize: fontSize,
             fontWeight: FontWeight.bold,
-            color: theme.scaffoldBackgroundColor,
+            color: color,
           ),
         ),
       ),

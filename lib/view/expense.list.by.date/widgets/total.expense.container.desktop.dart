@@ -63,7 +63,7 @@ class TotalExpenseContainerDesktop extends StatelessWidget {
           ),
         ),
         TotalExpenseTitleText(title: title),
-        IncomeTitleText(theme: theme),
+        IncomeTitleText(color: theme.scaffoldBackgroundColor),
         // ExptTitleText(theme: theme),
         // CashTotalContainer(theme: theme, amount: cashTotal,),
         // OnlineTotalContainer(theme: theme, amount: onlineTotal,)
