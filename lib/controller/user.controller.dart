@@ -221,7 +221,7 @@ class UserController {
     var monthDocId = DateFormat('MMM_yyyy').format(selectedDate);
     final DateTime now = DateTime.now();
     var a = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
-    var createdDateTime = DateTime.parse(a);
+    DateTime createdDateTime = DateTime.parse(a);
 
     final String createdDateTimeString =
         DateFormat('dd-MM-yyyy  kk:mm:ss').format(now);
@@ -234,6 +234,13 @@ class UserController {
     int monthlyTotalExpense = provider.monthlyTotalExpense;
     int dailyTotalIncome = provider.dailyTotalIncome;
     int dailyTotalExpense = provider.dailyTotalExpense;
+    if (selectedType == TransactionType.income) {
+      monthlyTotalIncome += amount;
+      dailyTotalIncome += amount;
+    } else {
+      monthlyTotalExpense += amount;
+      dailyTotalExpense += amount;
+    }
 
     TransactionModel trans = TransactionModel(
       title: title,
@@ -287,30 +294,24 @@ class UserController {
     if (response.status == ResponseStatus.error) {
       Dialogs.showAlertDialog(context: context, description: response.message);
     } else {
-      GetBalancesResponse response =
+      GetBalancesResponse balancesResponse =
           await userRepo.getCurrentBalances(userId: userId);
       var provider = Provider.of<HomeProvider>(context, listen: false);
-
-      if (selectedType == TransactionType.income) {
-        provider.addToDailyTotalIncome(response.dailyTotalIncome);
-        provider.addToMonthlyTotalIncome(response.monthlyTotalIncome);
-      } else {
-        provider.addToDailyTotalExpense(response.dailyTotalExpense);
-        provider.addToMonthlyTotalExpense(response.monthlyTotalExpense);
+      if (balancesResponse.status == ResponseStatus.success) {
+        provider.updateDailyTotalIncome(balancesResponse.dailyTotalIncome);
+        provider.updateDailyTotalExpense(balancesResponse.dailyTotalExpense);
+        provider.updateDailyBalance();
+        provider.updateMonthlyTotalIncome(balancesResponse.monthlyTotalIncome);
+        provider
+            .updateMonthlyTotalExpense(balancesResponse.monthlyTotalExpense);
+        provider.updateMonthlyBalance();
+        provider.updateRecentList(balancesResponse.recentExpList);
+        // provider.updateCurrency(response.data);
+        Future.delayed(const Duration(seconds: 2)).then((value) {
+          Dialogs.showAlertDialogAndNavigateToHome(
+              context: context, description: 'Transaction Added !');
+        });
       }
-      provider.updateDailyBalance();
-      provider.updateMonthlyBalance();
-
-      userRepo.getRecentTransactions().then((recentList) {
-        if (recentList.isNotEmpty) {
-          provider.updateRecentList(recentList);
-
-          Future.delayed(const Duration(seconds: 2)).then((value) {
-            Dialogs.showAlertDialogAndNavigateToHome(
-                context: context, description: 'Transaction Added !');
-          });
-        }
-      });
     }
   }
 }

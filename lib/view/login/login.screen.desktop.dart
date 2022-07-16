@@ -161,7 +161,7 @@ class _LoginScreenDesktopState extends State<LoginScreenDesktop>
         borderRadius: BorderRadius.circular(8),
       ),
       isDense: true,
-      contentPadding: const EdgeInsets.fromLTRB(10, 12, 10, 12),
+      contentPadding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
       // contentPadding: const EdgeInsets.symmetric(
       //   horizontal: 8,
       //   // vertical: 4.h,

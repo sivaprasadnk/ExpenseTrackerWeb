@@ -2,8 +2,8 @@ import 'package:expense_tracker/provider/home.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class DailyTotalText extends StatelessWidget {
-  const DailyTotalText({Key? key}) : super(key: key);
+class MonthlyBalanceText extends StatelessWidget {
+  const MonthlyBalanceText({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +11,7 @@ class DailyTotalText extends StatelessWidget {
     return Consumer<HomeProvider>(
       builder: (_, provider, __) {
         return Text(
-          "${provider.currencySymbol} ${provider.dailyTotalExpense}",
+          "${provider.monthlyDrOrCr} ${provider.currencySymbol} ${provider.monthlyBalance}",
           style: TextStyle(
             fontSize: 60,
             fontWeight: FontWeight.bold,

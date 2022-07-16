@@ -116,6 +116,7 @@ class Dialogs {
     double width = MediaQuery.of(context).size.width;
     if (width > 480) {
       width = width * 0.75;
+      width = 480;
       isMobileScreen = false;
     }
     if (isMobileScreen) {

@@ -1,8 +1,8 @@
-import 'package:expense_tracker/view/expense.list.by.date/widgets/online.total.text.dart';
+import 'package:expense_tracker/view/expense.list.by.date/widgets/expense.total.text.dart';
 import 'package:flutter/material.dart';
 
-class OnlineTotalContainer extends StatelessWidget {
-  const OnlineTotalContainer({
+class ExpenseTotalContainer extends StatelessWidget {
+  const ExpenseTotalContainer({
     Key? key,
     required this.theme,
     required this.amount,
@@ -34,7 +34,7 @@ class OnlineTotalContainer extends StatelessWidget {
               bottomLeft: Radius.circular(6),
             ),
           ),
-          child: OnlineTotalText(
+          child: ExpenseTotalText(
             amount: amount,
             fontSize: fontSize,
             padding: padding,

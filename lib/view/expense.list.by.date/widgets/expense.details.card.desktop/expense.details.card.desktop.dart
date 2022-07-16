@@ -1,18 +1,15 @@
-import 'package:expense_tracker/model/expense.model.dart';
 import 'package:expense_tracker/model/transaction.model.dart';
-import 'package:expense_tracker/view/expense.list.by.date/widgets/expense.details.card.desktop/expense.edit.icon.dart';
 import 'package:flutter/material.dart';
 
 import 'expense.amount.text.dart';
 import 'expense.category.name.container.dart';
 import 'expense.date.text.dart';
 import 'expense.details.text.dart';
-import 'expense.mode.text.dart';
 import 'expense.title.text.dart';
 
-class ExpenseDetailsCardDesktop extends StatelessWidget {
+class TransactionDetailsCardDesktop extends StatelessWidget {
 
-  const ExpenseDetailsCardDesktop({
+  const TransactionDetailsCardDesktop({
     Key? key,
     required this.transaction,
     this.width = double.infinity,
@@ -52,18 +49,18 @@ class ExpenseDetailsCardDesktop extends StatelessWidget {
                     height: 8,
                   ),
                   ExpenseDetailsText(
-                    details: expense.details,
+                    details: transaction.details,
                   ),
                   const SizedBox(
                     height: 3,
                   ),
                   ExpenseDateText(
-                    date: expense.expenseDay,
-                    month: expense.expenseMonth,
+                    date: transaction.transactionDay,
+                    month: transaction.transactionMonth,
                   ),
                   const SizedBox(height: 10),
                   ExpenseCategoryNameContainer(
-                      categoryName: expense.categoryName),
+                      categoryName: transaction.categoryName),
                   const SizedBox(height: 10),
                 ],
               ),
@@ -71,10 +68,10 @@ class ExpenseDetailsCardDesktop extends StatelessWidget {
             ],
           ),
         ),
-        ExpenseAmountText(amount: expense.amount.toString()),
-        ExpenseModeText(mode: expense.mode),
-        ExpenseEditIcon(expense: expense),
-        ExpenseTitleText(title: expense.expenseTitle),
+        ExpenseAmountText(amount: transaction.amount.toString()),
+        // ExpenseModeText(mode: expense.mode),
+        // ExpenseEditIcon(transaction: expense),
+        ExpenseTitleText(title: transaction.title),
       ],
     );
   }

@@ -178,7 +178,7 @@ class _ExpenseByDateMobileScreenState extends State<ExpenseByDateMobileScreen> {
                               ),
                             ),
                           )
-                        : const NoExpenseContainerMobile(
+                        : const NoTransactionContainerMobile(
                             title: 'Dates of expenses added will list here.')
                     : Center(
                         child: NeumorphicLoader(

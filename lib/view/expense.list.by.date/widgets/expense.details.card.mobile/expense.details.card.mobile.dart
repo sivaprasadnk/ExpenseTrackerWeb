@@ -1,6 +1,4 @@
-import 'package:expense_tracker/model/expense.model.dart';
 import 'package:expense_tracker/model/transaction.model.dart';
-import 'package:expense_tracker/view/expense.list.by.date/widgets/expense.details.card.desktop/expense.edit.icon.dart';
 import 'package:flutter/material.dart';
 
 import '../expense.details.card.desktop/expense.amount.text.dart';
@@ -10,9 +8,9 @@ import '../expense.details.card.desktop/expense.details.text.dart';
 import '../expense.details.card.desktop/expense.mode.text.dart';
 import '../expense.details.card.desktop/expense.title.text.dart';
 
-class ExpenseDetailsCardMobile extends StatelessWidget {
+class TransactionDetailsCardMobile extends StatelessWidget {
   
-  const ExpenseDetailsCardMobile({
+  const TransactionDetailsCardMobile({
     Key? key,
     required this.transaction,
     this.width = double.infinity,
@@ -53,21 +51,21 @@ class ExpenseDetailsCardMobile extends StatelessWidget {
                     height: 12,
                   ),
                   ExpenseDetailsText(
-                    details: expense.details,
+                    details: transaction.details,
                   ),
                   const SizedBox(
                     height: 3,
                   ),
                   ExpenseDateText(
-                    date: expense.expenseDay,
-                    month: expense.expenseMonth,
+                    date: transaction.transactionDay,
+                    month: transaction.transactionMonth,
                   ),
                   // ExpenseCreatedDateText(
                   //   createdDate: expense.createdDate,
                   // ),
                   const SizedBox(height: 10),
                   ExpenseCategoryNameContainer(
-                      categoryName: expense.categoryName),
+                      categoryName: transaction.categoryName),
                   // const SizedBox(height: 8),
                 ],
               ),
@@ -75,10 +73,10 @@ class ExpenseDetailsCardMobile extends StatelessWidget {
             ],
           ),
         ),
-        ExpenseAmountText(amount: expense.amount.toString()),
-        ExpenseModeText(mode: expense.mode),
-        ExpenseEditIcon(expense: expense),
-        ExpenseTitleText(title: expense.expenseTitle),
+        ExpenseAmountText(amount: transaction.amount.toString()),
+        ExpenseModeText(mode: transaction.transactionType),
+        // ExpenseEditIcon(expense: expense),
+        ExpenseTitleText(title: transaction.title),
       ],
     );
   }

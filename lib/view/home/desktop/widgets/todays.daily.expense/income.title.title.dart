@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 
-class OnlineTitleText extends StatelessWidget {
-  const OnlineTitleText({
+class IncomeTitleText extends StatelessWidget {
+  const IncomeTitleText({
     Key? key,
     required this.theme,
     this.fontSize = 20,
     this.bottomPadding = 65,
   }) : super(key: key);
 
-  final ThemeData theme;
   final double fontSize;
   final double bottomPadding;
+  final ThemeData theme;
 
   @override
   Widget build(BuildContext context) {
     return Positioned.fill(
       bottom: bottomPadding,
-      right: 10,
+      left: 10,
       child: Align(
-        alignment: Alignment.bottomRight,
+        alignment: Alignment.bottomLeft,
         child: Text(
-          'Online ',
+          'Income ',
           style: TextStyle(
             fontSize: fontSize,
             fontWeight: FontWeight.bold,

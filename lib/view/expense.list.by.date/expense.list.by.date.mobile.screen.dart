@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/model/expense.date.model.dart';
-import 'package:expense_tracker/model/expense.model.dart';
+import 'package:expense_tracker/model/transaction.model.dart';
 import 'package:expense_tracker/utils/enums.dart';
 import 'package:expense_tracker/view/expense.list.by.date/widgets/expense.details.card.mobile/expense.details.card.mobile.dart';
 import 'package:expense_tracker/view/expense.list.by.date/widgets/total.expense.container.mobile.dart';
@@ -216,13 +216,14 @@ class _ExpenseListByDateMobileScreenState
                               itemBuilder: (ctx, index) {
                                 var doc = (snapshot.data! as QuerySnapshot)
                                     .docs[index];
-                                Expense expense = Expense.fromJson(doc);
-                                return ExpenseDetailsCardMobile(
-                                  expense: expense,
+                                TransactionModel transaction =
+                                    TransactionModel.fromJson(doc);
+                                return TransactionDetailsCardMobile(
+                                  transaction: transaction,
                                 );
                               },
                             )
-                          : const NoExpenseContainerMobile(
+                          : const NoTransactionContainerMobile(
                               title: 'No expenses added .',
                             )
                       : Center(

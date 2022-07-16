@@ -153,7 +153,7 @@ class AuthController {
     BuildContext context,
     String email,
     String password,
-  ) {
+  ) async {
     try {
       if (email.isEmpty) {
         throw CustomException('Enter email !');
@@ -165,7 +165,9 @@ class AuthController {
         throw CustomException('Enter password !');
       }
       Loading.showLoading(context);
-      authRepo.createAccountV2(email, password).then((response) async {
+      var model = await userRepo.getLocationDetails();
+
+      authRepo.createAccountV2(email, password, model).then((response) async {
         if (response.status == ResponseStatus.error) {
           Dialogs.showAlertDialog(
                   context: context, description: response.message)

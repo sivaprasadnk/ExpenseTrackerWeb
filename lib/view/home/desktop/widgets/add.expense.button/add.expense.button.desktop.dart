@@ -1,4 +1,4 @@
-import 'package:expense_tracker/view/add_expense/add.expense.windows.small.dart';
+import 'package:expense_tracker/view/add.transaction/add.transaction.desktop.dart';
 import 'package:flutter/material.dart';
 
 class AddExpenseButtonDesktop extends StatefulWidget {
@@ -27,7 +27,7 @@ class _AddExpenseButtonDesktopState extends State<AddExpenseButtonDesktop> {
         });
       },
       onTap: () {
-        Navigator.pushNamed(context, AddExpenseScreenDesktop.routeName);
+        Navigator.pushNamed(context, AddTransactionScreenDesktop.routeName);
       },
       child: Container(
         height: 150,

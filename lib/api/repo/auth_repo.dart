@@ -64,7 +64,7 @@ class AuthRepo {
   }
 
   Future<RegistrationResponse> createAccountV2(
-      String email, String password) async {
+      String email, String password, LocationResponseModel model) async {
     final DateTime now = DateTime.now();
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     var version = packageInfo.version;
@@ -72,6 +72,8 @@ class AuthRepo {
     UserCredential credential;
     final String formattedTime = DateFormat('dd-MM-yyyy  kk:mm').format(now);
     try {
+      var json = model.toJson();
+
       credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
       if (credential.user != null) {
@@ -87,6 +89,12 @@ class AuthRepo {
           'registrationAppVersion': version,
           'registrationAppVersionCode': build,
         });
+
+        fireStoreInstance
+            .collection(kUsersCollection)
+            .doc(credential.user!.uid)
+            .collection('location')
+            .add(json);
       }
     } catch (e) {
       debugPrint('Exception @createAccount: $e');

@@ -1,7 +1,7 @@
 import 'package:expense_tracker/view/home/desktop/widgets/add.expense.button/add.expense.button.desktop.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/recent.expense.list/todays.expenses.title.text.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/recent.expense.list/todays.transactions.list.container.desktop.dart';
-import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/todays.total.expense.container.dart';
+import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/monthly.balance.container.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/view.by.category/view.expense.by.category.container.dart';
 import 'package:expense_tracker/view/home/desktop/widgets/view.by.date/view.expenses.by.date.container.dart';
 import 'package:flutter/material.dart';
@@ -168,7 +168,7 @@ class _HomeScreenDesktopBodyState extends State<HomeScreenDesktopBody>
                         child: AnimatedSlide(
                           duration: slideDuration,
                           offset: _todaysTextContainerSlide.value,
-                          child: const TodaysTotalExpenseContainer(),
+                          child: const MonthlyBalanceContainer(),
                         ),
                       ),
                       const SizedBox(

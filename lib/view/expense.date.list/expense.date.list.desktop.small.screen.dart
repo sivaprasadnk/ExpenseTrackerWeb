@@ -186,7 +186,7 @@ class _ExpenseDateListDesktopSmallState
                               },
                             ),
                           )
-                        : const NoExpenseContainerDesktop(
+                        : const NoTransactionsContainerDesktop(
                             title: 'Dates of expenses added will list here.',
                           )
                     : const Center(

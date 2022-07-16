@@ -1,8 +1,8 @@
-import 'package:expense_tracker/view/expense.list.by.date/widgets/cash.total.text.dart';
+import 'package:expense_tracker/view/expense.list.by.date/widgets/Income.total.text.dart';
 import 'package:flutter/material.dart';
 
-class CashTotalContainer extends StatelessWidget {
-  const CashTotalContainer({
+class IncomeTotalContainer extends StatelessWidget {
+  const IncomeTotalContainer({
     Key? key,
     required this.theme,
     required this.amount,
@@ -30,11 +30,10 @@ class CashTotalContainer extends StatelessWidget {
               color: theme.scaffoldBackgroundColor,
             ),
             borderRadius: const BorderRadius.only(
-              topRight: Radius.circular(6),
               bottomRight: Radius.circular(6),
             ),
           ),
-          child: CashTotalText(
+          child: IncomeTotalText(
             amount: amount,
             fontSize: fontSize,
             padding: padding,

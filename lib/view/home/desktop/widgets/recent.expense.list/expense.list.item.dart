@@ -32,7 +32,7 @@ class TransactionListItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    ExpenseDetailsCardMobile(
+                    TransactionDetailsCardMobile(
                       transaction: transaction,
                       width: MediaQuery.of(context).size.width,
                     ),
@@ -73,7 +73,7 @@ class TransactionListItem extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        ExpenseDetailsCardDesktop(
+                        TransactionDetailsCardDesktop(
                           transaction: transaction,
                           width: 450,
                         ),

@@ -478,7 +478,7 @@ class UserRepo {
 
   Future<ResponseModel> addTransaction(AddTransactionModel request) async {
     String transactionDocId = "", recentDocId = "";
-
+    debugPrint(".. @1");
     TransactionModel transaction = request.transaction;
 
     /// adding recent expenses
@@ -488,6 +488,7 @@ class UserRepo {
         .collection(kRecentTransactionCollection)
         .add(TransactionModel.toJson(transaction));
     recentDocId = recentDoc.id;
+    debugPrint(".. @2");
 
     /// adding expense for the date
 
@@ -498,6 +499,7 @@ class UserRepo {
         .doc(transaction.transactionDate)
         .collection(kTransactionCollection)
         .add(TransactionModel.toJson(transaction));
+    debugPrint(".. @3");
 
     /// updating  expense docid &  recent docid
 
@@ -515,6 +517,7 @@ class UserRepo {
       kCreatedDateTimeField: request.createdDateTime,
       'createdDateTimeString': request.createdDateTimeString,
     });
+    debugPrint(".. @4");
 
     /// updating  expense docid in recent expense item
 
@@ -530,6 +533,7 @@ class UserRepo {
       kCreatedDateTimeField: request.createdDateTime,
       'createdDateTimeString': request.createdDateTimeString,
     });
+    debugPrint(".. @5");
 
     /// updating  total expense amount for the date
 
@@ -551,6 +555,7 @@ class UserRepo {
       'monthlyDrOrCr': request.monthlyDrOrCr,
       'updatedDateTimeString': request.createdDateTimeString,
     });
+    debugPrint(".. @6");
 
     fireStoreInstance
         .collection(kUsersCollection)
@@ -570,6 +575,7 @@ class UserRepo {
       kCreatedDateTimeField: request.createdDateTime,
       'updatedDateTimeString': request.createdDateTimeString,
     });
+    debugPrint(".. @7");
 
     fireStoreInstance
         .collection(kUsersCollection)
@@ -600,6 +606,7 @@ class UserRepo {
       'categoryId': transaction.categoryId,
       'categoryName': transaction.categoryName,
     });
+    debugPrint(".. @8");
     // DocumentSnapshot<Map<String, dynamic>> categoryDoc = await fireStoreInstance
     //     .collection(kUsersCollection)
     //     .doc(request.userId)
@@ -700,10 +707,11 @@ class UserRepo {
     int dailyBalance = 0;
     String dailyDrOrCr = "+";
 
-    var date = DateFormat('dd_MM_yyyy').format(now);
+    var date = DateFormat('dd-MM-yyyy').format(now);
 
     // var month = DateFormat('MMM_yyyy').format(now);
     var monthDocId = DateFormat('MMM_yyyy').format(now);
+    debugPrint(".. @9");
 
     DocumentSnapshot<Map<String, dynamic>> monthDocSnapshot =
         await fireStoreInstance
@@ -712,7 +720,7 @@ class UserRepo {
             .collection(kTransactionMonthsCollection)
             .doc(monthDocId)
             .get();
-
+    debugPrint(".. @10");
     if (monthDocSnapshot.data() != null) {
       var monthDocData = monthDocSnapshot.data()!;
       monthlyTotalIncome = monthDocData[kMonthlyTotalIncomeField];
@@ -722,7 +730,7 @@ class UserRepo {
 
       // var monthlyTotalIncome
     }
-
+    debugPrint(".. @11");
     DocumentSnapshot<Map<String, dynamic>> dateDocSnapshot =
         await fireStoreInstance
             .collection(kUsersCollection)
@@ -730,6 +738,7 @@ class UserRepo {
             .collection(kTransactionDatesCollection)
             .doc(date)
             .get();
+    debugPrint(".. @12");
     if (dateDocSnapshot.data() != null) {
       var dateDocData = dateDocSnapshot.data()!;
       dailyTotalIncome = dateDocData[kDailyTotalIncomeField];
@@ -737,22 +746,27 @@ class UserRepo {
       dailyBalance = dateDocData[kDailyBalanceField];
       dailyDrOrCr = dateDocData[kDailyDrOrCrField];
     }
+    debugPrint(".. @13");
 
     List<TransactionModel> recentExpList = [];
 
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await fireStoreInstance
         .collection(kUsersCollection)
         .doc(userId)
-        .collection(kRecentExpensesCollection)
+        .collection(kRecentTransactionCollection)
+        .where('transactionDate', isEqualTo: date)
         .orderBy('createdDateTime', descending: true)
         .limit(5)
         .get();
+    debugPrint(".. @14  date : $date");
     var recentTransactionList1 =
         querySnapshot.docs.map((doc) => doc.data()).toList();
     for (var element in recentTransactionList1) {
       TransactionModel recentExpense = TransactionModel.fromMap(element);
       recentExpList.add(recentExpense);
     }
+
+    debugPrint('.. @@  $recentExpList');
 
     return GetBalancesResponse(
       status: ResponseStatus.success,

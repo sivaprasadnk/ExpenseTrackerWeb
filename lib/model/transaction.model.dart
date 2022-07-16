@@ -43,9 +43,12 @@ class TransactionModel {
     var id = doc[kTransactionDocIdField];
     var recentDocId = doc[kRecentDocIdField];
     String expDay = transDate.split('-').first;
+    var dateTimeFromDb = doc[kCreatedDateTimeField] as Timestamp;
+    var convertedDateTime = DateTime.fromMicrosecondsSinceEpoch(
+        dateTimeFromDb.microsecondsSinceEpoch);
     return TransactionModel(
       amount: doc['amount'],
-      createdDateTime: doc[kCreatedDateTimeField],
+      createdDateTime: convertedDateTime,
       transactionType: doc['transactionType'],
       categoryId: doc['categoryId'],
       categoryName: doc['categoryName'],
@@ -66,10 +69,13 @@ class TransactionModel {
     var id = doc['transactionDocId'];
     var recentDocId = doc['recentDocId'];
     String expDay = transDate.split('-').first;
+    var dateTimeFromDb = doc[kCreatedDateTimeField] as Timestamp;
+    var convertedDateTime = DateTime.fromMicrosecondsSinceEpoch(
+        dateTimeFromDb.microsecondsSinceEpoch);
+
     return TransactionModel(
       amount: doc['amount'],
-      createdDateTime: doc[kCreatedDateTimeField],
-
+      createdDateTime: convertedDateTime,
       transactionType: doc['transactionType'],
       categoryId: doc['categoryId'],
       categoryName: doc['categoryName'],

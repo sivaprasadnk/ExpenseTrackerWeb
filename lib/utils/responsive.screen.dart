@@ -19,7 +19,7 @@ class ResponsiveScreen extends StatelessWidget {
         if (constraints.maxWidth > 1200) {
           return desktopScreen;
         } else if (constraints.maxWidth > 510) {
-          return tabletScreen;
+          return desktopScreen;
         } else {
           return mobileScreen;
         }

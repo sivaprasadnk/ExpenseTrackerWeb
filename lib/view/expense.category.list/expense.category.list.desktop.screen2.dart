@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/view/desktop.view.dart';
-import 'package:expense_tracker/view/expense.by.category.list/expense.by.category.list.desktop.screen.dart';
 import 'package:expense_tracker/view/expense.category.list/widgets/category.icon.dart';
 import 'package:expense_tracker/view/expense.category.list/widgets/category.name.text.dart';
 import 'package:expense_tracker/view/expense.date.list/widgets/expense.amount.text.dart';
@@ -67,16 +66,16 @@ class _ExpenseCategoryListDesktopScreen2State
                                   });
                                 },
                                 onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) =>
-                                          ExpenseByCategoryListDesktopScreen(
-                                        categoryName: categoryName,
-                                        totalAmount: totalAmount,
-                                      ),
-                                    ),
-                                  );
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //     builder: (_) =>
+                                  //         ExpenseByCategoryListDesktopScreen(
+                                  //       categoryName: categoryName,
+                                  //       totalAmount: totalAmount,
+                                  //     ),
+                                  //   ),
+                                  // );
                                 },
                                 child: Stack(
                                   children: [
@@ -144,7 +143,7 @@ class _ExpenseCategoryListDesktopScreen2State
                         ),
                       ),
                     )
-                  : const NoExpenseContainerDesktop(
+                  : const NoTransactionsContainerDesktop(
                       title: 'Categories of expenses added will list here.',
                     )
               : Center(

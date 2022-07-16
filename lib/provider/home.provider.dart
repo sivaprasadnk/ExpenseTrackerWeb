@@ -3,6 +3,26 @@ import 'package:expense_tracker/model/transaction.model.dart';
 import 'package:flutter/cupertino.dart';
 
 class HomeProvider extends ChangeNotifier {
+  String monthlyDrOrCr_ = "+";
+  String get monthlyDrOrCr => monthlyDrOrCr_;
+
+  void updateMonthlyDrOrCr(String sign) {
+    monthlyDrOrCr_ = sign;
+    notifyListeners();
+  }
+
+  ///
+
+  String dailyDrOrCr_ = "+";
+  String get dailyDrOrCr => dailyDrOrCr_;
+
+  void updateDailyOrCr(String sign) {
+    dailyDrOrCr_ = sign;
+    notifyListeners();
+  }
+
+  ///
+
   String currencySymbol_ = kRupeeSymbol;
   String get currencySymbol => currencySymbol_;
 
@@ -66,6 +86,12 @@ class HomeProvider extends ChangeNotifier {
 
   void updateMonthlyBalance() {
     monthlyBalance_ = monthlyTotalIncome - monthlyTotalExpense;
+    if (monthlyBalance_ < 0) {
+      monthlyDrOrCr_ = "-";
+      monthlyBalance_ *= -1;
+    } else {
+      monthlyDrOrCr_ = "+";
+    }
     notifyListeners();
   }
 
@@ -75,6 +101,12 @@ class HomeProvider extends ChangeNotifier {
 
   void updateDailyBalance() {
     dailyBalance_ = dailyTotalIncome - dailyTotalExpense;
+    if (dailyBalance_ < 0) {
+      dailyDrOrCr_ = "-";
+      dailyBalance_ *= -1;
+    } else {
+      dailyDrOrCr_ = "+";
+    }
     notifyListeners();
   }
 
@@ -125,12 +157,12 @@ class HomeProvider extends ChangeNotifier {
   int get dailyTotalExpense => dailyTotalExpense_;
 
   void updateDailyTotalExpense(int amt) {
-    monthlyTotalExpense_ = amt;
+    dailyTotalExpense_ = amt;
     notifyListeners();
   }
 
   void addToDailyTotalExpense(int amt) {
-    monthlyTotalExpense_ += amt;
+    dailyTotalExpense_ += amt;
     notifyListeners();
   }
 

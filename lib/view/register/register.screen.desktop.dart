@@ -334,6 +334,6 @@ class _RegisterScreenDesktopState extends State<RegisterScreenDesktop>
 
   Future<void> validateAndProceed() async {
     _formKey.currentState!.save();
-    AuthController.register(context, email.trim(), password.trim());
+    AuthController.registerV2(context, email.trim(), password.trim());
   }
 }

@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 
-class CashTitleText extends StatelessWidget {
-  const CashTitleText({
+class ExpenseTitleText extends StatelessWidget {
+  const ExpenseTitleText({
     Key? key,
     required this.theme,
     this.fontSize = 20,
     this.bottomPadding = 65,
   }) : super(key: key);
 
+  final ThemeData theme;
   final double fontSize;
   final double bottomPadding;
-  final ThemeData theme;
 
   @override
   Widget build(BuildContext context) {
     return Positioned.fill(
       bottom: bottomPadding,
-      left: 10,
+      right: 10,
       child: Align(
-        alignment: Alignment.bottomLeft,
+        alignment: Alignment.bottomRight,
         child: Text(
-          'Cash ',
+          'Expense ',
           style: TextStyle(
             fontSize: fontSize,
             fontWeight: FontWeight.bold,

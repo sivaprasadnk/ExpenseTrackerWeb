@@ -1,7 +1,5 @@
 import 'package:expense_tracker/view/home/desktop/widgets/recent.expense.list/todays.expenses.title.text.dart';
 import 'package:expense_tracker/view/home/mobile/widgets/add.expense.button.mobile.dart';
-import 'package:expense_tracker/view/home/mobile/widgets/recent.expenses.list.container.mobile.dart';
-import 'package:expense_tracker/view/home/mobile/widgets/todays.total.expense.container.mobile.dart';
 import 'package:expense_tracker/view/home/mobile/widgets/view.expense.by.category.container.mobile.dart';
 import 'package:expense_tracker/view/home/mobile/widgets/view.expenses.by.date.container.mobile.dart';
 import 'package:expense_tracker/view/mobile.view.dart';
@@ -165,9 +163,10 @@ class _HomeScreenMobileState extends State<HomeScreenMobile>
                   child: AnimatedSlide(
                     duration: slideDuration,
                     offset: _todaysTextContainerSlide.value,
-                    child: const TodaysTotalExpenseContainerMobile(
-                      height: 155,
-                    ),
+                    child: const SizedBox(),
+                    // child: const TodaysTotalExpenseContainerMobile(
+                    //   height: 155,
+                    // ),
                   ),
                 ),
                 // const Spacer(),
@@ -231,7 +230,6 @@ class _HomeScreenMobileState extends State<HomeScreenMobile>
                 // const Spacer(),
 
                 const TodaysTransactionsTitleText(), // const Spacer(),
-                const RecentExpensesListContainerMobile(),
                 // const Spacer()
               ],
             ),

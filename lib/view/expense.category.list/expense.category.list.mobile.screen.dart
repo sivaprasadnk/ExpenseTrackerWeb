@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/common_strings.dart';
-import 'package:expense_tracker/view/expense.by.category.list/expense.by.category.list.mobile.screen.dart';
 import 'package:expense_tracker/view/expense.category.list/widgets/category.icon.dart';
 import 'package:expense_tracker/view/expense.category.list/widgets/category.name.text.dart';
 import 'package:expense_tracker/view/expense.date.list/widgets/expense.amount.text.dart';
@@ -49,16 +48,16 @@ class ExpenseCategoryListMobileScreen extends StatelessWidget {
 
                                 return GestureDetector(
                                   onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) =>
-                                            ExpenseByCategoryListMobileScreen(
-                                          categoryName: categoryName,
-                                          totalAmount: totalAmount,
-                                        ),
-                                      ),
-                                    );
+                                    // Navigator.push(
+                                    //   context,
+                                    //   MaterialPageRoute(
+                                    //     builder: (_) =>
+                                    //         ExpenseByCategoryListMobileScreen(
+                                    //       categoryName: categoryName,
+                                    //       totalAmount: totalAmount,
+                                    //     ),
+                                    //   ),
+                                    // );
                                   },
                                   child: Stack(
                                     children: [
@@ -123,7 +122,7 @@ class ExpenseCategoryListMobileScreen extends StatelessWidget {
                         ),
                       ),
                     )
-                  : const NoExpenseContainerMobile(
+                  : const NoTransactionContainerMobile(
                       title: 'Categories of expenses added will list here !',
                     )
               : Center(

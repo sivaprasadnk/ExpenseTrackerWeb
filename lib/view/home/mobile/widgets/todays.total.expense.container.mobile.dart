@@ -1,71 +1,66 @@
-import 'package:expense_tracker/provider/home.provider.dart';
-import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/cash.title.title.dart';
-import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/cash.total.container.dart';
-import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/daily.total.text.dart';
-import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/online.title.text.dart';
-import 'package:expense_tracker/view/home/desktop/widgets/todays.daily.expense/online.total.container.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+// import 'package:expense_tracker/provider/home.provider.dart';
+// import 'package:flutter/material.dart';
+// import 'package:provider/provider.dart';
 
-class TodaysTotalExpenseContainerMobile extends StatelessWidget {
-  const TodaysTotalExpenseContainerMobile({
-    Key? key,
-    required this.height,
-  }) : super(key: key);
+// class TodaysTotalExpenseContainerMobile extends StatelessWidget {
+//   const TodaysTotalExpenseContainerMobile({
+//     Key? key,
+//     required this.height,
+//   }) : super(key: key);
 
-  final double height;
+//   final double height;
 
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    var primaryColor = theme.primaryColor;
-    var bgColor = theme.scaffoldBackgroundColor;
-    return Consumer<HomeProvider>(builder: (_, provider, __) {
-      return Stack(
-        children: [
-          GestureDetector(
-            onTap: () {
-            },
-            child: Container(
-              height: height,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: primaryColor,
-                border: Border.all(
-                  width: 1,
-                  color: primaryColor,
-                ),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Todays Total Expense :',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: bgColor,
-                    ),
-                  ),
-                  const DailyTotalText(),
-                ],
-              ),
-            ),
-          ),
-          CashTitleText(theme: theme),
-          OnlineTitleText(theme: theme),
-          CashTotalContainer(
-            theme: theme,
-            amount: "0",
-          ),
-          OnlineTotalContainer(
-            theme: theme,
-            amount: "0",
-          )
-        ],
-      );
-    });
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     final theme = Theme.of(context);
+//     var primaryColor = theme.primaryColor;
+//     var bgColor = theme.scaffoldBackgroundColor;
+//     return Consumer<HomeProvider>(builder: (_, provider, __) {
+//       return Stack(
+//         children: [
+//           GestureDetector(
+//             onTap: () {
+//             },
+//             child: Container(
+//               height: height,
+//               width: double.infinity,
+//               decoration: BoxDecoration(
+//                 color: primaryColor,
+//                 border: Border.all(
+//                   width: 1,
+//                   color: primaryColor,
+//                 ),
+//                 borderRadius: BorderRadius.circular(12),
+//               ),
+//               child: Column(
+//                 mainAxisSize: MainAxisSize.min,
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: [
+//                   Text(
+//                     'Todays Total Expense :',
+//                     style: TextStyle(
+//                       fontSize: 20,
+//                       fontWeight: FontWeight.bold,
+//                       color: bgColor,
+//                     ),
+//                   ),
+//                   const DailyTotalText(),
+//                 ],
+//               ),
+//             ),
+//           ),
+//           CashTitleText(theme: theme),
+//           OnlineTitleText(theme: theme),
+//           CashTotalContainer(
+//             theme: theme,
+//             amount: "0",
+//           ),
+//           OnlineTotalContainer(
+//             theme: theme,
+//             amount: "0",
+//           )
+//         ],
+//       );
+//     });
+//   }
+// }

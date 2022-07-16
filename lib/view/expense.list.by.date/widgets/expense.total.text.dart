@@ -2,8 +2,8 @@ import 'package:expense_tracker/provider/home.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class OnlineTotalText extends StatelessWidget {
-  const OnlineTotalText({
+class ExpenseTotalText extends StatelessWidget {
+  const ExpenseTotalText({
     Key? key,
     required this.amount,
     this.fontSize = 25,

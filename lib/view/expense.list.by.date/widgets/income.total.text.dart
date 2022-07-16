@@ -2,8 +2,8 @@ import 'package:expense_tracker/provider/home.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class CashTotalText extends StatelessWidget {
-  const CashTotalText({
+class IncomeTotalText extends StatelessWidget {
+  const IncomeTotalText({
     Key? key,
     this.fontSize = 25,
     this.padding = 10,

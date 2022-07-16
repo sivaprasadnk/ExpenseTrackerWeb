@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/model/expense.date.model.dart';
-import 'package:expense_tracker/model/expense.model.dart';
+import 'package:expense_tracker/model/transaction.model.dart';
 import 'package:expense_tracker/utils/enums.dart';
 import 'package:expense_tracker/view/desktop.view.dart';
 import 'package:expense_tracker/view/expense.list.by.date/widgets/expense.details.card.desktop/expense.details.card.desktop.dart';
@@ -219,12 +219,13 @@ class _ExpenseListByDateDesktopScreenState
                                 itemBuilder: (ctx, index) {
                                   var doc = (snapshot.data! as QuerySnapshot)
                                       .docs[index];
-                                  Expense expense = Expense.fromJson(doc);
+                                  TransactionModel transaction =
+                                      TransactionModel.fromJson(doc);
                                   return Center(
                                     child: SizedBox(
                                       width: 450,
-                                      child: ExpenseDetailsCardDesktop(
-                                        expense: expense,
+                                      child: TransactionDetailsCardDesktop(
+                                        transaction: transaction,
                                         // width: 450,
                                       ),
                                     ),
@@ -232,7 +233,7 @@ class _ExpenseListByDateDesktopScreenState
                                 },
                               ),
                             )
-                          : const NoExpenseContainerDesktop(
+                          : const NoTransactionsContainerDesktop(
                               title: 'No Expenses added',
                             )
                       : Center(
