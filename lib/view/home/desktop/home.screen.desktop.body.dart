@@ -2,7 +2,7 @@ import 'package:expense_tracker/view/home/desktop/widgets/recent.expense.list/to
 import 'package:expense_tracker/view/home/desktop/widgets/recent.expense.list/todays.transactions.list.container.desktop.dart';
 import 'package:flutter/material.dart';
 
-import 'widgets/monthly.savings.card/monthly.balance.container.dart';
+import 'widgets/monthly.savings.container/monthly.savings.container.dart';
 
 class HomeScreenDesktopBody extends StatefulWidget {
   const HomeScreenDesktopBody({Key? key, required this.constraints})
@@ -166,7 +166,7 @@ class _HomeScreenDesktopBodyState extends State<HomeScreenDesktopBody>
                         child: AnimatedSlide(
                           duration: slideDuration,
                           offset: _todaysTextContainerSlide.value,
-                          child: const MonthlyBalanceContainer(),
+                          child: const MonthlySavingsContainer(),
                         ),
                       ),
                       const SizedBox(

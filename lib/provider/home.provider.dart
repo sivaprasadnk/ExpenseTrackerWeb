@@ -12,6 +12,7 @@ class HomeProvider extends ChangeNotifier {
   }
 
   ///
+  ///
 
   String dailyDrOrCr_ = "+";
   String get dailyDrOrCr => dailyDrOrCr_;
@@ -21,7 +22,6 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  ///
 
   String currencySymbol_ = kRupeeSymbol;
   String get currencySymbol => currencySymbol_;
@@ -95,6 +95,7 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+
   ///
   int dailyBalance_ = 0;
   int get dailyBalance => dailyBalance_;
@@ -109,6 +110,8 @@ class HomeProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  ///
 
   ///
   int monthlyTotalIncome_ = 0;
@@ -166,47 +169,113 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  ///statistics
   ///
-  // int dailyTotal_ = 0;
-  // int dailyCashTotal_ = 0;
-  // int dailyOnlineTotal_ = 0;
+  ///  ///
+  int dailyTotalExpenseStatistic_ = 0;
+  int get dailyTotalExpenseStatistic => dailyTotalExpenseStatistic_;
 
-  // int get dailyTotalExpense => dailyTotal_;
-  // int get dailyCashTotal => dailyCashTotal_;
-  // int get dailyOnlineTotal => dailyOnlineTotal_;
+  void updateStatisticDailyTotalExpense(int amt) {
+    dailyTotalExpenseStatistic_ = amt;
+    notifyListeners();
+  }
 
-  // void updateDailyTotalExpense(int total) {
-  //   dailyTotal_ = total;
-  //   notifyListeners();
-  // }
+  void addToStatisticDailyTotalExpense(int amt) {
+    dailyTotalExpenseStatistic_ += amt;
+    notifyListeners();
+  }
 
-  // void updateDailyCashTotalExpense(int total) {
-  //   dailyCashTotal_ = total;
-  //   notifyListeners();
-  // }
+  ///
+  int dailyTotalIncomeStatistic_ = 0;
+  int get dailyTotalIncomeStatistic => dailyTotalIncomeStatistic_;
 
-  // void updateDailyOnlineTotalExpense(int total) {
-  //   dailyOnlineTotal_ = total;
-  //   notifyListeners();
-  // }
+  void updateStatisticDailyTotalIncome(int amt) {
+    dailyTotalIncomeStatistic_ = amt;
+    notifyListeners();
+  }
 
-  // void addToDailyExpense(int amt) {
-  //   dailyTotal_ += amt;
-  //   notifyListeners();
-  // }
+  void addToStatisticDailyTotalIncome(int amt) {
+    dailyTotalIncomeStatistic_ += amt;
+    notifyListeners();
+  }
 
-  // void addToDailyCashExpense(int amt) {
-  //   dailyCashTotal_ += amt;
-  //   notifyListeners();
-  // }
+  ///
+  int monthlyTotalExpenseStatistic_ = 0;
+  int get monthlyTotalExpenseStatistic => monthlyTotalExpenseStatistic_;
 
-  // void addToDailyOnlineExpense(int amt) {
-  //   dailyOnlineTotal_ += amt;
-  //   notifyListeners();
-  // }
+  void updateStatisticMonthlyTotalExpense(int amt) {
+    monthlyTotalExpenseStatistic_ = amt;
+    notifyListeners();
+  }
 
-  // void deductFromdailyExpense(int amt) {
-  //   dailyTotal_ -= amt;
-  //   notifyListeners();
-  // }
+  void addToStatisticMonthlyTotalExpense(int amt) {
+    monthlyTotalExpenseStatistic_ += amt;
+    notifyListeners();
+  }
+
+  ///
+  int monthlyTotalIncomeStatistic_ = 0;
+  int get monthlyTotalIncomeStatistic => monthlyTotalIncomeStatistic_;
+
+  void updateStatisticMonthlyTotalIncome(int amt) {
+    monthlyTotalIncomeStatistic_ = amt;
+    notifyListeners();
+  }
+
+  void addToStatisticMonthlyTotalIncome(int amt) {
+    monthlyTotalIncomeStatistic_ += amt;
+    notifyListeners();
+  }
+
+  ///
+  int dailyBalanceStatistic_ = 0;
+  int get dailyBalanceStatistic => dailyBalanceStatistic_;
+
+  void updateStatisticDailyBalance() {
+    dailyBalanceStatistic_ =
+        dailyTotalIncomeStatistic - dailyTotalExpenseStatistic;
+    if (dailyBalanceStatistic_ < 0) {
+      dailyDrOrCrStatistic_ = "-";
+      dailyBalanceStatistic_ *= -1;
+    } else {
+      dailyDrOrCrStatistic_ = "+";
+    }
+    notifyListeners();
+  }
+
+  int monthlyBalanceStatistic_ = 0;
+  int get monthlyBalanceStatistic => monthlyBalanceStatistic_;
+
+  void updateStatisticMonthlyBalance() {
+    monthlyBalanceStatistic_ =
+        monthlyTotalIncomeStatistic - monthlyTotalExpenseStatistic;
+    if (monthlyBalanceStatistic_ < 0) {
+      monthlyDrOrCrStatistic_ = "-";
+      monthlyBalanceStatistic_ *= -1;
+    } else {
+      monthlyDrOrCrStatistic_ = "+";
+    }
+    notifyListeners();
+  }
+
+  ///
+  String dailyDrOrCrStatistic_ = "+";
+  String get dailyDrOrCrStatistic => dailyDrOrCrStatistic_;
+
+  void updateStatisticDailyOrCr(String sign) {
+    dailyDrOrCrStatistic_ = sign;
+    notifyListeners();
+  }
+
+  ///
+  String monthlyDrOrCrStatistic_ = "+";
+  String get monthlyDrOrCrStatistic => monthlyDrOrCrStatistic_;
+
+  void updateStatisticMonthlyDrOrCr(String sign) {
+    monthlyDrOrCrStatistic_ = sign;
+    notifyListeners();
+  }
+
+
+
 }

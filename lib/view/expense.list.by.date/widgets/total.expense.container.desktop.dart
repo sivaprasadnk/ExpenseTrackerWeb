@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../provider/home.provider.dart';
-import '../../home/desktop/widgets/monthly.savings.card/income.title.title.dart';
 
 class TotalExpenseContainerDesktop extends StatelessWidget {
   const TotalExpenseContainerDesktop({
@@ -63,7 +62,7 @@ class TotalExpenseContainerDesktop extends StatelessWidget {
           ),
         ),
         TotalExpenseTitleText(title: title),
-        IncomeTitleText(color: theme.scaffoldBackgroundColor),
+        // IncomeTitleText(color: theme.scaffoldBackgroundColor),
         // ExptTitleText(theme: theme),
         // CashTotalContainer(theme: theme, amount: cashTotal,),
         // OnlineTotalContainer(theme: theme, amount: onlineTotal,)

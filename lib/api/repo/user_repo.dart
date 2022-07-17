@@ -10,6 +10,7 @@ import 'package:expense_tracker/model/get.balances.response.dart';
 import 'package:expense_tracker/model/location.response.model.dart';
 import 'package:expense_tracker/model/response.model.dart';
 import 'package:expense_tracker/model/transaction.model.dart';
+import 'package:expense_tracker/model/transaction.month.model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
@@ -552,7 +553,7 @@ class UserRepo {
       'monthDocId': transaction.transactionMonthDocId,
       'updatedDateTime': request.createdDateTime,
       kDailyDrOrCrField: request.dailyDrOrCr,
-      'monthlyDrOrCr': request.monthlyDrOrCr,
+      'monthlyDrOrCr': request.transactionMonth.monthlyDrOrCr,
       'updatedDateTimeString': request.createdDateTimeString,
     });
     debugPrint(".. @6");
@@ -562,19 +563,10 @@ class UserRepo {
         .doc(request.userId)
         .collection(kTransactionMonthsCollection)
         .doc(transaction.transactionMonthDocId)
-        .set({
-      'year': request.transactionMonth.year,
-      'month': request.transactionMonth.month,
-      'monthDocId': request.transactionMonth.monthDocId,
-      'monthOnly': request.transactionMonth.monthOnly,
-      kMonthlyTotalIncomeField: request.monthlyTotalIncome,
-      kMonthlyTotalExpenseField: request.monthlyTotalExpense,
-      kMonthlyBalanceField:
-          request.monthlyTotalIncome - request.monthlyTotalExpense,
-      kMonthlyDrOrCrField: request.monthlyDrOrCr,
-      kCreatedDateTimeField: request.createdDateTime,
-      'updatedDateTimeString': request.createdDateTimeString,
-    });
+        .set(
+          TransactionMonth.toJson(request.transactionMonth),
+          SetOptions(merge: true),
+        );
     debugPrint(".. @7");
 
     fireStoreInstance
@@ -607,6 +599,104 @@ class UserRepo {
       'categoryName': transaction.categoryName,
     });
     debugPrint(".. @8");
+
+    fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(request.userId)
+        .collection(kTransactionMonthsCollection)
+        .doc(transaction.transactionMonthDocId)
+        .collection(kTransactionCategoriesCollection)
+        .doc(transaction.categoryName)
+        .collection(kTransactionCollection)
+        .doc(request.createdDateTimeString)
+        .set({
+      'active': true,
+      'amount': transaction.amount,
+      'amount_i': transaction.amount.toString().toLowerCase(),
+      'details': transaction.details,
+      'details_i': transaction.details.toLowerCase(),
+      'transactionType': transaction.transactionType,
+      'transactionDocId': transactionDocId,
+      'recentDocId': recentDocId,
+      'title': transaction.title,
+      'title_i': transaction.title.toLowerCase(),
+      'transactionMonth': transaction.transactionMonth,
+      'transactionMonthDocId': transaction.transactionMonthDocId,
+      'transactionDate': transaction.transactionDate,
+      'transactionDay': transaction.transactionDay,
+      'createdDateTime': request.createdDateTime,
+      'createdDateTimeString': request.createdDateTimeString,
+      'categoryId': transaction.categoryId,
+      'categoryName': transaction.categoryName,
+    });
+    debugPrint(".. @8");
+
+    int categoryTotalAmount = 0;
+    int categoryTotalAmount1 = 0;
+
+    DocumentSnapshot<Map<String, dynamic>> categoryDoc = await fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(request.userId)
+        .collection(kTransactionMonthsCollection)
+        .doc(request.transactionMonth.monthDocId)
+        .collection(kTransactionCategoriesCollection)
+        .doc(transaction.categoryName)
+        .get();
+    if (categoryDoc.data() != null) {
+      categoryTotalAmount = categoryDoc.data()!['totalAmount'] ?? 0;
+      categoryTotalAmount += transaction.amount;
+    } else {
+      categoryTotalAmount = transaction.amount;
+    }
+
+    fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(request.userId)
+        .collection(kTransactionMonthsCollection)
+        .doc(request.transactionMonth.monthDocId)
+        .collection(kTransactionCategoriesCollection)
+        .doc(transaction.categoryName)
+        .set({
+      'transactionType': transaction.transactionType,
+      'totalAmount': categoryTotalAmount,
+      'lastUpdateTimeString': request.createdDateTimeString,
+      'lastUpdateTime': request.createdDateTime,
+      'categoryId': transaction.categoryId,
+      'categoryName': transaction.categoryName,
+    });
+
+    DocumentSnapshot<Map<String, dynamic>> categoryDoc1 =
+        await fireStoreInstance
+            .collection(kUsersCollection)
+            .doc(request.userId)
+            .collection(kTransactionDatesCollection)
+            .doc(transaction.transactionDate)
+            .collection(kTransactionCategoriesCollection)
+            .doc(transaction.categoryName)
+            .get();
+    if (categoryDoc1.data() != null) {
+      categoryTotalAmount1 = categoryDoc1.data()!['totalAmount'] ?? 0;
+      categoryTotalAmount1 += transaction.amount;
+    } else {
+      categoryTotalAmount1 = transaction.amount;
+    }
+
+    fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(request.userId)
+        .collection(kTransactionDatesCollection)
+        .doc(transaction.transactionDate)
+        .collection(kTransactionCategoriesCollection)
+        .doc(transaction.categoryName)
+        .set({
+      'transactionType': transaction.transactionType,
+      'totalAmount': categoryTotalAmount1,
+      'lastUpdateTimeString': request.createdDateTimeString,
+      'lastUpdateTime': request.createdDateTime,
+      'categoryId': transaction.categoryId,
+      'categoryName': transaction.categoryName,
+    });
+
     // DocumentSnapshot<Map<String, dynamic>> categoryDoc = await fireStoreInstance
     //     .collection(kUsersCollection)
     //     .doc(request.userId)

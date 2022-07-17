@@ -2,20 +2,21 @@ import 'package:expense_tracker/provider/home.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class MonthlyTotalIncomeText extends StatelessWidget {
-  const MonthlyTotalIncomeText({Key? key}) : super(key: key);
+class MonthlyBalanceText extends StatelessWidget {
+  const MonthlyBalanceText({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.only(right: 10, left: 10),
+      padding: const EdgeInsets.only(left: 10),
       child: Consumer<HomeProvider>(
         builder: (_, provider, __) {
           return Text(
-            "${provider.currencySymbol} ${provider.monthlyTotalIncome}",
+            "${provider.monthlyDrOrCr} ${provider.currencySymbol} ${provider.monthlyBalance}",
             style: TextStyle(
-              fontSize: 25,
+              height: 0.8,
+              fontSize: 53,
               fontWeight: FontWeight.bold,
               color: theme.scaffoldBackgroundColor,
             ),

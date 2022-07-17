@@ -18,7 +18,9 @@ class MonthYearContainer extends StatelessWidget {
     var bgColor = theme.scaffoldBackgroundColor;
     return Container(
       decoration: BoxDecoration(
-          color: primaryColor, borderRadius: BorderRadius.circular(5)),
+        color: bgColor,
+        borderRadius: BorderRadius.circular(5),
+      ),
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 11,
@@ -31,13 +33,13 @@ class MonthYearContainer extends StatelessWidget {
             Text(
               month + ", " + year,
               style: TextStyle(
-                color: bgColor,
+                color: primaryColor,
                 fontWeight: FontWeight.w700,
               ),
             ),
             Icon(
               Icons.arrow_drop_down,
-              color: bgColor,
+              color: primaryColor,
             )
           ],
         ),

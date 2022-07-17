@@ -53,7 +53,7 @@ class _AddTransactionScreenDesktopState
     return DesktopView(
       isHome: false,
       appBarTitle: 'Add Transaction',
-      child: Center(
+      child: Center( 
         child: SizedBox(
           width: 430,
           child: Form(

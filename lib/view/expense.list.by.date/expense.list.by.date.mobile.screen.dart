@@ -50,6 +50,7 @@ class _ExpenseListByDateMobileScreenState
         .collection(kExpenseDatesNewCollection)
         .doc(widget.expenseDateItem.date)
         .collection(kExpenseCollection);
+        
     if (mode == Mode.all) {
       setState(() {
         stream = collectionRef

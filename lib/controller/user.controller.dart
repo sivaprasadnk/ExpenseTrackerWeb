@@ -221,9 +221,9 @@ class UserController {
     var monthDocId = DateFormat('MMM_yyyy').format(selectedDate);
     final DateTime now = DateTime.now();
     var a = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
-    DateTime createdDateTime = DateTime.parse(a);
+    DateTime formattedCurrentDateTimeWithSec = DateTime.parse(a);
 
-    final String createdDateTimeString =
+    final String formattedCurrentDateTimeStringWithSec =
         DateFormat('dd-MM-yyyy  kk:mm:ss').format(now);
 
     final year = int.parse(DateFormat('yyyy').format(now));
@@ -244,8 +244,8 @@ class UserController {
 
     TransactionModel trans = TransactionModel(
       title: title,
-      createdDateTime: createdDateTime,
-      createdDateTimeString: createdDateTimeString,
+      createdDateTime: formattedCurrentDateTimeWithSec,
+      createdDateTimeString: formattedCurrentDateTimeStringWithSec,
       transactionDocId: "",
       recentDocId: "",
       categoryId: categoryId,
@@ -259,13 +259,6 @@ class UserController {
       transactionType: selectedType.toString().split('.').last.initCap(),
     );
 
-    TransactionMonth transactionMonth = TransactionMonth(
-      year: year,
-      month: month,
-      monthOnly: monthOnly,
-      monthDocId: monthDocId,
-    );
-
     var dailyDrOrCr = "+";
     var monthlyDrOrCr = "+";
     if (dailyTotalIncome < dailyTotalExpense) {
@@ -275,18 +268,28 @@ class UserController {
       monthlyDrOrCr = "-";
     }
 
+    TransactionMonth transactionMonth = TransactionMonth(
+        year: year,
+        month: month,
+        monthOnly: monthOnly,
+        monthDocId: monthDocId,
+        monthlyTotalExpense: monthlyTotalExpense,
+        monthlyTotalIncome: monthlyTotalIncome,
+        monthlyDrOrCr: monthlyDrOrCr,
+        monthlyBalance: monthlyTotalIncome - monthlyTotalExpense,
+        updatedDateTimeString: formattedCurrentDateTimeStringWithSec);
+
+
+
     var request = AddTransactionModel(
       transaction: trans,
       userId: userId,
       transactionMonth: transactionMonth,
-      monthlyTotalIncome: monthlyTotalIncome,
-      monthlyTotalExpense: monthlyTotalExpense,
       dailyTotalExpense: dailyTotalExpense,
       dailyTotalIncome: dailyTotalIncome,
       dailyDrOrCr: dailyDrOrCr,
-      monthlyDrOrCr: monthlyDrOrCr,
-      createdDateTimeString: createdDateTimeString,
-      createdDateTime: createdDateTime,
+      createdDateTimeString: formattedCurrentDateTimeStringWithSec,
+      createdDateTime: formattedCurrentDateTimeWithSec,
     );
 
     ResponseModel response = await userRepo.addTransaction(request);
