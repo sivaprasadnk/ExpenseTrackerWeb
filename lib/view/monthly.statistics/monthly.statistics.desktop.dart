@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:expense_tracker/common_strings.dart';
+import 'package:expense_tracker/controller/user.controller.dart';
+import 'package:expense_tracker/model/transaction.category.model.dart';
 import 'package:expense_tracker/model/transaction.month.model.dart';
 import 'package:expense_tracker/provider/home.provider.dart';
 import 'package:expense_tracker/utils/enums.dart';
@@ -25,7 +26,8 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
 
   ///
   List<QueryDocumentSnapshot<Map<String, dynamic>>> monthDocList = [];
-  List<QueryDocumentSnapshot<Map<String, dynamic>>> categoryDocList = [];
+  // List<QueryDocumentSnapshot<Map<String, dynamic>>> categoryDocList = [];
+  List<TransactionCategoryModel> categoryList = [];
 
   ///
   TransactionMonth? trans;
@@ -53,33 +55,45 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
   }
 
   getData(String monthDocId) async {
-    var docSnapshot = await FirebaseFirestore.instance
-        .collection(kUsersCollection)
-        .doc(userId)
-        .collection(kTransactionMonthsCollection)
-        .where('monthDocId', isEqualTo: monthDocId)
-        .get();
+    // var docSnapshot = await FirebaseFirestore.instance
+    //     .collection(kUsersCollection)
+    //     .doc(userId)
+    //     .collection(kTransactionMonthsCollection)
+    //     .where('monthDocId', isEqualTo: monthDocId)
+    //     .get();
 
-    monthDocList = docSnapshot.docs;
+    // monthDocList = docSnapshot.docs;
 
-    var categoryDocSnapshot = await FirebaseFirestore.instance
-        .collection(kUsersCollection)
-        .doc(userId)
-        .collection(kTransactionMonthsCollection)
-        .doc(monthDocId)
-        .collection(kTransactionCategoriesCollection)
-        .get();
+    // var categoryDocSnapshot = await FirebaseFirestore.instance
+    //     .collection(kUsersCollection)
+    //     .doc(userId)
+    //     .collection(kTransactionMonthsCollection)
+    //     .doc(monthDocId)
+    //     .collection(kTransactionCategoriesCollection)
+    //     .get();
 
-    categoryDocList = categoryDocSnapshot.docs;
-    debugPrint('... @@$categoryDocList $categoryDocList');
+    // categoryDocList = categoryDocSnapshot.docs;
+    // debugPrint('... @@$categoryDocList $categoryDocList');
 
+    // if (monthDocList.isNotEmpty) {
+    //   QueryDocumentSnapshot doc = monthDocList[0];
+    //   trans = TransactionMonth.fromDb(doc);
+    // } else {}
+    // if (categoryDocList.isNotEmpty) {
+    //   // QueryDocumentSnapshot doc = monthDocList[0];
+
+    // }
+
+    var data = await UserController.getMonthlyData(monthDocId);
+    //  if(d)
+
+    monthDocList = data.monthDocList;
     if (monthDocList.isNotEmpty) {
-      QueryDocumentSnapshot doc = monthDocList[0];
-      trans = TransactionMonth.fromDb(doc);
-    } else {}
-    if (categoryDocList.isNotEmpty) {
-      // QueryDocumentSnapshot doc = monthDocList[0];
 
+      trans = data.transactionMonth;
+    }
+    if (data.categoryList!.isNotEmpty) {
+      categoryList = data.categoryList!;
     }
     setState(() {});
   }
@@ -355,11 +369,12 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    if (categoryDocList.isNotEmpty)
+                    if (monthDocList.isNotEmpty)
+                      if (categoryList.isNotEmpty)
                       Wrap(
                         spacing: 5,
                         runSpacing: 5,
-                        children: categoryDocList.map((category) {
+                          children: categoryList.map((category) {
                           return Container(
                             decoration: BoxDecoration(
                               color: bgColor,
@@ -368,7 +383,7 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                category.id,
+                                  category.categoryName,
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),

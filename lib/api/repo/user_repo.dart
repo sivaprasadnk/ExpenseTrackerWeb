@@ -8,7 +8,9 @@ import 'package:expense_tracker/model/edit.expense.model.dart';
 import 'package:expense_tracker/model/expense.model.dart';
 import 'package:expense_tracker/model/get.balances.response.dart';
 import 'package:expense_tracker/model/location.response.model.dart';
+import 'package:expense_tracker/model/monthly.data.response.model.dart';
 import 'package:expense_tracker/model/response.model.dart';
+import 'package:expense_tracker/model/transaction.category.model.dart';
 import 'package:expense_tracker/model/transaction.model.dart';
 import 'package:expense_tracker/model/transaction.month.model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -799,9 +801,7 @@ class UserRepo {
 
     var date = DateFormat('dd-MM-yyyy').format(now);
 
-    // var month = DateFormat('MMM_yyyy').format(now);
     var monthDocId = DateFormat('MMM_yyyy').format(now);
-    debugPrint(".. @9");
 
     DocumentSnapshot<Map<String, dynamic>> monthDocSnapshot =
         await fireStoreInstance
@@ -810,17 +810,13 @@ class UserRepo {
             .collection(kTransactionMonthsCollection)
             .doc(monthDocId)
             .get();
-    debugPrint(".. @10");
     if (monthDocSnapshot.data() != null) {
       var monthDocData = monthDocSnapshot.data()!;
       monthlyTotalIncome = monthDocData[kMonthlyTotalIncomeField];
       monthlyTotalExpense = monthDocData[kMonthlyTotalExpenseField];
       monthlyBalance = monthDocData[kMonthlyBalanceField];
       monthlyDrOrCr = monthDocData[kMonthlyDrOrCrField];
-
-      // var monthlyTotalIncome
     }
-    debugPrint(".. @11");
     DocumentSnapshot<Map<String, dynamic>> dateDocSnapshot =
         await fireStoreInstance
             .collection(kUsersCollection)
@@ -872,6 +868,53 @@ class UserRepo {
       monthlyTotalExpense: monthlyTotalExpense,
       recentExpList: recentExpList,
       userId: userId,
+    );
+  }
+
+  Future<MonthlyDataResponseModel> getMonthlyData(String monthDocId) async {
+    var userId = FirebaseAuth.instance.currentUser!.uid;
+
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> monthDocList = [];
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> categoryDocList = [];
+
+    List<TransactionCategoryModel> categoryList = [];
+
+    TransactionMonth? trans;
+
+    var docSnapshot = await FirebaseFirestore.instance
+        .collection(kUsersCollection)
+        .doc(userId)
+        .collection(kTransactionMonthsCollection)
+        .where('monthDocId', isEqualTo: monthDocId)
+        .get();
+
+    monthDocList = docSnapshot.docs;
+
+    var categoryDocSnapshot = await FirebaseFirestore.instance
+        .collection(kUsersCollection)
+        .doc(userId)
+        .collection(kTransactionMonthsCollection)
+        .doc(monthDocId)
+        .collection(kTransactionCategoriesCollection)
+        .get();
+
+    categoryDocList = categoryDocSnapshot.docs;
+    debugPrint('... @@$categoryDocList $categoryDocList');
+
+    for (int i = 0; i < categoryDocList.length; i++) {
+      categoryList.add(TransactionCategoryModel.fromDb(categoryDocList[i]));
+    }
+
+    if (monthDocList.isNotEmpty) {
+      QueryDocumentSnapshot doc = monthDocList[0];
+      trans = TransactionMonth.fromDb(doc);
+    } else {}
+    if (categoryDocList.isNotEmpty) {}
+
+    return MonthlyDataResponseModel(
+      transactionMonth: trans,
+      categoryList: categoryList,
+      monthDocList: monthDocList,
     );
   }
 }

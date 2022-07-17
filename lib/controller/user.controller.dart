@@ -4,6 +4,7 @@ import 'package:expense_tracker/model/add.transaction.model.dart';
 import 'package:expense_tracker/model/edit.expense.model.dart';
 import 'package:expense_tracker/model/expense.model.dart';
 import 'package:expense_tracker/model/get.balances.response.dart';
+import 'package:expense_tracker/model/monthly.data.response.model.dart';
 import 'package:expense_tracker/model/response.model.dart';
 import 'package:expense_tracker/model/transaction.month.model.dart';
 import 'package:expense_tracker/provider/home.provider.dart';
@@ -279,8 +280,6 @@ class UserController {
         monthlyBalance: monthlyTotalIncome - monthlyTotalExpense,
         updatedDateTimeString: formattedCurrentDateTimeStringWithSec);
 
-
-
     var request = AddTransactionModel(
       transaction: trans,
       userId: userId,
@@ -309,12 +308,17 @@ class UserController {
             .updateMonthlyTotalExpense(balancesResponse.monthlyTotalExpense);
         provider.updateMonthlyBalance();
         provider.updateRecentList(balancesResponse.recentExpList);
-        // provider.updateCurrency(response.data);
         Future.delayed(const Duration(seconds: 2)).then((value) {
           Dialogs.showAlertDialogAndNavigateToHome(
               context: context, description: 'Transaction Added !');
         });
       }
     }
+  }
+
+  static Future<MonthlyDataResponseModel> getMonthlyData(
+      String monthDocId) async {
+    var model = await userRepo.getMonthlyData(monthDocId);
+    return model;
   }
 }
