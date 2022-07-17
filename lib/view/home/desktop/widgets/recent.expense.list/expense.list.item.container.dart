@@ -53,11 +53,11 @@ class _TransactionListItemContainerState
               decoration: BoxDecoration(
                 color: primaryColor,
                 borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(7),
-                  bottomLeft: Radius.circular(7),
+                  topLeft: Radius.circular(8),
+                  bottomLeft: Radius.circular(8),
                 ),
               ),
-              width: 4,
+              width: 7,
               height: 50,
             ),
             const SizedBox(width: 8),

@@ -21,7 +21,7 @@ class _TodaysTransactionsListContainerDesktopState
     final screenSize = MediaQuery.of(context).size;
     final screenHeight = screenSize.height;
     return SizedBox(
-      height: screenHeight * 0.4,
+      // height: screenHeight * 0.4,
       child: Consumer<HomeProvider>(
         builder: (_, provider, __) {
           return provider.recentTransactionsList.isNotEmpty

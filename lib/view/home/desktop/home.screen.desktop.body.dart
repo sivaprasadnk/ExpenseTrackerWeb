@@ -226,7 +226,9 @@ class _HomeScreenDesktopBodyState extends State<HomeScreenDesktopBody>
                     ],
                   ),
                   const TodaysTransactionsTitleText(),
-                  const TodaysTransactionsListContainerDesktop(),
+                  const Expanded(
+                    child: TodaysTransactionsListContainerDesktop(),
+                  ),
                 ],
               ),
             ),
