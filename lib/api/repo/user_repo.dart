@@ -577,7 +577,7 @@ class UserRepo {
         .collection(kTransactionDatesCollection)
         .doc(transaction.transactionDate)
         .collection(kTransactionCategoriesCollection)
-        .doc(transaction.categoryName)
+        .doc(transaction.categoryName + "." + transaction.transactionType)
         .collection(kTransactionCollection)
         .doc(request.createdDateTimeString)
         .set({
@@ -608,7 +608,7 @@ class UserRepo {
         .collection(kTransactionMonthsCollection)
         .doc(transaction.transactionMonthDocId)
         .collection(kTransactionCategoriesCollection)
-        .doc(transaction.categoryName)
+        .doc(transaction.categoryName + "." + transaction.transactionType)
         .collection(kTransactionCollection)
         .doc(request.createdDateTimeString)
         .set({
@@ -642,7 +642,7 @@ class UserRepo {
         .collection(kTransactionMonthsCollection)
         .doc(request.transactionMonth.monthDocId)
         .collection(kTransactionCategoriesCollection)
-        .doc(transaction.categoryName)
+        .doc(transaction.categoryName + "." + transaction.transactionType)
         .get();
     if (categoryDoc.data() != null) {
       categoryTotalAmount = categoryDoc.data()!['totalAmount'] ?? 0;
@@ -657,7 +657,7 @@ class UserRepo {
         .collection(kTransactionMonthsCollection)
         .doc(request.transactionMonth.monthDocId)
         .collection(kTransactionCategoriesCollection)
-        .doc(transaction.categoryName)
+        .doc(transaction.categoryName + "." + transaction.transactionType)
         .set({
       'transactionType': transaction.transactionType,
       'totalAmount': categoryTotalAmount,

@@ -109,6 +109,7 @@ class ExpenseCategoryListMobileScreen extends StatelessWidget {
                                             ),
                                             child: CategoryIcon(
                                               icon: getIcon(categoryName),
+                                              color: primaryColor,
                                             ),
                                           ),
                                         ),

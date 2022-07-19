@@ -131,6 +131,7 @@ class _ExpenseCategoryListDesktopScreen2State
                                           ),
                                           child: CategoryIcon(
                                             icon: getIcon(categoryName),
+                                            color: primaryColor,
                                           ),
                                         ),
                                       ),

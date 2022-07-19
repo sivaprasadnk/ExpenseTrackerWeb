@@ -257,7 +257,7 @@ class UserController {
       transactionMonth: month,
       transactionDate: date,
       transactionDay: date.split('-').first,
-      transactionType: selectedType.toString().split('.').last.initCap(),
+      transactionType: selectedType.name.initCap(),
     );
 
     var dailyDrOrCr = "+";

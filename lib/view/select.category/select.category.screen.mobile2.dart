@@ -106,6 +106,7 @@ class _SelectCategoryScreenMobile2State
                                             ),
                                             child: CategoryIcon(
                                               icon: getIcon(model.name),
+                                              color: primaryColor,
                                             ),
                                           ),
                                         ),

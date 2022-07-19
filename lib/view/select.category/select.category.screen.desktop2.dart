@@ -110,6 +110,7 @@ class _SelectCategoryScreenDesktop2State
                                           ),
                                           child: CategoryIcon(
                                             icon: getIcon(model.name),
+                                            color: primaryColor,
                                           ),
                                         ),
                                       ),
