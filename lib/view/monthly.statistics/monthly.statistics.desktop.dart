@@ -3,13 +3,13 @@ import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/controller/user.controller.dart';
 import 'package:expense_tracker/model/monthly.data.response.model.dart';
 import 'package:expense_tracker/model/transaction.category.model.dart';
-import 'package:expense_tracker/model/transaction.model.dart';
 import 'package:expense_tracker/model/transaction.month.model.dart';
 import 'package:expense_tracker/provider/home.provider.dart';
 import 'package:expense_tracker/utils/enums.dart';
 import 'package:expense_tracker/utils/string.extension.dart';
 import 'package:expense_tracker/view/desktop.view.dart';
 import 'package:expense_tracker/view/expense.date.list/widgets/month.year.container.dart';
+import 'package:expense_tracker/view/monthly.statistics/transaction.list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -269,7 +269,7 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
               const SizedBox(height: 10),
               Expanded(
                 child: Container(
-                  // height: 420,
+                  height: height * 0.6,
                   width: 430,
                   padding:
                       const EdgeInsets.all(8) + const EdgeInsets.only(left: 10),
@@ -448,52 +448,7 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
                       const SizedBox(height: 10),
                       if (categoryList.isNotEmpty)
                         Expanded(
-                          child: SizedBox(
-                            // height: height * 0.3,
-                            child: StreamBuilder(
-                              stream: stream,
-                              builder: (_, snapshot) {
-                                return snapshot.connectionState !=
-                                        ConnectionState.done
-                                    ? snapshot.hasData &&
-                                            (snapshot.data! as QuerySnapshot)
-                                                .docs
-                                                .isNotEmpty
-                                        ? ListView.separated(
-                                            separatorBuilder: (_, __) =>
-                                                const SizedBox(height: 5),
-                                            shrinkWrap: true,
-                                            itemCount: (snapshot.data!
-                                                    as QuerySnapshot)
-                                                .docs
-                                                .length,
-                                            itemBuilder: (_, index) {
-                                              var doc = (snapshot.data!
-                                                      as QuerySnapshot)
-                                                  .docs[index];
-                                              TransactionModel trans =
-                                                  TransactionModel.fromJson(
-                                                      doc);
-                                              return TransactionListItem(
-                                                trans: trans,
-                                              );
-                                            },
-                                          )
-                                        : SizedBox(
-                                            child: Text(
-                                              'No data found !!',
-                                              style: TextStyle(color: bgColor),
-                                            ),
-                                          )
-                                    : SizedBox(
-                                        child: Text(
-                                          'No data found !',
-                                          style: TextStyle(color: bgColor),
-                                        ),
-                                      );
-                              },
-                            ),
-                          ),
+                          child: TransactionList(stream: stream),
                         )
                       else
                         Center(
@@ -587,91 +542,5 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
           .orderBy('createdDateTime', descending: true)
           .snapshots();
     }
-  }
-}
-
-class TransactionListItem extends StatelessWidget {
-  const TransactionListItem({
-    Key? key,
-    required this.trans,
-  }) : super(key: key);
-
-  final TransactionModel trans;
-
-  @override
-  Widget build(BuildContext context) {
-    var theme = Theme.of(context);
-    var bgColor = theme.scaffoldBackgroundColor;
-    var currency =
-        Provider.of<HomeProvider>(context, listen: false).currencySymbol;
-    var drOrCr = trans.transactionType == "Income" ? "+" : "-";
-    return Container(
-      height: 50,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: bgColor,
-        ),
-      ),
-      child: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: bgColor,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(8),
-                  bottomLeft: Radius.circular(8),
-                ),
-              ),
-              width: 7,
-              height: 50,
-            ),
-            const SizedBox(width: 8),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  trans.title,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: bgColor,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  trans.details,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: bgColor,
-                    fontStyle: FontStyle.italic,
-                  ),
-                ),
-              ],
-            ),
-            const Spacer(),
-            Text(
-              "$drOrCr $currency ${trans.amount}",
-              style: TextStyle(
-                fontSize: 35,
-                color: bgColor,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(width: 6),
-            Icon(
-              Icons.arrow_forward_ios,
-              size: 15,
-              color: bgColor,
-            ),
-            const SizedBox(width: 10),
-          ],
-        ),
-      ),
-    );
   }
 }
