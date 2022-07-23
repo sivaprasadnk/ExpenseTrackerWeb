@@ -17,6 +17,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_month_year_picker/simple_month_year_picker.dart';
 
+import 'view.transactions.container.dart';
+
 class MonthlyStatisticsDesktop extends StatefulWidget {
   const MonthlyStatisticsDesktop({Key? key}) : super(key: key);
 
@@ -103,10 +105,10 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
     var height = MediaQuery.of(context).size.height;
     double btnWidth = 60;
     double btnHeight = 25;
+    final ThemeData theme = Theme.of(context);
     var primaryColor = theme.primaryColor;
     var bgColor = theme.scaffoldBackgroundColor;
     var currency =
@@ -115,7 +117,7 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
       child: Center(
         child: Container(
           width: 430,
-          height: MediaQuery.of(context).size.height * 0.9,
+          height: height * 0.9,
           alignment: Alignment.center,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -330,7 +332,6 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
                                 height: btnHeight,
                                 width: btnWidth,
                                 decoration: BoxDecoration(
-                                  // border: Border.all(color: primaryColor),
                                   color: selectedType == TransactionType.expense
                                       ? bgColor
                                       : primaryColor,
@@ -364,140 +365,78 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
                       const SizedBox(height: 40),
                       if (monthDocList.isNotEmpty)
                         if (categoryList.isNotEmpty)
-                          Padding(
-                            padding: const EdgeInsets.only(left: 30),
-                            child: SizedBox(
-                              height: 105,
-                              width: 105,
-                              child: PieChart(
-                                PieChartData(
-                                  pieTouchData: PieTouchData(touchCallback:
-                                      (FlTouchEvent event, pieTouchResponse) {
-                                    setState(() {
-                                      if (!event.isInterestedForInteractions ||
-                                          pieTouchResponse == null ||
-                                          pieTouchResponse.touchedSection ==
-                                              null) {
-                                        touchedIndex = -1;
-                                        return;
-                                      }
-                                      touchedIndex = pieTouchResponse
-                                          .touchedSection!.touchedSectionIndex;
-                                    });
-                                  }),
-                                  borderData: FlBorderData(
-                                    show: false,
+                          Center(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 0),
+                              child: SizedBox(
+                                height: 105,
+                                width: 105,
+                                child: PieChart(
+                                  PieChartData(
+                                    pieTouchData: PieTouchData(touchCallback:
+                                        (FlTouchEvent event, pieTouchResponse) {
+                                      setState(() {
+                                        if (!event
+                                                .isInterestedForInteractions ||
+                                            pieTouchResponse == null ||
+                                            pieTouchResponse.touchedSection ==
+                                                null) {
+                                          touchedIndex = -1;
+                                          return;
+                                        }
+                                        touchedIndex = pieTouchResponse
+                                            .touchedSection!
+                                            .touchedSectionIndex;
+                                      });
+                                    }),
+                                    borderData: FlBorderData(
+                                      show: false,
+                                    ),
+                                    sectionsSpace: 0,
+                                    centerSpaceRadius: 30,
+                                    sections: categoryList.map(
+                                      (e) {
+                                        String time = e.lastUpdateTimeString
+                                            .split(' ')
+                                            .last;
+
+                                        int hr = int.tryParse(
+                                            time.split(':').first)!;
+                                        int min =
+                                            int.tryParse(time.split(":")[1])!;
+                                        int sec =
+                                            int.tryParse(time.split(':').last)!;
+                                        var red = hr + min + sec;
+                                        var grn = min + hr + 150;
+                                        var blu = 2 * hr + sec + 100;
+
+                                        debugPrint(".. :$red,$grn,$blu");
+
+                                        return PieChartSectionData(
+                                          color: Color.fromRGBO(
+                                            red,
+                                            grn,
+                                            blu,
+                                            1,
+                                          ),
+                                          value: double.parse(
+                                            e.totalAmount.toString(),
+                                          ),
+                                          title: e.categoryName,
+                                          radius: 40,
+                                          titleStyle: const TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xffffffff),
+                                          ),
+                                        );
+                                      },
+                                    ).toList(),
                                   ),
-                                  sectionsSpace: 0,
-                                  centerSpaceRadius: 30,
-                                  sections: categoryList.map(
-                                    (e) {
-                                      String time = e.lastUpdateTimeString
-                                          .split(' ')
-                                          .last;
-
-                                      int hr =
-                                          int.tryParse(time.split(':').first)!;
-                                      int min =
-                                          int.tryParse(time.split(":")[1])!;
-                                      int sec =
-                                          int.tryParse(time.split(':').last)!;
-                                      var red = hr + min + sec;
-                                      var grn = min + hr + 150;
-                                      var blu = 2 * hr + sec + 100;
-
-                                      debugPrint(".. :$red,$grn,$blu");
-
-                                      return PieChartSectionData(
-                                        color: Color.fromRGBO(
-                                          red,
-                                          grn,
-                                          blu,
-                                          1,
-                                        ),
-                                        value: double.parse(
-                                          e.totalAmount.toString(),
-                                        ),
-                                        title: e.categoryName,
-                                        radius: 40,
-                                        titleStyle: const TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.bold,
-                                          color: Color(0xffffffff),
-                                        ),
-                                      );
-                                    },
-                                  ).toList(),
                                 ),
                               ),
                             ),
                           )
-
-                        //   Padding(
-                        //     padding: const EdgeInsets.only(left: 10),
-                        //     child: Wrap(
-                        //       spacing: 10,
-                        //       runSpacing: 5,
-                        //       children: categoryList.map((category) {
-                        //         return Column(
-                        //           children: [
-                        //             GestureDetector(
-                        //               onTap: () {
-                        //                 selectedCategory = category;
-                        //                 setStream();
-                        //                 setState(() {});
-                        //               },
-                        //               child: Container(
-                        //                 height: 60,
-                        //                 width: 60,
-                        //                 decoration: BoxDecoration(
-                        //                   border: Border.all(
-                        //                     color: bgColor,
-                        //                   ),
-                        //                   color: selectedCategory.categoryId ==
-                        //                           category.categoryId
-                        //                       ? bgColor
-                        //                       : primaryColor,
-                        //                   shape: BoxShape.circle,
-                        //                 ),
-                        //                 child: Padding(
-                        //                   padding: const EdgeInsets.all(8.0),
-                        //                   child: CategoryIcon(
-                        //                     icon:
-                        //                         getIcon(category.categoryName),
-                        //                     color:
-                        //                         selectedCategory.categoryId ==
-                        //                                 category.categoryId
-                        //                             ? primaryColor
-                        //                             : bgColor,
-                        //                   ),
-                        //                 ),
-                        //               ),
-                        //             ),
-                        //             const SizedBox(height: 3),
-                        //             Text(
-                        //               category.categoryName,
-                        //               style: TextStyle(
-                        //                 fontWeight: FontWeight.bold,
-                        //                 color: bgColor,
-                        //               ),
-                        //             )
-                        //           ],
-                        //         );
-                        //       }).toList(),
-                        //     ),
-                        //   )
-                        // else
-                        //   Center(
-                        //     child: Text(
-                        //       'No Categories !',
-                        //       style: TextStyle(
-                        //         color: bgColor,
-                        //         fontStyle: FontStyle.italic,
-                        //         fontSize: 15,
-                        //       ),
-                        //     ),
-                        //   )
                         else
                           Center(
                             child: Text(
@@ -519,11 +458,21 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
                                 children: [
                                   GestureDetector(
                                     onTap: () {},
-                                    child: Text(
-                                      'View All',
-                                      style: TextStyle(
-                                        color: bgColor,
-                                      ),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          'View All',
+                                          style: TextStyle(
+                                            color: bgColor,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Icon(
+                                          Icons.arrow_forward,
+                                          color: bgColor,
+                                        )
+                                      ],
                                     ),
                                   ),
                                   const SizedBox(width: 10),
@@ -531,10 +480,11 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
                               )
                             : const SizedBox.shrink(),
                       ),
+                      const SizedBox(height: 15),
                       if (monthDocList.isNotEmpty)
                         if (categoryList.isNotEmpty)
                           SizedBox(
-                            height: 120,
+                            height: 140,
                             width: 430,
                             child: ListView.separated(
                               scrollDirection: Axis.horizontal,
@@ -543,14 +493,18 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
                               separatorBuilder: (_, __) =>
                                   const SizedBox(width: 10),
                               itemBuilder: (_, index) {
-                                var cat = categoryList[index];
+                                TransactionCategoryModel cat =
+                                    categoryList[index];
                                 return Stack(
                                   children: [
                                     Container(
-                                      height: 110,
+                                      height: 130,
                                       width: 120,
+                                      margin: const EdgeInsets.only(
+                                          bottom: 15, top: 20),
                                       decoration: BoxDecoration(
                                         border: Border.all(
+                                          width: 2,
                                           color: bgColor,
                                         ),
                                         borderRadius: BorderRadius.circular(8),
@@ -561,7 +515,7 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: [
-                                            const SizedBox(height: 10),
+                                            const SizedBox(height: 15),
                                             Text(
                                               cat.categoryName,
                                               textAlign: TextAlign.center,
@@ -575,6 +529,7 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
                                               '$currency ${cat.totalAmount}',
                                               style: TextStyle(
                                                 color: bgColor,
+                                                fontWeight: FontWeight.bold,
                                               ),
                                             ),
                                           ],
@@ -582,15 +537,31 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
                                       ),
                                     ),
                                     Positioned.fill(
-                                      bottom: 20,
+                                      top: 5,
                                       child: Align(
-                                        alignment: Alignment.bottomCenter,
-                                        child: Icon(
-                                          Icons.arrow_forward,
-                                          color: bgColor,
+                                        alignment: Alignment.topCenter,
+                                        child: Container(
+                                          height: 35,
+                                          width: 35,
+                                          decoration: BoxDecoration(
+                                            color: bgColor,
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              cat.categoryName[0],
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: primaryColor,
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    )
+                                    ),
+                                    ViewTransactionsContainer(
+                                        selectedType: selectedType,
+                                        category: cat)
                                   ],
                                 );
                               },
@@ -640,12 +611,12 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
       }
     }
     if (tempList.isNotEmpty && tempList.length > 1) {
-      tempList.add(TransactionCategoryModel(
-          categoryId: -1,
-          categoryName: 'All',
-          lastUpdateTimeString: "12:34:56",
-          totalAmount: 0,
-          transactionType: type.name.initCap()));
+      // tempList.add(TransactionCategoryModel(
+      //     categoryId: -1,
+      //     categoryName: 'All',
+      //     lastUpdateTimeString: "12:34:56",
+      //     totalAmount: 0,
+      //     transactionType: type.name.initCap()));
     }
 
     tempList.sort(((a, b) => a.categoryId.compareTo(b.categoryId)));

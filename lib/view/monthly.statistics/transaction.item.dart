@@ -8,9 +8,11 @@ class TransactionListItem extends StatelessWidget {
   const TransactionListItem({
     Key? key,
     required this.trans,
+    this.showCategory = true,
   }) : super(key: key);
 
   final TransactionModel trans;
+  final bool showCategory;
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +21,9 @@ class TransactionListItem extends StatelessWidget {
     var currency =
         Provider.of<HomeProvider>(context, listen: false).currencySymbol;
     var drOrCr = trans.transactionType == "Income" ? "+" : "-";
+    double containerHeight = 85;
     return Container(
-      height: 60,
+      height: containerHeight,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
@@ -40,13 +43,14 @@ class TransactionListItem extends StatelessWidget {
                 ),
               ),
               width: 7,
-              height: 60,
+              height: containerHeight,
             ),
             const SizedBox(width: 8),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                const SizedBox(height: 5),
                 Row(
                   children: [
                     Text(
@@ -59,34 +63,36 @@ class TransactionListItem extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 6),
-                    Container(
-                      width: 5,
-                      height: 5,
-                      decoration: BoxDecoration(
-                        color: bgColor,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                    const SizedBox(width: 6),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
+                    if (showCategory)
+                      Container(
+                        width: 5,
+                        height: 5,
+                        decoration: BoxDecoration(
                           color: bgColor,
+                          shape: BoxShape.circle,
                         ),
-                        borderRadius: BorderRadius.circular(8),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 4, vertical: 4),
-                        child: Text(
-                          trans.categoryName,
-                          style: TextStyle(
+                    const SizedBox(width: 6),
+                    if (showCategory)
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
                             color: bgColor,
-                            fontWeight: FontWeight.bold,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 4, vertical: 4),
+                          child: Text(
+                            trans.categoryName,
+                            style: TextStyle(
+                              color: bgColor,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                      ),
-                    )
+                      )
                   ],
                 ),
                 Text(
@@ -95,8 +101,24 @@ class TransactionListItem extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 12,
                     color: bgColor,
-                    fontStyle: FontStyle.italic,
+                    // fontStyle: FontStyle.italic,
                   ),
+                ),
+                const SizedBox(height: 5),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Icon(
+                      Icons.calendar_month,
+                      color: bgColor,
+                    ),
+                    Text(
+                      trans.createdDateTimeString,
+                      style: TextStyle(
+                        color: bgColor,
+                      ),
+                    )
+                  ],
                 ),
               ],
             ),
@@ -109,12 +131,7 @@ class TransactionListItem extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(width: 6),
-            Icon(
-              Icons.arrow_forward_ios,
-              size: 15,
-              color: bgColor,
-            ),
+            // const SizedBox(width: 6),
             const SizedBox(width: 10),
           ],
         ),
