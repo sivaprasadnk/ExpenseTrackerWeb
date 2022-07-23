@@ -5,7 +5,7 @@ class SampleText extends StatelessWidget {
   const SampleText({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    var theme = Theme.of(context);
+    // var theme = Theme.of(context);
     return Scaffold(
       // backgroundColor: Colors.transparent,
       body: Container(

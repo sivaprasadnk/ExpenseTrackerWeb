@@ -35,11 +35,11 @@ class MonthlyTotalText extends StatelessWidget {
                       color: Colors.red,
                     ),
                   )
-                : CircularProgressIndicator()
-            : Text(
+                : const CircularProgressIndicator()
+            : const Text(
                 '',
                 // provider.dailyTotalExpense.toString(),
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 30,
                   // fontFamily: 'Rajdhani',
                   fontWeight: FontWeight.bold,

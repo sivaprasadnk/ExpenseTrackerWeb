@@ -18,8 +18,8 @@ class ExpenseCategoryListMobileScreen extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     var primaryColor = theme.primaryColor;
     var userId = FirebaseAuth.instance.currentUser!.uid;
-    final screenSize = MediaQuery.of(context).size;
-    final width = screenSize.width;
+    // final screenSize = MediaQuery.of(context).size;
+    // final width = screenSize.width;
     return MobileView(
       appBarTitle: 'Select Category',
       child: StreamBuilder(

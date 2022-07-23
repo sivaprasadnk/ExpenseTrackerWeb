@@ -661,8 +661,10 @@ class UserRepo {
         .set({
       'transactionType': transaction.transactionType,
       'totalAmount': categoryTotalAmount,
+      'createdDateTimeString': request.createdDateTimeString,
       'lastUpdateTimeString': request.createdDateTimeString,
       'lastUpdateTime': request.createdDateTime,
+      'createdDateTime': request.createdDateTime,
       'categoryId': transaction.categoryId,
       'categoryName': transaction.categoryName,
     });

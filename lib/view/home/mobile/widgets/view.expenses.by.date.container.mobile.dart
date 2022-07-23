@@ -11,7 +11,6 @@ class ViewExpensesByDateContainerMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     var primaryColor = theme.primaryColor;
-    var bgColor = theme.scaffoldBackgroundColor;
     return GestureDetector(
       onTap: () {
         Navigator.push(

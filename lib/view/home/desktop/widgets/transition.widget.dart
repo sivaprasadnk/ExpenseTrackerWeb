@@ -45,7 +45,7 @@ class _TransitionWidgetState extends State<TransitionWidget>
       end: const Offset(0.0, 0),
     ).animate(CurvedAnimation(
       parent: _controller,
-      curve: Interval(0.5, 1, curve: Curves.easeIn),
+      curve: const Interval(0.5, 1, curve: Curves.easeIn),
     ));
 
     _animation1 = Tween<double>(
@@ -53,7 +53,7 @@ class _TransitionWidgetState extends State<TransitionWidget>
       end: 1,
     ).animate(CurvedAnimation(
       parent: _controller1,
-      curve: Interval(0.0, 0.5, curve: Curves.easeIn),
+      curve: const Interval(0.0, 0.5, curve: Curves.easeIn),
     ));
   }
 
@@ -66,7 +66,7 @@ class _TransitionWidgetState extends State<TransitionWidget>
   @override
   Widget build(BuildContext context) {
     return AnimatedOpacity(
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
       opacity: show ? 1 : 0,
       child: FadeTransition(
         opacity: _animation1,

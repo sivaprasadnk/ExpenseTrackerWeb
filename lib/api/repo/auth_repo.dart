@@ -500,10 +500,10 @@ class AuthRepo {
 
   Future<LoginResponse> linkWithGoogle({AuthCredential? authCredential}) async {
     final DateTime now = DateTime.now();
-    final PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    var version = packageInfo.version;
-    var build = packageInfo.buildNumber;
-    final String formattedTime = DateFormat('dd-MM-yyyy  kk:mm').format(now);
+    // final PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    // var version = packageInfo.version;
+    // var build = packageInfo.buildNumber;
+    // final String formattedTime = DateFormat('dd-MM-yyyy  kk:mm').format(now);
     try {
       // final GoogleSignInAccount? googleSignInAccount =
       //     await _googleSignIn!.signIn();

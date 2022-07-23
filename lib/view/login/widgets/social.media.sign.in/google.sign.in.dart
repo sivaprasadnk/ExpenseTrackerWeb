@@ -43,7 +43,7 @@ class GoogleSignInButton extends StatelessWidget {
     try {
       GoogleSignInAccount? account = await googleSignIn.signIn();
       if (account != null) {
-        var width = MediaQuery.of(context).size.width;
+        // var width = MediaQuery.of(context).size.width;
         AuthController.googleLogin(
           context: context,
           account: account,
