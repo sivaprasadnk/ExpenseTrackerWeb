@@ -3,6 +3,7 @@ import 'package:expense_tracker/firebase_options.dart';
 import 'package:expense_tracker/provider/cache_notifier.dart';
 import 'package:expense_tracker/provider/dark.theme.provider.dart';
 import 'package:expense_tracker/provider/home.provider.dart';
+import 'package:expense_tracker/provider/statistics.provider.dart';
 import 'package:expense_tracker/provider/theme_notifier.dart';
 import 'package:expense_tracker/routes.dart';
 import 'package:expense_tracker/utils/network.service.dart';
@@ -66,6 +67,8 @@ class _MyAppState extends State<MyApp> {
                 create: (_) => DarkThemeProvider()),
             ChangeNotifierProvider<CacheNotifier>(
                 create: (_) => CacheNotifier()),
+            ChangeNotifierProvider<StatisticsProvider>(
+                create: (_) => StatisticsProvider()),
           ],
           child: Consumer<ThemeNotifier>(
             builder: (_, provider, __) {

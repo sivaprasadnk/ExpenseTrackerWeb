@@ -5,6 +5,7 @@ import 'package:expense_tracker/model/monthly.data.response.model.dart';
 import 'package:expense_tracker/model/transaction.category.model.dart';
 import 'package:expense_tracker/model/transaction.month.model.dart';
 import 'package:expense_tracker/provider/home.provider.dart';
+import 'package:expense_tracker/provider/statistics.provider.dart';
 import 'package:expense_tracker/utils/enums.dart';
 import 'package:expense_tracker/utils/string.extension.dart';
 import 'package:expense_tracker/view/desktop.view.dart';
@@ -32,13 +33,12 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
   var userId = FirebaseAuth.instance.currentUser!.uid;
 
   ///
-  int touchedIndex = 0;
+  // int touchedIndex = 0;
 
   ///
-  List<QueryDocumentSnapshot<Map<String, dynamic>>> monthDocList = [];
 
   ///
-  Stream<QuerySnapshot<Map<String, dynamic>>>? stream;
+  // Stream<QuerySnapshot<Map<String, dynamic>>>? stream;
 
   ///
   List<TransactionCategoryModel> categoryList = [];
@@ -67,7 +67,6 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
   String drOrCr = "+";
 
   ///
-  TransactionType selectedType = TransactionType.income;
 
   @override
   void initState() {
@@ -81,14 +80,16 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
   getData() async {
     monthlyDataResponseModel = await UserController.getMonthlyData(monthDocId);
 
-    monthDocList = monthlyDataResponseModel!.monthDocList;
+    var monthDocList = monthlyDataResponseModel!.monthDocList;
     if (monthDocList.isNotEmpty) {
       trans = monthlyDataResponseModel!.transactionMonth;
     }
     if (monthlyDataResponseModel!.categoryList!.isNotEmpty) {
       categoryList = monthlyDataResponseModel!.categoryList!;
     }
-    filterCategories(selectedType);
+    context.read<StatisticsProvider>().updateMonthDocList(monthDocList);
+
+    filterCategories(TransactionType.income);
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -161,67 +162,72 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
                       ),
                     ),
                     const SizedBox(height: 5),
-                    Row(
-                      children: [
-                        const SizedBox(width: 20),
-                        if (monthDocList.isNotEmpty)
-                          Text(
-                            "${trans!.monthlyDrOrCr} $currency ${trans!.monthlyBalance}",
-                            style: TextStyle(
-                              height: 0.8,
-                              fontSize: 53,
-                              fontWeight: FontWeight.bold,
-                              color: bgColor,
-                            ),
-                          )
-                        else
-                          Text(
-                            "$currency 0",
-                            style: TextStyle(
-                              height: 0.8,
-                              fontSize: 45,
-                              fontWeight: FontWeight.bold,
-                              color: bgColor,
-                            ),
-                          ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Column(
-                          children: [
+                    Consumer<StatisticsProvider>(builder: (_, provider, __) {
+                      return Row(
+                        children: [
+                          const SizedBox(width: 20),
+                          if (provider.monthDocList!.isNotEmpty)
                             Text(
-                              'Income',
+                              "${trans!.monthlyDrOrCr} $currency ${trans!.monthlyBalance}",
                               style: TextStyle(
+                                height: 0.8,
+                                fontSize: 53,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 15,
+                                color: bgColor,
+                              ),
+                            )
+                          else
+                            Text(
+                              "$currency 0",
+                              style: TextStyle(
+                                height: 0.8,
+                                fontSize: 45,
+                                fontWeight: FontWeight.bold,
                                 color: bgColor,
                               ),
                             ),
-                            const SizedBox(height: 10),
-                            if (monthDocList.isNotEmpty)
+                        ],
+                      );
+                    }),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Consumer<StatisticsProvider>(
+                            builder: (_, provider, __) {
+                          return Column(
+                            children: [
                               Text(
-                                "$currency ${trans!.monthlyTotalIncome}",
+                                'Income',
                                 style: TextStyle(
-                                  height: 0.8,
-                                  fontSize: 45,
                                   fontWeight: FontWeight.bold,
+                                  fontSize: 15,
                                   color: bgColor,
                                 ),
-                              )
-                            else
-                              Text(
-                                "$currency 0",
-                                style: TextStyle(
-                                  height: 0.8,
-                                  fontSize: 45,
-                                  fontWeight: FontWeight.bold,
-                                  color: bgColor,
-                                ),
-                              )
-                          ],
-                        ),
+                              ),
+                              const SizedBox(height: 10),
+                              if (provider.monthDocList!.isNotEmpty)
+                                Text(
+                                  "$currency ${trans!.monthlyTotalIncome}",
+                                  style: TextStyle(
+                                    height: 0.8,
+                                    fontSize: 45,
+                                    fontWeight: FontWeight.bold,
+                                    color: bgColor,
+                                  ),
+                                )
+                              else
+                                Text(
+                                  "$currency 0",
+                                  style: TextStyle(
+                                    height: 0.8,
+                                    fontSize: 45,
+                                    fontWeight: FontWeight.bold,
+                                    color: bgColor,
+                                  ),
+                                )
+                            ],
+                          );
+                        }),
                         const SizedBox(width: 25),
                         Container(
                           height: 75,
@@ -232,39 +238,42 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
                           ),
                         ),
                         const SizedBox(width: 25),
-                        Column(
-                          children: [
-                            Text(
-                              'Expense',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                                color: bgColor,
+                        Consumer<StatisticsProvider>(
+                            builder: (_, provider, __) {
+                          return Column(
+                            children: [
+                              Text(
+                                'Expense',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: bgColor,
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 10),
-                            if (monthDocList.isNotEmpty)
-                              Text(
-                                "$currency ${trans!.monthlyTotalExpense}",
-                                style: TextStyle(
-                                  height: 0.8,
-                                  fontSize: 45,
-                                  fontWeight: FontWeight.bold,
-                                  color: bgColor,
-                                ),
-                              )
-                            else
-                              Text(
-                                "$currency 0",
-                                style: TextStyle(
-                                  height: 0.8,
-                                  fontSize: 45,
-                                  fontWeight: FontWeight.bold,
-                                  color: bgColor,
-                                ),
-                              )
-                          ],
-                        )
+                              const SizedBox(height: 10),
+                              if (provider.monthDocList!.isNotEmpty)
+                                Text(
+                                  "$currency ${trans!.monthlyTotalExpense}",
+                                  style: TextStyle(
+                                    height: 0.8,
+                                    fontSize: 45,
+                                    fontWeight: FontWeight.bold,
+                                    color: bgColor,
+                                  ),
+                                )
+                              else
+                                Text(
+                                  "$currency 0",
+                                  style: TextStyle(
+                                    height: 0.8,
+                                    fontSize: 45,
+                                    fontWeight: FontWeight.bold,
+                                    color: bgColor,
+                                  ),
+                                )
+                            ],
+                          );
+                        })
                       ],
                     )
                   ],
@@ -289,71 +298,75 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                selectedType = TransactionType.income;
-                                filterCategories(selectedType);
-                              },
-                              child: Container(
-                                height: btnHeight,
-                                width: btnWidth,
-                                decoration: BoxDecoration(
-                                  // border: Border.all(color: primaryColor),
-                                  color: selectedType == TransactionType.income
-                                      ? bgColor
-                                      : primaryColor,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    'Income',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color:
-                                          selectedType == TransactionType.income
-                                              ? primaryColor
-                                              : bgColor,
+                      Consumer<StatisticsProvider>(builder: (_, provider, __) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  filterCategories(TransactionType.income);
+                                },
+                                child: Container(
+                                  height: btnHeight,
+                                  width: btnWidth,
+                                  decoration: BoxDecoration(
+                                    color: provider.selectedType ==
+                                            TransactionType.income
+                                        ? bgColor
+                                        : primaryColor,
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      'Income',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: provider.selectedType ==
+                                                TransactionType.income
+                                            ? primaryColor
+                                            : bgColor,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(width: 10),
-                            GestureDetector(
-                              onTap: () {
-                                selectedType = TransactionType.expense;
-                                filterCategories(selectedType);
-                              },
-                              child: Container(
-                                height: btnHeight,
-                                width: btnWidth,
-                                decoration: BoxDecoration(
-                                  color: selectedType == TransactionType.expense
-                                      ? bgColor
-                                      : primaryColor,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    'Expense',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color:
-                                          selectedType == TransactionType.income
+                              const SizedBox(width: 10),
+                              GestureDetector(
+                                onTap: () {
+                                  filterCategories(TransactionType.expense);
+                                },
+                                child: Consumer<StatisticsProvider>(
+                                    builder: (_, provider, __) {
+                                  return Container(
+                                    height: btnHeight,
+                                    width: btnWidth,
+                                    decoration: BoxDecoration(
+                                      color: provider.selectedType ==
+                                              TransactionType.expense
+                                          ? bgColor
+                                          : primaryColor,
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'Expense',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: provider.selectedType ==
+                                                  TransactionType.income
                                               ? bgColor
                                               : primaryColor,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
+                                  );
+                                }),
+                              )
+                            ],
+                          ),
+                        );
+                      }),
                       const SizedBox(height: 20),
                       Text(
                         'Categories',
@@ -363,210 +376,231 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
                         ),
                       ),
                       const SizedBox(height: 40),
-                      if (monthDocList.isNotEmpty)
-                        if (categoryList.isNotEmpty)
-                          Center(
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 0),
-                              child: SizedBox(
-                                height: 105,
-                                width: 105,
-                                child: PieChart(
-                                  PieChartData(
-                                    pieTouchData: PieTouchData(touchCallback:
-                                        (FlTouchEvent event, pieTouchResponse) {
-                                      setState(() {
-                                        if (!event
-                                                .isInterestedForInteractions ||
-                                            pieTouchResponse == null ||
-                                            pieTouchResponse.touchedSection ==
-                                                null) {
-                                          touchedIndex = -1;
-                                          return;
-                                        }
-                                        touchedIndex = pieTouchResponse
-                                            .touchedSection!
-                                            .touchedSectionIndex;
-                                      });
-                                    }),
-                                    borderData: FlBorderData(
-                                      show: false,
-                                    ),
-                                    sectionsSpace: 0,
-                                    centerSpaceRadius: 30,
-                                    sections: categoryList.map(
-                                      (e) {
-                                        String time = e.lastUpdateTimeString
-                                            .split(' ')
-                                            .last;
+                      Consumer<StatisticsProvider>(
+                        builder: (_, provider, __) {
+                          return provider.monthDocList!.isNotEmpty &&
+                                  provider.categoryList!.isNotEmpty
+                              ? Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 0),
+                                    child: SizedBox(
+                                      height: 105,
+                                      width: 105,
+                                      child: PieChart(
+                                        PieChartData(
+                                          pieTouchData: PieTouchData(
+                                            touchCallback: (FlTouchEvent event,
+                                                pieTouchResponse) {
+                                              if (!event
+                                                      .isInterestedForInteractions ||
+                                                  pieTouchResponse == null ||
+                                                  pieTouchResponse
+                                                          .touchedSection ==
+                                                      null) {
+                                                provider.updateTouchedIndex(-1);
 
-                                        int hr = int.tryParse(
-                                            time.split(':').first)!;
-                                        int min =
-                                            int.tryParse(time.split(":")[1])!;
-                                        int sec =
-                                            int.tryParse(time.split(':').last)!;
-                                        var red = hr + min + sec;
-                                        var grn = min + hr + 150;
-                                        var blu = 2 * hr + sec + 100;
+                                                return;
+                                              }
+                                              var ind = pieTouchResponse
+                                                  .touchedSection!
+                                                  .touchedSectionIndex;
+                                              provider.updateTouchedIndex(ind);
+                                            },
+                                          ),
+                                          borderData: FlBorderData(
+                                            show: false,
+                                          ),
+                                          sectionsSpace: 0,
+                                          centerSpaceRadius: 30,
+                                          sections: categoryList.map(
+                                            (e) {
+                                              String time = e
+                                                  .lastUpdateTimeString
+                                                  .split(' ')
+                                                  .last;
 
-                                        debugPrint(".. :$red,$grn,$blu");
+                                              int hr = int.tryParse(
+                                                  time.split(':').first)!;
+                                              int min = int.tryParse(
+                                                  time.split(":")[1])!;
+                                              int sec = int.tryParse(
+                                                  time.split(':').last)!;
+                                              var red = hr + min + sec;
+                                              var grn = min + hr + 150;
+                                              var blu = 2 * hr + sec + 100;
 
-                                        return PieChartSectionData(
-                                          color: Color.fromRGBO(
-                                            red,
-                                            grn,
-                                            blu,
-                                            1,
-                                          ),
-                                          value: double.parse(
-                                            e.totalAmount.toString(),
-                                          ),
-                                          title: e.categoryName,
-                                          radius: 40,
-                                          titleStyle: const TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.bold,
-                                            color: Color(0xffffffff),
-                                          ),
-                                        );
-                                      },
-                                    ).toList(),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )
-                        else
-                          Center(
-                            child: Text(
-                              'No Categories !',
-                              style: TextStyle(
-                                color: bgColor,
-                                fontStyle: FontStyle.italic,
-                                fontSize: 15,
-                              ),
-                            ),
-                          ),
-                      SizedBox(
-                        height: 40,
-                        child: monthDocList.isNotEmpty &&
-                                categoryList.isNotEmpty &&
-                                categoryList.length > 3
-                            ? Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {},
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          'View All',
-                                          style: TextStyle(
-                                            color: bgColor,
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                              return PieChartSectionData(
+                                                color: Color.fromRGBO(
+                                                  red,
+                                                  grn,
+                                                  blu,
+                                                  1,
+                                                ),
+                                                value: double.parse(
+                                                  e.totalAmount.toString(),
+                                                ),
+                                                title: e.categoryName,
+                                                radius: 40,
+                                                titleStyle: const TextStyle(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color(0xffffffff),
+                                                ),
+                                              );
+                                            },
+                                          ).toList(),
                                         ),
-                                        const SizedBox(width: 4),
-                                        Icon(
-                                          Icons.arrow_forward,
-                                          color: bgColor,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                ],
-                              )
-                            : const SizedBox.shrink(),
-                      ),
-                      const SizedBox(height: 15),
-                      if (monthDocList.isNotEmpty)
-                        if (categoryList.isNotEmpty)
-                          SizedBox(
-                            height: 140,
-                            width: 430,
-                            child: ListView.separated(
-                              scrollDirection: Axis.horizontal,
-                              shrinkWrap: true,
-                              itemCount: categoryList.length,
-                              separatorBuilder: (_, __) =>
-                                  const SizedBox(width: 10),
-                              itemBuilder: (_, index) {
-                                TransactionCategoryModel cat =
-                                    categoryList[index];
-                                return Stack(
-                                  children: [
-                                    Container(
-                                      height: 130,
-                                      width: 120,
-                                      margin: const EdgeInsets.only(
-                                          bottom: 15, top: 20),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          width: 2,
-                                          color: bgColor,
-                                        ),
-                                        borderRadius: BorderRadius.circular(8),
                                       ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(4.0),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                    ),
+                                  ),
+                                )
+                              : Center(
+                                  child: Text(
+                                    'No Categories !',
+                                    style: TextStyle(
+                                      color: bgColor,
+                                      fontStyle: FontStyle.italic,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                );
+                        },
+                      ),
+                      Consumer<StatisticsProvider>(
+                        builder: (_, provider, __) {
+                          return SizedBox(
+                            height: 40,
+                            child: provider.monthDocList!.isNotEmpty &&
+                                    categoryList.isNotEmpty &&
+                                    categoryList.length > 3
+                                ? Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {},
+                                        child: Row(
                                           children: [
-                                            const SizedBox(height: 15),
                                             Text(
-                                              cat.categoryName,
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                color: bgColor,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 18,
-                                              ),
-                                            ),
-                                            Text(
-                                              '$currency ${cat.totalAmount}',
+                                              'View All',
                                               style: TextStyle(
                                                 color: bgColor,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
+                                            const SizedBox(width: 4),
+                                            Icon(
+                                              Icons.arrow_forward,
+                                              color: bgColor,
+                                            )
                                           ],
                                         ),
                                       ),
-                                    ),
-                                    Positioned.fill(
-                                      top: 5,
-                                      child: Align(
-                                        alignment: Alignment.topCenter,
-                                        child: Container(
-                                          height: 35,
-                                          width: 35,
-                                          decoration: BoxDecoration(
-                                            color: bgColor,
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              cat.categoryName[0],
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: primaryColor,
+                                      const SizedBox(width: 10),
+                                    ],
+                                  )
+                                : const SizedBox.shrink(),
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 15),
+                      Consumer<StatisticsProvider>(
+                        builder: (_, provider, __) {
+                          return SizedBox(
+                            height: 140,
+                            width: 430,
+                            child: provider.monthDocList!.isNotEmpty &&
+                                    provider.categoryList!.isNotEmpty
+                                ? ListView.separated(
+                                    scrollDirection: Axis.horizontal,
+                                    shrinkWrap: true,
+                                    itemCount: categoryList.length,
+                                    separatorBuilder: (_, __) =>
+                                        const SizedBox(width: 10),
+                                    itemBuilder: (_, index) {
+                                      TransactionCategoryModel cat =
+                                          categoryList[index];
+                                      return Stack(
+                                        children: [
+                                          Container(
+                                            height: 130,
+                                            width: 120,
+                                            margin: const EdgeInsets.only(
+                                                bottom: 15, top: 20),
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  width: 2,
+                                                  color: bgColor,
+                                                ),
+                                                borderRadius:
+                                                    const BorderRadius.only(
+                                                  topRight: Radius.circular(45),
+                                                )),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(4.0),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  const SizedBox(height: 25),
+                                                  Text(
+                                                    cat.categoryName,
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      color: bgColor,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 18,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    '$currency ${cat.totalAmount}',
+                                                    style: TextStyle(
+                                                      color: bgColor,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                    ),
-                                    ViewTransactionsContainer(
-                                        selectedType: selectedType,
-                                        category: cat)
-                                  ],
-                                );
-                              },
-                            ),
-                          ),
+                                          Positioned.fill(
+                                            top: 20,
+                                            child: Align(
+                                              alignment: Alignment.topRight,
+                                              child: Container(
+                                                height: 35,
+                                                width: 35,
+                                                decoration: BoxDecoration(
+                                                  color: bgColor,
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    cat.categoryName[0],
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: primaryColor,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          ViewTransactionsContainer(
+                                              selectedType:
+                                                  provider.selectedType,
+                                              category: cat),
+                                        ],
+                                      );
+                                    },
+                                  )
+                                : const SizedBox.shrink(),
+                          );
+                        },
+                      ),
                       const SizedBox(height: 20),
                     ],
                   ),
@@ -606,17 +640,8 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
 
     for (int i = 0; i < categoryList.length; i++) {
       if (categoryList[i].transactionType == type.name.initCap()) {
-        debugPrint('.. here');
         tempList.add(categoryList[i]);
       }
-    }
-    if (tempList.isNotEmpty && tempList.length > 1) {
-      // tempList.add(TransactionCategoryModel(
-      //     categoryId: -1,
-      //     categoryName: 'All',
-      //     lastUpdateTimeString: "12:34:56",
-      //     totalAmount: 0,
-      //     transactionType: type.name.initCap()));
     }
 
     tempList.sort(((a, b) => a.categoryId.compareTo(b.categoryId)));
@@ -625,30 +650,37 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
     if (categoryList.isNotEmpty) {
       selectedCategory = categoryList[0];
     }
+    context.read<StatisticsProvider>().updateSelectedType(type);
+    context.read<StatisticsProvider>().updateCategoryList(categoryList);
     setStream();
-    setState(() {});
   }
 
   setStream() {
+    StatisticsProvider provider = context.read<StatisticsProvider>();
     if (selectedCategory.categoryId != -1) {
-      stream = FirebaseFirestore.instance
+      var stream = FirebaseFirestore.instance
           .collection(kUsersCollection)
           .doc(userId)
           .collection(kRecentTransactionCollection)
           .where('transactionMonthDocId', isEqualTo: monthDocId)
-          .where('transactionType', isEqualTo: selectedType.name.initCap())
+          .where('transactionType',
+              isEqualTo: provider.selectedType.name.initCap())
           .where('categoryId', isEqualTo: selectedCategory.categoryId)
           .orderBy('createdDateTime', descending: true)
           .snapshots();
+      context.read<StatisticsProvider>().updateStream(stream);
     } else {
-      stream = FirebaseFirestore.instance
+      var stream = FirebaseFirestore.instance
           .collection(kUsersCollection)
           .doc(userId)
           .collection(kRecentTransactionCollection)
           .where('transactionMonthDocId', isEqualTo: monthDocId)
-          .where('transactionType', isEqualTo: selectedType.name.initCap())
+          .where('transactionType',
+              isEqualTo: provider.selectedType.name.initCap())
           .orderBy('createdDateTime', descending: true)
           .snapshots();
+
+      context.read<StatisticsProvider>().updateStream(stream);
     }
   }
 }
