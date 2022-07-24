@@ -481,7 +481,6 @@ class UserRepo {
 
   Future<ResponseModel> addTransaction(AddTransactionModel request) async {
     String transactionDocId = "", recentDocId = "";
-    debugPrint(".. @1");
     TransactionModel transaction = request.transaction;
 
     /// adding recent expenses
@@ -901,7 +900,6 @@ class UserRepo {
         .get();
 
     categoryDocList = categoryDocSnapshot.docs;
-    debugPrint('... @@$categoryDocList $categoryDocList');
 
     for (int i = 0; i < categoryDocList.length; i++) {
       categoryList.add(TransactionCategoryModel.fromDb(categoryDocList[i]));

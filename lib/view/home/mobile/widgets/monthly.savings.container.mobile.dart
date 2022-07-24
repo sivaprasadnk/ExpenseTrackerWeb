@@ -1,25 +1,25 @@
 import 'package:expense_tracker/provider/home.provider.dart';
+import 'package:expense_tracker/view/home/desktop/widgets/monthly.savings.container/monthly.balance.text.dart';
+import 'package:expense_tracker/view/home/desktop/widgets/monthly.savings.container/view.statistics.button.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'add.transaction.button.dart';
-import 'monthly.balance.text.dart';
-import 'monthly.savings.title.text.dart';
-import 'view.statistics.button.dart';
+import '../../desktop/widgets/monthly.savings.container/add.transaction.button.dart';
+import '../../desktop/widgets/monthly.savings.container/monthly.savings.title.text.dart';
 
-class MonthlySavingsContainerDesktop extends StatefulWidget {
-  const MonthlySavingsContainerDesktop({
+class MonthlySavingsContainerMobile extends StatefulWidget {
+  const MonthlySavingsContainerMobile({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<MonthlySavingsContainerDesktop> createState() =>
-      _MonthlySavingsContainerDesktopState();
+  State<MonthlySavingsContainerMobile> createState() =>
+      _MonthlySavingsContainerMobileState();
 }
 
-class _MonthlySavingsContainerDesktopState
-    extends State<MonthlySavingsContainerDesktop> {
+class _MonthlySavingsContainerMobileState
+    extends State<MonthlySavingsContainerMobile> {
   bool isHovered = false;
 
   int touchedIndex = -1;

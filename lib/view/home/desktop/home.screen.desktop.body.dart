@@ -20,13 +20,7 @@ class _HomeScreenDesktopBodyState extends State<HomeScreenDesktopBody>
   late AnimationController _controller;
 
   late Animation<double> _todaysTextContainerOpacity;
-  late Animation<double> _expenseByDateOpacity;
-  late Animation<double> _expenseByCategoryOpacity;
-  late Animation<double> _addExpenseOpacity;
   late Animation<Offset> _todaysTextContainerSlide;
-  late Animation<Offset> _expenseByDateSlide;
-  late Animation<Offset> _expenseByCategorySlide;
-  late Animation<Offset> _addExpenseSlide;
 
   @override
   void initState() {
@@ -57,64 +51,6 @@ class _HomeScreenDesktopBodyState extends State<HomeScreenDesktopBody>
       CurvedAnimation(
         parent: _controller,
         curve: const Interval(0.2, 0.3, curve: Curves.fastLinearToSlowEaseIn),
-      ),
-    );
-
-    ///
-    _expenseByDateOpacity = Tween<double>(
-      begin: 0,
-      end: 1,
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.3, 0.4, curve: Curves.fastLinearToSlowEaseIn),
-      ),
-    );
-    _expenseByDateSlide = Tween<Offset>(
-      begin: const Offset(-0.1, 0),
-      end: const Offset(0, 0),
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.4, 0.5, curve: Curves.fastLinearToSlowEaseIn),
-      ),
-    );
-
-    _expenseByCategoryOpacity = Tween<double>(
-      begin: 0,
-      end: 1,
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.5, 0.6, curve: Curves.fastLinearToSlowEaseIn),
-      ),
-    );
-    _expenseByCategorySlide = Tween<Offset>(
-      begin: const Offset(-0.1, 0),
-      end: const Offset(0, 0),
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.6, 0.7, curve: Curves.fastLinearToSlowEaseIn),
-      ),
-    );
-
-    _addExpenseOpacity = Tween<double>(
-      begin: 0,
-      end: 1,
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.7, 0.8, curve: Curves.linear),
-      ),
-    );
-    _addExpenseSlide = Tween<Offset>(
-      begin: const Offset(-0.1, 0),
-      end: const Offset(0, 0),
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.8, 0.9, curve: Curves.easeIn),
       ),
     );
   }
@@ -166,60 +102,13 @@ class _HomeScreenDesktopBodyState extends State<HomeScreenDesktopBody>
                         child: AnimatedSlide(
                           duration: slideDuration,
                           offset: _todaysTextContainerSlide.value,
-                          child: const MonthlySavingsContainer(),
+                          child: const MonthlySavingsContainerDesktop(),
                         ),
                       ),
                       const SizedBox(
                         height: 10,
                       ),
-                      // SizedBox(
-                      //   height: 100,
-                      //   width: double.infinity,
-                      //   child: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.center,
-                      //     mainAxisSize: MainAxisSize.min,
-                      //     children: [
-                      //       // const SizedBox(
-                      //       //   width: 20,
-                      //       // ),
-                      //       AnimatedOpacity(
-                      //         duration: opacityDuration,
-                      //         opacity: _expenseByDateOpacity.value,
-                      //         child: AnimatedSlide(
-                      //           duration: slideDuration,
-                      //           offset: _expenseByDateSlide.value,
-                      //           child: ViewExpensesByDateContainer(
-                      //             width: widget.constraints.maxWidth,
-                      //           ),
-                      //         ),
-                      //       ),
-                      //       const SizedBox(
-                      //         width: 20,
-                      //       ),
-                      //       AnimatedOpacity(
-                      //         duration: opacityDuration,
-                      //         opacity: _expenseByCategoryOpacity.value,
-                      //         child: AnimatedSlide(
-                      //           duration: slideDuration,
-                      //           offset: _expenseByCategorySlide.value,
-                      //           child: const ViewExpenseByCategoryContainer(),
-                      //         ),
-                      //       ),
-                      //       const SizedBox(
-                      //         width: 20,
-                      //       ),
-                      //       AnimatedOpacity(
-                      //         duration: opacityDuration,
-                      //         opacity: _addExpenseOpacity.value,
-                      //         child: AnimatedSlide(
-                      //           duration: slideDuration,
-                      //           offset: _addExpenseSlide.value,
-                      //           child: const AddExpenseButtonDesktop(),
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
+
                       const SizedBox(
                         height: 10,
                       ),

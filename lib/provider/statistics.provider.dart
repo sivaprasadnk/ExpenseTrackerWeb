@@ -21,6 +21,16 @@ class StatisticsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  List<TransactionCategoryModel>? filteredCategoryList_ = [];
+  List<TransactionCategoryModel>? get filteredCategoryList =>
+      filteredCategoryList_;
+
+  void updateFilteredCategoryList(List<TransactionCategoryModel> list) {
+    filteredCategoryList_ = list;
+    notifyListeners();
+  }
+
+
   TransactionCategoryModel? selectedCategory_;
   TransactionCategoryModel? get selectedCategory => selectedCategory_;
 
@@ -60,6 +70,14 @@ class StatisticsProvider extends ChangeNotifier {
 
   void updateMonth(TransactionMonth month) {
     transacationMonth_ = month;
+    notifyListeners();
+  }
+
+  String selectedMonthDocId_ = "";
+  String get selectedMonthDocId => selectedMonthDocId_;
+
+  void updateSelectedMonthDocId(String id) {
+    selectedMonthDocId_ = id;
     notifyListeners();
   }
 }
