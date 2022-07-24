@@ -10,7 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../monthly.statistics/transaction.item.dart';
+import '../monthly.statistics/desktop/transaction.item.dart';
 
 class CategoryTransactionsListDesktop extends StatefulWidget {
   const CategoryTransactionsListDesktop({

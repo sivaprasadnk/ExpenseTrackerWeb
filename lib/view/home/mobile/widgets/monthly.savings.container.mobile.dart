@@ -33,8 +33,9 @@ class _MonthlySavingsContainerMobileState
         return Stack(
           children: [
             Container(
-              height: 200,
-              width: 430,
+              height: 250,
+              width: 500,
+              // margin: const EdgeInsets.only(right: 20, left: 20),
               decoration: BoxDecoration(
                 color: primaryColor,
                 border: Border.all(
@@ -51,57 +52,87 @@ class _MonthlySavingsContainerMobileState
                   children: [
                     const MonthlySavingsTitleText(),
                     const MonthlyBalanceText(),
-                    const Spacer(),
-                    Row(
-                      children: const [
-                        SizedBox(width: 8),
-                        ViewStatisticsButton(),
-                        SizedBox(width: 20),
-                        AddTransactionButton()
-                      ],
+                    const SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 30, top: 20),
+                      child: SizedBox(
+                        height: 105,
+                        width: 105,
+                        child: PieChart(
+                          PieChartData(
+                            pieTouchData: PieTouchData(touchCallback:
+                                (FlTouchEvent event, pieTouchResponse) {
+                              setState(() {
+                                if (!event.isInterestedForInteractions ||
+                                    pieTouchResponse == null ||
+                                    pieTouchResponse.touchedSection == null) {
+                                  touchedIndex = -1;
+                                  return;
+                                }
+                                touchedIndex = pieTouchResponse
+                                    .touchedSection!.touchedSectionIndex;
+                              });
+                            }),
+                            borderData: FlBorderData(
+                              show: false,
+                            ),
+                            sectionsSpace: 0,
+                            centerSpaceRadius: 30,
+                            sections: showingSections(
+                              60, 40,
+                              // provider.monthlyTotalIncome,
+                              // provider.monthlyTotalExpense,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
+                    const Spacer(),
                     const SizedBox(height: 5)
                   ],
                 ),
               ),
             ),
-            Positioned.fill(
-              right: 35,
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: SizedBox(
-                  height: 105,
-                  width: 105,
-                  child: PieChart(
-                    PieChartData(
-                      pieTouchData: PieTouchData(touchCallback:
-                          (FlTouchEvent event, pieTouchResponse) {
-                        setState(() {
-                          if (!event.isInterestedForInteractions ||
-                              pieTouchResponse == null ||
-                              pieTouchResponse.touchedSection == null) {
-                            touchedIndex = -1;
-                            return;
-                          }
-                          touchedIndex = pieTouchResponse
-                              .touchedSection!.touchedSectionIndex;
-                        });
-                      }),
-                      borderData: FlBorderData(
-                        show: false,
-                      ),
-                      sectionsSpace: 0,
-                      centerSpaceRadius: 30,
-                      sections: showingSections(
-                        60, 40,
-                        // provider.monthlyTotalIncome,
-                        // provider.monthlyTotalExpense,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            const ViewStatisticsButton(),
+            const AddTransactionButton()
+
+            // Positioned.fill(
+            //   right: 35,
+            //   child: Align(
+            //     alignment: Alignment.centerRight,
+            //     child: SizedBox(
+            //       height: 105,
+            //       width: 105,
+            //       child: PieChart(
+            //         PieChartData(
+            //           pieTouchData: PieTouchData(touchCallback:
+            //               (FlTouchEvent event, pieTouchResponse) {
+            //             setState(() {
+            //               if (!event.isInterestedForInteractions ||
+            //                   pieTouchResponse == null ||
+            //                   pieTouchResponse.touchedSection == null) {
+            //                 touchedIndex = -1;
+            //                 return;
+            //               }
+            //               touchedIndex = pieTouchResponse
+            //                   .touchedSection!.touchedSectionIndex;
+            //             });
+            //           }),
+            //           borderData: FlBorderData(
+            //             show: false,
+            //           ),
+            //           sectionsSpace: 0,
+            //           centerSpaceRadius: 30,
+            //           sections: showingSections(
+            //             60, 40,
+            //             // provider.monthlyTotalIncome,
+            //             // provider.monthlyTotalExpense,
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         );
       },

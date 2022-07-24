@@ -2,7 +2,7 @@ import 'package:expense_tracker/model/transaction.category.model.dart';
 import 'package:expense_tracker/provider/home.provider.dart';
 import 'package:expense_tracker/provider/statistics.provider.dart';
 import 'package:expense_tracker/utils/string.extension.dart';
-import 'package:expense_tracker/view/monthly.statistics/view.transactions.container.dart';
+import 'package:expense_tracker/view/monthly.statistics/desktop/view.transactions.container.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -37,7 +37,7 @@ class TransactionCategoriesList extends StatelessWidget {
                         Container(
                           height: 130,
                           width: 120,
-                          margin: const EdgeInsets.only(bottom: 15, top: 20),
+                          margin: const EdgeInsets.only(bottom: 15, top: 10),
                           decoration: BoxDecoration(
                               border: Border.all(
                                 width: 2,
@@ -68,7 +68,7 @@ class TransactionCategoriesList extends StatelessWidget {
                           ),
                         ),
                         Positioned.fill(
-                          top: 20,
+                          top: 10,
                           child: Align(
                             alignment: Alignment.topRight,
                             child: Container(

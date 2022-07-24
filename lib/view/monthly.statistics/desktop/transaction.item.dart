@@ -3,7 +3,7 @@ import 'package:expense_tracker/utils/string.extension.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../model/transaction.model.dart';
+import '../../../model/transaction.model.dart';
 
 class TransactionListItem extends StatelessWidget {
   const TransactionListItem({
@@ -80,8 +80,8 @@ class TransactionListItem extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 4, vertical: 4),
-                          child: Text(
-                            trans.categoryName).boldBgColorText(context),
+                          child:
+                              Text(trans.categoryName).boldBgColorText(context),
                         ),
                       )
                   ],

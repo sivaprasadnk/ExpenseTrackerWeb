@@ -1,17 +1,17 @@
 import 'package:expense_tracker/utils/string.extension.dart';
-import 'package:expense_tracker/view/desktop.view.dart';
-import 'package:expense_tracker/view/monthly.statistics/categories.filter.container.dart';
-import 'package:expense_tracker/view/monthly.statistics/pie.chart.category.data.dart';
-import 'package:expense_tracker/view/monthly.statistics/summary.container.dart';
-import 'package:expense_tracker/view/monthly.statistics/view.all.text.dart';
+import 'package:expense_tracker/view/mobile.view.dart';
+import 'package:expense_tracker/view/monthly.statistics/desktop/categories.filter.container.dart';
+import 'package:expense_tracker/view/monthly.statistics/desktop/categories.list.dart';
+import 'package:expense_tracker/view/monthly.statistics/desktop/summary.container.dart';
+import 'package:expense_tracker/view/monthly.statistics/desktop/view.all.text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sizer/sizer.dart';
 
-import 'categories.list.dart';
+import 'pie.chart.category.data.mobile.dart';
 
-class MonthlyStatisticsDesktop extends StatelessWidget {
-  const MonthlyStatisticsDesktop({Key? key}) : super(key: key);
-
+class MonthlyStatisticsScreenMobile extends StatelessWidget {
+  const MonthlyStatisticsScreenMobile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class MonthlyStatisticsDesktop extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     var primaryColor = theme.primaryColor;
     var bgColor = theme.scaffoldBackgroundColor;
-    return DesktopView(
+    return MobileView(
       child: Center(
         child: Container(
           width: 430,
@@ -47,15 +47,22 @@ class MonthlyStatisticsDesktop extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      const Spacer(),
+
                       const CategoriesFilterContainer(),
-                      const SizedBox(height: 10),
-                      const Text('Categories').boldPrimaryColorText(context),
-                      const SizedBox(height: 40),
-                      const PieChartCategoryData(),
+                      // SizedBox(height: 3.h),
+                      const Spacer(),
+                      const Text('Categories ')
+                          .boldPrimaryColorTextWithSize(context, 20),
+                      // SizedBox(height: 5.h),
+                      const Spacer(),
+                      // const Spacer(),
+
+                      const PieChartCategoryDataMobile(),
+                      SizedBox(height: 5.h),
                       const ViewAllCategoriesText(),
-                      const SizedBox(height: 15),
                       const TransactionCategoriesList(),
-                      const SizedBox(height: 20),
+                      SizedBox(height: 2.h),
                     ],
                   ),
                 ),

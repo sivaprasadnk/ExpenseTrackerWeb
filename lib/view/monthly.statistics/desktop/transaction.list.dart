@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/model/transaction.model.dart';
-import 'package:expense_tracker/view/monthly.statistics/transaction.item.dart';
+import 'package:expense_tracker/view/monthly.statistics/desktop/transaction.item.dart';
 import 'package:flutter/material.dart';
 
 class TransactionList extends StatelessWidget {

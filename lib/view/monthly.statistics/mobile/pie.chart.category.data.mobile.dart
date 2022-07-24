@@ -2,20 +2,23 @@ import 'package:expense_tracker/provider/statistics.provider.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 
-class PieChartCategoryData extends StatefulWidget {
-  const PieChartCategoryData({Key? key}) : super(key: key);
+class PieChartCategoryDataMobile extends StatefulWidget {
+  const PieChartCategoryDataMobile({Key? key}) : super(key: key);
 
   @override
-  State<PieChartCategoryData> createState() => _PieChartCategoryDataState();
+  State<PieChartCategoryDataMobile> createState() =>
+      _PieChartCategoryDataMobileState();
 }
 
-class _PieChartCategoryDataState extends State<PieChartCategoryData> {
+class _PieChartCategoryDataMobileState
+    extends State<PieChartCategoryDataMobile> {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     var bgColor = theme.scaffoldBackgroundColor;
-
+    var height = MediaQuery.of(context).size.height;
     return Consumer<StatisticsProvider>(
       builder: (_, provider, __) {
         return provider.monthDocList!.isNotEmpty &&
@@ -24,8 +27,8 @@ class _PieChartCategoryDataState extends State<PieChartCategoryData> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 0),
                   child: SizedBox(
-                    height: 102,
-                    width: 102,
+                    height: 10.h,
+                    width: 10.h,
                     child: PieChart(
                       PieChartData(
                         pieTouchData: PieTouchData(
@@ -47,7 +50,7 @@ class _PieChartCategoryDataState extends State<PieChartCategoryData> {
                           show: false,
                         ),
                         sectionsSpace: 0,
-                        centerSpaceRadius: 30,
+                        centerSpaceRadius: 5.h,
                         sections: provider.filteredCategoryList!.map(
                           (e) {
                             String time =
@@ -71,7 +74,7 @@ class _PieChartCategoryDataState extends State<PieChartCategoryData> {
                                 e.totalAmount.toString(),
                               ),
                               title: e.categoryName,
-                              radius: 40,
+                              radius: 5.h,
                               titleStyle: const TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.bold,
