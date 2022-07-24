@@ -1,6 +1,7 @@
 import 'package:expense_tracker/cursor.widget.dart';
 import 'package:expense_tracker/utils/custom.dialog.dart';
 import 'package:expense_tracker/utils/navigation.dart';
+import 'package:expense_tracker/utils/string.extension.dart';
 import 'package:flutter/material.dart';
 
 class Dialogs {
@@ -112,148 +113,141 @@ class Dialogs {
     //         defaultTargetPlatform == TargetPlatform.iOS)
     //     ? double.infinity
     //     : 360;
-    bool isMobileScreen = true;
     double width = MediaQuery.of(context).size.width;
     if (width > 480) {
-      width = width * 0.75;
-      width = 480;
-      isMobileScreen = false;
+      width = 360;
     }
-    if (isMobileScreen) {
-      return showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (ctx) {
-          return CustomDialog(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Material(
-                borderRadius: BorderRadius.circular(8),
-                child: Container(
-                  width: width,
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Theme.of(context).primaryColor,
+
+    // bool isMobileScreen = true;
+    // double width = MediaQuery.of(context).size.width;
+    // if (width > 480) {
+    //   width = width * 0.55;
+    //   width = 430;
+    //   isMobileScreen = false;
+    // }
+    // if (isMobileScreen) {
+    return showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (ctx) {
+        return CustomDialog(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Material(
+              borderRadius: BorderRadius.circular(8),
+              child: Container(
+                width: width,
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SizedBox(
+                      height: 20,
                     ),
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const SizedBox(
-                        height: 20,
+                    Text(
+                      description).boldPrimaryColorTextWithSize(context, 20),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    CursorWidget(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      isButton: true,
+                      borderColor: Theme.of(context).primaryColor,
+                      bgColor: Theme.of(context).primaryColor,
+                      buttonWidth: 100,
+                      child: Center(
+                        child: const Text('OK').boldBgColorText(context),
                       ),
-                      Text(
-                        description,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'Rajdhani',
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 50,
-                      ),
-                      CursorWidget(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        isButton: true,
-                        borderColor: Theme.of(context).primaryColor,
-                        bgColor: Theme.of(context).primaryColor,
-                        buttonWidth: 100,
-                        child: Center(
-                          child: Text(
-                            'OK',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color:
-                                    Theme.of(context).scaffoldBackgroundColor),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                  ],
                 ),
               ),
             ),
-          );
-        },
-      );
-    } else {
-      return showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (ctx) {
-          return CustomDialog(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Material(
-                borderRadius: BorderRadius.circular(8),
-                child: Container(
-                  width: width,
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const SizedBox(
-                        height: 23,
-                      ),
-                      Text(
-                        description,
-                        style: const TextStyle(
-                          fontSize: 25,
-                          fontFamily: 'Rajdhani',
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 50,
-                      ),
-                      CursorWidget(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        isButton: true,
-                        borderColor: Theme.of(context).primaryColor,
-                        bgColor: Theme.of(context).primaryColor,
-                        buttonHeight: 60,
-                        buttonWidth: 150,
-                        child: Center(
-                          child: Text(
-                            'OK',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 22,
-                                color:
-                                    Theme.of(context).scaffoldBackgroundColor),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
-      );
-    }
+          ),
+        );
+      },
+    );
+    // } else {
+    //   return showDialog(
+    //     barrierDismissible: false,
+    //     context: context,
+    //     builder: (ctx) {
+    //       return CustomDialog(
+    //         child: Padding(
+    //           padding: const EdgeInsets.symmetric(horizontal: 12),
+    //           child: Material(
+    //             borderRadius: BorderRadius.circular(8),
+    //             child: Container(
+    //               width: width,
+    //               padding: const EdgeInsets.symmetric(horizontal: 12),
+    //               decoration: BoxDecoration(
+    //                 border: Border.all(
+    //                   color: Theme.of(context).primaryColor,
+    //                 ),
+    //                 color: Theme.of(context).scaffoldBackgroundColor,
+    //                 borderRadius: BorderRadius.circular(8),
+    //               ),
+    //               child: Column(
+    //                 mainAxisSize: MainAxisSize.min,
+    //                 children: [
+    //                   const SizedBox(
+    //                     height: 23,
+    //                   ),
+    //                   Text(
+    //                     description,
+    //                     style: const TextStyle(
+    //                       fontSize: 25,
+    //                       fontFamily: 'Rajdhani',
+    //                       fontWeight: FontWeight.bold,
+    //                     ),
+    //                   ),
+    //                   const SizedBox(
+    //                     height: 50,
+    //                   ),
+    //                   CursorWidget(
+    //                     onTap: () {
+    //                       Navigator.pop(context);
+    //                     },
+    //                     isButton: true,
+    //                     borderColor: Theme.of(context).primaryColor,
+    //                     bgColor: Theme.of(context).primaryColor,
+    //                     buttonHeight: 60,
+    //                     buttonWidth: 150,
+    //                     child: Center(
+    //                       child: Text(
+    //                         'OK',
+    //                         style: TextStyle(
+    //                             fontWeight: FontWeight.bold,
+    //                             fontSize: 22,
+    //                             color:
+    //                                 Theme.of(context).scaffoldBackgroundColor),
+    //                       ),
+    //                     ),
+    //                   ),
+    //                   const SizedBox(
+    //                     height: 10,
+    //                   ),
+    //                 ],
+    //               ),
+    //             ),
+    //           ),
+    //         ),
+    //       );
+    //     },
+    //   );
+    // }
   }
 
   static showAlertDialogAndNavigateToHome({

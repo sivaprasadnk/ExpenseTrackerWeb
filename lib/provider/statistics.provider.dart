@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/model/transaction.category.model.dart';
+import 'package:expense_tracker/model/transaction.month.model.dart';
 import 'package:expense_tracker/utils/enums.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -51,6 +52,14 @@ class StatisticsProvider extends ChangeNotifier {
 
   void updateTouchedIndex(int index) {
     touchedIndex_ = index;
+    notifyListeners();
+  }
+
+  TransactionMonth? transacationMonth_;
+  TransactionMonth? get transacationMonth => transacationMonth_;
+
+  void updateMonth(TransactionMonth month) {
+    transacationMonth_ = month;
     notifyListeners();
   }
 }

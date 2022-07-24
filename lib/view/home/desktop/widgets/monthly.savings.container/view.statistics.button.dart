@@ -1,3 +1,4 @@
+import 'package:expense_tracker/utils/string.extension.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../monthly.statistics/monthly.statistics.desktop.dart';
@@ -29,14 +30,8 @@ class ViewStatisticsButton extends StatelessWidget {
           padding: const EdgeInsets.all(6.0),
           child: Row(
             children: [
-              Text(
-                'Statistics',
-                style: TextStyle(
-                  color: theme.primaryColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
-              ),
+              const Text('Statistics')
+                  .boldPrimaryColorTextWithSize(context, 20),
               const SizedBox(
                 width: 10,
               ),

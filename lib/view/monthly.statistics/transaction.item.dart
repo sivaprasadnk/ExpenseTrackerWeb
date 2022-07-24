@@ -1,4 +1,5 @@
 import 'package:expense_tracker/provider/home.provider.dart';
+import 'package:expense_tracker/utils/string.extension.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -56,12 +57,7 @@ class TransactionListItem extends StatelessWidget {
                     Text(
                       trans.title,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: bgColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    ).boldBgColorTextWithSize(context, 20),
                     const SizedBox(width: 6),
                     if (showCategory)
                       Container(
@@ -85,12 +81,7 @@ class TransactionListItem extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 4, vertical: 4),
                           child: Text(
-                            trans.categoryName,
-                            style: TextStyle(
-                              color: bgColor,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                            trans.categoryName).boldBgColorText(context),
                         ),
                       )
                   ],

@@ -53,9 +53,6 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
   MonthlyDataResponseModel? monthlyDataResponseModel;
 
   ///
-  TransactionMonth? trans;
-
-  ///
   final DateTime now = DateTime.now();
   DateTime selectedDate = DateTime.now();
 
@@ -78,6 +75,7 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
   }
 
   getData() async {
+    TransactionMonth? trans;
     monthlyDataResponseModel = await UserController.getMonthlyData(monthDocId);
 
     var monthDocList = monthlyDataResponseModel!.monthDocList;
@@ -87,7 +85,11 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
     if (monthlyDataResponseModel!.categoryList!.isNotEmpty) {
       categoryList = monthlyDataResponseModel!.categoryList!;
     }
+    // if(monthDocList.i)
     context.read<StatisticsProvider>().updateMonthDocList(monthDocList);
+    if (monthDocList.isNotEmpty) {
+      context.read<StatisticsProvider>().updateMonth(trans!);
+    }
 
     filterCategories(TransactionType.income);
   }
@@ -142,14 +144,8 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
                       child: Row(
                         children: [
                           const SizedBox(width: 20),
-                          Text(
-                            'Monthly Total',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: bgColor,
-                            ),
-                          ),
+                          const Text('Monthly Total')
+                              .boldBgColorTextWithSize(context, 20),
                           const Spacer(),
                           GestureDetector(
                             onTap: () {
@@ -162,33 +158,35 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
                       ),
                     ),
                     const SizedBox(height: 5),
-                    Consumer<StatisticsProvider>(builder: (_, provider, __) {
-                      return Row(
-                        children: [
-                          const SizedBox(width: 20),
-                          if (provider.monthDocList!.isNotEmpty)
-                            Text(
-                              "${trans!.monthlyDrOrCr} $currency ${trans!.monthlyBalance}",
-                              style: TextStyle(
-                                height: 0.8,
-                                fontSize: 53,
-                                fontWeight: FontWeight.bold,
-                                color: bgColor,
+                    Consumer<StatisticsProvider>(
+                      builder: (_, provider, __) {
+                        return Row(
+                          children: [
+                            const SizedBox(width: 20),
+                            if (provider.monthDocList!.isNotEmpty)
+                              Text(
+                                "${provider.transacationMonth!.monthlyDrOrCr} $currency ${provider.transacationMonth!.monthlyBalance}",
+                                style: TextStyle(
+                                  height: 0.8,
+                                  fontSize: 53,
+                                  fontWeight: FontWeight.bold,
+                                  color: bgColor,
+                                ),
+                              )
+                            else
+                              Text(
+                                "$currency 0",
+                                style: TextStyle(
+                                  height: 0.8,
+                                  fontSize: 45,
+                                  fontWeight: FontWeight.bold,
+                                  color: bgColor,
+                                ),
                               ),
-                            )
-                          else
-                            Text(
-                              "$currency 0",
-                              style: TextStyle(
-                                height: 0.8,
-                                fontSize: 45,
-                                fontWeight: FontWeight.bold,
-                                color: bgColor,
-                              ),
-                            ),
-                        ],
-                      );
-                    }),
+                          ],
+                        );
+                      },
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -196,18 +194,12 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
                             builder: (_, provider, __) {
                           return Column(
                             children: [
-                              Text(
-                                'Income',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                  color: bgColor,
-                                ),
-                              ),
+                              const Text('Income')
+                                  .boldBgColorTextWithSize(context, 15),
                               const SizedBox(height: 10),
                               if (provider.monthDocList!.isNotEmpty)
                                 Text(
-                                  "$currency ${trans!.monthlyTotalIncome}",
+                                  "$currency ${provider.transacationMonth!.monthlyTotalIncome}",
                                   style: TextStyle(
                                     height: 0.8,
                                     fontSize: 45,
@@ -239,41 +231,36 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
                         ),
                         const SizedBox(width: 25),
                         Consumer<StatisticsProvider>(
-                            builder: (_, provider, __) {
-                          return Column(
-                            children: [
-                              Text(
-                                'Expense',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                  color: bgColor,
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              if (provider.monthDocList!.isNotEmpty)
-                                Text(
-                                  "$currency ${trans!.monthlyTotalExpense}",
-                                  style: TextStyle(
-                                    height: 0.8,
-                                    fontSize: 45,
-                                    fontWeight: FontWeight.bold,
-                                    color: bgColor,
-                                  ),
-                                )
-                              else
-                                Text(
-                                  "$currency 0",
-                                  style: TextStyle(
-                                    height: 0.8,
-                                    fontSize: 45,
-                                    fontWeight: FontWeight.bold,
-                                    color: bgColor,
-                                  ),
-                                )
-                            ],
-                          );
-                        })
+                          builder: (_, provider, __) {
+                            return Column(
+                              children: [
+                                const Text('Expense')
+                                    .boldBgColorTextWithSize(context, 15),
+                                const SizedBox(height: 10),
+                                if (provider.monthDocList!.isNotEmpty)
+                                  Text(
+                                    "$currency ${provider.transacationMonth!.monthlyTotalExpense}",
+                                    style: TextStyle(
+                                      height: 0.8,
+                                      fontSize: 45,
+                                      fontWeight: FontWeight.bold,
+                                      color: bgColor,
+                                    ),
+                                  )
+                                else
+                                  Text(
+                                    "$currency 0",
+                                    style: TextStyle(
+                                      height: 0.8,
+                                      fontSize: 45,
+                                      fontWeight: FontWeight.bold,
+                                      color: bgColor,
+                                    ),
+                                  )
+                              ],
+                            );
+                          },
+                        )
                       ],
                     )
                   ],
@@ -282,14 +269,14 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
               const SizedBox(height: 10),
               Expanded(
                 child: Container(
-                  height: height * 0.6,
+                  // height: height * 0.6,
                   width: 430,
                   padding:
-                      const EdgeInsets.all(8) + const EdgeInsets.only(left: 10),
+                      const EdgeInsets.all(6) + const EdgeInsets.only(left: 10),
                   decoration: BoxDecoration(
-                    color: primaryColor,
+                    color: bgColor,
                     border: Border.all(
-                      width: 1,
+                      width: 2,
                       color: primaryColor,
                     ),
                     borderRadius: BorderRadius.circular(12),
@@ -298,59 +285,29 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Consumer<StatisticsProvider>(builder: (_, provider, __) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  filterCategories(TransactionType.income);
-                                },
-                                child: Container(
-                                  height: btnHeight,
-                                  width: btnWidth,
-                                  decoration: BoxDecoration(
-                                    color: provider.selectedType ==
-                                            TransactionType.income
-                                        ? bgColor
-                                        : primaryColor,
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      'Income',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: provider.selectedType ==
-                                                TransactionType.income
-                                            ? primaryColor
-                                            : bgColor,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 10),
-                              GestureDetector(
-                                onTap: () {
-                                  filterCategories(TransactionType.expense);
-                                },
-                                child: Consumer<StatisticsProvider>(
-                                    builder: (_, provider, __) {
-                                  return Container(
+                      Consumer<StatisticsProvider>(
+                        builder: (_, provider, __) {
+                          return Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                            child: Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    filterCategories(TransactionType.income);
+                                  },
+                                  child: Container(
                                     height: btnHeight,
                                     width: btnWidth,
                                     decoration: BoxDecoration(
                                       color: provider.selectedType ==
-                                              TransactionType.expense
-                                          ? bgColor
-                                          : primaryColor,
+                                              TransactionType.income
+                                          ? primaryColor
+                                          : bgColor,
                                       borderRadius: BorderRadius.circular(5),
                                     ),
                                     child: Center(
                                       child: Text(
-                                        'Expense',
+                                        'Income',
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           color: provider.selectedType ==
@@ -360,21 +317,47 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
                                         ),
                                       ),
                                     ),
-                                  );
-                                }),
-                              )
-                            ],
-                          ),
-                        );
-                      }),
-                      const SizedBox(height: 20),
-                      Text(
-                        'Categories',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: bgColor,
-                        ),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                GestureDetector(
+                                  onTap: () {
+                                    filterCategories(TransactionType.expense);
+                                  },
+                                  child: Consumer<StatisticsProvider>(
+                                      builder: (_, provider, __) {
+                                    return Container(
+                                      height: btnHeight,
+                                      width: btnWidth,
+                                      decoration: BoxDecoration(
+                                        color: provider.selectedType ==
+                                                TransactionType.expense
+                                            ? primaryColor
+                                            : bgColor,
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          'Expense',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: provider.selectedType ==
+                                                    TransactionType.expense
+                                                ? bgColor
+                                                : primaryColor,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                                )
+                              ],
+                            ),
+                          );
+                        },
                       ),
+                      const SizedBox(height: 10),
+                      const Text('Categories').boldPrimaryColorText(context),
                       const SizedBox(height: 40),
                       Consumer<StatisticsProvider>(
                         builder: (_, provider, __) {
@@ -384,8 +367,8 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
                                   child: Padding(
                                     padding: const EdgeInsets.only(left: 0),
                                     child: SizedBox(
-                                      height: 105,
-                                      width: 105,
+                                      height: 102,
+                                      width: 102,
                                       child: PieChart(
                                         PieChartData(
                                           pieTouchData: PieTouchData(
@@ -480,17 +463,12 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
                                         onTap: () {},
                                         child: Row(
                                           children: [
-                                            Text(
-                                              'View All',
-                                              style: TextStyle(
-                                                color: bgColor,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
+                                            const Text('View All')
+                                                .boldPrimaryColorText(context),
                                             const SizedBox(width: 4),
                                             Icon(
                                               Icons.arrow_forward,
-                                              color: bgColor,
+                                              color: primaryColor,
                                             )
                                           ],
                                         ),
@@ -529,7 +507,7 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
                                             decoration: BoxDecoration(
                                                 border: Border.all(
                                                   width: 2,
-                                                  color: bgColor,
+                                                  color: primaryColor,
                                                 ),
                                                 borderRadius:
                                                     const BorderRadius.only(
@@ -547,20 +525,15 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
                                                     cat.categoryName,
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
-                                                      color: bgColor,
+                                                      color: primaryColor,
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       fontSize: 18,
                                                     ),
                                                   ),
-                                                  Text(
-                                                    '$currency ${cat.totalAmount}',
-                                                    style: TextStyle(
-                                                      color: bgColor,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
+                                                  Text('$currency ${cat.totalAmount}')
+                                                      .boldPrimaryColorText(
+                                                          context),
                                                 ],
                                               ),
                                             ),
@@ -573,7 +546,10 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
                                                 height: 35,
                                                 width: 35,
                                                 decoration: BoxDecoration(
-                                                  color: bgColor,
+                                                  // border: Border.all(
+                                                  //   color: primaryColor,
+                                                  // ),
+                                                  color: primaryColor,
                                                   shape: BoxShape.circle,
                                                 ),
                                                 child: Center(
@@ -582,7 +558,7 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
                                                     style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
-                                                      color: primaryColor,
+                                                      color: bgColor,
                                                     ),
                                                   ),
                                                 ),
@@ -668,7 +644,7 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
           .where('categoryId', isEqualTo: selectedCategory.categoryId)
           .orderBy('createdDateTime', descending: true)
           .snapshots();
-      context.read<StatisticsProvider>().updateStream(stream);
+      provider.updateStream(stream);
     } else {
       var stream = FirebaseFirestore.instance
           .collection(kUsersCollection)
@@ -680,7 +656,7 @@ class _MonthlyStatisticsDesktopState extends State<MonthlyStatisticsDesktop> {
           .orderBy('createdDateTime', descending: true)
           .snapshots();
 
-      context.read<StatisticsProvider>().updateStream(stream);
+      provider.updateStream(stream);
     }
   }
 }

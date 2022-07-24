@@ -1,5 +1,6 @@
 import 'package:expense_tracker/model/transaction.category.model.dart';
 import 'package:expense_tracker/utils/enums.dart';
+import 'package:expense_tracker/utils/string.extension.dart';
 import 'package:expense_tracker/view/category.transactions.list/category.transactions.list.desktop.dart';
 import 'package:flutter/material.dart';
 
@@ -37,7 +38,7 @@ class ViewTransactionsContainer extends StatelessWidget {
           },
           child: Container(
             decoration: ShapeDecoration(
-              color: bgColor,
+              color: primaryColor,
               shape: const StadiumBorder(),
             ),
             child: Padding(
@@ -46,16 +47,11 @@ class ViewTransactionsContainer extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const SizedBox(width: 5),
-                  const Text(
-                    'View',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  const Text('View').boldBgColorText(context),
                   const SizedBox(width: 3),
                   Icon(
                     Icons.arrow_forward_ios,
-                    color: primaryColor,
+                    color: bgColor,
                     size: 12,
                     // color: bgColor,
                   ),
