@@ -7,17 +7,17 @@ class AddTransactionModel {
   int dailyTotalIncome;
   String userId;
   String dailyDrOrCr;
-  String createdDateTimeString;
-  DateTime createdDateTime;
+  String currentDateTimeString;
+  DateTime currentDateTime;
   TransactionMonth transactionMonth;
   AddTransactionModel({
     required this.transaction,
     required this.dailyTotalIncome,
     required this.dailyTotalExpense,
     required this.userId,
-    required this.createdDateTimeString,
+    required this.currentDateTimeString,
     required this.transactionMonth,
-    required this.createdDateTime,
+    required this.currentDateTime,
     required this.dailyDrOrCr,
-  }); 
+  });
 }

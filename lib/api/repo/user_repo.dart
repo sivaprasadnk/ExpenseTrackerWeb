@@ -58,8 +58,8 @@ class UserRepo {
         .update({
       'expenseDocId': expenseDocId,
       'recentDocId': recentDocId,
-      'createdDateTime': request.createdDateTime,
-      'createdDateTimeString': request.createdDateTimeString,
+      'createdDateTime': request.currentDateTime,
+      'createdDateTimeString': request.currentDateTimeString,
     });
 
     /// updating  expense docid in recent expense item
@@ -72,8 +72,8 @@ class UserRepo {
         .update({
       'expenseDocId': expenseDocId,
       'recentDocId': recentDocId,
-      'createdDateTime': request.createdDateTime,
-      'createdDateTimeString': request.createdDateTimeString,
+      'createdDateTime': request.currentDateTime,
+      'createdDateTimeString': request.currentDateTimeString,
     });
 
     /// updating  total expense amount for the date
@@ -95,7 +95,7 @@ class UserRepo {
       'month': expense.expenseMonth,
       'day': expense.expenseDay,
       'monthDocId': expense.expenseMonthDocId,
-      'updatedDateTime': request.createdDateTimeString,
+      'updatedDateTime': request.currentDateTime,
     });
 
     DocumentSnapshot<Map<String, dynamic>> categoryDoc = await fireStoreInstance
@@ -126,7 +126,7 @@ class UserRepo {
       // 'totalOnlineAmount': expense.mode == "Online"
       //     ? totOnlineAmt + expense.amount
       //     : totOnlineAmt,
-      'lastUpdateTime': request.createdDateTimeString,
+      'lastUpdateTime': request.currentDateTime,
       'categoryName': expense.categoryName,
       'categoryId': expense.categoryId,
     });
@@ -139,7 +139,7 @@ class UserRepo {
         .collection(kExpenseCategoriesCollection)
         .doc(expense.categoryName)
         .collection(kExpenseCollection)
-        .doc(request.createdDateTimeString)
+        .doc(request.currentDateTimeString)
         .set({
       'active': true,
       'amount': expense.amount,
@@ -155,8 +155,8 @@ class UserRepo {
       'expenseMonthDocId': expense.expenseMonthDocId,
       'expenseDate': expense.expenseDate,
       'expenseDay': expense.expenseDay,
-      'createdDateTime': request.createdDateTime,
-      'createdDateTimeString': request.createdDateTimeString,
+      'createdDateTime': request.currentDateTime,
+      'createdDateTimeString': request.currentDateTimeString,
       'categoryId': expense.categoryId,
       'categoryName': expense.categoryName,
     });
@@ -170,7 +170,8 @@ class UserRepo {
         .doc(expense.expenseMonthDocId)
         .set({
       'totalExpense': request.dailyTotal + expense.amount,
-      'lastUpdatedTime': request.createdDateTimeString,
+      'lastUpdatedTime': request.currentDateTime,
+      'lastUpdatedTimeString': request.currentDateTimeString,
       'lastUpdatedExpenseDocId': expenseDocId,
       'month': request.expenseMonth.month,
       'monthDocId': request.expenseMonth.monthDocId,
@@ -516,8 +517,8 @@ class UserRepo {
         .update({
       kTransactionDocIdField: transactionDocId,
       kRecentDocIdField: recentDocId,
-      kCreatedDateTimeField: request.createdDateTime,
-      'createdDateTimeString': request.createdDateTimeString,
+      kCreatedDateTimeField: request.currentDateTime,
+      kCreatedDateTimeStringField: request.currentDateTimeString,
     });
     debugPrint(".. @4");
 
@@ -531,9 +532,9 @@ class UserRepo {
         .update({
       kTransactionDocIdField: transactionDocId,
       kRecentDocIdField: recentDocId,
-      'dailyDrOrCr': request.dailyDrOrCr,
-      kCreatedDateTimeField: request.createdDateTime,
-      'createdDateTimeString': request.createdDateTimeString,
+      kDailyDrOrCrField: request.dailyDrOrCr,
+      kCreatedDateTimeField: request.currentDateTime,
+      kCreatedDateTimeStringField: request.currentDateTimeString,
     });
     debugPrint(".. @5");
 
@@ -552,10 +553,10 @@ class UserRepo {
       'date': transaction.transactionDate,
       'month': transaction.transactionMonth,
       'monthDocId': transaction.transactionMonthDocId,
-      'updatedDateTime': request.createdDateTime,
       kDailyDrOrCrField: request.dailyDrOrCr,
       'monthlyDrOrCr': request.transactionMonth.monthlyDrOrCr,
-      'updatedDateTimeString': request.createdDateTimeString,
+      kLastUpdateTimeField: request.currentDateTime,
+      kLastUpdateTimeStringField: request.currentDateTimeString,
     });
     debugPrint(".. @6");
 
@@ -578,7 +579,7 @@ class UserRepo {
         .collection(kTransactionCategoriesCollection)
         .doc(transaction.categoryName + "." + transaction.transactionType)
         .collection(kTransactionCollection)
-        .doc(request.createdDateTimeString)
+        .doc(request.currentDateTimeString)
         .set({
       'active': true,
       'amount': transaction.amount,
@@ -594,8 +595,8 @@ class UserRepo {
       'transactionMonthDocId': transaction.transactionMonthDocId,
       'transactionDate': transaction.transactionDate,
       'transactionDay': transaction.transactionDay,
-      'createdDateTime': request.createdDateTime,
-      'createdDateTimeString': request.createdDateTimeString,
+      kCreatedDateTimeField: request.currentDateTime,
+      kCreatedDateTimeStringField: request.currentDateTimeString,
       'categoryId': transaction.categoryId,
       'categoryName': transaction.categoryName,
     });
@@ -609,7 +610,7 @@ class UserRepo {
         .collection(kTransactionCategoriesCollection)
         .doc(transaction.categoryName + "." + transaction.transactionType)
         .collection(kTransactionCollection)
-        .doc(request.createdDateTimeString)
+        .doc(request.currentDateTimeString)
         .set({
       'active': true,
       'amount': transaction.amount,
@@ -625,8 +626,8 @@ class UserRepo {
       'transactionMonthDocId': transaction.transactionMonthDocId,
       'transactionDate': transaction.transactionDate,
       'transactionDay': transaction.transactionDay,
-      'createdDateTime': request.createdDateTime,
-      'createdDateTimeString': request.createdDateTimeString,
+      kCreatedDateTimeField: request.currentDateTime,
+      kCreatedDateTimeStringField: request.currentDateTimeString,
       'categoryId': transaction.categoryId,
       'categoryName': transaction.categoryName,
     });
@@ -634,6 +635,8 @@ class UserRepo {
 
     int categoryTotalAmount = 0;
     int categoryTotalAmount1 = 0;
+    DateTime createdDateTime = request.currentDateTime;
+    String createdDateTimeString = request.currentDateTimeString;
 
     DocumentSnapshot<Map<String, dynamic>> categoryDoc = await fireStoreInstance
         .collection(kUsersCollection)
@@ -646,6 +649,8 @@ class UserRepo {
     if (categoryDoc.data() != null) {
       categoryTotalAmount = categoryDoc.data()!['totalAmount'] ?? 0;
       categoryTotalAmount += transaction.amount;
+      createdDateTime = categoryDoc.data()![kCreatedDateTimeField];
+      createdDateTimeString = categoryDoc.data()![kCreatedDateTimeStringField];
     } else {
       categoryTotalAmount = transaction.amount;
     }
@@ -660,10 +665,10 @@ class UserRepo {
         .set({
       'transactionType': transaction.transactionType,
       'totalAmount': categoryTotalAmount,
-      'createdDateTimeString': request.createdDateTimeString,
-      'lastUpdateTimeString': request.createdDateTimeString,
-      'lastUpdateTime': request.createdDateTime,
-      'createdDateTime': request.createdDateTime,
+      kCreatedDateTimeField: createdDateTime,
+      kCreatedDateTimeStringField: createdDateTimeString,
+      kLastUpdateTimeField: request.currentDateTime,
+      kLastUpdateTimeStringField: request.currentDateTimeString,
       'categoryId': transaction.categoryId,
       'categoryName': transaction.categoryName,
     });
@@ -694,91 +699,48 @@ class UserRepo {
         .set({
       'transactionType': transaction.transactionType,
       'totalAmount': categoryTotalAmount1,
-      'lastUpdateTimeString': request.createdDateTimeString,
-      'lastUpdateTime': request.createdDateTime,
+      kLastUpdateTimeField: request.currentDateTime,
+      kLastUpdateTimeStringField: request.currentDateTimeString,
       'categoryId': transaction.categoryId,
       'categoryName': transaction.categoryName,
     });
 
-    // DocumentSnapshot<Map<String, dynamic>> categoryDoc = await fireStoreInstance
-    //     .collection(kUsersCollection)
-    //     .doc(request.userId)
-    //     .collection(kExpenseCategoriesCollection)
-    //     .doc(expense.categoryName)
-    //     .get();
+    int income = 0;
+    int expense = 0;
+    int balance = 0;
+    String drOrCr = "+";
+    DocumentSnapshot<Map<String, dynamic>> userDoc = await fireStoreInstance
+        .collection(kUsersCollection)
+        .doc(request.userId)
+        .get();
+    if (userDoc.data() != null) {
+      if (transaction.transactionType == "Income") {
+        income = userDoc.data()![kTotalIncomeField] + transaction.amount;
+      } else {
+        expense = userDoc.data()![kTotalExpenseField] + transaction.amount;
+      }
+      balance = income - expense;
+      if (balance < 0) {
+        drOrCr = "-";
+      }
 
-    // int totAmt = 0;
-    // int totCashAmt = 0;
-    // int totOnlineAmt = 0;
-    // if (categoryDoc.data() != null) {
-    //   totAmt = categoryDoc.data()!['totalAmount'] ?? 0;
-    //   totCashAmt = categoryDoc.data()!['totalCashAmount'] ?? 0;
-    //   totOnlineAmt = categoryDoc.data()!['totalOnlineAmount'] ?? 0;
-    // } else {}
+      fireStoreInstance
+          .collection(kUsersCollection)
+          .doc(request.userId)
+          .update({
+        kTotalIncomeField: income,
+        kTotalExpenseField: expense,
+        kTotalBalanceField: balance,
+        kTotalDrOrCrField: drOrCr,
+        kLastUpdateTimeField: request.currentDateTime,
+        kLastUpdateTimeStringField: request.currentDateTimeString,
+      });
+      // drOrCr = userDoc.data()![kTotalDrOrCrField];
+    }
 
-    // fireStoreInstance
-    //     .collection(kUsersCollection)
-    //     .doc(request.userId)
-    //     .collection(kExpenseCategoriesCollection)
-    //     .doc(expense.categoryName)
-    //     .set({
-    //   'totalAmount': totAmt + expense.amount,
-    //   'totalCashAmount':
-    //       expense.mode == "Cash" ? totCashAmt + expense.amount : totCashAmt,
-    //   'totalOnlineAmount': expense.mode == "Online"
-    //       ? totOnlineAmt + expense.amount
-    //       : totOnlineAmt,
-    //   'lastUpdateTime': request.createdDateTimeString,
-    //   'categoryName': expense.categoryName,
-    //   'categoryId': expense.categoryId,
-    // });
-
-    // /// setting  expense category item in category list
-
-    // await fireStoreInstance
-    //     .collection(kUsersCollection)
-    //     .doc(request.userId)
-    //     .collection(kExpenseCategoriesCollection)
-    //     .doc(expense.categoryName)
-    //     .collection(kExpenseCollection)
-    //     .doc(request.createdDateTimeString)
-    //     .set({
-    //   'active': true,
-    //   'amount': expense.amount,
-    //   'amount_i': expense.amount.toString().toLowerCase(),
-    //   'details': expense.details,
-    //   'details_i': expense.details.toLowerCase(),
-    //   'mode': expense.mode,
-    //   'expenseDocId': expenseDocId,
-    //   'recentDocId': recentDocId,
-    //   'expenseTitle': expense.expenseTitle,
-    //   'expenseTitle_i': expense.expenseTitle.toLowerCase(),
-    //   'expenseMonth': expense.expenseMonth,
-    //   'expenseMonthDocId': expense.expenseMonthDocId,
-    //   'expenseDate': expense.expenseDate,
-    //   'expenseDay': expense.expenseDay,
-    //   'createdDateTime': request.createdDateTime,
-    //   'createdDateTimeString': request.createdDateTimeString,
-    //   'categoryId': expense.categoryId,
-    //   'categoryName': expense.categoryName,
-    // });
-
-    // /// add expense month details
-
-    // fireStoreInstance
-    //     .collection(kUsersCollection)
-    //     .doc(request.userId)
-    //     .collection(kExpenseMonthsCollection)
-    //     .doc(expense.expenseMonthDocId)
-    //     .set({
-    //   'totalExpense': request.dailyTotal + expense.amount,
-    //   'lastUpdatedTime': request.createdDateTimeString,
-    //   'lastUpdatedExpenseDocId': expenseDocId,
-    //   'month': request.expenseMonth.month,
-    //   'monthDocId': request.expenseMonth.monthDocId,
-    //   'monthOnly': request.expenseMonth.monthOnly,
-    //   'year': request.expenseMonth.year,
-    // });
+// fireStoreInstance
+//         .collection(kUsersCollection)
+//         .doc(request.userId).u
 
     return ResponseModel(
       status: ResponseStatus.success,
@@ -787,52 +749,113 @@ class UserRepo {
     );
   }
 
-  Future<GetBalancesResponse> getCurrentBalances(
-      {required String userId}) async {
-    final DateTime now = DateTime.now();
-    int monthlyTotalIncome = 0;
-    int monthlyTotalExpense = 0;
-    int monthlyBalance = 0;
-    String monthlyDrOrCr = "+";
+  // Future<GetBalancesResponse> getCurrentBalances(
+  //     {required String userId}) async {
+  //   final DateTime now = DateTime.now();
+  //   int monthlyTotalIncome = 0;
+  //   int monthlyTotalExpense = 0;
+  //   int monthlyBalance = 0;
+  //   String monthlyDrOrCr = "+";
 
-    int dailyTotalIncome = 0;
-    int dailyTotalExpense = 0;
-    int dailyBalance = 0;
-    String dailyDrOrCr = "+";
+  //   int dailyTotalIncome = 0;
+  //   int dailyTotalExpense = 0;
+  //   int dailyBalance = 0;
+  //   String dailyDrOrCr = "+";
+
+  //   var date = DateFormat('dd-MM-yyyy').format(now);
+
+  //   var monthDocId = DateFormat('MMM_yyyy').format(now);
+
+  //   DocumentSnapshot<Map<String, dynamic>> monthDocSnapshot =
+  //       await fireStoreInstance
+  //           .collection(kUsersCollection)
+  //           .doc(userId)
+  //           .collection(kTransactionMonthsCollection)
+  //           .doc(monthDocId)
+  //           .get();
+  //   if (monthDocSnapshot.data() != null) {
+  //     var monthDocData = monthDocSnapshot.data()!;
+  //     monthlyTotalIncome = monthDocData[kMonthlyTotalIncomeField];
+  //     monthlyTotalExpense = monthDocData[kMonthlyTotalExpenseField];
+  //     monthlyBalance = monthDocData[kMonthlyBalanceField];
+  //     monthlyDrOrCr = monthDocData[kMonthlyDrOrCrField];
+  //   }
+  //   DocumentSnapshot<Map<String, dynamic>> dateDocSnapshot =
+  //       await fireStoreInstance
+  //           .collection(kUsersCollection)
+  //           .doc(userId)
+  //           .collection(kTransactionDatesCollection)
+  //           .doc(date)
+  //           .get();
+  //   debugPrint(".. @12");
+  //   if (dateDocSnapshot.data() != null) {
+  //     var dateDocData = dateDocSnapshot.data()!;
+  //     dailyTotalIncome = dateDocData[kDailyTotalIncomeField];
+  //     dailyTotalExpense = dateDocData[kDailyTotalExpenseField];
+  //     dailyBalance = dateDocData[kDailyBalanceField];
+  //     dailyDrOrCr = dateDocData[kDailyDrOrCrField];
+  //   }
+  //   debugPrint(".. @13");
+
+  //   List<TransactionModel> recentExpList = [];
+
+  //   QuerySnapshot<Map<String, dynamic>> querySnapshot = await fireStoreInstance
+  //       .collection(kUsersCollection)
+  //       .doc(userId)
+  //       .collection(kRecentTransactionCollection)
+  //       .where('transactionDate', isEqualTo: date)
+  //       .orderBy('createdDateTime', descending: true)
+  //       .get();
+
+  //   debugPrint(".. @14  date : $date");
+  //   var recentTransactionList1 =
+  //       querySnapshot.docs.map((doc) => doc.data()).toList();
+  //   for (var element in recentTransactionList1) {
+  //     TransactionModel recentExpense = TransactionModel.fromMap(element);
+  //     recentExpList.add(recentExpense);
+  //   }
+
+  //   // debugPrint('.. @@  $recentExpList');
+
+  //   return GetBalancesResponse(
+  //     status: ResponseStatus.success,
+  //     message: 'Success',
+  //     data: '',
+  //     monthlyBalance: monthlyBalance,
+  //     monthlyDrOrCr: monthlyDrOrCr,
+  //     monthlyTotalIncome: monthlyTotalIncome,
+  //     dailyBalance: dailyBalance,
+  //     dailyDrOrCr: dailyDrOrCr,
+  //     dailyTotalExpense: dailyTotalExpense,
+  //     dailyTotalIncome: dailyTotalIncome,
+  //     monthlyTotalExpense: monthlyTotalExpense,
+  //     recentExpList: recentExpList,
+  //     userId: userId,
+  //   );
+  // }
+
+  Future<GetBalancesResponse> getCurrentBalancesV2() async {
+    var userId = FirebaseAuth.instance.currentUser!.uid;
+
+    final DateTime now = DateTime.now();
+
+    int totalIncome = 0;
+    int totalExpense = 0;
+    int totalBalance = 0;
+    String drOrCr = "+";
 
     var date = DateFormat('dd-MM-yyyy').format(now);
 
-    var monthDocId = DateFormat('MMM_yyyy').format(now);
+    DocumentSnapshot<Map<String, dynamic>> userDoc =
+        await fireStoreInstance.collection(kUsersCollection).doc(userId).get();
+    if (userDoc.data() != null) {
+      var userDocData = userDoc.data()!;
+      totalIncome = userDocData[kTotalIncomeField];
+      totalExpense = userDocData[kTotalExpenseField];
+      totalBalance = userDocData[kTotalBalanceField];
+      drOrCr = userDocData[kTotalDrOrCrField];
+    }
 
-    DocumentSnapshot<Map<String, dynamic>> monthDocSnapshot =
-        await fireStoreInstance
-            .collection(kUsersCollection)
-            .doc(userId)
-            .collection(kTransactionMonthsCollection)
-            .doc(monthDocId)
-            .get();
-    if (monthDocSnapshot.data() != null) {
-      var monthDocData = monthDocSnapshot.data()!;
-      monthlyTotalIncome = monthDocData[kMonthlyTotalIncomeField];
-      monthlyTotalExpense = monthDocData[kMonthlyTotalExpenseField];
-      monthlyBalance = monthDocData[kMonthlyBalanceField];
-      monthlyDrOrCr = monthDocData[kMonthlyDrOrCrField];
-    }
-    DocumentSnapshot<Map<String, dynamic>> dateDocSnapshot =
-        await fireStoreInstance
-            .collection(kUsersCollection)
-            .doc(userId)
-            .collection(kTransactionDatesCollection)
-            .doc(date)
-            .get();
-    debugPrint(".. @12");
-    if (dateDocSnapshot.data() != null) {
-      var dateDocData = dateDocSnapshot.data()!;
-      dailyTotalIncome = dateDocData[kDailyTotalIncomeField];
-      dailyTotalExpense = dateDocData[kDailyTotalExpenseField];
-      dailyBalance = dateDocData[kDailyBalanceField];
-      dailyDrOrCr = dateDocData[kDailyDrOrCrField];
-    }
     debugPrint(".. @13");
 
     List<TransactionModel> recentExpList = [];
@@ -843,8 +866,8 @@ class UserRepo {
         .collection(kRecentTransactionCollection)
         .where('transactionDate', isEqualTo: date)
         .orderBy('createdDateTime', descending: true)
-        // .limit(5)
         .get();
+
     debugPrint(".. @14  date : $date");
     var recentTransactionList1 =
         querySnapshot.docs.map((doc) => doc.data()).toList();
@@ -859,14 +882,10 @@ class UserRepo {
       status: ResponseStatus.success,
       message: 'Success',
       data: '',
-      monthlyBalance: monthlyBalance,
-      monthlyDrOrCr: monthlyDrOrCr,
-      monthlyTotalIncome: monthlyTotalIncome,
-      dailyBalance: dailyBalance,
-      dailyDrOrCr: dailyDrOrCr,
-      dailyTotalExpense: dailyTotalExpense,
-      dailyTotalIncome: dailyTotalIncome,
-      monthlyTotalExpense: monthlyTotalExpense,
+      totalIncome: totalIncome,
+      totalExpense: totalExpense,
+      totalBalance: totalBalance,
+      drOrCr: drOrCr,
       recentExpList: recentExpList,
       userId: userId,
     );

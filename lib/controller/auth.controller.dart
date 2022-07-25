@@ -88,13 +88,7 @@ class AuthController {
           });
         } else {
           var provider = Provider.of<HomeProvider>(context, listen: false);
-          userRepo.getCurrentBalances(userId: response.userId).then((value) {
-            provider.updateDailyTotalIncome(value.dailyTotalIncome);
-            provider.updateDailyTotalExpense(value.dailyTotalExpense);
-            provider.updateDailyBalance();
-            provider.updateMonthlyTotalIncome(value.monthlyTotalIncome);
-            provider.updateMonthlyTotalExpense(value.monthlyTotalExpense);
-            provider.updateMonthlyBalance();
+          userRepo.getCurrentBalancesV2().then((value) {
             provider.updateRecentList(value.recentExpList);
             provider.updateCurrency(response.data);
             Navigation.checkPlatformAndNavigateToHome(context);
@@ -176,12 +170,6 @@ class AuthController {
           });
         } else {
           var provider = Provider.of<HomeProvider>(context, listen: false);
-          provider.updateDailyTotalIncome(0);
-          provider.updateDailyTotalExpense(0);
-          provider.updateDailyBalance();
-          provider.updateMonthlyTotalIncome(0);
-          provider.updateMonthlyTotalExpense(0);
-          provider.updateMonthlyBalance();
 
           provider.updateRecentList([]);
 

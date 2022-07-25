@@ -3,6 +3,17 @@ import 'package:expense_tracker/model/transaction.model.dart';
 import 'package:flutter/cupertino.dart';
 
 class HomeProvider extends ChangeNotifier {
+  ///
+  String totalIncome_ = "+";
+  String get totalIncome => totalIncome_;
+
+  void updateTotalIncome(String income) {
+    totalIncome_ = income;
+    notifyListeners();
+  }
+
+  ///
+
   String monthlyDrOrCr_ = "+";
   String get monthlyDrOrCr => monthlyDrOrCr_;
 
@@ -21,7 +32,6 @@ class HomeProvider extends ChangeNotifier {
     dailyDrOrCr_ = sign;
     notifyListeners();
   }
-
 
   String currencySymbol_ = kRupeeSymbol;
   String get currencySymbol => currencySymbol_;
@@ -94,7 +104,6 @@ class HomeProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
-
 
   ///
   int dailyBalance_ = 0;
@@ -275,7 +284,4 @@ class HomeProvider extends ChangeNotifier {
     monthlyDrOrCrStatistic_ = sign;
     notifyListeners();
   }
-
-
-
 }

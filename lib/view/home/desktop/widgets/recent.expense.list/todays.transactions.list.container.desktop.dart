@@ -19,7 +19,6 @@ class _TodaysTransactionsListContainerDesktopState
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      // height: screenHeight * 0.4,
       child: Consumer<HomeProvider>(
         builder: (_, provider, __) {
           return provider.recentTransactionsList.isNotEmpty

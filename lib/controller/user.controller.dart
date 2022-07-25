@@ -221,7 +221,7 @@ class UserController {
     var monthOnly = DateFormat('MMM').format(selectedDate);
     var monthDocId = DateFormat('MMM_yyyy').format(selectedDate);
     final DateTime now = DateTime.now();
-    var a = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
+    var a = DateFormat('dd-MM-yyyy kk:mm:ss').format(now);
     DateTime formattedCurrentDateTimeWithSec = DateTime.parse(a);
 
     final String formattedCurrentDateTimeStringWithSec =
@@ -287,8 +287,8 @@ class UserController {
       dailyTotalExpense: dailyTotalExpense,
       dailyTotalIncome: dailyTotalIncome,
       dailyDrOrCr: dailyDrOrCr,
-      createdDateTimeString: formattedCurrentDateTimeStringWithSec,
-      createdDateTime: formattedCurrentDateTimeWithSec,
+      currentDateTimeString: formattedCurrentDateTimeStringWithSec,
+      currentDateTime: formattedCurrentDateTimeWithSec,
     );
 
     ResponseModel response = await userRepo.addTransaction(request);
@@ -297,16 +297,9 @@ class UserController {
       Dialogs.showAlertDialog(context: context, description: response.message);
     } else {
       GetBalancesResponse balancesResponse =
-          await userRepo.getCurrentBalances(userId: userId);
+          await userRepo.getCurrentBalancesV2();
       var provider = Provider.of<HomeProvider>(context, listen: false);
       if (balancesResponse.status == ResponseStatus.success) {
-        provider.updateDailyTotalIncome(balancesResponse.dailyTotalIncome);
-        provider.updateDailyTotalExpense(balancesResponse.dailyTotalExpense);
-        provider.updateDailyBalance();
-        provider.updateMonthlyTotalIncome(balancesResponse.monthlyTotalIncome);
-        provider
-            .updateMonthlyTotalExpense(balancesResponse.monthlyTotalExpense);
-        provider.updateMonthlyBalance();
         provider.updateRecentList(balancesResponse.recentExpList);
         Future.delayed(const Duration(seconds: 2)).then((value) {
           Dialogs.showAlertDialogAndNavigateToHome(

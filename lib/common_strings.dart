@@ -27,6 +27,7 @@ const String kPlayStoreLink =
 const String kTransactionDocIdField = "transactionDocId";
 const String kRecentDocIdField = "recentDocId";
 const String kCreatedDateTimeField = "createdDateTime";
+const String kCreatedDateTimeStringField = "createdDateTimeString";
 const String kMonthlyTotalIncomeField = 'monthlyTotalIncome';
 const String kMonthlyTotalExpenseField = 'monthlyTotalExpense';
 const String kMonthlyBalanceField = 'monthlyBalance';
@@ -34,6 +35,15 @@ const String kDailyTotalIncomeField = 'dailyTotalIncome';
 const String kDailyTotalExpenseField = 'dailyTotalExpense';
 const String kDailyBalanceField = 'dailyBalance';
 const String kMonthlyDrOrCrField = 'monthlyDrOrCr';
-const String kDailyDrOrCrField = 'dailyDrOrCr'; 
+const String kDailyDrOrCrField = 'dailyDrOrCr';
+
+const String kTotalIncomeField = 'totalIncome';
+const String kTotalExpenseField = 'totalExpense';
+const String kTotalBalanceField = 'totalBalance';
+const String kTotalDrOrCrField = 'drOrCr';
+
+const String kLastUpdateTimeField = "lastUpdateTime";
+const String kLastUpdateTimeStringField = "lastUpdateTimeString";
+// const String kLastUpdateTimeField = "lastUpdateTime";
 
 // const String 

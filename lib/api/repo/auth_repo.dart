@@ -88,6 +88,10 @@ class AuthRepo {
           'userId': credential.user!.uid,
           'registrationAppVersion': version,
           'registrationAppVersionCode': build,
+          kTotalIncomeField: 0,
+          kTotalExpenseField: 0,
+          kTotalBalanceField: 0,
+          kTotalDrOrCrField: "+",
         });
 
         fireStoreInstance

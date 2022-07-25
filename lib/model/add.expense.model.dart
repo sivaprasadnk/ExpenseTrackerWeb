@@ -7,18 +7,17 @@ class AddExpenseModel {
   int dailyCashTotal;
   int dailyOnlineTotal;
   String userId;
-  String createdDateTimeString;
-  DateTime createdDateTime;
+  String currentDateTimeString;
+  DateTime currentDateTime;
   ExpenseMonth expenseMonth;
   AddExpenseModel({
     required this.expense,
     required this.dailyTotal,
     required this.userId,
-    required this.createdDateTimeString,
+    required this.currentDateTimeString,
     required this.expenseMonth,
-    required this.createdDateTime,
+    required this.currentDateTime,
     required this.dailyCashTotal,
     required this.dailyOnlineTotal,
   });
 }
-

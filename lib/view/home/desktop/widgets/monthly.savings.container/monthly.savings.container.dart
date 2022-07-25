@@ -1,7 +1,7 @@
-import 'package:expense_tracker/provider/home.provider.dart';
+import 'package:expense_tracker/api/repo/user_repo.dart';
+import 'package:expense_tracker/model/get.balances.response.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'add.transaction.button.dart';
 import 'monthly.balance.text.dart';
@@ -20,91 +20,102 @@ class MonthlySavingsContainerDesktop extends StatefulWidget {
 
 class _MonthlySavingsContainerDesktopState
     extends State<MonthlySavingsContainerDesktop> {
+  GetBalancesResponse? response;
+
   bool isHovered = false;
 
   int touchedIndex = -1;
 
   @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  getData() async {
+    response = await UserRepo().getCurrentBalancesV2();
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     var primaryColor = theme.primaryColor;
-    return Consumer<HomeProvider>(
-      builder: (_, provider, __) {
-        return Stack(
-          children: [
-            Container(
-              height: 200,
-              width: 430,
-              decoration: BoxDecoration(
-                color: primaryColor,
-                border: Border.all(
-                  width: isHovered ? 2 : 1,
-                  color: !isHovered ? primaryColor : theme.cardColor,
+    return Stack(
+      children: [
+        Container(
+          height: 200,
+          width: 430,
+          decoration: BoxDecoration(
+            color: primaryColor,
+            border: Border.all(
+              width: isHovered ? 2 : 1,
+              color: !isHovered ? primaryColor : theme.cardColor,
+            ),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const MonthlySavingsTitleText(),
+                MonthlyBalanceText(
+                  drOrCr: response!.drOrCr,
+                  balance: response!.totalBalance,
                 ),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const MonthlySavingsTitleText(),
-                    const MonthlyBalanceText(),
-                    const Spacer(),
-                    Row(
-                      children: const [
-                        SizedBox(width: 8),
-                        ViewStatisticsButton(),
-                        SizedBox(width: 20),
-                        AddTransactionButton()
-                      ],
-                    ),
-                    const SizedBox(height: 5)
+                const Spacer(),
+                Row(
+                  children: const [
+                    SizedBox(width: 8),
+                    ViewStatisticsButton(),
+                    SizedBox(width: 20),
+                    AddTransactionButton()
                   ],
                 ),
-              ),
+                const SizedBox(height: 5)
+              ],
             ),
-            Positioned.fill(
-              right: 35,
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: SizedBox(
-                  height: 105,
-                  width: 105,
-                  child: PieChart(
-                    PieChartData(
-                      pieTouchData: PieTouchData(touchCallback:
-                          (FlTouchEvent event, pieTouchResponse) {
-                        setState(() {
-                          if (!event.isInterestedForInteractions ||
-                              pieTouchResponse == null ||
-                              pieTouchResponse.touchedSection == null) {
-                            touchedIndex = -1;
-                            return;
-                          }
-                          touchedIndex = pieTouchResponse
-                              .touchedSection!.touchedSectionIndex;
-                        });
-                      }),
-                      borderData: FlBorderData(
-                        show: false,
-                      ),
-                      sectionsSpace: 0,
-                      centerSpaceRadius: 30,
-                      sections: showingSections(
-                        60, 40,
-                        // provider.monthlyTotalIncome,
-                        // provider.monthlyTotalExpense,
-                      ),
-                    ),
+          ),
+        ),
+        Positioned.fill(
+          right: 35,
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: SizedBox(
+              height: 105,
+              width: 105,
+              child: PieChart(
+                PieChartData(
+                  pieTouchData: PieTouchData(
+                      touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                    setState(() {
+                      if (!event.isInterestedForInteractions ||
+                          pieTouchResponse == null ||
+                          pieTouchResponse.touchedSection == null) {
+                        touchedIndex = -1;
+                        return;
+                      }
+                      touchedIndex =
+                          pieTouchResponse.touchedSection!.touchedSectionIndex;
+                    });
+                  }),
+                  borderData: FlBorderData(
+                    show: false,
+                  ),
+                  sectionsSpace: 0,
+                  centerSpaceRadius: 30,
+                  sections: showingSections(
+                    response!.totalIncome,
+                    response!.totalExpense,
                   ),
                 ),
               ),
             ),
-          ],
-        );
-      },
+          ),
+        ),
+      ],
     );
   }
 
