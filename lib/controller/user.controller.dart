@@ -257,12 +257,12 @@ class UserController {
       totalIncome = provider.totalIncome + amount;
       totalExpense = provider.totalExpense;
     } else {
+      monthlyIncome = monthlyBalResp.totalIncome;
       monthlyExpense = monthlyBalResp.totalExpense + amount;
-      monthlyIncome = monthlyBalResp.totalIncome;      
-      dailyExpense = dailyBalResp.totalExpense + amount;
       dailyIncome = dailyBalResp.totalIncome;
-      totalExpense = provider.totalExpense + amount;
+      dailyExpense = dailyBalResp.totalExpense + amount;
       totalIncome = provider.totalIncome;
+      totalExpense = provider.totalExpense + amount;
     }
     monthlyBalance = monthlyIncome - monthlyExpense;
     dailyBalance = dailyIncome - dailyExpense;
@@ -280,6 +280,21 @@ class UserController {
       totalBalance *= -1;
       totalDrOrCr = "-";
     }
+
+    debugPrint('.. monthly inc : $monthlyIncome');
+    debugPrint('.. monthly exp : $monthlyExpense');
+    debugPrint('.. monthly bal : $monthlyBalance');
+    debugPrint('.. monthly drorcr : $monthlyDrOrCr');
+
+    debugPrint('.. daily inc : $dailyIncome');
+    debugPrint('.. daily exp : $dailyExpense ');
+    debugPrint('.. daily bal : $dailyBalance');
+    debugPrint('.. daily drorcr : $dailyDrOrCr');
+
+    debugPrint('.. totl inc : $totalIncome');
+    debugPrint('.. totl exp : $totalExpense ');
+    debugPrint('.. totl bal : $totalBalance');
+    debugPrint('.. totl drorcr : $totalDrOrCr');
 
     // int monthlyTotalIncome = provider.monthlyTotalIncome;
     // int monthlyTotalExpense = provider.monthlyTotalExpense;

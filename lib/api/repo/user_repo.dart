@@ -521,6 +521,8 @@ class UserRepo {
       kRecentDocIdField: recentDocId,
       kCreatedDateTimeField: request.currentDateTime,
       kCreatedDateTimeStringField: request.currentDateTimeString,
+      kLastUpdateTimeField: request.currentDateTime,
+      kLastUpdateTimeStringField: request.currentDateTimeString, 
     });
     debugPrint(".. @4");
 
@@ -535,6 +537,8 @@ class UserRepo {
       kDailyDrOrCrField: request.dailyDrOrCr,
       kCreatedDateTimeField: request.currentDateTime,
       kCreatedDateTimeStringField: request.currentDateTimeString,
+      kLastUpdateTimeField: request.currentDateTime,
+      kLastUpdateTimeStringField: request.currentDateTimeString,
     });
     debugPrint(".. @5");
 
@@ -546,7 +550,7 @@ class UserRepo {
         .set({
       kDailyTotalIncomeField: request.dailyTotalIncome,
       kDailyTotalExpenseField: request.dailyTotalExpense,
-      kDailyBalanceField: request.dailyTotalIncome - request.dailyTotalExpense,
+      kDailyBalanceField: request.dailyBalance,
       "day": transaction.transactionDay,
       'date': transaction.transactionDate,
       'month': transaction.transactionMonth,
@@ -591,6 +595,8 @@ class UserRepo {
       'transactionDay': transaction.transactionDay,
       kCreatedDateTimeField: request.currentDateTime,
       kCreatedDateTimeStringField: request.currentDateTimeString,
+      kLastUpdateTimeField: request.currentDateTime,
+      kLastUpdateTimeStringField: request.currentDateTimeString,
       'categoryId': transaction.categoryId,
       'categoryName': transaction.categoryName,
     });
@@ -620,6 +626,8 @@ class UserRepo {
       'transactionDay': transaction.transactionDay,
       kCreatedDateTimeField: request.currentDateTime,
       kCreatedDateTimeStringField: request.currentDateTimeString,
+      kLastUpdateTimeField: request.currentDateTime,
+      kLastUpdateTimeStringField: request.currentDateTimeString,
       'categoryId': transaction.categoryId,
       'categoryName': transaction.categoryName,
     });
@@ -930,11 +938,8 @@ class UserRepo {
       var docData = docSnapshot.docs[0].data();
       income = docData[kMonthlyTotalIncomeField];
       expense = docData[kMonthlyTotalExpenseField];
-      balance = income - expense;
-      if (balance < 0) {
-        drOrCr = "-";
-        balance = balance * -1;
-      }
+      balance = docData[kMonthlyBalanceField];
+      drOrCr = docData[kMonthlyDrOrCrField];
     }
 
     return GetBalancesResponse(
@@ -962,19 +967,22 @@ class UserRepo {
         .collection(kUsersCollection)
         .doc(userId)
         .collection(kTransactionDatesCollection)
-        .where(date, isEqualTo: date)
+        .where('date', isEqualTo: date)
         .get();
 
     if (docSnapshot.docs.isNotEmpty) {
       var docData = docSnapshot.docs[0].data();
       income = docData[kDailyTotalIncomeField];
       expense = docData[kDailyTotalExpenseField];
-      balance = income - expense;
-      if (balance < 0) {
-        drOrCr = "-";
-        balance = balance * -1;
-      }
+      balance = docData[kDailyBalanceField];
+      drOrCr = docData[kDailyDrOrCrField];
     }
+
+    debugPrint('.. daily inc : $income');
+    debugPrint('.. daily exp : $expense ');
+    debugPrint('.. daily bal : $balance');
+    debugPrint('.. daily drorcr : $drOrCr');
+
 
     return GetBalancesResponse(
       data: '',
@@ -988,5 +996,4 @@ class UserRepo {
       userId: userId,
     );
   }
-
 }
