@@ -5,6 +5,7 @@ class AddTransactionModel {
   TransactionModel transaction;
   int dailyTotalExpense;
   int dailyTotalIncome;
+  int dailyBalance;
   String userId;
   String dailyDrOrCr;
   String currentDateTimeString;
@@ -14,6 +15,7 @@ class AddTransactionModel {
     required this.transaction,
     required this.dailyTotalIncome,
     required this.dailyTotalExpense,
+    required this.dailyBalance,
     required this.userId,
     required this.currentDateTimeString,
     required this.transactionMonth,

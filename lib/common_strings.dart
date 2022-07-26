@@ -35,6 +35,10 @@ const String kDailyTotalIncomeField = 'dailyTotalIncome';
 const String kDailyTotalExpenseField = 'dailyTotalExpense';
 const String kDailyBalanceField = 'dailyBalance';
 const String kMonthlyDrOrCrField = 'monthlyDrOrCr';
+const String kMonthOnlyField = 'monthOnly';
+const String kMonthDocIdField = 'monthDocId';
+const String kMonthField = 'month';
+const String kYearField = 'year';
 const String kDailyDrOrCrField = 'dailyDrOrCr';
 
 const String kTotalIncomeField = 'totalIncome';

@@ -363,6 +363,7 @@ class UserRepo {
 
   Future<LocationResponseModel> getLocationDetails() async {
     LocationResponseModel model;
+    debugPrint('.. @@1');
     final String url = 'https://ipapi.co/json/?key=$key';
     final uri = Uri.parse(url);
     var response = await Dio().getUri(uri, options: Options(headers: {}));
@@ -370,6 +371,7 @@ class UserRepo {
     final Map<String, dynamic> responseData = response.data;
 
     model = LocationResponseModel.fromJson(responseData);
+    debugPrint('.. @@2');
 
     return model;
   }
@@ -481,13 +483,17 @@ class UserRepo {
   }
 
   Future<ResponseModel> addTransaction(AddTransactionModel request) async {
-    String transactionDocId = "", recentDocId = "";
+    ///
+    ///
     TransactionModel transaction = request.transaction;
 
+    String transactionDocId = "", recentDocId = "";
+    String userId = request.userId;
+
+    var userDocRef = fireStoreInstance.collection(kUsersCollection).doc(userId);
+
     /// adding recent expenses
-    DocumentReference<Map<String, dynamic>> recentDoc = await fireStoreInstance
-        .collection(kUsersCollection)
-        .doc(request.userId)
+    DocumentReference<Map<String, dynamic>> recentDoc = await userDocRef
         .collection(kRecentTransactionCollection)
         .add(TransactionModel.toJson(transaction));
     recentDocId = recentDoc.id;
@@ -495,9 +501,7 @@ class UserRepo {
 
     /// adding expense for the date
 
-    DocumentReference<Map<String, dynamic>> doc = await fireStoreInstance
-        .collection(kUsersCollection)
-        .doc(request.userId)
+    DocumentReference<Map<String, dynamic>> doc = await userDocRef
         .collection(kTransactionDatesCollection)
         .doc(transaction.transactionDate)
         .collection(kTransactionCollection)
@@ -507,9 +511,7 @@ class UserRepo {
     /// updating  expense docid &  recent docid
 
     transactionDocId = doc.id;
-    fireStoreInstance
-        .collection(kUsersCollection)
-        .doc(request.userId)
+    userDocRef
         .collection(kTransactionDatesCollection)
         .doc(transaction.transactionDate)
         .collection(kTransactionCollection)
@@ -524,9 +526,7 @@ class UserRepo {
 
     /// updating  expense docid in recent expense item
 
-    fireStoreInstance
-        .collection(kUsersCollection)
-        .doc(request.userId)
+    userDocRef
         .collection(kRecentTransactionCollection)
         .doc(recentDocId)
         .update({
@@ -540,9 +540,7 @@ class UserRepo {
 
     /// updating  total expense amount for the date
 
-    fireStoreInstance
-        .collection(kUsersCollection)
-        .doc(request.userId)
+    userDocRef
         .collection(kTransactionDatesCollection)
         .doc(transaction.transactionDate)
         .set({
@@ -552,17 +550,15 @@ class UserRepo {
       "day": transaction.transactionDay,
       'date': transaction.transactionDate,
       'month': transaction.transactionMonth,
-      'monthDocId': transaction.transactionMonthDocId,
+      kMonthDocIdField: transaction.transactionMonthDocId,
       kDailyDrOrCrField: request.dailyDrOrCr,
-      'monthlyDrOrCr': request.transactionMonth.monthlyDrOrCr,
+      kMonthlyDrOrCrField: request.transactionMonth.monthlyDrOrCr,
       kLastUpdateTimeField: request.currentDateTime,
       kLastUpdateTimeStringField: request.currentDateTimeString,
     });
     debugPrint(".. @6");
 
-    fireStoreInstance
-        .collection(kUsersCollection)
-        .doc(request.userId)
+    userDocRef
         .collection(kTransactionMonthsCollection)
         .doc(transaction.transactionMonthDocId)
         .set(
@@ -571,9 +567,7 @@ class UserRepo {
         );
     debugPrint(".. @7");
 
-    fireStoreInstance
-        .collection(kUsersCollection)
-        .doc(request.userId)
+    userDocRef
         .collection(kTransactionDatesCollection)
         .doc(transaction.transactionDate)
         .collection(kTransactionCategoriesCollection)
@@ -602,9 +596,7 @@ class UserRepo {
     });
     debugPrint(".. @8");
 
-    fireStoreInstance
-        .collection(kUsersCollection)
-        .doc(request.userId)
+    userDocRef
         .collection(kTransactionMonthsCollection)
         .doc(transaction.transactionMonthDocId)
         .collection(kTransactionCategoriesCollection)
@@ -638,9 +630,7 @@ class UserRepo {
     DateTime createdDateTime = request.currentDateTime;
     String createdDateTimeString = request.currentDateTimeString;
 
-    DocumentSnapshot<Map<String, dynamic>> categoryDoc = await fireStoreInstance
-        .collection(kUsersCollection)
-        .doc(request.userId)
+    DocumentSnapshot<Map<String, dynamic>> categoryDoc = await userDocRef
         .collection(kTransactionMonthsCollection)
         .doc(request.transactionMonth.monthDocId)
         .collection(kTransactionCategoriesCollection)
@@ -655,9 +645,7 @@ class UserRepo {
       categoryTotalAmount = transaction.amount;
     }
 
-    fireStoreInstance
-        .collection(kUsersCollection)
-        .doc(request.userId)
+    userDocRef
         .collection(kTransactionMonthsCollection)
         .doc(request.transactionMonth.monthDocId)
         .collection(kTransactionCategoriesCollection)
@@ -673,15 +661,12 @@ class UserRepo {
       'categoryName': transaction.categoryName,
     });
 
-    DocumentSnapshot<Map<String, dynamic>> categoryDoc1 =
-        await fireStoreInstance
-            .collection(kUsersCollection)
-            .doc(request.userId)
-            .collection(kTransactionDatesCollection)
-            .doc(transaction.transactionDate)
-            .collection(kTransactionCategoriesCollection)
-            .doc(transaction.categoryName)
-            .get();
+    DocumentSnapshot<Map<String, dynamic>> categoryDoc1 = await userDocRef
+        .collection(kTransactionDatesCollection)
+        .doc(transaction.transactionDate)
+        .collection(kTransactionCategoriesCollection)
+        .doc(transaction.categoryName)
+        .get();
     if (categoryDoc1.data() != null) {
       categoryTotalAmount1 = categoryDoc1.data()!['totalAmount'] ?? 0;
       categoryTotalAmount1 += transaction.amount;
@@ -689,9 +674,7 @@ class UserRepo {
       categoryTotalAmount1 = transaction.amount;
     }
 
-    fireStoreInstance
-        .collection(kUsersCollection)
-        .doc(request.userId)
+    userDocRef
         .collection(kTransactionDatesCollection)
         .doc(transaction.transactionDate)
         .collection(kTransactionCategoriesCollection)
@@ -709,10 +692,8 @@ class UserRepo {
     int expense = 0;
     int balance = 0;
     String drOrCr = "+";
-    DocumentSnapshot<Map<String, dynamic>> userDoc = await fireStoreInstance
-        .collection(kUsersCollection)
-        .doc(request.userId)
-        .get();
+    DocumentSnapshot<Map<String, dynamic>> userDoc =
+        await fireStoreInstance.collection(kUsersCollection).doc(userId).get();
     if (userDoc.data() != null) {
       if (transaction.transactionType == "Income") {
         income = userDoc.data()![kTotalIncomeField] + transaction.amount;
@@ -724,10 +705,7 @@ class UserRepo {
         drOrCr = "-";
       }
 
-      fireStoreInstance
-          .collection(kUsersCollection)
-          .doc(request.userId)
-          .update({
+      userDocRef.update({
         kTotalIncomeField: income,
         kTotalExpenseField: expense,
         kTotalBalanceField: balance,
@@ -846,8 +824,9 @@ class UserRepo {
 
     var date = DateFormat('dd-MM-yyyy').format(now);
 
-    DocumentSnapshot<Map<String, dynamic>> userDoc =
-        await fireStoreInstance.collection(kUsersCollection).doc(userId).get();
+    var userDocRef = fireStoreInstance.collection(kUsersCollection).doc(userId);
+
+    DocumentSnapshot<Map<String, dynamic>> userDoc = await userDocRef.get();
     if (userDoc.data() != null) {
       var userDocData = userDoc.data()!;
       totalIncome = userDocData[kTotalIncomeField];
@@ -860,23 +839,18 @@ class UserRepo {
 
     List<TransactionModel> recentExpList = [];
 
-    QuerySnapshot<Map<String, dynamic>> querySnapshot = await fireStoreInstance
-        .collection(kUsersCollection)
-        .doc(userId)
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await userDocRef
         .collection(kRecentTransactionCollection)
         .where('transactionDate', isEqualTo: date)
-        .orderBy('createdDateTime', descending: true)
+        .orderBy(kCreatedDateTimeField, descending: true)
         .get();
 
-    debugPrint(".. @14  date : $date");
     var recentTransactionList1 =
         querySnapshot.docs.map((doc) => doc.data()).toList();
     for (var element in recentTransactionList1) {
       TransactionModel recentExpense = TransactionModel.fromMap(element);
       recentExpList.add(recentExpense);
     }
-
-    // debugPrint('.. @@  $recentExpList');
 
     return GetBalancesResponse(
       status: ResponseStatus.success,
@@ -936,4 +910,83 @@ class UserRepo {
       monthDocList: monthDocList,
     );
   }
+
+  Future<GetBalancesResponse> getMonthlyBalance(String monthDocId) async {
+    var userId = FirebaseAuth.instance.currentUser!.uid;
+    int income = 0;
+    int expense = 0;
+    int balance = 0;
+    String drOrCr = "+";
+
+    QuerySnapshot<Map<String, dynamic>> docSnapshot = await FirebaseFirestore
+        .instance
+        .collection(kUsersCollection)
+        .doc(userId)
+        .collection(kTransactionMonthsCollection)
+        .where('monthDocId', isEqualTo: monthDocId)
+        .get();
+
+    if (docSnapshot.docs.isNotEmpty) {
+      var docData = docSnapshot.docs[0].data();
+      income = docData[kMonthlyTotalIncomeField];
+      expense = docData[kMonthlyTotalExpenseField];
+      balance = income - expense;
+      if (balance < 0) {
+        drOrCr = "-";
+        balance = balance * -1;
+      }
+    }
+
+    return GetBalancesResponse(
+      data: '',
+      message: 'Success',
+      recentExpList: [],
+      drOrCr: drOrCr,
+      status: ResponseStatus.success,
+      totalBalance: balance,
+      totalIncome: income,
+      totalExpense: expense,
+      userId: userId,
+    );
+  }
+
+  Future<GetBalancesResponse> getDailyBalance(String date) async {
+    var userId = FirebaseAuth.instance.currentUser!.uid;
+    int income = 0;
+    int expense = 0;
+    int balance = 0;
+    String drOrCr = "+";
+
+    QuerySnapshot<Map<String, dynamic>> docSnapshot = await FirebaseFirestore
+        .instance
+        .collection(kUsersCollection)
+        .doc(userId)
+        .collection(kTransactionDatesCollection)
+        .where(date, isEqualTo: date)
+        .get();
+
+    if (docSnapshot.docs.isNotEmpty) {
+      var docData = docSnapshot.docs[0].data();
+      income = docData[kDailyTotalIncomeField];
+      expense = docData[kDailyTotalExpenseField];
+      balance = income - expense;
+      if (balance < 0) {
+        drOrCr = "-";
+        balance = balance * -1;
+      }
+    }
+
+    return GetBalancesResponse(
+      data: '',
+      message: 'Success',
+      recentExpList: [],
+      drOrCr: drOrCr,
+      status: ResponseStatus.success,
+      totalBalance: balance,
+      totalIncome: income,
+      totalExpense: expense,
+      userId: userId,
+    );
+  }
+
 }

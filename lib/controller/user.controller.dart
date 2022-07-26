@@ -220,33 +220,83 @@ class UserController {
     var month = DateFormat('MMM, yyyy').format(selectedDate);
     var monthOnly = DateFormat('MMM').format(selectedDate);
     var monthDocId = DateFormat('MMM_yyyy').format(selectedDate);
-    final DateTime now = DateTime.now();
-    var a = DateFormat('dd-MM-yyyy kk:mm:ss').format(now);
-    DateTime formattedCurrentDateTimeWithSec = DateTime.parse(a);
 
-    final String formattedCurrentDateTimeStringWithSec =
-        DateFormat('dd-MM-yyyy  kk:mm:ss').format(now);
+    final DateTime now = DateTime.now();
+
+    var currentDateTimeString = DateFormat('dd-MM-yyyy kk:mm:ss').format(now);
+
+    DateTime currentDateTime = now;
 
     final year = int.parse(DateFormat('yyyy').format(now));
 
-    var provider = Provider.of<HomeProvider>(context, listen: false);
+    var monthlyBalResp = await userRepo.getMonthlyBalance(monthDocId);
+    var dailyBalResp = await userRepo.getDailyBalance(date);
 
-    int monthlyTotalIncome = provider.monthlyTotalIncome;
-    int monthlyTotalExpense = provider.monthlyTotalExpense;
-    int dailyTotalIncome = provider.dailyTotalIncome;
-    int dailyTotalExpense = provider.dailyTotalExpense;
+    int monthlyIncome = 0;
+    int monthlyExpense = 0;
+    int monthlyBalance = 0;
+    String monthlyDrOrCr = "+";
+
+    int dailyIncome = 0;
+    int dailyExpense = 0;
+    int dailyBalance = 0;
+    String dailyDrOrCr = "+";
+
+    int totalIncome = 0;
+    int totalExpense = 0;
+    int totalBalance = 0;
+    String totalDrOrCr = "+";
+
+    var provider = context.read<HomeProvider>();
+
     if (selectedType == TransactionType.income) {
-      monthlyTotalIncome += amount;
-      dailyTotalIncome += amount;
+      monthlyIncome = monthlyBalResp.totalIncome + amount;
+      monthlyExpense = monthlyBalResp.totalExpense;
+      dailyIncome = dailyBalResp.totalIncome + amount;
+      dailyExpense = dailyBalResp.totalExpense;
+      totalIncome = provider.totalIncome + amount;
+      totalExpense = provider.totalExpense;
     } else {
-      monthlyTotalExpense += amount;
-      dailyTotalExpense += amount;
+      monthlyExpense = monthlyBalResp.totalExpense + amount;
+      monthlyIncome = monthlyBalResp.totalIncome;      
+      dailyExpense = dailyBalResp.totalExpense + amount;
+      dailyIncome = dailyBalResp.totalIncome;
+      totalExpense = provider.totalExpense + amount;
+      totalIncome = provider.totalIncome;
     }
+    monthlyBalance = monthlyIncome - monthlyExpense;
+    dailyBalance = dailyIncome - dailyExpense;
+    totalBalance = totalIncome - totalExpense;
+
+    if (monthlyBalance < 0) {
+      monthlyBalance *= -1;
+      monthlyDrOrCr = "-";
+    }
+    if (dailyBalance < 0) {
+      dailyBalance *= -1;
+      dailyDrOrCr = "-";
+    }
+    if (totalBalance < 0) {
+      totalBalance *= -1;
+      totalDrOrCr = "-";
+    }
+
+    // int monthlyTotalIncome = provider.monthlyTotalIncome;
+    // int monthlyTotalExpense = provider.monthlyTotalExpense;
+    // int dailyTotalIncome = provider.dailyTotalIncome;
+    // int dailyTotalExpense = provider.dailyTotalExpense;
+    // if (selectedType == TransactionType.income) {
+    //   monthlyTotalIncome += amount;
+    //   dailyTotalIncome += amount;
+    // } else {
+    //   monthlyTotalExpense += amount;
+    //   dailyTotalExpense += amount;
+    // }
 
     TransactionModel trans = TransactionModel(
       title: title,
-      createdDateTime: formattedCurrentDateTimeWithSec,
-      createdDateTimeString: formattedCurrentDateTimeStringWithSec,
+      createdDateTime: currentDateTime,
+      createdDateTimeString: currentDateTimeString,
       transactionDocId: "",
       recentDocId: "",
       categoryId: categoryId,
@@ -260,35 +310,28 @@ class UserController {
       transactionType: selectedType.name.initCap(),
     );
 
-    var dailyDrOrCr = "+";
-    var monthlyDrOrCr = "+";
-    if (dailyTotalIncome < dailyTotalExpense) {
-      dailyDrOrCr = "-";
-    }
-    if (monthlyTotalIncome < monthlyTotalExpense) {
-      monthlyDrOrCr = "-";
-    }
-
     TransactionMonth transactionMonth = TransactionMonth(
-        year: year,
-        month: month,
-        monthOnly: monthOnly,
-        monthDocId: monthDocId,
-        monthlyTotalExpense: monthlyTotalExpense,
-        monthlyTotalIncome: monthlyTotalIncome,
-        monthlyDrOrCr: monthlyDrOrCr,
-        monthlyBalance: monthlyTotalIncome - monthlyTotalExpense,
-        updatedDateTimeString: formattedCurrentDateTimeStringWithSec);
+      year: year,
+      month: month,
+      monthOnly: monthOnly,
+      monthDocId: monthDocId,
+      monthlyTotalIncome: monthlyIncome,
+      monthlyTotalExpense: monthlyExpense,
+      monthlyBalance: monthlyBalance,
+      monthlyDrOrCr: monthlyDrOrCr,
+      updatedDateTimeString: currentDateTimeString,
+    );
 
     var request = AddTransactionModel(
       transaction: trans,
       userId: userId,
       transactionMonth: transactionMonth,
-      dailyTotalExpense: dailyTotalExpense,
-      dailyTotalIncome: dailyTotalIncome,
+      dailyTotalIncome: dailyIncome,
+      dailyTotalExpense: dailyExpense,
+      dailyBalance: dailyBalance,
       dailyDrOrCr: dailyDrOrCr,
-      currentDateTimeString: formattedCurrentDateTimeStringWithSec,
-      currentDateTime: formattedCurrentDateTimeWithSec,
+      currentDateTime: currentDateTime,
+      currentDateTimeString: currentDateTimeString,
     );
 
     ResponseModel response = await userRepo.addTransaction(request);
@@ -298,8 +341,12 @@ class UserController {
     } else {
       GetBalancesResponse balancesResponse =
           await userRepo.getCurrentBalancesV2();
-      var provider = Provider.of<HomeProvider>(context, listen: false);
+      // var provider = Provider.of<HomeProvider>(context, listen: false);
       if (balancesResponse.status == ResponseStatus.success) {
+        provider.updateTotalIncome(totalIncome);
+        provider.updateTotalExpense(totalExpense);
+        provider.updateTotalBalance(totalBalance);
+        provider.updateTotalDrOrCr(totalDrOrCr);
         provider.updateRecentList(balancesResponse.recentExpList);
         Future.delayed(const Duration(seconds: 2)).then((value) {
           Dialogs.showAlertDialogAndNavigateToHome(

@@ -37,6 +37,13 @@
             {
               "client_id": "890691321939-np3vd7ortv2t9763jn0c9uprhqeaqv6d.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "890691321939-s551f0p08uhn8dc2hifc81g5oql85hgj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sptpra.expenseTracker"
+              }
             }
           ]
         }

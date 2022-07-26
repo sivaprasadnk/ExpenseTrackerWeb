@@ -31,12 +31,12 @@ dependencies:
   auth_buttons: ^2.0.4
   auto_animated: ^3.0.1
   blur: ^3.1.0
-  cloud_firestore: 
+  cloud_firestore: ^3.4.1 
   connectivity_plus: ^2.3.1
   cupertino_icons: ^1.0.2
   dio: ^4.0.6
   easy_localization:
-  firebase_auth: ^3.3.5
+  firebase_auth: ^3.5.1
   firebase_core: ^1.20.0
   # flip_card: ^0.6.0
   fl_chart: ^0.55.0
@@ -64,8 +64,8 @@ flutter_icons:
   image_path: "assets/images/launcher/icon.png"
 
 dev_dependencies:
-  flutter_app_name: ^0.1.1
-  flutter_launcher_icons: "^0.9.2"
+  # flutter_app_name: ^0.1.1
+  # flutter_launcher_icons: "^0.9.2"
   flutter_lints: ^1.0.0
   flutter_native_splash: null
 

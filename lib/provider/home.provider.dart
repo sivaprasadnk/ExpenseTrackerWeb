@@ -4,14 +4,42 @@ import 'package:flutter/cupertino.dart';
 
 class HomeProvider extends ChangeNotifier {
   ///
-  String totalIncome_ = "+";
-  String get totalIncome => totalIncome_;
+  int totalIncome_ = 0;
+  int get totalIncome => totalIncome_;
 
-  void updateTotalIncome(String income) {
+  void updateTotalIncome(int income) {
     totalIncome_ = income;
     notifyListeners();
   }
 
+  ///
+  int totalExpense_ = 0;
+  int get totalExpense => totalExpense_;
+
+  void updateTotalExpense(int amt) {
+    totalExpense_ = amt;
+    notifyListeners();
+  }
+
+  ///
+  int totalBalance_ = 0;
+  int get totalBalance => totalBalance_;
+
+  void updateTotalBalance(int amt) {
+    totalBalance_ = amt;
+    notifyListeners();
+  }
+
+  ///
+  String totalDrOrCr_ = "+";
+  String get totalDrOrCr => totalDrOrCr_;
+
+  void updateTotalDrOrCr(String sign) {
+    totalDrOrCr_ = sign;
+    notifyListeners();
+  }
+
+  ///
   ///
 
   String monthlyDrOrCr_ = "+";

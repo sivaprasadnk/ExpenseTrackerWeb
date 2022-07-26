@@ -15,6 +15,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 
 class AuthRepo {
   final fireStoreInstance = FirebaseFirestore.instance;
+
   // GoogleSignIn? _googleSignIn = GoogleSignIn(
   //   scopes: ['email', 'https://www.googleapis.com/auth/userinfo.profile'],
   // );
@@ -65,19 +66,35 @@ class AuthRepo {
 
   Future<RegistrationResponse> createAccountV2(
       String email, String password, LocationResponseModel model) async {
+
     final DateTime now = DateTime.now();
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    var version = packageInfo.version;
-    var build = packageInfo.buildNumber;
+
+    String version = '1';
+    String build = '15';
+
     UserCredential credential;
+
     final String formattedTime = DateFormat('dd-MM-yyyy  kk:mm').format(now);
+
     try {
+      debugPrint('.. @@22');
+      if (!kIsWeb) {
+        debugPrint('.. @@31');
+
+        // PackageInfo packageInfo = await PackageInfo.fromPlatform();
+        // version = packageInfo.version;
+        // build = packageInfo.buildNumber;
+      }
+      debugPrint('.. @@32');
+
       var json = model.toJson();
 
       credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
       if (credential.user != null) {
-        fireStoreInstance
+        debugPrint('.. @@33 credential.user!.uid : ${credential.user!.uid}');
+
+        await fireStoreInstance
             .collection(kUsersCollection)
             .doc(credential.user!.uid)
             .set({
@@ -94,11 +111,17 @@ class AuthRepo {
           kTotalDrOrCrField: "+",
         });
 
+        debugPrint('.. @@34');
+
+        // final fireStoreInstance = FirebaseFirestore.instance;
+
         fireStoreInstance
             .collection(kUsersCollection)
             .doc(credential.user!.uid)
             .collection('location')
             .add(json);
+        debugPrint('.. @@35');
+
       }
     } catch (e) {
       debugPrint('Exception @createAccount: $e');
@@ -106,7 +129,7 @@ class AuthRepo {
         status: ResponseStatus.error,
         data: '',
         userId: '',
-        message: AuthExceptionHandler.handleException(e).toString(),
+        message: 'Something went wrong !',
       );
     }
     return RegistrationResponse(

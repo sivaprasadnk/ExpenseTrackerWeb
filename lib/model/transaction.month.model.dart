@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expense_tracker/common_strings.dart';
 
 class TransactionMonth {
   int year;
@@ -24,29 +25,29 @@ class TransactionMonth {
 
   static TransactionMonth fromDb(QueryDocumentSnapshot<Object?> doc) {
     return TransactionMonth(
-      month: doc['month'],
-      year: doc['year'],
-      monthDocId: doc['monthDocId'],
-      monthOnly: doc['monthOnly'],
-      monthlyTotalIncome: doc['monthlyTotalIncome'],
-      monthlyBalance: doc['monthlyBalance'],
-      monthlyDrOrCr: doc['monthlyDrOrCr'],
-      monthlyTotalExpense: doc['monthlyTotalExpense'],
-      updatedDateTimeString: doc['updatedDateTimeString'],
+      month: doc[kMonthField],
+      year: doc[kYearField],
+      monthDocId: doc[kMonthDocIdField],
+      monthOnly: doc[kMonthOnlyField],
+      monthlyTotalIncome: doc[kMonthlyTotalIncomeField],
+      monthlyTotalExpense: doc[kMonthlyTotalExpenseField],
+      monthlyBalance: doc[kMonthlyBalanceField],
+      monthlyDrOrCr: doc[kMonthlyDrOrCrField],
+      updatedDateTimeString: doc[kLastUpdateTimeStringField],
     );
   }
 
   static Map<String, dynamic> toJson(TransactionMonth model) {
     return {
-      'month': model.month,
-      'year': model.year,
-      'monthDocId': model.monthDocId,
-      'monthOnly': model.monthOnly,
-      'monthlyTotalIncome': model.monthlyTotalIncome,
-      'monthlyTotalExpense': model.monthlyTotalExpense,
-      'monthlyBalance': model.monthlyBalance,
-      'monthlyDrOrCr': model.monthlyDrOrCr,
-      'updatedDateTimeString': model.updatedDateTimeString,
+      kMonthField: model.month,
+      kYearField: model.year,
+      kMonthDocIdField: model.monthDocId,
+      kMonthOnlyField: model.monthOnly,
+      kMonthlyTotalIncomeField: model.monthlyTotalIncome,
+      kMonthlyTotalExpenseField: model.monthlyTotalExpense,
+      kMonthlyBalanceField: model.monthlyBalance,
+      kMonthlyDrOrCrField: model.monthlyDrOrCr,
+      kLastUpdateTimeStringField: model.updatedDateTimeString,
     };
   }
 }

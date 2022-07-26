@@ -1,6 +1,4 @@
-import 'package:expense_tracker/controller/user.controller.dart';
 import 'package:expense_tracker/utils/navigation.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:neumorphic_loader/neumorphic_loader.dart';
 
@@ -19,15 +17,20 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   asyncInitState() async {
-    Future.delayed(const Duration(seconds: 1)).then((value) async {
-      if (FirebaseAuth.instance.currentUser != null) {
-        String userId = FirebaseAuth.instance.currentUser!.uid;
-        var width = MediaQuery.of(context).size.width;
-        UserController.getExpenseDetailsAndNavigateToHome(
-            context, userId, width);
-      } else {
+    debugPrint('.. @@ 1');
+    Future.delayed(const Duration(seconds: 1)).then((_) async {
         Navigation.checkPlatformAndNavigateToLogin(context: context);
-      }
+
+      // if (FirebaseAuth.instance.currentUser != null) {
+      //   debugPrint('.. @@ 2');
+
+      //   String userId = FirebaseAuth.instance.currentUser!.uid;
+      //   var width = MediaQuery.of(context).size.width;
+      //   UserController.getExpenseDetailsAndNavigateToHome(
+      //       context, userId, width);
+      // } else {
+      //   Navigation.checkPlatformAndNavigateToLogin(context: context);
+      // }
     });
   }
 
