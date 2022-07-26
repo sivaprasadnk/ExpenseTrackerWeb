@@ -1,25 +1,23 @@
+import 'package:expense_tracker/model/daily.balance.model.dart';
+import 'package:expense_tracker/model/total.balance.model.dart';
 import 'package:expense_tracker/model/transaction.model.dart';
 import 'package:expense_tracker/model/transaction.month.model.dart';
 
 class AddTransactionModel {
-  TransactionModel transaction;
-  int dailyTotalExpense;
-  int dailyTotalIncome;
-  int dailyBalance;
   String userId;
-  String dailyDrOrCr;
-  String currentDateTimeString;
-  DateTime currentDateTime;
+  TransactionModel transaction;
+  DailyBalanceModel dailyBalanceModel;
+  TotalBalanceModel totalBalanceModel;
   TransactionMonth transactionMonth;
+  DateTime currentDateTime;
+  String currentDateTimeString;
   AddTransactionModel({
     required this.transaction,
-    required this.dailyTotalIncome,
-    required this.dailyTotalExpense,
-    required this.dailyBalance,
+    required this.dailyBalanceModel,
+    required this.totalBalanceModel,
     required this.userId,
     required this.currentDateTimeString,
     required this.transactionMonth,
     required this.currentDateTime,
-    required this.dailyDrOrCr,
   });
 }

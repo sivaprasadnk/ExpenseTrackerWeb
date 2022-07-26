@@ -4,12 +4,14 @@ import 'package:expense_tracker/api/response.status.dart';
 import 'package:expense_tracker/common_strings.dart';
 import 'package:expense_tracker/model/add.expense.model.dart';
 import 'package:expense_tracker/model/add.transaction.model.dart';
+import 'package:expense_tracker/model/daily.balance.model.dart';
 import 'package:expense_tracker/model/edit.expense.model.dart';
 import 'package:expense_tracker/model/expense.model.dart';
 import 'package:expense_tracker/model/get.balances.response.dart';
 import 'package:expense_tracker/model/location.response.model.dart';
 import 'package:expense_tracker/model/monthly.data.response.model.dart';
 import 'package:expense_tracker/model/response.model.dart';
+import 'package:expense_tracker/model/total.balance.model.dart';
 import 'package:expense_tracker/model/transaction.category.model.dart';
 import 'package:expense_tracker/model/transaction.model.dart';
 import 'package:expense_tracker/model/transaction.month.model.dart';
@@ -486,6 +488,8 @@ class UserRepo {
     ///
     ///
     TransactionModel transaction = request.transaction;
+    DailyBalanceModel dailyModel = request.dailyBalanceModel;
+    TotalBalanceModel totalModel = request.totalBalanceModel;
 
     String transactionDocId = "", recentDocId = "";
     String userId = request.userId;
@@ -522,7 +526,7 @@ class UserRepo {
       kCreatedDateTimeField: request.currentDateTime,
       kCreatedDateTimeStringField: request.currentDateTimeString,
       kLastUpdateTimeField: request.currentDateTime,
-      kLastUpdateTimeStringField: request.currentDateTimeString, 
+      kLastUpdateTimeStringField: request.currentDateTimeString,
     });
     debugPrint(".. @4");
 
@@ -534,7 +538,7 @@ class UserRepo {
         .update({
       kTransactionDocIdField: transactionDocId,
       kRecentDocIdField: recentDocId,
-      kDailyDrOrCrField: request.dailyDrOrCr,
+      // kDailyDrOrCrField: request.dailyDrOrCr,
       kCreatedDateTimeField: request.currentDateTime,
       kCreatedDateTimeStringField: request.currentDateTimeString,
       kLastUpdateTimeField: request.currentDateTime,
@@ -548,14 +552,14 @@ class UserRepo {
         .collection(kTransactionDatesCollection)
         .doc(transaction.transactionDate)
         .set({
-      kDailyTotalIncomeField: request.dailyTotalIncome,
-      kDailyTotalExpenseField: request.dailyTotalExpense,
-      kDailyBalanceField: request.dailyBalance,
+      kDailyTotalIncomeField: dailyModel.dailyIncome,
+      kDailyTotalExpenseField: dailyModel.dailyExpense,
+      kDailyBalanceField: dailyModel.dailyTotal,
+      kDailyDrOrCrField: dailyModel.dailyDrOrCr,
       "day": transaction.transactionDay,
       'date': transaction.transactionDate,
       'month': transaction.transactionMonth,
       kMonthDocIdField: transaction.transactionMonthDocId,
-      kDailyDrOrCrField: request.dailyDrOrCr,
       kMonthlyDrOrCrField: request.transactionMonth.monthlyDrOrCr,
       kLastUpdateTimeField: request.currentDateTime,
       kLastUpdateTimeStringField: request.currentDateTimeString,
@@ -696,37 +700,15 @@ class UserRepo {
       'categoryName': transaction.categoryName,
     });
 
-    int income = 0;
-    int expense = 0;
-    int balance = 0;
-    String drOrCr = "+";
-    DocumentSnapshot<Map<String, dynamic>> userDoc =
-        await fireStoreInstance.collection(kUsersCollection).doc(userId).get();
-    if (userDoc.data() != null) {
-      if (transaction.transactionType == "Income") {
-        income = userDoc.data()![kTotalIncomeField] + transaction.amount;
-      } else {
-        expense = userDoc.data()![kTotalExpenseField] + transaction.amount;
-      }
-      balance = income - expense;
-      if (balance < 0) {
-        drOrCr = "-";
-      }
+    userDocRef.update({
+      kTotalIncomeField: totalModel.totalIncome,
+      kTotalExpenseField: totalModel.totalExpense,
+      kTotalBalanceField: totalModel.totalTotal,
+      kTotalDrOrCrField: totalModel.totalDrOrCr,
+      kLastUpdateTimeField: request.currentDateTime,
+      kLastUpdateTimeStringField: request.currentDateTimeString,
+    });
 
-      userDocRef.update({
-        kTotalIncomeField: income,
-        kTotalExpenseField: expense,
-        kTotalBalanceField: balance,
-        kTotalDrOrCrField: drOrCr,
-        kLastUpdateTimeField: request.currentDateTime,
-        kLastUpdateTimeStringField: request.currentDateTimeString,
-      });
-      // drOrCr = userDoc.data()![kTotalDrOrCrField];
-    }
-
-// fireStoreInstance
-//         .collection(kUsersCollection)
-//         .doc(request.userId).u
 
     return ResponseModel(
       status: ResponseStatus.success,
@@ -982,7 +964,6 @@ class UserRepo {
     debugPrint('.. daily exp : $expense ');
     debugPrint('.. daily bal : $balance');
     debugPrint('.. daily drorcr : $drOrCr');
-
 
     return GetBalancesResponse(
       data: '',

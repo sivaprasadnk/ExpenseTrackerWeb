@@ -13,9 +13,9 @@ class ViewStatisticsButton extends StatelessWidget {
 
     return Positioned.fill(
       bottom: 10,
-      right: 10,
+      left: 10,
       child: Align(
-        alignment: Alignment.bottomRight,
+        alignment: Alignment.bottomLeft,
         child: GestureDetector(
           onTap: () {
             Navigator.push(

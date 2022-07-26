@@ -2,8 +2,8 @@ import 'package:expense_tracker/provider/home.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class MonthlyBalanceText extends StatelessWidget {
-  const MonthlyBalanceText({
+class TotalBalanceText extends StatelessWidget {
+  const TotalBalanceText({
     Key? key,
     required this.balance,
     required this.drOrCr,

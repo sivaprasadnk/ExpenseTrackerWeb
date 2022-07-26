@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'add.transaction.button.dart';
 import 'monthly.balance.text.dart';
-import 'monthly.savings.title.text.dart';
+import 'total.savings.title.text.dart';
 import 'view.statistics.button.dart';
 
 class MonthlySavingsContainerDesktop extends StatefulWidget {
@@ -60,8 +60,8 @@ class _MonthlySavingsContainerDesktopState
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const MonthlySavingsTitleText(),
-                MonthlyBalanceText(
+                const TotalSavingsTitleText(),
+                TotalBalanceText(
                   drOrCr: response!.drOrCr,
                   balance: response!.totalBalance,
                 ),

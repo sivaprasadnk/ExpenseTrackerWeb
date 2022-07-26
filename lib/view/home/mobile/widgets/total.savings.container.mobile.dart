@@ -6,20 +6,20 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import '../../desktop/widgets/monthly.savings.container/add.transaction.button.dart';
-import '../../desktop/widgets/monthly.savings.container/monthly.savings.title.text.dart';
+import '../../desktop/widgets/monthly.savings.container/total.savings.title.text.dart';
 
-class MonthlySavingsContainerMobile extends StatefulWidget {
-  const MonthlySavingsContainerMobile({
+class TotalSavingsContainerMobile extends StatefulWidget {
+  const TotalSavingsContainerMobile({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<MonthlySavingsContainerMobile> createState() =>
-      _MonthlySavingsContainerMobileState();
+  State<TotalSavingsContainerMobile> createState() =>
+      _TotalSavingsContainerMobileState();
 }
 
-class _MonthlySavingsContainerMobileState
-    extends State<MonthlySavingsContainerMobile> {
+class _TotalSavingsContainerMobileState
+    extends State<TotalSavingsContainerMobile> {
   GetBalancesResponse? response;
 
   bool isHovered = false;
@@ -45,7 +45,7 @@ class _MonthlySavingsContainerMobileState
     return Stack(
       children: [
         Container(
-          height: 250,
+          height: 225,
           width: 500,
           // margin: const EdgeInsets.only(right: 20, left: 20),
           decoration: BoxDecoration(
@@ -62,58 +62,61 @@ class _MonthlySavingsContainerMobileState
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const MonthlySavingsTitleText(),
+                const TotalSavingsTitleText(),
                 if (response != null)
-                  MonthlyBalanceText(
+                  TotalBalanceText(
                     drOrCr: response!.drOrCr,
                     balance: response!.totalBalance,
                   )
                 else
-                  const MonthlyBalanceText(
+                  const TotalBalanceText(
                     drOrCr: '+',
                     balance: 0,
                   ),
                 const SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.only(left: 30, top: 20),
-                  child: SizedBox(
-                    height: 105,
-                    width: 105,
-                    child: PieChart(
-                      PieChartData(
-                        // pieTouchData: PieTouchData(
-                        //   touchCallback:
-                        //     (FlTouchEvent event, pieTouchResponse) {
-                        //     // setState(() {
-                        //     //   if (!event.isInterestedForInteractions ||
-                        //     //       pieTouchResponse == null ||
-                        //     //       pieTouchResponse.touchedSection == null) {
-                        //     //     touchedIndex = -1;
-                        //     //     return;
-                        //     //   }
-                        //     //   touchedIndex = pieTouchResponse
-                        //     //       .touchedSection!.touchedSectionIndex;
-                        //     // });
-                        //   },
-                        // ),
-                        borderData: FlBorderData(
-                          show: false,
-                        ),
-                        sectionsSpace: 0,
-                        centerSpaceRadius: 30,
-                        sections: response != null
-                            ? showingSections(
-                                response!.totalIncome,
-                                response!.totalExpense,
-                              )
-                            : showingSections(50, 50),
-                      ),
-                    ),
-                  ),
-                ),
                 const Spacer(),
                 const SizedBox(height: 5)
               ],
+            ),
+          ),
+        ),
+        Positioned.fill(
+          right: 50,
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: SizedBox(
+              height: 105,
+              width: 105,
+              child: PieChart(
+                PieChartData(
+                  // pieTouchData: PieTouchData(
+                  //   touchCallback:
+                  //     (FlTouchEvent event, pieTouchResponse) {
+                  //     // setState(() {
+                  //     //   if (!event.isInterestedForInteractions ||
+                  //     //       pieTouchResponse == null ||
+                  //     //       pieTouchResponse.touchedSection == null) {
+                  //     //     touchedIndex = -1;
+                  //     //     return;
+                  //     //   }
+                  //     //   touchedIndex = pieTouchResponse
+                  //     //       .touchedSection!.touchedSectionIndex;
+                  //     // });
+                  //   },
+                  // ),
+                  borderData: FlBorderData(
+                    show: false,
+                  ),
+                  sectionsSpace: 0,
+                  centerSpaceRadius: 40,
+                  sections: response != null && response!.totalBalance != 0
+                      ? showingSections(
+                          response!.totalIncome,
+                          response!.totalExpense,
+                        )
+                      : showingSections(50, 50),
+                ),
+              ),
             ),
           ),
         ),
@@ -127,7 +130,7 @@ class _MonthlySavingsContainerMobileState
     return List.generate(2, (i) {
       final isTouched = i == touchedIndex;
       final fontSize = isTouched ? 15.0 : 13.0;
-      final radius = isTouched ? 50.0 : 40.0;
+      final radius = isTouched ? 60.0 : 40.0;
       switch (i) {
         case 0:
           return PieChartSectionData(

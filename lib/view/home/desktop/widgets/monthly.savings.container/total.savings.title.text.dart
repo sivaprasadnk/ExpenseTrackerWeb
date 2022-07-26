@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class MonthlySavingsTitleText extends StatelessWidget {
-  const MonthlySavingsTitleText({
+class TotalSavingsTitleText extends StatelessWidget {
+  const TotalSavingsTitleText({
     Key? key,
   }) : super(key: key);
 
@@ -12,7 +12,7 @@ class MonthlySavingsTitleText extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 8, left: 8, bottom: 13),
       child: Text(
-        'Monthly Savings',
+        'Total Savings',
         style: TextStyle(
           height: 1.2,
           fontSize: 15,

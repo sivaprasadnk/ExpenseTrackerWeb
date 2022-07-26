@@ -1,4 +1,3 @@
-import 'package:expense_tracker/cursor.widget.dart';
 import 'package:flutter/material.dart';
 
 class TitleWidget extends StatelessWidget {
@@ -12,33 +11,21 @@ class TitleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    return CursorWidget(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-        if (isHome) {
-          Future.delayed(const Duration(seconds: 1)).then((value) {
-            Navigator.pop(context);
-          });
-        } else {
-          Navigator.pop(context);
-        }
-      },
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: TextStyle(
-                color: theme.primaryColor,
-                fontSize: 22,
-                fontFamily: 'Rajdhani',
-                fontWeight: FontWeight.bold,
-              ),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(35, 8, 8, 0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              color: theme.primaryColor,
+              fontSize: 22,
+              fontFamily: 'Rajdhani',
+              fontWeight: FontWeight.bold,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

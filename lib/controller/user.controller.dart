@@ -1,11 +1,13 @@
 import 'package:expense_tracker/api/repo/user_repo.dart';
 import 'package:expense_tracker/api/response.status.dart';
 import 'package:expense_tracker/model/add.transaction.model.dart';
+import 'package:expense_tracker/model/daily.balance.model.dart';
 import 'package:expense_tracker/model/edit.expense.model.dart';
 import 'package:expense_tracker/model/expense.model.dart';
 import 'package:expense_tracker/model/get.balances.response.dart';
 import 'package:expense_tracker/model/monthly.data.response.model.dart';
 import 'package:expense_tracker/model/response.model.dart';
+import 'package:expense_tracker/model/total.balance.model.dart';
 import 'package:expense_tracker/model/transaction.month.model.dart';
 import 'package:expense_tracker/provider/home.provider.dart';
 import 'package:expense_tracker/utils/custom.exception.dart';
@@ -281,33 +283,6 @@ class UserController {
       totalDrOrCr = "-";
     }
 
-    debugPrint('.. monthly inc : $monthlyIncome');
-    debugPrint('.. monthly exp : $monthlyExpense');
-    debugPrint('.. monthly bal : $monthlyBalance');
-    debugPrint('.. monthly drorcr : $monthlyDrOrCr');
-
-    debugPrint('.. daily inc : $dailyIncome');
-    debugPrint('.. daily exp : $dailyExpense ');
-    debugPrint('.. daily bal : $dailyBalance');
-    debugPrint('.. daily drorcr : $dailyDrOrCr');
-
-    debugPrint('.. totl inc : $totalIncome');
-    debugPrint('.. totl exp : $totalExpense ');
-    debugPrint('.. totl bal : $totalBalance');
-    debugPrint('.. totl drorcr : $totalDrOrCr');
-
-    // int monthlyTotalIncome = provider.monthlyTotalIncome;
-    // int monthlyTotalExpense = provider.monthlyTotalExpense;
-    // int dailyTotalIncome = provider.dailyTotalIncome;
-    // int dailyTotalExpense = provider.dailyTotalExpense;
-    // if (selectedType == TransactionType.income) {
-    //   monthlyTotalIncome += amount;
-    //   dailyTotalIncome += amount;
-    // } else {
-    //   monthlyTotalExpense += amount;
-    //   dailyTotalExpense += amount;
-    // }
-
     TransactionModel trans = TransactionModel(
       title: title,
       createdDateTime: currentDateTime,
@@ -337,14 +312,26 @@ class UserController {
       updatedDateTimeString: currentDateTimeString,
     );
 
+    DailyBalanceModel dailyBalanceModel = DailyBalanceModel(
+      dailyExpense: dailyExpense,
+      dailyIncome: dailyIncome,
+      dailyTotal: dailyBalance,
+      dailyDrOrCr: dailyDrOrCr,
+    );
+
+    TotalBalanceModel totalBalanceModel = TotalBalanceModel(
+        totalExpense: totalExpense,
+        totalIncome: totalIncome,
+        totalTotal: totalBalance,
+        totalDrOrCr: totalDrOrCr);
+
     var request = AddTransactionModel(
       transaction: trans,
       userId: userId,
       transactionMonth: transactionMonth,
-      dailyTotalIncome: dailyIncome,
-      dailyTotalExpense: dailyExpense,
-      dailyBalance: dailyBalance,
-      dailyDrOrCr: dailyDrOrCr,
+      dailyBalanceModel: dailyBalanceModel,
+      totalBalanceModel: totalBalanceModel,
+      // dailyDrOrCr: dailyDrOrCr,
       currentDateTime: currentDateTime,
       currentDateTimeString: currentDateTimeString,
     );

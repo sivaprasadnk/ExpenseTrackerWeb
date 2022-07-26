@@ -3,7 +3,7 @@ import 'package:expense_tracker/view/home/desktop/widgets/recent.expense.list/to
 import 'package:expense_tracker/view/mobile.view.dart';
 import 'package:flutter/material.dart';
 
-import 'widgets/monthly.savings.container.mobile.dart';
+import 'widgets/total.savings.container.mobile.dart';
 
 class HomeScreenMobile extends StatefulWidget {
   const HomeScreenMobile({
@@ -95,7 +95,7 @@ class _HomeScreenMobileState extends State<HomeScreenMobile>
                   child: AnimatedSlide(
                     duration: slideDuration,
                     offset: _todaysTextContainerSlide.value,
-                    child: const MonthlySavingsContainerMobile(),
+                    child: const TotalSavingsContainerMobile(),
                   ),
                 ),
                 const SizedBox(
