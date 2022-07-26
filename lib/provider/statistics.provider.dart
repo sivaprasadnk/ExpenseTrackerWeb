@@ -4,7 +4,17 @@ import 'package:expense_tracker/model/transaction.month.model.dart';
 import 'package:expense_tracker/utils/enums.dart';
 import 'package:flutter/cupertino.dart';
 
+enum ViewType { monthly, daily }
+
 class StatisticsProvider extends ChangeNotifier {
+  ViewType selectedView_ = ViewType.monthly;
+  ViewType get selectedView => selectedView_;
+
+  void updateView(ViewType view) {
+    selectedView_ = view;
+    notifyListeners();
+  }
+
   Stream<QuerySnapshot<Map<String, dynamic>>>? stream_;
   Stream<QuerySnapshot<Map<String, dynamic>>>? get stream => stream_;
 
@@ -29,7 +39,6 @@ class StatisticsProvider extends ChangeNotifier {
     filteredCategoryList_ = list;
     notifyListeners();
   }
-
 
   TransactionCategoryModel? selectedCategory_;
   TransactionCategoryModel? get selectedCategory => selectedCategory_;

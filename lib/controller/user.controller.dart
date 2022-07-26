@@ -358,9 +358,13 @@ class UserController {
     }
   }
 
-  static Future<MonthlyDataResponseModel> getMonthlyData(
-      String monthDocId) async {
+  static Future<DataResponseModel> getMonthlyData(String monthDocId) async {
     var model = await userRepo.getMonthlyData(monthDocId);
+    return model;
+  }
+
+  static Future<DataResponseModel> getDailyData(String date) async {
+    var model = await userRepo.getDailyData(date);
     return model;
   }
 }

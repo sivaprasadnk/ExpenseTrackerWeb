@@ -1,8 +1,8 @@
 import 'package:expense_tracker/utils/string.extension.dart';
 import 'package:expense_tracker/view/desktop.view.dart';
 import 'package:expense_tracker/view/monthly.statistics/desktop/categories.filter.container.dart';
+import 'package:expense_tracker/view/monthly.statistics/desktop/monthly.summary.container.dart';
 import 'package:expense_tracker/view/monthly.statistics/desktop/pie.chart.category.data.desktop.dart';
-import 'package:expense_tracker/view/monthly.statistics/desktop/summary.container.dart';
 import 'package:expense_tracker/view/monthly.statistics/desktop/view.all.text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -28,7 +28,7 @@ class MonthlyStatisticsScreenDesktop extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SummaryContainer(),
+              const MonthlySummaryContainer(),
               const SizedBox(height: 10),
               Expanded(
                 child: Container(

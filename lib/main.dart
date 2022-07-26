@@ -15,6 +15,13 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+///
+///to do
+///
+///add date n statistics-provider, filter categories using date
+///
+///in daily-summary-container
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();

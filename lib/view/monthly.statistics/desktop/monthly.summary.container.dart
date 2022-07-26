@@ -15,14 +15,15 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_month_year_picker/simple_month_year_picker.dart';
 
-class SummaryContainer extends StatefulWidget {
-  const SummaryContainer({Key? key}) : super(key: key);
+class MonthlySummaryContainer extends StatefulWidget {
+  const MonthlySummaryContainer({Key? key}) : super(key: key);
 
   @override
-  State<SummaryContainer> createState() => _SummaryContainerState();
+  State<MonthlySummaryContainer> createState() =>
+      _MonthlySummaryContainerState();
 }
 
-class _SummaryContainerState extends State<SummaryContainer> {
+class _MonthlySummaryContainerState extends State<MonthlySummaryContainer> {
   ///
   String monthDocId = '';
   String month = '';
@@ -32,7 +33,7 @@ class _SummaryContainerState extends State<SummaryContainer> {
 
   DateTime selectedDate = DateTime.now();
 
-  MonthlyDataResponseModel? monthlyDataResponseModel;
+  DataResponseModel? monthlyDataResponseModel;
 
   @override
   void initState() {
@@ -214,7 +215,7 @@ class _SummaryContainerState extends State<SummaryContainer> {
     TransactionMonth? trans;
     monthlyDataResponseModel = await UserController.getMonthlyData(monthDocId);
 
-    var monthDocList = monthlyDataResponseModel!.monthDocList;
+    var monthDocList = monthlyDataResponseModel!.dataDocList;
     if (monthDocList.isNotEmpty) {
       trans = monthlyDataResponseModel!.transactionMonth;
     }

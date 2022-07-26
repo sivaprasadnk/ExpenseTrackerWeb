@@ -855,7 +855,7 @@ class UserRepo {
     );
   }
 
-  Future<MonthlyDataResponseModel> getMonthlyData(String monthDocId) async {
+  Future<DataResponseModel> getMonthlyData(String monthDocId) async {
     var userId = FirebaseAuth.instance.currentUser!.uid;
 
     List<QueryDocumentSnapshot<Map<String, dynamic>>> monthDocList = [];
@@ -894,10 +894,56 @@ class UserRepo {
     } else {}
     if (categoryDocList.isNotEmpty) {}
 
-    return MonthlyDataResponseModel(
+    return DataResponseModel(
       transactionMonth: trans,
       categoryList: categoryList,
-      monthDocList: monthDocList,
+      dataDocList: monthDocList,
+    );
+  }
+
+  Future<DataResponseModel> getDailyData(String date) async {
+    var userId = FirebaseAuth.instance.currentUser!.uid;
+
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> dateDocList = [];
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> categoryDocList = [];
+
+    List<TransactionCategoryModel> categoryList = [];
+
+    TransactionMonth? trans;
+
+    var docSnapshot = await FirebaseFirestore.instance
+        .collection(kUsersCollection)
+        .doc(userId)
+        .collection(kTransactionDatesCollection)
+        .where('date', isEqualTo: date)
+        .get();
+
+    dateDocList = docSnapshot.docs;
+
+    var categoryDocSnapshot = await FirebaseFirestore.instance
+        .collection(kUsersCollection)
+        .doc(userId)
+        .collection(kTransactionDatesCollection)
+        .doc(date)
+        .collection(kTransactionCategoriesCollection)
+        .get();
+
+    categoryDocList = categoryDocSnapshot.docs;
+
+    for (int i = 0; i < categoryDocList.length; i++) {
+      categoryList.add(TransactionCategoryModel.fromDb(categoryDocList[i]));
+    }
+
+    if (dateDocList.isNotEmpty) {
+      QueryDocumentSnapshot doc = dateDocList[0];
+      trans = TransactionMonth.fromDb(doc);
+    } else {}
+    if (categoryDocList.isNotEmpty) {}
+
+    return DataResponseModel(
+      transactionMonth: trans,
+      categoryList: categoryList,
+      dataDocList: dateDocList,
     );
   }
 
